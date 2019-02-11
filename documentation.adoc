@@ -4,3 +4,18 @@ v0.1, 11.02.2019
 :toc:
 
 ## Dokumentation
+
+3 selfcontained Systems erstellt.
+- Benutzer
+- Ausleihe
+- Artikel
+enthalten: PostgresDB, H2DB und ein tmp Get mapping.
+
+## Syntax-Regeln
+
+- Kommentare in englisch
+- Tab anstatt 4 Leerzeichen
+- { hinter die Methode und keine neue Zeile
+- Variablennamen: fooBar
+- Methodennamen: FooBar
+- Dokumentation und Test for dem pushen fertiggestellt haben.
