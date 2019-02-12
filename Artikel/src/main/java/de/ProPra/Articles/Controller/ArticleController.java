@@ -11,15 +11,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
 
 @Controller
-public class testController {
+public class ArticleController {
 
     @Autowired
     ArticleRepository articleRepository;
 
-    @GetMapping("/")
-    public String mainPage() {
-        return "hallo";
-    }
+
 
     @GetMapping("/article/{id}")
     public String articleView(Model model, @PathVariable long id){
