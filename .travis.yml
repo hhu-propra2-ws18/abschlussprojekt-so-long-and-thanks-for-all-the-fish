@@ -1,9 +1,20 @@
 language: java
+
+dist: trusty
+
 branches:
   only:
   - master
+
 jdk:
  - openjdk8
+
+addons:
+ sonarcloud:
+  organization: "davemithut-github"
+   token:
+    secure: SONAR_TOKEN
+
 script:
  - cd Artikel
  # run / test
@@ -11,3 +22,6 @@ script:
  # run / test
  - cd ../Ausleihe
  # run / test
+
+notifications:
+ email: false
