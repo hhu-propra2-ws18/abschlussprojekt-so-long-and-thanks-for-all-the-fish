@@ -6,8 +6,8 @@ jdk:
  - openjdk8
 script:
  - cd Artikel
- - gradle build
+ - ./gradlew build
  - cd ../Benutzer
- - gradle build
+ - ./gradlew build
  - cd ../Ausleihe
- - gradle build
+ - ./gradlew build
