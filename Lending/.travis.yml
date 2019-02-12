@@ -9,5 +9,5 @@ script:
  # run / test
  - cd ../Benutzer
  # run / test
- - cd ../Ausleihe
+ - cd ../Lending
  # run / test

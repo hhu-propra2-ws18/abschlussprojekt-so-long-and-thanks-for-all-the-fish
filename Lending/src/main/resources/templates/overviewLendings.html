@@ -1,0 +1,29 @@
+<!DOCTYPE html >
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <title>Ausgeliehene Geräte</title>
+</head>
+<body>
+<!-- Übersichtsseite über ausgeliehene Geräte -->
+<p>Sie haben ausgeliehen !</p>
+<table th:each="lending : ${lendings}">
+    <div style="margin:0; margin-right:10px; border:2px solid #dfdfdf;
+        padding: 0em 1em 1em 1em; background-color:#FFFFFF;text-align:center">
+        <h3>Articlename =</h3>
+        <div th:text="${lending.articleName}">0</div>
+        <h3>comment =</h3>
+        <div th:text="${lending.comment}">0</div>
+        <h3>Person you are borrowing from =</h3>
+        <div th:text="${lending.borrowPerson}">0</div>
+        <h3>Deposit =</h3>
+        <div th:text="${lending.deposit}">0</div>
+        <h3>Rent =</h3>
+        <div th:text="${lending.rent}">0</div>
+    </div>
+
+</table>
+<!-- Artikelzurückgeben -->
+</body>
+</html>

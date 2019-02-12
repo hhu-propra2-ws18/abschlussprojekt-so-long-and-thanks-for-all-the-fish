@@ -1,13 +1,13 @@
-package de.ProPra.Ausleihe;
+package de.ProPra.Lending;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class AusleihApplication {
+public class LendingApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(AusleihApplication.class, args);
+		SpringApplication.run(LendingApplication.class, args);
 	}
 
 }
