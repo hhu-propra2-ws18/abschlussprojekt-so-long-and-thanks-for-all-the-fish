@@ -19,9 +19,10 @@ public class DatabaseInitializer implements ServletContextInitializer {
     public void onStartup(ServletContext servletContext) throws ServletException { //hier wird die Datenbank gefüllt
         System.out.println("Populating the database");
 
-        Person Daniel = new Person("Daniel");
-        Person Jacques = new Person("Jacques");
+        Person daniel = new Person("Daniel");
+        Person jacques = new Person("Jacques");
+        Person thomas = new Person("Thomas");
 
-        personen.saveAll(Arrays.asList(Daniel, Jacques));
+        personen.saveAll(Arrays.asList(daniel, jacques, thomas));
     }
 }
