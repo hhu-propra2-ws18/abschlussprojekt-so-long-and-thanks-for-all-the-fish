@@ -10,6 +10,7 @@
 Artikel/build/
 Ausleihe/build/
 Benutzer/build/
+.settings/
 
 # IntelliJ Folder
 .idea/
