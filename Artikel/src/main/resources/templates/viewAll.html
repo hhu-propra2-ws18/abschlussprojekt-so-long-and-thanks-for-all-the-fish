@@ -7,10 +7,8 @@
 <body>
     <ul th:each="article:${articles}">
     <li th:text="${article.getName()}"> Hi </li>
-    <li th:text="${article.getComment()}"></li>
-    <li th:text="${article.getPersonID()}"></li>
-    <li th:text="${article.getDeposit()}"></li>
     <li th:text="${article.getRent()}"></li>
+    <a th:href="|${article.articleID}|">Go to Article</a>
     <br>
     </ul>
 </body>
