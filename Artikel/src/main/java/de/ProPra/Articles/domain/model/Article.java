@@ -1,4 +1,4 @@
-package de.ProPra.Articles.Model;
+package de.ProPra.Articles.domain.model;
 
 import lombok.Data;
 
@@ -8,7 +8,7 @@ import javax.persistence.Id;
 
 @Entity
 @Data
-public class Articles {
+public class Article {
     @Id
     @GeneratedValue
     long articleID;
@@ -20,6 +20,8 @@ public class Articles {
     double deposit;
 
     double rent;
+
+    boolean available;
 
 }
 
