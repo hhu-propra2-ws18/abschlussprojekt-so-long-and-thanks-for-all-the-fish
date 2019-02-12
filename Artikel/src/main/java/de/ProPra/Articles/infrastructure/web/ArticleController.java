@@ -20,7 +20,7 @@ public class ArticleController {
         model.addAttribute("article", article);
         return "articleView";
     }
-    @GetMapping("/article/")
+    @GetMapping("/article")
     public String articleView(Model model){
         Iterable<Article> articles= articleRepository.findAll();
         model.addAttribute("articles", articles);
