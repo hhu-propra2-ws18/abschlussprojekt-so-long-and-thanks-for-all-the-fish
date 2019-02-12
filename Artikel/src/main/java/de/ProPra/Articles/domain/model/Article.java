@@ -18,7 +18,7 @@ public class Article {
 
     String comment;
 
-    @OneToOne
+    //@OneToOne
     long personID;
 
     double deposit;
@@ -27,5 +27,17 @@ public class Article {
 
     boolean available;
 
+
+    public Article(){
+    }
+
+    public Article(String name, String comment, int personID, double deposit, double rent, boolean available){
+        this.name = name;
+        this.comment = comment;
+        this.personID = personID;
+        this.deposit = deposit;
+        this.rent = rent;
+        this.available = available;
+    }
 }
 
