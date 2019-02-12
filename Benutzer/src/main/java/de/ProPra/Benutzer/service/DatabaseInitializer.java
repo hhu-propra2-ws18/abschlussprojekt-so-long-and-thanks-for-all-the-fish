@@ -17,9 +17,9 @@ public class DatabaseInitializer implements ServletContextInitializer {
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
         System.out.println("Population the Database");
-        User jeff = new User("Jeff", "Jeff", "Jeff@email.com", true);
-        User george = new User("George", "George", "George@email.com", false);
-        User franz = new User("Franz", "Franz", "Franz@email.com", true);
+        User jeff = new User("jeff", "Jeff", "Jeff@email.com", true);
+        User george = new User("george", "George", "George@email.com", false);
+        User franz = new User("franz", "Franz", "Franz@email.com", true);
 
         userRepository.save(jeff);
         userRepository.save(george);
