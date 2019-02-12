@@ -9,4 +9,4 @@ WORKDIR /DatabaseTestWorkDir
 
 COPY --from=build /DatabaseTestWorkDir/build/libs/*.jar app.jar
 
-CMD ./wait-for-it.sh initializer:8080 --timeout=15 -- java -jar app.jar
+CMD java -jar app.jar

@@ -9,4 +9,4 @@ WORKDIR /DatabaseWorkDir
 
 COPY --from=build /DatabaseWorkDir/build/libs/*.jar app.jar
 
-CMD ./wait-for-it.sh database:5432 --timeout=0 -- java -jar app.jar
+CMD java -jar app.jar
