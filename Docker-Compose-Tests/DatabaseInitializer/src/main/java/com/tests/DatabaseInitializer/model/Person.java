@@ -12,9 +12,13 @@ import javax.persistence.Id;
 public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
 
     private String name;
+
+    public Person() {
+
+    }
 
     public Person(String name) {
         this.name = name;
