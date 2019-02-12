@@ -9,8 +9,29 @@ services:
       - POSTGRES_USER=postgres
     ports:
       - 5432:5432
+    volumes:
+      - ./data:/var/lib/postgresql/data
   adminer:
     image: adminer
     restart: always
     ports:
       - 8090:8080
+
+  initializer:
+    build:
+      context: ./DatabaseInitializer
+      dockerfile: ./Dockerfile
+    ports:
+      - 8080:8080
+    depends_on:
+      - database
+
+  databasetest:
+    build:
+      context: ./DatabaseTest
+      dockerfile: ./Dockerfile
+    ports:
+      - 8085:8085
+    depends_on:
+      - initializer
+      - database
