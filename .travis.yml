@@ -1,16 +1,10 @@
 language: java
-branches:
-  only:
-  - master
 jdk:
  - openjdk8
 script:
  - cd Artikel
- - gradle wrapper
  - ./gradlew build
  - cd ../Benutzer
- - gradle wrapper
  - ./gradlew build
  - cd ../Ausleihe
- - gradle wrapper
  - ./gradlew build
