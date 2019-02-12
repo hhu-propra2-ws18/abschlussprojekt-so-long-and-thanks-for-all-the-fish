@@ -8,3 +8,5 @@ script:
  - ./gradlew build
  - cd ../Ausleihe
  - ./gradlew build
+notifications:
+ - email: false
