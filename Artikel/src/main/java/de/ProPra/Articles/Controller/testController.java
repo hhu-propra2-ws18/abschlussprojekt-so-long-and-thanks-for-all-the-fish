@@ -8,6 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.List;
+
 @Controller
 public class testController {
 
@@ -25,4 +27,12 @@ public class testController {
         model.addAttribute("article", article);
         return "articleView";
     }
+    @GetMapping("/article/")
+    public String articleView(Model model){
+        Iterable<Article> articles= articleRepository.findAll();
+        model.addAttribute("articles", articles);
+        return "viewAll";
+    }
+
+
 }
