@@ -1,4 +1,4 @@
-package de.ProPra.Articles.Controller;
+package de.ProPra.Articles.infrastructure.web;
 
 import de.ProPra.Articles.domain.model.Article;
 import de.ProPra.Articles.domain.service.ArticleRepository;
@@ -8,15 +8,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.List;
-
 @Controller
 public class ArticleController {
 
     @Autowired
     ArticleRepository articleRepository;
-
-
 
     @GetMapping("/article/{id}")
     public String articleView(Model model, @PathVariable long id){
