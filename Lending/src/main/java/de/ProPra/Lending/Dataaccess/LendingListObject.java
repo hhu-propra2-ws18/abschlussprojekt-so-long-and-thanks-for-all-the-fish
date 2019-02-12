@@ -9,9 +9,11 @@ public class LendingListObject {
     long lendingID;
 
     // for article
+    long articleID;
     String articleName;
     String comment;
     String borrowPerson;
     double deposit;
     double rent;
+    boolean available;
 }

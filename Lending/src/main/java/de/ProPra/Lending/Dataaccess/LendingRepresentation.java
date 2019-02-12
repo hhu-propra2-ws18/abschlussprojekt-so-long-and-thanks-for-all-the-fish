@@ -1,5 +1,8 @@
 package de.ProPra.Lending.Dataaccess;
 
+import de.ProPra.Lending.Dataaccess.Repositories.ArticleRepository;
+import de.ProPra.Lending.Dataaccess.Repositories.LendingRepository;
+import de.ProPra.Lending.Dataaccess.Repositories.PersonRepository;
 import de.ProPra.Lending.Model.Article;
 import de.ProPra.Lending.Model.Lending;
 import org.springframework.beans.factory.annotation.Autowired;

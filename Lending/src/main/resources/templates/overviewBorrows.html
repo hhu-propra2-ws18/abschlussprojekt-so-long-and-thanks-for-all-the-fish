@@ -6,7 +6,6 @@
     <title>Ausgeliehene Geräte</title>
 </head>
 <body>
-<!-- Übersichtsseite über ausgeliehene Geräte -->
 <p> Sie bieten zur Ausleihe an !</p>
 <table th:each="lending : ${lendings}">
     <div style="margin:0; margin-right:10px; border:2px solid #dfdfdf;
@@ -20,8 +19,7 @@
         <h3>Rent =</h3>
         <div th:text="${lending.rent}">0</div>
     </div>
-
+    <!-- submit/decline option for lenders -->
 </table>
-<!-- Artikelzurückgeben -->
 </body>
 </html>

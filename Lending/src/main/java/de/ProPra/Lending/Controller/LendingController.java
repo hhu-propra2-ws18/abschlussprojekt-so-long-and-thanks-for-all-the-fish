@@ -1,15 +1,15 @@
 package de.ProPra.Lending.Controller;
 
-import de.ProPra.Lending.Dataaccess.ArticleRepository;
-import de.ProPra.Lending.Dataaccess.LendingRepository;
+import de.ProPra.Lending.Dataaccess.Repositories.ArticleRepository;
+import de.ProPra.Lending.Dataaccess.Repositories.LendingRepository;
 import de.ProPra.Lending.Dataaccess.LendingRepresentation;
-import de.ProPra.Lending.Dataaccess.PersonRepository;
-import de.ProPra.Lending.Model.Article;
+import de.ProPra.Lending.Dataaccess.Repositories.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class LendingController {
@@ -43,5 +43,10 @@ public class LendingController {
     public String Overview(Model model, @PathVariable final long id) {
         model.addAttribute("id", id);
         return "overview";
+    }
+
+    @GetMapping("/inquiry")
+    public String inquiry(Model model, @RequestParam("requesterID") long requesterID, @RequestParam("articleID") long articleID) {
+        return "inquiry";
     }
 }
