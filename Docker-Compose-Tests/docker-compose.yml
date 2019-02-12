@@ -17,21 +17,21 @@ services:
     ports:
       - 8090:8080
 
-  # initializer:
-  #   build:
-  #     context: ./DatabaseInitializer
-  #     dockerfile: ./Dockerfile
-  #   ports:
-  #     - 8080:8080
-  #   depends_on:
-  #     - database
-  #
-  # databasetest:
-  #   build:
-  #     context: ./DatabaseTest
-  #     dockerfile: ./Dockerfile
-  #   ports:
-  #     - 8085:8085
-  #   depends_on:
-  #     - initializer
-  #     - database
+  initializer:
+    build:
+      context: ./DatabaseInitializer
+      dockerfile: ./Dockerfile
+    ports:
+      - 8080:8080
+    depends_on:
+      - database
+
+  databasetest:
+    build:
+      context: ./DatabaseTest
+      dockerfile: ./Dockerfile
+    ports:
+      - 8085:8085
+    depends_on:
+      - initializer
+      - database
