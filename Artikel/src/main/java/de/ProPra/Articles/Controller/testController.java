@@ -1,4 +1,4 @@
-package de.ProPra.Verleih.Controller;
+package de.ProPra.Articles.Controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
