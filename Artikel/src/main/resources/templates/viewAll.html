@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.ord">
+<head>
+    <meta charset="UTF-8">
+    <title>Article View</title>
+</head>
+<body>
+    <ul th:each="article:${articles}">
+    <li th:text="${article.getName()}"> Hi </li>
+    <li th:text="${article.getRent()}"></li>
+    <a th:href="|/article/${article.articleID}|">Go to Article</a>
+    <br>
+    </ul>
+</body>
+</html>
