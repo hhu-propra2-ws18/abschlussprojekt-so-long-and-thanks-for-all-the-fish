@@ -1,27 +1,12 @@
 language: java
-
-dist: trusty
-
-branches:
-  only:
-  - master
-
 jdk:
  - openjdk8
-
-addons:
- sonarcloud:
-  organization: "davemithut-github"
-   token:
-    secure: SONAR_TOKEN
-
 script:
  - cd Artikel
- # run / test
+ - ./gradlew build
  - cd ../Benutzer
- # run / test
+ - ./gradlew build
  - cd ../Ausleihe
- # run / test
-
+ - ./gradlew build
 notifications:
- email: false
+ - email: false
