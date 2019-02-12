@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add a new person</title>
+</head>
+<body>
+<p><b>Add a new person to the Database</b></p>
+<div class="col-md-6">
+    <table class="table table-hover">
+        <form method="post" th:object="${person}" >
+            <tr>
+                <th scope="row">Name</th>
+                <td> <Input type="text" th:field="*{name}"/>  </td>
+                <th scope="row"></th>
+                <td> <button type="submit" class="btn btn-primary">Add to database!</button></td>
+            </tr>
+            </tr>
+        </form>
+    </table>
+</div>
+</body>
+</html>
