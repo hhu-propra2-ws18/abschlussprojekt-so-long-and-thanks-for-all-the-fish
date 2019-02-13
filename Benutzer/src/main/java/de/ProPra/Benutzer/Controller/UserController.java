@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 @Controller
 public class UserController {
 
@@ -27,7 +29,6 @@ public class UserController {
            return "redirect:/signup";
        }
        else if(button.equals("Login")){
-           System.out.println(username);
            return signIn(username);
 
        }
@@ -35,27 +36,12 @@ public class UserController {
     }
 
     public String signIn(String username){
-       /* int i=0;
-        boolean exists = false;
-        Iterable<User> users= userRepository.findAll();
-
-        for(User u : users ){
-            System.out.println(u.getUsername()+"");
-            if(u.getUsername().equals(username)) {
-                exists=true;
-                break;
-            }
-            i++;
+        if(userRepository.findByUsername(username) != null){
+            return "dummyhome";
         }
-            if(exists) {
-                long userId = getUserId(username);
-                System.out.println(getUserId(username));
-                return "dummyhome";
-            }
-            else{*/
-                return "redirect:/start";
-    //        }
-
+        else {
+            return "start";
+        }
     }
 
     @GetMapping(path = "/signup")
