@@ -30,6 +30,7 @@ public class LendingRepresentation {
                 lendingListObject.setLendingID(lending.getLendingId());
                 //allocate article infos
                 Article specificArticle = articles.findById(lending.getArticleID()).get();
+                lendingListObject.setArticleID(specificArticle.getArticleID());
                 lendingListObject.setArticleName(specificArticle.getName());
                 lendingListObject.setComment(specificArticle.getComment());
                 lendingListObject.setBorrowPerson(persons.findById(specificArticle.getPersonID()).get().getName());

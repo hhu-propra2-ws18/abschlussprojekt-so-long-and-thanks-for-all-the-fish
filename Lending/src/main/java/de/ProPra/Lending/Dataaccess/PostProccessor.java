@@ -4,6 +4,8 @@ import de.ProPra.Lending.Dataaccess.Repositories.ArticleRepository;
 import de.ProPra.Lending.Dataaccess.Repositories.LendingRepository;
 import de.ProPra.Lending.Dataaccess.Repositories.PersonRepository;
 import de.ProPra.Lending.Dataaccess.Repositories.RequestRepository;
+import de.ProPra.Lending.Model.Article;
+import de.ProPra.Lending.Model.Lending;
 import de.ProPra.Lending.Model.Request;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -36,6 +38,32 @@ public class PostProccessor {
     }
 
     public static void CheckDecision(HashMap<String, String> postBodyParas, LendingRepository lendings, ArticleRepository articles, RequestRepository requests) {
-        System.out.println(postBodyParas);
+        Request request = requests.findById(Long.valueOf(postBodyParas.get("requestID"))).get();
+
+        if(postBodyParas.get("choice").equals("accept")){
+            Lending acceptedLending = new Lending();
+            //fill new lending
+            acceptedLending.setArticleID(request.getArticleID());
+            acceptedLending.setEndDate(request.getEndDate());
+            acceptedLending.setStartDate(request.getStartDate());
+            acceptedLending.setLendingPersonID(request.getRequesterID());
+            lendings.save(acceptedLending);
+            requests.delete(request);
+        }else{
+            //set article to available add no lending
+            Article article = articles.findById(request.getArticleID()).get();
+            article.setAvailable(true);
+            articles.save(article);
+            //TODO: optional we inform the lending person
+            requests.delete(request);
+
+        }
+    }
+
+    public static void RetunLending(HashMap<String, String> postBody, LendingRepository lendings, ArticleRepository articles) {
+        Article article = articles.findById(Long.valueOf(postBody.get("articleID"))).get();
+        article.setAvailable(true);
+        articles.save(article);
+        lendings.delete(lendings.findById(Long.valueOf(postBody.get("lendingID"))).get());
     }
 }

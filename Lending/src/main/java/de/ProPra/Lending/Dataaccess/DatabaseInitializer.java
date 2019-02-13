@@ -43,14 +43,14 @@ public class DatabaseInitializer implements ServletContextInitializer {
         Person testPerson2 = new Person(2, "Oliver");
         Person testPerson3 = new Person(3, "Robin");
 
-       /* try {
+       try {
             Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse("2019-12-02");
             Date date2 = new SimpleDateFormat("yyyy-MM-dd").parse("2019-12-02");
             Request testRequest1 = new Request(false, 1, 3, "ich will kohle", date1, date2);
             requests.save(testRequest1);
         } catch (Exception e) {
             e.printStackTrace();
-        }*/
+        }
         persons.save(testPerson1);
         persons.save(testPerson2);
         persons.save(testPerson3);

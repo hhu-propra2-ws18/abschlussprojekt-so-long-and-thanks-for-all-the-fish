@@ -22,6 +22,7 @@ public class LendingController {
     private PersonRepository persons;
     private ArticleRepository articles;
     private RequestRepository requests;
+    //TODO: add History for lendings
 
     @Autowired
     public LendingController(LendingRepository lendings, PersonRepository persons, ArticleRepository articles, RequestRepository requests){
@@ -35,8 +36,19 @@ public class LendingController {
         public String LendingPage(Model model, @PathVariable final long lendID) {
             LendingRepresentation filledLendings = new LendingRepresentation(lendings,persons,articles, requests);
             model.addAttribute("lendings", filledLendings.FillLendings(lendID));
+            model.addAttribute("id", lendID);
             return "overviewLendings";
         }
+
+    @PostMapping("/lendings/{lendID}")
+    public String LendingPageNew(Model model, @PathVariable final long lendID, @RequestBody String postBody) {
+        HashMap<String, String> postBodyParas = PostProccessor.SplitString(postBody);
+        PostProccessor.RetunLending(postBodyParas, lendings, articles);
+        LendingRepresentation filledLendings = new LendingRepresentation(lendings,persons,articles, requests);
+        model.addAttribute("lendings", filledLendings.FillLendings(lendID));
+        model.addAttribute("id", lendID);
+        return "overviewLendings";
+    }
 
     @GetMapping("/borrows/{borrowID}")
     public String BorrowPage(Model model, @PathVariable final long borrowID) {
@@ -55,7 +67,6 @@ public class LendingController {
 
     @PostMapping("/{id}")
     public String PostOverview(Model model,@PathVariable final long id, @RequestBody String postBody) {
-        System.out.println("ich gehe rein");
         RequestRepresentation filledRequests = new RequestRepresentation(persons, articles, requests, id);
         HashMap<String, String> postBodyParas = PostProccessor.SplitString(postBody);
         PostProccessor.CheckDecision(postBodyParas, lendings, articles, requests);
