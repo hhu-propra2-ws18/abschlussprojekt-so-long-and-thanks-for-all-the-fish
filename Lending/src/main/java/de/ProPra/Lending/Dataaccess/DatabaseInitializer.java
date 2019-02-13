@@ -57,10 +57,16 @@ public class DatabaseInitializer implements ServletContextInitializer {
         articles.save(testArticle1);
         articles.save(testArticle2);
         articles.save(testArticle3);
-        Lending testLending1 = new Lending(1, 1, 1);
-        Lending testLending2 = new Lending(2, 2, 2);
-        lendings.save(testLending1);
-        lendings.save(testLending2);
+        try {
+            Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse("2019-05-12");
+            Date date2 = new SimpleDateFormat("yyyy-MM-dd").parse("2019-02-12");
+            Lending testLending1 = new Lending(1, 1, date2, date1);
+            Lending testLending2 = new Lending(2, 2, date1, date2);
+            lendings.save(testLending1);
+            lendings.save(testLending2);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         System.out.println("Lendings finished generating");
     }
 }

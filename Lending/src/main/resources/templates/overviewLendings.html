@@ -20,6 +20,8 @@
         <div th:text="${lending.deposit}">0</div>
         <h3>Rent =</h3>
         <div th:text="${lending.rent}">0</div>
+        <h3>Info =</h3>
+        <div th:text="${lending.warning}">0</div>
         <form th:action="@{/lendings/{id}(id = ${id})}" method="post">
             <input type="hidden" name="lendingID" th:value="${lending.lendingID}">
             <input type="hidden" name="articleID" th:value="${lending.articleID}">

@@ -8,8 +8,8 @@ import de.ProPra.Lending.Model.Article;
 import de.ProPra.Lending.Model.Lending;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class LendingRepresentation {
 
@@ -24,6 +24,7 @@ public class LendingRepresentation {
         Iterable<Lending> allLendings = lendings.findAll();
         for (Lending lending : allLendings) {
 
+            //look for lendings for the given personID
             if(lending.getLendingPersonID() == lendingPersonID){
                 LendingListObject lendingListObject = new LendingListObject();
                 //allocate lendingID
@@ -36,6 +37,23 @@ public class LendingRepresentation {
                 lendingListObject.setBorrowPerson(persons.findById(specificArticle.getPersonID()).get().getName());
                 lendingListObject.setDeposit(specificArticle.getDeposit());
                 lendingListObject.setRent(specificArticle.getRent());
+                lendingListObject.setEndDate(lending.getEndDate());
+                Date endDate = lendingListObject.getEndDate();
+
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.ms");
+                Date currentDate = new Date();
+                try {
+                    String tmpDate = formatter.format(currentDate);
+                    currentDate = formatter.parse(tmpDate);
+                    if(currentDate.after(endDate)){
+                        lendingListObject.setWarning("ATTENTION: YOU HAVE RETURN THIS ARTICLE");
+                    }else{
+                        lendingListObject.setWarning("You can use this article without worries");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
                 //add to List
                 filledLendingRepresentation.add(lendingListObject);
             }

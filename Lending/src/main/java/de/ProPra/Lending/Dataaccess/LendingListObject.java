@@ -20,4 +20,7 @@ public class LendingListObject {
     double deposit;
     double rent;
     boolean available;
+
+    //for Warning
+    String warning;
 }

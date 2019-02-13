@@ -20,11 +20,6 @@ public class Lending {
     Date endDate;
 
     public Lending(){}
-    public Lending(long lendingId, long lendingPersonID, long articleID) {
-        this.lendingId = lendingId;
-        this.lendingPersonID = lendingPersonID;
-        this.articleID = articleID;
-    }
 
     public Lending(long lendingPersonID, long articleID, Date startDate, Date endDate) {
         this.lendingPersonID = lendingPersonID;
