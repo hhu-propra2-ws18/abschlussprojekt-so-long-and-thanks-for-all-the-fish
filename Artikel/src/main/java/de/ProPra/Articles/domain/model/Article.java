@@ -1,11 +1,9 @@
 package de.ProPra.Articles.domain.model;
 
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Entity
 @Data
@@ -24,6 +22,9 @@ public class Article {
     double deposit;
 
     double rent;
+
+    @Lob
+    public MultipartFile file;
 
     boolean available;
 
