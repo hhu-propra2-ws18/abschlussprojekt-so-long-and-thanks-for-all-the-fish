@@ -18,7 +18,7 @@ public class DatabaseInitializer implements ServletContextInitializer {
     public void onStartup(ServletContext servletContext) throws ServletException {
         System.out.println("Population the Database");
         Article one = new Article("dummyname", "dummycomment", 1, 100.0, 10.0, false);
-        Article two = new Article("dummyname", "dummycomment", 1, 100.0, 10.0, false);
+        Article two = new Article("dummyname", "dummycomment", 1, 100.0, 10.0, true);
         Article three = new Article("dummyname", "dummycomment", 1, 100.0, 10.0, false);
 
         articleRepository.save(one);

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Article View</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
     <h1 th:text="${article.getName()}"> Hi </h1>
@@ -10,6 +11,13 @@
     <p th:text="${article.getPersonID()}"></p>
     <p th:text="${article.getDeposit()}"></p>
     <p th:text="${article.getRent()}"></p>
+
+    <td th:switch="${article.isAvailable()}">
+        <span th:case="true"><i class="fa fa-check-circle-o" aria-hidden="true"></i></span>
+        <span th:case="false"><i class="fa fa-times-circle-o" aria-hidden="true"></i></span>
+
+    </td>
+    <td><a th:href="|/article/|"> Zurück zur Übersicht</a></td>
 
 </body>
 </html>
