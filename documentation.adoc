@@ -19,3 +19,7 @@ enthalten: PostgresDB, H2DB und ein tmp Get mapping.
 - Variablennamen: fooBar
 - Methodennamen: FooBar
 - Dokumentation und Test for dem pushen fertiggestellt haben.
+
+## Login 
+Man kann sich einloggen, indem man seinen Username in das dafür vorgesehen Textfeld schreibt und den SignIn Button betätigt. Die einzige Vorraussetzung dafür ist, dass bereits ein User mit diesem Usernamen in der Datenbank vorhanden ist. Ansonsten kann man den SignUp Button betätigen, dann wird man weitergeleitet zu der SignIn Seite. Hier kann man nun einen ganz neuen User erstellen, indem man alle Textfelder mit korrekten Eingaben ausfüllt un den entsprechenden Button betätigt.
+Nach dem Einloggen bzw. dem Registrieren, kann man den ProfileOverview Button betätigen, dann wird man weitergeleitet auf eine Seite wo einem die Eigenen Profildaten in Textfeldern angezeigt werden. In diese Textfelder kann man auch schreiben um seine Profil zu verändern. Um das Profil zu verändern füllt man einfach die Felder aus, bei welchen man die Daten verändern will und betätigt den ApplyChanges Button, nun wurde das Profil in der datenbank aktualisiert.
