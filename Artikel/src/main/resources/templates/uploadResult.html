@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.ord">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<h3>Hochgeladene Datei:</h3>
+<ul >
+    <li th:text="${uploadedFile}"></li>
+</ul>
+
+<h3>Fehlgeschlagene Datei:</h3>
+<ul>
+    <li style="color:red;" th:text="${uploadedFile}"></li>
+</ul>
+
+</body>
+</html>
