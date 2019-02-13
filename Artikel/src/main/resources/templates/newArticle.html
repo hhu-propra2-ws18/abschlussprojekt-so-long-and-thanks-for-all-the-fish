@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.ord">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<form method="post" th:object="${article}" >
+    <tr>
+        <th scope="row">Name</th>
+        <td> <Input type="text" th:field="*{name}"/>  </td>
+    </tr>
+    <tr>
+        <th scope="row">Comment</th>
+        <td> <Input type="text" th:field="*{comment}"/> </td>
+    </tr>
+    <tr>
+        <th scope="row">personID</th>
+        <td> <Input type="number" th:field="*{personID}"/> </td>
+    </tr>
+    <tr>
+        <th scope="row">deposti</th>
+        <td> <Input type="number" th:field="*{deposit}"/>  </td>
+    </tr>
+    <tr>
+        <th scope="row">rent</th>
+        <td> <Input type="number" th:field="*{rent}"/> </td>
+    </tr>
+    <tr>
+        <th scope="row">available</th>
+        <td> <Input type="checkbox" th:field="*{available}"/> </td>
+    </tr>
+        <th scope="row"></th>
+        <td> <button type="submit">Berechnen</button></td>
+        <td><a th:href="|/article/|"> nbj abbrechen</a></td>
+    </tr>
+</form>
+
+
+</body>
+</html>
