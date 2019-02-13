@@ -6,14 +6,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.List;
+
 @Controller
-public class postController {
+public class WebController {
 
     @Autowired
     PersonRepository personRepository;
+
+    @GetMapping("/")
+    public String getMainpage(Model model) {
+        List<Person> personen = personRepository.findAll();
+        model.addAttribute("personen", personen);
+        return "Mainpage";
+    }
 
     @GetMapping("/add")
     public String addPersonWebsiteGetter (){
@@ -21,7 +29,7 @@ public class postController {
     }
 
     @PostMapping("/add")
-    public String postObjectInDatabase(Model model, String name) {
+    public String postObjectInDatabase(String name) {
         personRepository.save(new Person(name));
         return "addNewPerson";
     }
