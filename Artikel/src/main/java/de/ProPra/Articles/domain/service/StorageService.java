@@ -1,6 +1,15 @@
 package de.ProPra.Articles.domain.service;
+import org.springframework.core.io.Resource;
+import org.springframework.web.multipart.MultipartFile;
 
-import de.ProPra.Articles.domain.model.Article;
+import java.nio.file.Path;
+import java.util.stream.Stream;
 
-public interface ImageStore extends ContentStore<Article, Long> {
+public interface StorageService {
+    void init();
+    void store (MultipartFile file);
+    Stream<Path> loadAll();
+    Path load (String filename);
+    Resource loadAsResource(String filename);
+    void deleteAll();
 }
