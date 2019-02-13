@@ -3,6 +3,7 @@ package de.ProPra.Lending.Dataaccess;
 import de.ProPra.Lending.Dataaccess.Repositories.ArticleRepository;
 import de.ProPra.Lending.Dataaccess.Repositories.LendingRepository;
 import de.ProPra.Lending.Dataaccess.Repositories.PersonRepository;
+import de.ProPra.Lending.Dataaccess.Repositories.RequestRepository;
 import de.ProPra.Lending.Model.Article;
 import de.ProPra.Lending.Model.Lending;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,9 @@ public class LendingRepresentation {
     private LendingRepository lendings;
     private PersonRepository persons;
     private ArticleRepository articles;
+    private RequestRepository requests;
 
-    public List<LendingListObject> fillLendings(long lendingPersonID){
+    public List<LendingListObject> FillLendings(long lendingPersonID){
         List<LendingListObject> filledLendingRepresentation = new ArrayList<>();
 
         Iterable<Lending> allLendings = lendings.findAll();
@@ -42,7 +44,7 @@ public class LendingRepresentation {
         return filledLendingRepresentation;
     }
 
-    public List<LendingListObject> fillBorrows(long borrowPersonID){
+    public List<LendingListObject> FillBorrows(long borrowPersonID){
         List<LendingListObject> filledLendingRepresentation = new ArrayList<>();
 
         Iterable<Article> allArticles = articles.findAll();
@@ -58,6 +60,7 @@ public class LendingRepresentation {
                 lendingListObject.setRent(article.getRent());
                 //add to List
                 filledLendingRepresentation.add(lendingListObject);
+                //add isRequestet
             }
         }
 
@@ -66,9 +69,10 @@ public class LendingRepresentation {
     }
 
     @Autowired
-    public LendingRepresentation(LendingRepository lendings, PersonRepository persons, ArticleRepository articles) {
+    public LendingRepresentation(LendingRepository lendings, PersonRepository persons, ArticleRepository articles, RequestRepository requests) {
         this.lendings = lendings;
         this.persons = persons;
         this.articles = articles;
+        this.requests = requests;
     }
 }

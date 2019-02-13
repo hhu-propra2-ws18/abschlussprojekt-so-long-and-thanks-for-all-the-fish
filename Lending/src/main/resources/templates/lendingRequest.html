@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Formular</title>
+</head>
+<body>
+<form action="/inquiry" method="post">
+    <label>
+        from :
+        <input type="date" name="startDate">
+        till :
+        <input type="date" name="endDate">
+        why do you think you should get it :
+        <input type="text" name="requestComment">
+        <input type="hidden" name="requesterID" th:value="${requesterID}">
+        <input type="hidden" name="articleID" th:value="${articleID}">
+    </label>
+    <button type="submit">submit</button>
+</form>
+
+</body>
+</html>

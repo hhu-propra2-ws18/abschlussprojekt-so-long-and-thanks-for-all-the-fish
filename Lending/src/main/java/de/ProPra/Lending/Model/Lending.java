@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import java.util.Date;
 
 @Data
 @Entity
@@ -15,11 +16,21 @@ public class Lending {
     long lendingId;
     long lendingPersonID;
     long articleID;
+    Date startDate;
+    Date endDate;
 
     public Lending(){}
     public Lending(long lendingId, long lendingPersonID, long articleID) {
         this.lendingId = lendingId;
         this.lendingPersonID = lendingPersonID;
         this.articleID = articleID;
+    }
+
+    public Lending(long lendingId, long lendingPersonID, long articleID, Date startDate, Date endDate) {
+        this.lendingId = lendingId;
+        this.lendingPersonID = lendingPersonID;
+        this.articleID = articleID;
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 }
