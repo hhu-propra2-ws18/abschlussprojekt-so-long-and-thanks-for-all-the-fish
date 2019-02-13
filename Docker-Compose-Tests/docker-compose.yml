@@ -9,8 +9,9 @@ services:
       - POSTGRES_USER=postgres
     ports:
       - 5432:5432
-    volumes:
-      - ./postgres-data:/var/lib/postgresql/data
+    # Einkommentieren zum Persistieren der Daten
+    # volumes:
+    #   - ./postgres-data:/var/lib/postgresql/data
   adminer:
     image: adminer
     restart: always
@@ -24,14 +25,4 @@ services:
     ports:
       - 8080:8080
     depends_on:
-      - database
-
-  databasetest:
-    build:
-      context: ./DatabaseTest
-      dockerfile: ./Dockerfile
-    ports:
-      - 8085:8085
-    depends_on:
-      - initializer
       - database
