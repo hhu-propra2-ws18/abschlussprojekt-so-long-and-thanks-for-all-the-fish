@@ -11,7 +11,7 @@ public class RequestListObject {
     String articleName;
     long articleID;
     String requestComment;
-    Date startDate;
+    Date startDate;       //TODO: Date ändern
     Date endDate;
 
 }

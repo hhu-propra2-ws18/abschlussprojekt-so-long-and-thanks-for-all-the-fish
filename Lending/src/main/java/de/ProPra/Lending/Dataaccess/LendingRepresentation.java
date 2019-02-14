@@ -37,6 +37,8 @@ public class LendingRepresentation {
                 lendingListObject.setBorrowPerson(persons.findById(specificArticle.getPersonID()).get().getName());
                 lendingListObject.setDeposit(specificArticle.getDeposit());
                 lendingListObject.setRent(specificArticle.getRent());
+
+                //TODO: Abfrage von Date ändern
                 lendingListObject.setEndDate(lending.getEndDate());
                 Date endDate = lendingListObject.getEndDate();
 

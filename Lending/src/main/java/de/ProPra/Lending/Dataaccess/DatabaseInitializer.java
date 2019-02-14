@@ -44,7 +44,7 @@ public class DatabaseInitializer implements ServletContextInitializer {
         Person testPerson3 = new Person(3, "Robin");
 
        try {
-            Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse("2019-12-02");
+            Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse("2019-12-02"); //TODO: Date ändern
             Date date2 = new SimpleDateFormat("yyyy-MM-dd").parse("2019-12-02");
             Request testRequest1 = new Request(false, 1, 3, "ich will kohle", date1, date2);
             requests.save(testRequest1);

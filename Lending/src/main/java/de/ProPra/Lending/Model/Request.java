@@ -17,7 +17,7 @@ public class Request {
     long requesterID;
     long articleID;
     String requestComment;
-    Date startDate;
+    Date startDate;    //TODO: Date ändern
     Date endDate;
 
     public Request( boolean isPermitted, long requesterID, long articleID, String requestComment, Date startDate, Date endDate) {

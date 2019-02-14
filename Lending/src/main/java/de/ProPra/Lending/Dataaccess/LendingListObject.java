@@ -9,7 +9,7 @@ public class LendingListObject {
 
     //for lending ID
     long lendingID;
-    Date startDate;
+    Date startDate;      //TODO: Date ändern
     Date endDate;
 
     // for article

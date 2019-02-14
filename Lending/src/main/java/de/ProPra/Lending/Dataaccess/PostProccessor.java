@@ -24,11 +24,13 @@ public class PostProccessor {
     }
     public static void CreateNewEntryRequest(HashMap<String,String> postBodyParas, RequestRepository requests){
         try {
-            Date startDate = new SimpleDateFormat("yyyy-MM-dd").parse(postBodyParas.get("startDate"));
+
+            Date startDate = new SimpleDateFormat("yyyy-MM-dd").parse(postBodyParas.get("startDate")); //TODO: Date ändern
             Date endDate = new SimpleDateFormat("yyyy-MM-dd").parse(postBodyParas.get("endDate"));
+
             long requesterID = Long.parseLong(postBodyParas.get("requesterID"));
             long articleID = Long.parseLong(postBodyParas.get("articleID"));
-            Request request = new Request(false, requesterID, articleID, postBodyParas.get("requestComment"), startDate, endDate);
+            Request request = new Request(false, requesterID, articleID, postBodyParas.get("requestComment"), startDate, endDate); //TODO: Date ändern
             requests.save(request);
         } catch (Exception e) {
             e.printStackTrace();
@@ -44,8 +46,10 @@ public class PostProccessor {
             Lending acceptedLending = new Lending();
             //fill new lending
             acceptedLending.setArticleID(request.getArticleID());
-            acceptedLending.setEndDate(request.getEndDate());
+
+            acceptedLending.setEndDate(request.getEndDate());  //TODO: Date ändern
             acceptedLending.setStartDate(request.getStartDate());
+
             acceptedLending.setLendingPersonID(request.getRequesterID());
             lendings.save(acceptedLending);
             requests.delete(request);

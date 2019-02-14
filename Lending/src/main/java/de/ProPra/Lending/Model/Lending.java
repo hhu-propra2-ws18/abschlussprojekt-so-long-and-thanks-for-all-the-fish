@@ -16,7 +16,7 @@ public class Lending {
     long lendingId;
     long lendingPersonID;
     long articleID;
-    Date startDate;
+    Date startDate; //TODO: Date ändern
     Date endDate;
 
     public Lending(){}

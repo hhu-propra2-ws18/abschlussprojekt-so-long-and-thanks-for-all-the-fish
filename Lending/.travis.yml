@@ -1,13 +1,12 @@
 language: java
-branches:
-  only:
-  - master
 jdk:
- - openjdk8
+  - openjdk8
 script:
- - cd Artikel
- # run / test
- - cd ../Benutzer
- # run / test
- - cd ../Lending
- # run / test
+  - cd Artikel
+  - ./gradlew build
+  - cd ../Benutzer
+  - ./gradlew build
+  - cd ../Ausleihe
+  - ./gradlew build
+notifications:
+  - email: false
