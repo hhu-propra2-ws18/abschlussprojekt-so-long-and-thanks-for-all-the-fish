@@ -69,8 +69,8 @@ public class PostProccessor {
         }
     }
 
-    public static void RetunLending(HashMap<String, String> postBody, LendingRepository lendings, ArticleRepository articles) {
-        Article article = articles.findById(Long.valueOf(postBody.get("articleID"))).get();
+    public static void RetunLending(HashMap<String, String> postBody, LendingRepository lendings, ArticleRepository articles) { //TODO: ask for status
+        Article article = articles.findById(Long.valueOf(postBody.get("articleID"))).get();                                     //TODO: Kaution zurückgegeben Kosten bezahlen
         article.setAvailable(true);
         articles.save(article);
         lendings.delete(lendings.findById(Long.valueOf(postBody.get("lendingID"))).get());
