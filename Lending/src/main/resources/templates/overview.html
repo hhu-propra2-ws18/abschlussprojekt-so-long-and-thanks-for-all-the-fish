@@ -7,5 +7,34 @@
 <body>
 <a th:href="@{/lendings/{id}(id = ${id})}" role="button">Lendings</a>
 <a th:href="@{/borrows/{id}(id = ${id})}" role="button">Borrows</a>
+<div>
+    Your article requests
+    <table th:each="request : ${requests}">
+        <div style="margin:0; margin-right:10px; border:2px solid #dfdfdf;
+        padding: 0em 1em 1em 1em; background-color:#FFFFFF;text-align:center">
+            <h3>Requester =</h3>
+            <div th:text="${request.requesterName}">0</div>
+            <h3>Article =</h3>                                 <!-- href for the article -->
+            <div th:text="${request.articleName}">0</div>
+            <h3>Reason to lend it to this person =</h3>
+            <div th:text="${request.requestComment}">0</div>
+            <h3>Startdate =</h3>
+            <div th:text="${request.startDate}">0</div>
+            <h3>Enddate =</h3>
+            <div th:text="${request.endDate}">0</div>
+            <form th:action="@{/{id}(id = ${id})}" method="post">
+                <fieldset>
+                    <input type="hidden" name="requestID" th:value="${request.requestID}">
+                    <input type="checkbox" id="yes" name="choice" value="accept">
+                    <label for="yes"> accept</label>
+                    <input type="checkbox" id="no" name="choice" value="decline">
+                    <label for="no">decline</label>
+                </fieldset>
+                <button type="finish">submit</button>
+            </form>
+        </div>
+        <!-- submit/decline option for lenders -->
+    </table>
+</div>
 </body>
 </html>
