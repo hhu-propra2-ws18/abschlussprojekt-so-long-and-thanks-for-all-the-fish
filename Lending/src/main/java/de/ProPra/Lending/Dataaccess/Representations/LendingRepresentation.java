@@ -1,5 +1,6 @@
-package de.ProPra.Lending.Dataaccess;
+package de.ProPra.Lending.Dataaccess.Representations;
 
+import de.ProPra.Lending.Dataaccess.HtmlObjects.LendingListObject;
 import de.ProPra.Lending.Dataaccess.Repositories.ArticleRepository;
 import de.ProPra.Lending.Dataaccess.Repositories.LendingRepository;
 import de.ProPra.Lending.Dataaccess.Repositories.PersonRepository;
@@ -8,7 +9,6 @@ import de.ProPra.Lending.Model.Article;
 import de.ProPra.Lending.Model.Lending;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class LendingRepresentation {
@@ -25,7 +25,7 @@ public class LendingRepresentation {
         for (Lending lending : allLendings) {
 
             //look for lendings for the given personID
-            if(lending.getLendingPersonID() == lendingPersonID){
+            if(lending.getLendingPersonID() == lendingPersonID && !lending.isWaitingForAnswer()){
                 LendingListObject lendingListObject = new LendingListObject();
                 //allocate lendingID
                 lendingListObject.setLendingID(lending.getLendingId());
@@ -40,6 +40,8 @@ public class LendingRepresentation {
 
                 lendingListObject.setEndDate(lending.getEndDate());
                 Calendar endDate = lendingListObject.getEndDate();
+
+
 
                 Calendar currentDate = Calendar.getInstance();
                 try {

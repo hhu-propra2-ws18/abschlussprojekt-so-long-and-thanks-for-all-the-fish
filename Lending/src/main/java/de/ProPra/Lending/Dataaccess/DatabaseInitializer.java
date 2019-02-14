@@ -1,9 +1,6 @@
 package de.ProPra.Lending.Dataaccess;
 
-import de.ProPra.Lending.Dataaccess.Repositories.ArticleRepository;
-import de.ProPra.Lending.Dataaccess.Repositories.LendingRepository;
-import de.ProPra.Lending.Dataaccess.Repositories.PersonRepository;
-import de.ProPra.Lending.Dataaccess.Repositories.RequestRepository;
+import de.ProPra.Lending.Dataaccess.Repositories.*;
 import de.ProPra.Lending.Model.Article;
 import de.ProPra.Lending.Model.Lending;
 import de.ProPra.Lending.Model.Person;
@@ -34,6 +31,9 @@ public class DatabaseInitializer implements ServletContextInitializer {
     @Autowired
     RequestRepository requests;
 
+    @Autowired
+    ReturnProcessRepository returns;
+
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
         System.out.println("Lendings will be generated");
@@ -50,7 +50,7 @@ public class DatabaseInitializer implements ServletContextInitializer {
            date1.set(2019, 1, 12);
            date2.set(2019, 1, 12);
 
-            Request testRequest1 = new Request(false, 1, 3, "ich will kohle", date1, date2);
+            Request testRequest1 = new Request(1, 3, "ich will kohle", date1, date2);
             requests.save(testRequest1);
         } catch (Exception e) {
             e.printStackTrace();
@@ -66,8 +66,8 @@ public class DatabaseInitializer implements ServletContextInitializer {
             Calendar date2 = Calendar.getInstance();
             date1.set(2019, 4, 12);
             date2.set(2019, 1, 12);
-            Lending testLending1 = new Lending(1, 1, date2, date1);
-            Lending testLending2 = new Lending(2, 2, date1, date2);
+            Lending testLending1 = new Lending(1, 1, date2, date1, false);
+            Lending testLending2 = new Lending(2, 2, date1, date2, false);
             lendings.save(testLending1);
             lendings.save(testLending2);
         } catch (Exception e) {

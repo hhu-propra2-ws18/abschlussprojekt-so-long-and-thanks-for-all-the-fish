@@ -1,11 +1,13 @@
-package de.ProPra.Lending.Dataaccess;
+package de.ProPra.Lending.Dataaccess.Representations;
 
+import de.ProPra.Lending.Dataaccess.HtmlObjects.RequestListObject;
 import de.ProPra.Lending.Dataaccess.Repositories.ArticleRepository;
 import de.ProPra.Lending.Dataaccess.Repositories.PersonRepository;
 import de.ProPra.Lending.Dataaccess.Repositories.RequestRepository;
 import de.ProPra.Lending.Model.Request;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class RequestRepresentation {
@@ -30,10 +32,12 @@ public class RequestRepresentation {
                 //find articleID
                 tmpRequest.setArticleID(potentialRequest.getArticleID());
                 //find requestcomment
-                tmpRequest.setRequestComment(potentialRequest.getRequestComment().replaceAll("\\+", " "));
+                tmpRequest.setRequestComment(potentialRequest.getRequestComment().replaceAll("\\+", " ").replaceAll("%2B", "+"));
                 //find Dates
-                tmpRequest.setStartDate(potentialRequest.getStartDate());
-                tmpRequest.setEndDate(potentialRequest.getEndDate());
+                String tmpDate = potentialRequest.getStartDate().get(Calendar.DATE) + "." + (potentialRequest.getStartDate().get(Calendar.MONTH)+1) + "." + potentialRequest.getStartDate().get(Calendar.YEAR);
+                tmpRequest.setStartDate(tmpDate);
+                tmpDate = potentialRequest.getEndDate().get(Calendar.DATE) + "." + (potentialRequest.getEndDate().get(Calendar.MONTH)+1) + "." + potentialRequest.getEndDate().get(Calendar.YEAR);
+                tmpRequest.setEndDate(tmpDate);
                 filledRequests.add(tmpRequest);
             }
         }

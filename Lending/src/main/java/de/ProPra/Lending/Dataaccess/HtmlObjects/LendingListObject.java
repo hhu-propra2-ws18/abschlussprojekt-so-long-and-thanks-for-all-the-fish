@@ -1,4 +1,4 @@
-package de.ProPra.Lending.Dataaccess;
+package de.ProPra.Lending.Dataaccess.HtmlObjects;
 
 import lombok.Data;
 

@@ -33,8 +33,33 @@
                 <button type="finish">submit</button>
             </form>
         </div>
-        <!-- submit/decline option for lenders -->
     </table>
 </div>
+
+<div>
+    Your article returns
+    <table th:each="return : ${returns}">
+        <div style="margin:0; margin-right:10px; border:2px solid #dfdfdf;
+        padding: 0em 1em 1em 1em; background-color:#FFFFFF;text-align:center">
+            <h3>Returner =</h3>
+            <div th:text="${return.returnerName}">0</div>
+            <h3>Article =</h3>                                 <!-- href for the article -->
+            <div th:text="${return.articleName}">0</div>
+            <form th:action="@{/{id}(id = ${id})}" method="post">
+                <fieldset>
+                    <input type="hidden" name="returnID" th:value="${return.returnID}">
+                    <input type="hidden" name="lendingID" th:value="${return.lendingID}">
+                    <input type="checkbox" id="yes2" name="choicereturn" value="accept">
+                    <label for="yes2"> accept</label>
+                    <input type="checkbox" id="no2" name="choicereturn" value="decline">
+                    <label for="no2">decline</label>
+                </fieldset>
+                <button type="finish">submit</button>
+            </form>
+        </div>
+    </table>
+</div>
+
+
 </body>
 </html>

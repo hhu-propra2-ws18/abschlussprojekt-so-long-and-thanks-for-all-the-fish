@@ -14,15 +14,13 @@ public class Request {
     @Id
     @GeneratedValue
     long requestID;
-    boolean isPermitted;
     long requesterID;
     long articleID;
     String requestComment;
     Calendar startDate;
     Calendar endDate;
 
-    public Request( boolean isPermitted, long requesterID, long articleID, String requestComment,Calendar startDate, Calendar endDate) {
-        this.isPermitted = isPermitted;
+    public Request(long requesterID, long articleID, String requestComment,Calendar startDate, Calendar endDate) {
         this.requesterID = requesterID;
         this.articleID = articleID;
         this.requestComment = requestComment;

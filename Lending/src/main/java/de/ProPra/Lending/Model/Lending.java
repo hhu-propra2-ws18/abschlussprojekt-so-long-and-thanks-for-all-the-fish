@@ -18,13 +18,15 @@ public class Lending {
     long articleID;
     Calendar startDate;
     Calendar endDate;
+    boolean waitingForAnswer;
 
     public Lending(){}
 
-    public Lending(long lendingPersonID, long articleID, Calendar startDate, Calendar endDate) {
+    public Lending(long lendingPersonID, long articleID, Calendar startDate, Calendar endDate, boolean waitingForAnswer) {
         this.lendingPersonID = lendingPersonID;
         this.articleID = articleID;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.waitingForAnswer = waitingForAnswer;
     }
 }

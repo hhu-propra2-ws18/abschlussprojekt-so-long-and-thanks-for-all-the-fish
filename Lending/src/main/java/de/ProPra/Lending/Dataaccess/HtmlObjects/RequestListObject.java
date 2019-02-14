@@ -1,8 +1,8 @@
-package de.ProPra.Lending.Dataaccess;
+package de.ProPra.Lending.Dataaccess.HtmlObjects;
 
 import lombok.Data;
 
-import java.util.Calendar;
+
 
 @Data
 public class RequestListObject {
@@ -11,7 +11,7 @@ public class RequestListObject {
     String articleName;
     long articleID;
     String requestComment;
-    Calendar startDate;
-    Calendar endDate;
+    String startDate;
+    String endDate;
 
 }
