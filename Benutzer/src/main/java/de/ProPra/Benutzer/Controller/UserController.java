@@ -17,6 +17,14 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
 
+    public UserRepository getUserRepository() {
+        return userRepository;
+    }
+
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     @GetMapping(path = "/")
     public String showLogin(Model model) {
         return "start";
@@ -33,7 +41,7 @@ public class UserController {
     }
 
     public String signIn(Model model, String username) {
-        if (userRepository.findByUsername(username) != null) {
+        if (isUsernameExistend(username)) {
             model.addAttribute("username", username);
             return "redirect:/user/" + userRepository.findByUsername(username).getId();
         } else {
@@ -56,96 +64,118 @@ public class UserController {
     }
 
     @GetMapping(path = "/profileOverview/{id}")
-    public String profileOverview(Model model, @PathVariable(value="id") long id) {
+    public String profileOverview(Model model, @PathVariable(value = "id") long id) {
         User user = userRepository.findById(id);
-        model.addAttribute("username",user.getUsername());
-        model.addAttribute("email",user.getEmail());
-        model.addAttribute("name",user.getName());
+        model.addAttribute("error", " ");
+        model.addAttribute("user", user);
         return "profileoverview";
     }
 
     @PostMapping(path = "/profileOverview/{id}")
-    public String profileOverview (Model model, @RequestParam(value = "action") String button, @PathVariable(value = "id") long id
-                , @RequestParam String username, @RequestParam String name, @RequestParam String email ){
-            if (button.equals("back to Dummyhome")) {
-                return "redirect:/user/" + id;
-            } else if (button.equals("Apply changes")) {
-                User user = userRepository.findById(id);
-                boolean isAdmin = false;
-                if (username.equals("")==false){
-                    if(username.contains(" ")){
-                        model.addAttribute("error", "Do not use spaces in your username please");
-                        return"";
+    public String profileOverview(Model model, @RequestParam(value = "action") String button, @PathVariable(value = "id") long id
+            , @RequestParam String username, @RequestParam String name, @RequestParam String email, @RequestParam String address) {
+        User user = userRepository.findById(id);
+        if (button.equals("back to Dummyhome")) {
+            return "redirect:/user/" + id;
+        } else if (button.equals("Apply changes")) {
+            if (username.equals("") == false) {
+                if (isValidUsername(username)) {
+                    if (!(isUsernameExistend(username))) {
+                        user.setUsername(username);
+                    } else {
+                        model.addAttribute("error", "Username already taken ");
                     }
-                    else{
-                        if(userRepository.findByUsername(username)==null){
-                            user.setUsername(username);
-                        }
-                        else{
-                            model.addAttribute("error", "Username already taken ");
-                        }
-                    }
+                } else {
+                    model.addAttribute("error", "Do not use spaces in your username please");
+                    return "profileoverview";
                 }
-                if(name.equals("")==false){
-                    user.setName(name);
-                }
-
-                if(email.equals("")==false){
-                    if(isValidEmailAddress(email)) {
-                        user.setEmail(email);
-                    }
-                    else{
-                        model.addAttribute("error", "Email is not valid!");
-                        return "profileoverview";
-                    }
-                }
-                userRepository.save(user);
-                System.out.println(user.toString());
             }
-            return "profileoverview";
+            if (name.equals("") == false) {
+                user.setName(name);
+            }
+
+            if (email.equals("") == false) {
+                if (isValidEmailAddress(email)) {
+                    user.setEmail(email);
+                } else {
+                    model.addAttribute("error", "Email is not valid!");
+                    return "profileoverview";
+                }
+            }
+            if (address.equals("") == false) {
+                if (true) {
+                    user.setAddress(address);
+                } else {
+                    model.addAttribute("error", "Address is not valid!");
+                    return "profileoverview";
+                }
+            }
+            userRepository.save(user);
         }
+        model.addAttribute("error", " ");
+        model.addAttribute("user", user);
+        return "profileoverview";
+    }
 
 
-        @GetMapping(path = "/signup")
-        public String showSignUp (Model model){
-            model.addAttribute("error", "");
+    @GetMapping(path = "/signup")
+    public String showSignUp(Model model) {
+        model.addAttribute("error", "");
+        return "signUp";
+    }
+
+    @PostMapping(path = "/signup")
+    public String signUp(Model model, @RequestParam String username, @RequestParam String
+            name, @RequestParam String email, @RequestParam String address, @RequestParam(value = "action") String button) {
+        if (button.equals("backToLogin")) {
+            return "redirect:/";
+        }
+        boolean isAdmin = false;
+        if (username.equals("") || name.equals("") || email.equals("") || address.equals("")) {
+            model.addAttribute("error", "All fields must be filled ! ");
+            return "signUp";
+        } else if (!(isValidUsername(username))) {
+            model.addAttribute("error", "Do not use spaces in your username please");
+            return "signUp";
+        } else if (!(isUsernameExistend(username))) {
+            User user = new User(username, name, email, isAdmin, address);
+            if (isValidEmailAddress(user.getEmail())) {
+                user = userRepository.save(user);
+                return "redirect:/user/" + userRepository.findByUsername(username).getId();
+            } else {
+                model.addAttribute("error", "Email is not valid!");
+                return "signUp";
+            }
+        } else {
+            model.addAttribute("error", "Username already taken ");
             return "signUp";
         }
 
-        @PostMapping(path = "/signup")
-        public String signUp (Model model, @RequestParam String username, @RequestParam String
-        name, @RequestParam String email, @RequestParam(value = "action") String button){
-            if (button.equals("backToLogin")) {
-                return "redirect:/";
-            }
-            boolean isAdmin = false;
-            if (username.equals("") || name.equals("") || email.equals("")) {
-                model.addAttribute("error", "All fields must be filled ! ");
-                return "signUp";
-            } else if (username.contains(" ")) {
-                model.addAttribute("error", "Do not use spaces in your username please");
-                return "signUp";
-            } else if (userRepository.findByUsername(username) == null) {
-                User user = new User(username, name, email, isAdmin);
-                if (isValidEmailAddress(user.getEmail())) {
-                    user = userRepository.save(user);
-                    return "redirect:/user/" + userRepository.findByUsername(username).getId();
-                } else {
-                    model.addAttribute("error", "Email is not valid!");
-                    return "signUp";
-                }
-            } else {
-                model.addAttribute("error", "Username already taken ");
-                return "signUp";
-            }
 
-
-        }
-
-        public boolean isValidEmailAddress (String email){
-            String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
-            java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
-            java.util.regex.Matcher m = p.matcher(email);
-            return m.matches();
-        }
     }
+
+    public boolean isValidEmailAddress(String email) {
+        String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+        java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
+        java.util.regex.Matcher m = p.matcher(email);
+        return m.matches();
+    }
+
+    public boolean isValidUsername(String username) {
+        if (username.equals("") == false) {
+            if (username.contains(" ")) {
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isUsernameExistend(String username) {
+        if (userRepository.findByUsername(username) != null) {
+            return true;
+        }
+        return false;
+    }
+
+}
