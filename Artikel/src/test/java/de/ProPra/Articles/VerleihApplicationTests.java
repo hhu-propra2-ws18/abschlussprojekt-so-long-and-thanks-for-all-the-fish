@@ -1,4 +1,4 @@
-package de.ProPra.Verleih;
+package de.ProPra.Articles;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

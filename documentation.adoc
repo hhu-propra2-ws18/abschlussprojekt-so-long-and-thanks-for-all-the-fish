@@ -3,19 +3,39 @@ Daniel Warkus; Jacques Pasquier; Robin Kraft; Jeff Nosbusch; Franz Hoffmann; Wol
 v0.1, 11.02.2019
 :toc:
 
-## Dokumentation
+## Festlegen von Syntaxregeln
+Zu Beginn des Praktikums haben wir uns auf eine einheitliche Syntax geeinigt. Im
+allgemeinen folgen wir dabei den bisher gelernten Coderichtlinien, die wir hier
+nochmal zusammenfassen:
 
-3 selfcontained Systems erstellt.
-- Benutzer
-- Ausleihe
-- Artikel
-enthalten: PostgresDB, H2DB und ein tmp Get mapping.
-
-## Syntax-Regeln
-
-- Kommentare in englisch
-- Tab anstatt 4 Leerzeichen
-- { hinter die Methode und keine neue Zeile
+- Namen und Kommentare in Englisch
+- Tabs anstelle von 4 Leerzeichen
+- { hinter die Methode und nicht in eine neue Zeile
 - Variablennamen: fooBar
 - Methodennamen: FooBar
-- Dokumentation und Test for dem pushen fertiggestellt haben.
+
+Zusätzlich wird zu erst eine funktionierende Datei in den `master`-Branch gepushed,
+von dem alle zum arbeiten eigene Branches erstellen. Gemerged wird erst, sobald das
+bearbeitete Problem volständig funktioniert, getestet und dokumentiert wurde.
+
+## Planung
+Unser Plan sieht es vor, 3 Self-contained-systems zu erstellen, die sich um die
+Verwaltung der Daten von Benutzern, Atrikeln und Ausleihen kümmern und alle ihr
+eigenes Mapping ausführen. Im Hintergrund soll dazu eine `Postgres`-Datenbank
+laufen, auf die alle drei Systeme Zugriff haben.
+
+## Dokumentation
+### Artikel
+Wir haben uns vorgestellt, dass die Anwendung `Article` die Artikel als Entitäten
+in die Datenbank einfügt. Ein einzelner Artikel enthält die Variablen `articleID`,
+`name`, `comment`, `PersonID`, `deposit`, `rent`, `available`, um die geforderten
+Daten speichern zu können. Dies wurde mit den entsprechenden Annotationen implementiert.
+Als nächstes wurde ein entsprechendes Repository `ArticleRepository` erstellt, dass
+das CrudRepository extended, um die Funktionen ebendieses für das Mapping anwenden
+zu können. Zuletzt folgte ein Controller `ArticleController`, der das Mapping für
+die einzelnen Artikel übernimmt. Der Controller kann hier zwei verschiede Ansichten
+erzeugen: eine Übersicht aller Atrikel unter `localhost:8080/article/`, die die einzelnen
+Artikel mit ihren Namen, den Mietkosten und einem Link zur entsprechenden Detailansicht
+des einzelnen Artikels darstellt, und die eben genannte Detailansicht, die alle
+Variablen des Artikels außer der `articleID` darstellt, unter `localhost:8080/article/{id}`,
+wobei {id} durch die `articleID` des Artikels ersetzt wird.
