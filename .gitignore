@@ -8,9 +8,10 @@
 
 # Specific stuff
 Artikel/build/
-Ausleihe/build/
+Lending/build/
 Benutzer/build/
 .settings/
+build/
 
 # IntelliJ Folder
 .idea/
