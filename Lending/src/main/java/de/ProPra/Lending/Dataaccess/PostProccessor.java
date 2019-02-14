@@ -9,6 +9,7 @@ import de.ProPra.Lending.Model.Lending;
 import de.ProPra.Lending.Model.Request;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -25,12 +26,16 @@ public class PostProccessor {
     public static void CreateNewEntryRequest(HashMap<String,String> postBodyParas, RequestRepository requests){
         try {
 
-            Date startDate = new SimpleDateFormat("yyyy-MM-dd").parse(postBodyParas.get("startDate")); //TODO: Date ändern
-            Date endDate = new SimpleDateFormat("yyyy-MM-dd").parse(postBodyParas.get("endDate"));
+            Calendar startDate = Calendar.getInstance();
+            String[] datePieces = postBodyParas.get("startDate").split("-");
+            startDate.set(Integer.parseInt(datePieces[0]), Integer.parseInt(datePieces[1])-1, Integer.parseInt(datePieces[2]));
+            Calendar endDate = Calendar.getInstance();
+            datePieces = postBodyParas.get("endDate").split("-");
+            startDate.set(Integer.parseInt(datePieces[0]), Integer.parseInt(datePieces[1])-1, Integer.parseInt(datePieces[2]));
 
             long requesterID = Long.parseLong(postBodyParas.get("requesterID"));
             long articleID = Long.parseLong(postBodyParas.get("articleID"));
-            Request request = new Request(false, requesterID, articleID, postBodyParas.get("requestComment"), startDate, endDate); //TODO: Date ändern
+            Request request = new Request(false, requesterID, articleID, postBodyParas.get("requestComment"), startDate, endDate);
             requests.save(request);
         } catch (Exception e) {
             e.printStackTrace();

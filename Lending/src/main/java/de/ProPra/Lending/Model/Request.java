@@ -5,7 +5,8 @@ import lombok.Data;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import java.util.Date;
+import java.util.Calendar;
+
 
 @Data
 @Entity
@@ -17,10 +18,10 @@ public class Request {
     long requesterID;
     long articleID;
     String requestComment;
-    Date startDate;    //TODO: Date ändern
-    Date endDate;
+    Calendar startDate;
+    Calendar endDate;
 
-    public Request( boolean isPermitted, long requesterID, long articleID, String requestComment, Date startDate, Date endDate) {
+    public Request( boolean isPermitted, long requesterID, long articleID, String requestComment,Calendar startDate, Calendar endDate) {
         this.isPermitted = isPermitted;
         this.requesterID = requesterID;
         this.articleID = articleID;

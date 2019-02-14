@@ -2,15 +2,15 @@ package de.ProPra.Lending.Dataaccess;
 
 import lombok.Data;
 
-import java.util.Date;
+import java.util.Calendar;
 
 @Data
 public class LendingListObject {
 
     //for lending ID
     long lendingID;
-    Date startDate;      //TODO: Date ändern
-    Date endDate;
+    Calendar startDate;
+    Calendar endDate;
 
     // for article
     long articleID;

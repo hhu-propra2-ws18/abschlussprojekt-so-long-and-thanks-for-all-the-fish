@@ -38,15 +38,11 @@ public class LendingRepresentation {
                 lendingListObject.setDeposit(specificArticle.getDeposit());
                 lendingListObject.setRent(specificArticle.getRent());
 
-                //TODO: Abfrage von Date ändern
                 lendingListObject.setEndDate(lending.getEndDate());
-                Date endDate = lendingListObject.getEndDate();
+                Calendar endDate = lendingListObject.getEndDate();
 
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.ms");
-                Date currentDate = new Date();
+                Calendar currentDate = Calendar.getInstance();
                 try {
-                    String tmpDate = formatter.format(currentDate);
-                    currentDate = formatter.parse(tmpDate);
                     if(currentDate.after(endDate)){
                         lendingListObject.setWarning("ATTENTION: YOU HAVE RETURN THIS ARTICLE");
                     }else{

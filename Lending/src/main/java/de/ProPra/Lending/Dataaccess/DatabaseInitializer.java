@@ -16,6 +16,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 @Component
@@ -44,8 +45,11 @@ public class DatabaseInitializer implements ServletContextInitializer {
         Person testPerson3 = new Person(3, "Robin");
 
        try {
-            Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse("2019-12-02"); //TODO: Date ändern
-            Date date2 = new SimpleDateFormat("yyyy-MM-dd").parse("2019-12-02");
+           Calendar date1 = Calendar.getInstance();
+           Calendar date2 = Calendar.getInstance();
+           date1.set(2019, 1, 12);
+           date2.set(2019, 1, 12);
+
             Request testRequest1 = new Request(false, 1, 3, "ich will kohle", date1, date2);
             requests.save(testRequest1);
         } catch (Exception e) {
@@ -58,8 +62,10 @@ public class DatabaseInitializer implements ServletContextInitializer {
         articles.save(testArticle2);
         articles.save(testArticle3);
         try {
-            Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse("2019-05-12");
-            Date date2 = new SimpleDateFormat("yyyy-MM-dd").parse("2019-02-12");
+            Calendar date1 = Calendar.getInstance();
+            Calendar date2 = Calendar.getInstance();
+            date1.set(2019, 4, 12);
+            date2.set(2019, 1, 12);
             Lending testLending1 = new Lending(1, 1, date2, date1);
             Lending testLending2 = new Lending(2, 2, date1, date2);
             lendings.save(testLending1);

@@ -2,7 +2,7 @@ package de.ProPra.Lending.Dataaccess;
 
 import lombok.Data;
 
-import java.util.Date;
+import java.util.Calendar;
 
 @Data
 public class RequestListObject {
@@ -11,7 +11,7 @@ public class RequestListObject {
     String articleName;
     long articleID;
     String requestComment;
-    Date startDate;       //TODO: Date ändern
-    Date endDate;
+    Calendar startDate;
+    Calendar endDate;
 
 }

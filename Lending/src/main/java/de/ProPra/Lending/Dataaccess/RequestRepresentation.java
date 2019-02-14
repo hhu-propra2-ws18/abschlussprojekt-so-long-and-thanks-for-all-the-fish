@@ -32,7 +32,7 @@ public class RequestRepresentation {
                 //find requestcomment
                 tmpRequest.setRequestComment(potentialRequest.getRequestComment().replaceAll("\\+", " "));
                 //find Dates
-                tmpRequest.setStartDate(potentialRequest.getStartDate()); //TODO: Date ändern
+                tmpRequest.setStartDate(potentialRequest.getStartDate());
                 tmpRequest.setEndDate(potentialRequest.getEndDate());
                 filledRequests.add(tmpRequest);
             }

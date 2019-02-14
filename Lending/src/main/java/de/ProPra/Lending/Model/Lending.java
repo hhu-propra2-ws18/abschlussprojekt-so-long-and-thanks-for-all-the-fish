@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
-import java.util.Date;
+import java.util.Calendar;
 
 @Data
 @Entity
@@ -16,12 +16,12 @@ public class Lending {
     long lendingId;
     long lendingPersonID;
     long articleID;
-    Date startDate; //TODO: Date ändern
-    Date endDate;
+    Calendar startDate;
+    Calendar endDate;
 
     public Lending(){}
 
-    public Lending(long lendingPersonID, long articleID, Date startDate, Date endDate) {
+    public Lending(long lendingPersonID, long articleID, Calendar startDate, Calendar endDate) {
         this.lendingPersonID = lendingPersonID;
         this.articleID = articleID;
         this.startDate = startDate;
