@@ -1,4 +1,4 @@
-package de.ProPra.Verleih;
+package de.ProPra.Lending;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,7 +7,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class VerleihApplicationTests {
+public class LendingApplicationTests {
 
 	@Test
 	public void contextLoads() {
