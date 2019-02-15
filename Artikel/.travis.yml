@@ -4,13 +4,13 @@ jdk:
 jobs:
  include:
  - stage: Artikel
- - script: cd Artikel
- - script: ./gradlew build
+   script: cd Artikel
+   script: ./gradlew build
  - stage: Benutzer
- - script: cd ../Benutzer
- - script: ./gradlew build
+   script: cd ../Benutzer
+   script: ./gradlew build
  - stage: Ausleihe
- - script: cd ../Ausleihe
- - script: ./gradlew build
+   script: cd ../Ausleihe
+   script: ./gradlew build
 notifications:
  - email: false
