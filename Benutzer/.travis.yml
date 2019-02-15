@@ -1,12 +1,13 @@
 language: java
 jdk:
  - openjdk8
-script:
- - cd Artikel
- - ./gradlew build
- - cd ../Benutzer
- - ./gradlew build
- - cd ../Ausleihe
- - ./gradlew build
+jobs:
+ include:
+ - stage: Artikel
+   script: cd Artikel && ./gradlew build
+ - stage: Benutzer
+   script: cd ../Benutzer && ./gradlew build
+ - stage: Ausleihe
+   script: cd ../Ausleihe && ./gradlew build
 notifications:
  - email: false
