@@ -15,6 +15,10 @@ public class Lending {
     @GeneratedValue
     long lendingId;
     long lendingPersonID;
+    @OneToOne
+    Person lendingPerson;
+    @OneToOne
+    Article lendedArticle;
     long articleID;
     Calendar startDate;
     Calendar endDate;

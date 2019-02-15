@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Data
 @Entity
@@ -13,6 +14,8 @@ public class Article {
     String name;
     String comment;
     long personID;
+    @OneToOne
+    Person ownerPerson;
     double deposit;
     double rent;
     boolean available;

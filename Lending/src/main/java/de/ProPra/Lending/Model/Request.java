@@ -5,6 +5,7 @@ import lombok.Data;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import java.util.Calendar;
 
 
@@ -14,7 +15,11 @@ public class Request {
     @Id
     @GeneratedValue
     long requestID;
+    @OneToOne
+    Person requestingPerson;
     long requesterID;
+    @OneToOne
+    Article requestedArticle;
     long articleID;
     String requestComment;
     Calendar startDate;
