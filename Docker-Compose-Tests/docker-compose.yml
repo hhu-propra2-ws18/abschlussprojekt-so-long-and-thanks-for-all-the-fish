@@ -1,0 +1,54 @@
+version: "3.7"
+services:
+  proxy:
+    image: nginx:1.15-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: always
+    networks:
+      - web
+    volumes:
+      - ./proxy/conf/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./proxy/conf/domain.conf:/etc/nginx/domain.conf:ro
+    depends_on:
+      - initializer
+  database:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=mysecretpassword
+      - POSTGRES_DB=fancy_db
+      - POSTGRES_USER=postgres
+    networks:
+      - web
+
+    # Einkommentieren zum Persistieren der Daten
+    # volumes:
+    #   - ./postgres-data:/var/lib/postgresql/data
+  # adminer:
+  #   image: adminer
+  #   restart: always
+    # ports:
+    #   - 8090:8080
+
+
+  initializer:
+    build:
+      context: ./DatabaseInitializer
+      dockerfile: ./Dockerfile
+    # ports:
+    #   - 8085:8080
+    command: ["./wait-for-it.sh", "database:5432", "--", "java", "-jar", "app.jar"]
+    networks:
+      - web
+    depends_on:
+      - database
+  service1:
+    image: hashicorp/http-echo
+    command: -listen=:8089 -text="Penis"
+    networks:
+      - web
+networks:
+  web:
+    name: web
