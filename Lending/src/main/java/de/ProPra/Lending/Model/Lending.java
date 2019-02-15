@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 @Data
@@ -13,24 +14,30 @@ import java.util.Calendar;
 public class Lending {
     @Id
     @GeneratedValue
-    long lendingId;
-    long lendingPersonID;
+    long lendingID;
     @OneToOne
-    Person lendingPerson;
+    User lendingPerson;
     @OneToOne
     Article lendedArticle;
-    long articleID;
+
     Calendar startDate;
     Calendar endDate;
-    boolean waitingForAnswer;
+    String formattedStartDate;
+    String formattedEndDate;
+    boolean isAccepted;
+    boolean isReturn;
+    String warning;
 
     public Lending(){}
-
-    public Lending(long lendingPersonID, long articleID, Calendar startDate, Calendar endDate, boolean waitingForAnswer) {
-        this.lendingPersonID = lendingPersonID;
-        this.articleID = articleID;
+    public Lending(Calendar startDate, Calendar endDate, User lendingPerson, Article lendedArticle) {
         this.startDate = startDate;
         this.endDate = endDate;
-        this.waitingForAnswer = waitingForAnswer;
+        this.lendingPerson = lendingPerson;
+        this.lendedArticle = lendedArticle;
+    }
+    public void FillFormattedDates(){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        formattedEndDate = dateFormat.format(endDate.getTime());
+        formattedStartDate = dateFormat.format(startDate.getTime());
     }
 }

@@ -16,24 +16,20 @@ import java.util.HashMap;
 public class LendingController {
 
     private LendingRepository lendings;
-    private PersonRepository persons;
+    private UserRepository users;
     private ArticleRepository articles;
-    private RequestRepository requests;
-    private ReturnProcessRepository returns;
     //TODO: add History for lendings
 
     @Autowired
-    public LendingController(LendingRepository lendings, PersonRepository persons, ArticleRepository articles, RequestRepository requests,ReturnProcessRepository returns){
+    public LendingController(LendingRepository lendings, UserRepository users, ArticleRepository articles){
         this.lendings = lendings;
         this.articles = articles;
-        this.persons = persons;
-        this.requests = requests;
-        this.returns = returns;
+        this.users = users;
     }
 
     @GetMapping("/lendings/{lendID}")
         public String LendingPage(Model model, @PathVariable final long lendID) {
-            LendingRepresentation filledLendings = new LendingRepresentation(lendings,persons,articles, requests);
+            LendingRepresentation filledLendings = new LendingRepresentation(lendings, users,articles);
             model.addAttribute("lendings", filledLendings.FillLendings(lendID));
             model.addAttribute("id", lendID);
             return "overviewLendings";
@@ -42,8 +38,8 @@ public class LendingController {
     @PostMapping("/lendings/{lendID}")
     public String LendingPageNew(Model model, @PathVariable final long lendID, @RequestBody String postBody) { //TODO: return procces erzeugen
         HashMap<String, String> postBodyParas = PostProccessor.SplitString(postBody);
-        PostProccessor.CreateNewReturnProccess(postBodyParas, lendings, articles, returns);
-        LendingRepresentation filledLendings = new LendingRepresentation(lendings,persons,articles, requests);
+        PostProccessor.initializeNewReturn(postBodyParas, lendings);
+        LendingRepresentation filledLendings = new LendingRepresentation(lendings, users,articles);
         model.addAttribute("lendings", filledLendings.FillLendings(lendID));
         model.addAttribute("id", lendID);
         return "overviewLendings";
@@ -51,15 +47,15 @@ public class LendingController {
 
     @GetMapping("/borrows/{borrowID}")
     public String BorrowPage(Model model, @PathVariable final long borrowID) {
-        LendingRepresentation filledLendings = new LendingRepresentation(lendings,persons,articles,requests);
-        model.addAttribute("lendings", filledLendings.FillBorrows(borrowID));
+        LendingRepresentation filledArticles = new LendingRepresentation(lendings, users,articles);
+        model.addAttribute("articles", filledArticles.FillBorrows(borrowID));
         return "overviewBorrows";
     }
 
     @GetMapping("/{id}")
     public String Overview(Model model, @PathVariable final long id) {
-        RequestRepresentation filledRequests = new RequestRepresentation(persons, articles, requests, id);
-        ReturnProcessRepresentation filledReturns = new ReturnProcessRepresentation(persons, articles, returns, id, lendings);
+        RequestRepresentation filledRequests = new RequestRepresentation(users, articles,lendings , id);
+        ReturnProcessRepresentation filledReturns = new ReturnProcessRepresentation(users, articles, id, lendings);
         model.addAttribute("id", id);
         model.addAttribute("requests", filledRequests.FillRequest());
         model.addAttribute("returns", filledReturns.FillReturns());
@@ -68,11 +64,13 @@ public class LendingController {
 
     @PostMapping("/{id}")
     public String PostOverview(Model model,@PathVariable final long id, @RequestBody String postBody) {
-        RequestRepresentation filledRequests = new RequestRepresentation(persons, articles, requests, id);
+        RequestRepresentation filledRequests = new RequestRepresentation(users, articles, lendings , id);
+        ReturnProcessRepresentation filledReturns = new ReturnProcessRepresentation(users, articles, id, lendings);
         HashMap<String, String> postBodyParas = PostProccessor.SplitString(postBody);
-        PostProccessor.CheckDecision(postBodyParas, lendings, articles, requests, returns);
+        PostProccessor.CheckDecision(postBodyParas, lendings, articles);
         model.addAttribute("id", id);
         model.addAttribute("requests", filledRequests.FillRequest());
+        model.addAttribute("returns", filledReturns.FillReturns());
         return "overview";
     }
 
@@ -82,10 +80,10 @@ public class LendingController {
         model.addAttribute("articleID", articleID);
         return "lendingRequest";
     }
-    @PostMapping("/inquiry") //TODO: timewindow is important!
+    @PostMapping("/inquiry")
     public String inquiry(Model model, @RequestBody String postBody) {
         HashMap<String, String> postBodyParas = PostProccessor.SplitString(postBody);
-        PostProccessor.CreateNewEntryRequest(postBodyParas, requests);
+        PostProccessor.CreateNewLending(postBodyParas, articles, lendings, users);
         model.addAttribute("id", postBodyParas.get("requesterID"));
         return "inquiry";
     }

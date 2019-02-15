@@ -1,12 +1,11 @@
 package de.ProPra.Lending.Dataaccess.Representations;
 
-import de.ProPra.Lending.Dataaccess.HtmlObjects.LendingListObject;
 import de.ProPra.Lending.Dataaccess.Repositories.ArticleRepository;
 import de.ProPra.Lending.Dataaccess.Repositories.LendingRepository;
-import de.ProPra.Lending.Dataaccess.Repositories.PersonRepository;
-import de.ProPra.Lending.Dataaccess.Repositories.RequestRepository;
+import de.ProPra.Lending.Dataaccess.Repositories.UserRepository;
 import de.ProPra.Lending.Model.Article;
 import de.ProPra.Lending.Model.Lending;
+import de.ProPra.Lending.Model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
@@ -14,84 +13,32 @@ import java.util.*;
 public class LendingRepresentation {
 
     private LendingRepository lendings;
-    private PersonRepository persons;
+    private UserRepository users;
     private ArticleRepository articles;
-    private RequestRepository requests;
 
-    public List<LendingListObject> FillLendings(long lendingPersonID){
-        List<LendingListObject> filledLendingRepresentation = new ArrayList<>();
-
-        Iterable<Lending> allLendings = lendings.findAll();
-        for (Lending lending : allLendings) {
-
-            //look for lendings for the given personID
-            if(lending.getLendingPersonID() == lendingPersonID && !lending.isWaitingForAnswer()){
-                LendingListObject lendingListObject = new LendingListObject();
-                //allocate lendingID
-                lendingListObject.setLendingID(lending.getLendingId());
-                //allocate article infos
-                Article specificArticle = articles.findById(lending.getArticleID()).get();
-                lendingListObject.setArticleID(specificArticle.getArticleID());
-                lendingListObject.setArticleName(specificArticle.getName());
-                lendingListObject.setComment(specificArticle.getComment());
-                lendingListObject.setBorrowPerson(persons.findById(specificArticle.getPersonID()).get().getName());
-                lendingListObject.setDeposit(specificArticle.getDeposit());
-                lendingListObject.setRent(specificArticle.getRent());
-
-                lendingListObject.setEndDate(lending.getEndDate());
-                Calendar endDate = lendingListObject.getEndDate();
-
-
-
-                Calendar currentDate = Calendar.getInstance();
-                try {
-                    if(currentDate.after(endDate)){
-                        lendingListObject.setWarning("ATTENTION: YOU HAVE RETURN THIS ARTICLE");
-                    }else{
-                        lendingListObject.setWarning("You can use this article without worries");
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                //add to List
-                filledLendingRepresentation.add(lendingListObject);
+    public List<Lending> FillLendings(long userID) {
+        User user = users.findUserByuserID(userID).get();
+        List<Lending> lendingList = lendings.findAllBylendingPersonAndIsAcceptedAndIsReturn(user, true, false);
+        for (Lending lending : lendingList) {
+            Calendar endDate = lending.getEndDate();
+            Calendar currentDate = Calendar.getInstance();
+            if (currentDate.after(endDate)) {
+                lending.setWarning("ATTENTION: YOU HAVE RETURN THIS ARTICLE");
+            } else {
+                lending.setWarning("You can use this article without worries");
             }
         }
 
-
-        return filledLendingRepresentation;
+        return lendingList;
     }
-
-    public List<LendingListObject> FillBorrows(long borrowPersonID){
-        List<LendingListObject> filledLendingRepresentation = new ArrayList<>();
-
-        Iterable<Article> allArticles = articles.findAll();
-        for (Article article : allArticles) {
-
-            if(article.getPersonID() == borrowPersonID){
-                LendingListObject lendingListObject = new LendingListObject();
-                //allocate article infos
-                lendingListObject.setArticleName(article.getName());
-                lendingListObject.setComment(article.getComment());
-                lendingListObject.setBorrowPerson(persons.findById(article.getPersonID()).get().getName());
-                lendingListObject.setDeposit(article.getDeposit());
-                lendingListObject.setRent(article.getRent());
-                //add to List
-                filledLendingRepresentation.add(lendingListObject);
-                //add isRequestet
-            }
-        }
-
-
-        return filledLendingRepresentation;
+    public List<Article> FillBorrows(long borrowPersonID){
+        User user = users.findUserByuserID(borrowPersonID).get();
+        return articles.findAllByownerUser(user);
     }
-
     @Autowired
-    public LendingRepresentation(LendingRepository lendings, PersonRepository persons, ArticleRepository articles, RequestRepository requests) {
+    public LendingRepresentation(LendingRepository lendings, UserRepository users, ArticleRepository articles) {
         this.lendings = lendings;
-        this.persons = persons;
+        this.users = users;
         this.articles = articles;
-        this.requests = requests;
     }
 }

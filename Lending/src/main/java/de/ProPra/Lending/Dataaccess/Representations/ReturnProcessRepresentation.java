@@ -1,48 +1,36 @@
 package de.ProPra.Lending.Dataaccess.Representations;
 
-import de.ProPra.Lending.Dataaccess.HtmlObjects.RequestListObject;
-import de.ProPra.Lending.Dataaccess.HtmlObjects.ReturnProcessListObject;
 import de.ProPra.Lending.Dataaccess.Repositories.ArticleRepository;
 import de.ProPra.Lending.Dataaccess.Repositories.LendingRepository;
-import de.ProPra.Lending.Dataaccess.Repositories.PersonRepository;
-import de.ProPra.Lending.Dataaccess.Repositories.ReturnProcessRepository;
-import de.ProPra.Lending.Model.Request;
-import de.ProPra.Lending.Model.ReturnProcess;
+import de.ProPra.Lending.Dataaccess.Repositories.UserRepository;
+import de.ProPra.Lending.Model.Article;
+import de.ProPra.Lending.Model.Lending;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
+import java.util.Optional;
 
 public class ReturnProcessRepresentation {
-    private PersonRepository persons;
+    private UserRepository users;
     private ArticleRepository articles;
-    private ReturnProcessRepository returns;
     private LendingRepository lendings;
-    long returnID;
+    long userID;
 
-    public ReturnProcessRepresentation(PersonRepository persons, ArticleRepository articles, ReturnProcessRepository returns, long returnID, LendingRepository lendings) {
-        this.persons = persons;
+    public ReturnProcessRepresentation(UserRepository users, ArticleRepository articles, long userID, LendingRepository lendings) {
+        this.users = users;
         this.articles = articles;
-        this.returns = returns;
-        this.returnID = returnID;
+        this.userID = userID;
         this.lendings = lendings;
     }
-
-    public List<ReturnProcessListObject> FillReturns() {
-        List<ReturnProcessListObject> filledReturns = new ArrayList<>();
-        Iterable<ReturnProcess> potentialReturns = returns.findAll();
-        for (ReturnProcess potentialReturn : potentialReturns) {
-            //find all articles for given borrowID
-            if(articles.findById(potentialReturn.getArticleID()).get().getPersonID() == returnID   ){
-                ReturnProcessListObject tmpReturnProcess = new ReturnProcessListObject();
-                tmpReturnProcess.setReturnID(potentialReturn.getReturnID());
-                tmpReturnProcess.setLendingID(potentialReturn.getLendingID());
-                tmpReturnProcess.setArticleName(articles.findById(potentialReturn.getArticleID()).get().getName());
-                tmpReturnProcess.setReturnerName(persons.findById(potentialReturn.getLenderID()).get().getName());
-                filledReturns.add(tmpReturnProcess);
+    public List<Lending> FillReturns(){
+        List<Lending> filledReturns = new ArrayList<>();
+        List<Article> articles = this.articles.findAllByownerUser(users.findUserByuserID(userID).get());
+        for (Article article : articles) {
+            Optional<Lending> lending = lendings.findLendingBylendedArticleAndIsReturn(article, true);
+            if(lending.isPresent()) {
+                filledReturns.add(lending.get());
             }
         }
-
         return filledReturns;
     }
 }

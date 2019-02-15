@@ -7,17 +7,17 @@
 </head>
 <body>
 <p> Sie bieten zur Ausleihe an !</p>
-<table th:each="lending : ${lendings}">
+<table th:each="article : ${articles}">
     <div style="margin:0; margin-right:10px; border:2px solid #dfdfdf;
         padding: 0em 1em 1em 1em; background-color:#FFFFFF;text-align:center">
         <h3>Articlename =</h3>
-        <div th:text="${lending.articleName}">0</div>
+        <div th:text="${article.name}">0</div>
         <h3>comment =</h3>
-        <div th:text="${lending.comment}">0</div>
+        <div th:text="${article.comment}">0</div>
         <h3>Deposit =</h3>
-        <div th:text="${lending.deposit}">0</div>
+        <div th:text="${article.deposit}">0</div>
         <h3>Rent =</h3>
-        <div th:text="${lending.rent}">0</div>
+        <div th:text="${article.rent}">0</div>
     </div>
 </table>
 </body>
