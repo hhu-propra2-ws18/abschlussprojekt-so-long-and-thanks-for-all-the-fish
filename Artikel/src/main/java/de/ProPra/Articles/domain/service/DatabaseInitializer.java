@@ -17,12 +17,12 @@ public class DatabaseInitializer implements ServletContextInitializer {
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
         System.out.println("Population the Database");
-        Article one = new Article("dummyname", "dummycomment", 1, 100.0, 10.0, false);
-        Article two = new Article("dummyname", "dummycomment", 1, 100.0, 10.0, true);
-        Article three = new Article("dummyname", "dummycomment", 1, 100.0, 10.0, false);
+        /*Article one = new Article("dummyname", "dummycomment", 1, 100.0, 10.0, false, null);
+        Article two = new Article("dummyname", "dummycomment", 1, 100.0, 10.0, true, null);
+        Article three = new Article("dummyname", "dummycomment", 1, 100.0, 10.0, false, null);
 
         articleRepository.save(one);
         articleRepository.save(two);
-        articleRepository.save(three);
+        articleRepository.save(three);*/
     }
 }

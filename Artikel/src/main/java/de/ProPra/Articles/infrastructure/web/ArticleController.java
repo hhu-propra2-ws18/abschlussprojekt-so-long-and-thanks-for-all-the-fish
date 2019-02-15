@@ -80,8 +80,9 @@ public class ArticleController {
                 failedFile = name;
             }
         }
-        model.addAttribute("uploadedFiles", uploadedFile);
-        model.addAttribute("failedFiles", failedFile);
+        model.addAttribute("uploadedFiles", uploadedFile.toString());
+        model.addAttribute("failedFiles", failedFile.toString());
+
         return "uploadResult";
     }
 

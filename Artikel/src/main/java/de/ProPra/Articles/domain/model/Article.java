@@ -4,6 +4,12 @@ import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
+import javax.sql.rowset.serial.SerialBlob;
+import java.io.IOException;
+import java.sql.Blob;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -23,8 +29,11 @@ public class Article {
 
     double rent;
 
+    @Transient
+    public MultipartFile file;
+
     @Lob
-    public MultipartFile file = null;
+    Blob image;
 
     boolean available;
 
@@ -32,13 +41,20 @@ public class Article {
     public Article(){
     }
 
-    public Article(String name, String comment, int personID, double deposit, double rent, boolean available){
+    public Article(String name, String comment, int personID, double deposit, double rent, boolean available, MultipartFile file) throws IOException, SQLException {
         this.name = name;
         this.comment = comment;
         this.personID = personID;
         this.deposit = deposit;
         this.rent = rent;
         this.available = available;
+        this.file = file;
+        this.image = makeBlobFromInput(file);
+    }
+
+    public Blob makeBlobFromInput(MultipartFile file) throws IOException, SQLException {
+        Image image = new Image(file);
+        return image.getFileblob();
     }
 }
 
