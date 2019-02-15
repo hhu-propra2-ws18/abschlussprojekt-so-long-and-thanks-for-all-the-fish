@@ -24,7 +24,7 @@ public class Article {
     double rent;
 
     @Lob
-    public MultipartFile file;
+    public MultipartFile file = null;
 
     boolean available;
 
