@@ -13,17 +13,19 @@
 <body>
     <div class="container">
         <h1 th:text="${article.getName()}"></h1>
+        <!--<img th:src="/image/imageID">-->
         <p th:text="${article.getComment()}"></p>
         <p th:text="${article.getPersonID()}"></p>
         <p th:text="${article.getDeposit()}"></p>
         <p th:text="${article.getRent()}"></p>
+        <p th:text="${article.getImageid()}"></p>
 
         <td th:switch="${article.isAvailable()}">
             <span th:case="true"><i class="fa fa-check-circle-o" aria-hidden="true"></i></span>
             <span th:case="false"><i class="fa fa-times-circle-o" aria-hidden="true"></i></span>
 
         </td>
-
+            <br>
         <td>
             <a th:href="|/article/|">
                 <button class="btn btn-danger" type="button"> Back to Overview</button>

@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,56 +36,17 @@ public class ArticleController {
         return "viewAll";
     }
 
-    @GetMapping("/newArticle")
+    @GetMapping("/article/new")
     public String newArticle(Model model){
         Article article = new Article();
         model.addAttribute("article",article);
         return  "newArticle";
     }
 
-    @PostMapping("/newArticle")
-    public String saveArticle(HttpServletRequest request, Model model, @ModelAttribute("article") Article article){
-
+    @PostMapping("/article/new")
+    public String saveArticle(HttpServletRequest request, Model model, @ModelAttribute("article") Article article) throws IOException, SQLException {
+        article.saveImage();
         articleRepository.save(article);
-        return this.doUpload(request, model, article);
+        return "redirect:/article/";
     }
-
-    public String doUpload(HttpServletRequest request, Model model, Article article){
-        String uploadRootPath = request.getServletContext().getRealPath("upload");
-        System.out.println("uploadRootPath=" + uploadRootPath);
-
-        File uploadRootDir = new File(uploadRootPath);
-        // Create directory if it not exists.
-        if (!uploadRootDir.exists()) {
-            uploadRootDir.mkdirs();
-        }
-        MultipartFile file = article.getFile();
-
-        String name = file.getOriginalFilename();
-
-        File uploadedFile = new File("default");
-        String failedFile = "";
-
-        if (name != null && name.length() > 0) {
-            try {
-                // Create the file at server
-                File serverFile = new File(uploadRootDir.getAbsolutePath() + File.separator + name);
-
-                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
-                stream.write(file.getBytes());
-                stream.close();
-
-                uploadedFile = serverFile;
-                System.out.println("Wrote file: " + serverFile);
-            } catch (Exception e) {
-                System.out.println("Error writing file: " + name);
-                failedFile = name;
-            }
-        }
-        model.addAttribute("uploadedFiles", uploadedFile.toString());
-        model.addAttribute("failedFiles", failedFile.toString());
-
-        return "uploadResult";
-    }
-
 }

@@ -16,7 +16,7 @@ import java.util.List;
 public class Article {
     @Id
     @GeneratedValue
-    long articleID;
+    public long articleID;
 
     String name;
 
@@ -32,8 +32,8 @@ public class Article {
     @Transient
     public MultipartFile file;
 
-    @Lob
-    Blob image;
+    @OneToMany (cascade = CascadeType.ALL)
+    public List<Image> images = new ArrayList<>();
 
     boolean available;
 
@@ -49,12 +49,11 @@ public class Article {
         this.rent = rent;
         this.available = available;
         this.file = file;
-        this.image = makeBlobFromInput(file);
     }
 
-    public Blob makeBlobFromInput(MultipartFile file) throws IOException, SQLException {
+    public void saveImage() throws IOException {
         Image image = new Image(file);
-        return image.getFileblob();
+        images.add(image);
     }
 }
 
