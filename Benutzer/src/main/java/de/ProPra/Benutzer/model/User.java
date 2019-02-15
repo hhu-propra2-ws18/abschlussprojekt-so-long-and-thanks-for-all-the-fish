@@ -16,10 +16,11 @@ public class User {
 
     private String username;
     private String name;
-    private int score;
+    private String password;
+    private int score = 0;
     private String email;
     private boolean isAdmin;
-    private double bankBalance;
+    private double bankBalance = 0;
     private String address;
 
     public User(String username, String name, String email, boolean isAdmin, String address) {
@@ -33,5 +34,7 @@ public class User {
     public User() {
     }
 
-    ;
+
+
+
 }
