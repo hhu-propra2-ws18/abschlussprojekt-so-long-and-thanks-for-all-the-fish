@@ -40,6 +40,25 @@ des einzelnen Artikels darstellt, und die eben genannte Detailansicht, die alle
 Variablen des Artikels außer der `articleID` darstellt, unter `localhost:8080/article/{id}`,
 wobei {id} durch die `articleID` des Artikels ersetzt wird.
 
+
+### User
+Man kann sich einloggen, indem man seinen Username in das dafür vorgesehen Textfeld 
+schreibt und den SignIn Button betätigt. Die einzige Vorraussetzung dafür ist,
+dass bereits ein User mit diesem Usernamen in der Datenbank vorhanden ist.
+Ansonsten kann man den SignUp Button betätigen, dann wird man weitergeleitet zu der SignIn Seite.
+Hier kann man nun einen ganz neuen User erstellen, indem man alle Textfelder 
+mit korrekten Eingaben ausfüllt un den entsprechenden Button betätigt.
+Nach dem Einloggen bzw. dem Registrieren, kann man den ProfileOverview Button betätigen, 
+dann wird man weitergeleitet auf eine Seite wo einem die Eigenen Profildaten in Textfeldern angezeigt werden.
+In diese Textfelder kann man auch schreiben um seine Profil zu verändern. 
+Um das Profil zu verändern füllt man einfach die Felder aus, bei welchen man die Daten
+verändern will und betätigt den ApplyChanges Button, nun wurde das Profil in der datenbank aktualisiert.
+##Testing
+Wir haben viele Tests geschrieben und haben eine Overallline coverage von über 85% erreicht, 
+Es werden alle Methoden in dem Controller getestet, wir erreichen keine 100% coverage, weil wir 
+das Repository gemockt haben und in der Methode ins Repository gespeichert wird und in der gleichen methode
+ wieder ausgelesen wenn wir die Methode für diesen Username mocken wird er schon ind er vorherigen methode abgefangen.   
+
 ### Ausleihe
 Eine Ausleihe ist eine eigene Entität namens 'Lending' diese beinhaltet die 'lendingId',
 die 'lendingPerson' für die ausleihende Person und die 'lendedarticle', um die Artikel
@@ -55,3 +74,4 @@ hier wird eine Warnung ausgegeben falls die jetzige Zeit weiter ist als das 'end
 hier kann die Person auch auf 'return' drücken, damit der ausgeliehene Artikel 
 wieder verfügbar wird und auf '/overviewBorrows/{id}' kann sich die eingeloggte
  Person Ihre angebotenen Artikel anschauen.
+
