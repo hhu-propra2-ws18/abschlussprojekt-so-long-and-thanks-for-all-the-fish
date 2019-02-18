@@ -65,11 +65,10 @@ public class VerleihApplicationTests {
     }
 
     @Test
-    public void testUsernameExistend(){
+    public void testUsernameExistend() {
 
-        uc.setUserRepository(userRepo);
-        assertEquals(true,uc.isUsernameExistend("borri"));
-        assertEquals(false,uc.isUsernameExistend("inexistend"));
+        assertEquals(true, uc.isUsernameExistend("borri"));
+        assertEquals(false, uc.isUsernameExistend("inexistend"));
 
     }
 
@@ -94,23 +93,23 @@ public class VerleihApplicationTests {
         user.setId(1);
         user.setBankBalance(10);
         user.setScore(0);
-        assertEquals("username",user.getUsername());
-        assertEquals("Name",user.getName());
-        assertEquals("Zuhause",user.getAddress());
-        assertEquals("test@mail.com",user.getEmail());
-        assertEquals(false,user.isAdmin());
-        assertEquals(1,user.getId());
+        assertEquals("username", user.getUsername());
+        assertEquals("Name", user.getName());
+        assertEquals("Zuhause", user.getAddress());
+        assertEquals("test@mail.com", user.getEmail());
+        assertEquals(false, user.isAdmin());
+        assertEquals(1, user.getId());
         //assertEquals(10,user.getBankBalance());
-        assertEquals(0,user.getScore());
+        assertEquals(0, user.getScore());
     }
 
     @Test
     public void retrieve() throws Exception {
 
         mvc.perform(get("/")).andExpect(status().isOk());
-        mvc.perform(get("/profileOverview/{id}",1)).andExpect(status().isOk());
+        mvc.perform(get("/profileOverview/{id}", 1)).andExpect(status().isOk());
         mvc.perform(get("/signup")).andExpect(status().isOk());
-        mvc.perform(get("/user/{id}",1)).andExpect(status().isOk());
+        mvc.perform(get("/user/{id}", 1)).andExpect(status().isOk());
 
     }
 
@@ -130,39 +129,38 @@ public class VerleihApplicationTests {
     }
 
     @Test
-    public void testShowView(){
-        uc.setUserRepository(userRepo);
+    public void testShowView() {
 
-        assertEquals("redirect:/signup",uc.showView(m,"user","Signup")); //register
-        assertEquals("start",uc.showView(m,"borri2","Login")); //login
-        assertEquals("",uc.showView(m,"user",""));
-
-    }
-    @Test
-    public void testProfileOverview(){
-        uc.setUserRepository(userRepo);
-
-        assertEquals("redirect:/user/1",uc.profileOverview(m,"back to Dummyhome",1,"","","",""));
-        assertEquals("profileoverview",uc.profileOverview(m,"Apply changes",1,"borri2","Borri","test@testing.com","Bushatlestelle"));
-        assertEquals("profileoverview",uc.profileOverview(m,"Apply changes",1,"conmi","Borri","test@testing.com","Bushatlestelle"));
-        assertEquals("profileoverview",uc.profileOverview(m,"Apply changes",1,"conmi ","Borri","test@testing.com","Bushatlestelle"));
-        assertEquals("profileoverview",uc.profileOverview(m,"Apply changes",1,"conmi ","Borri","email","Bushatlestelle"));
+        assertEquals("redirect:/signup", uc.showView(m, "user", "Signup")); //register
+        assertEquals("start", uc.showView(m, "borri2", "Login")); //login
+        assertEquals("", uc.showView(m, "user", ""));
 
     }
 
     @Test
-    public void testHome(){
-        assertEquals("redirect:/profileOverview/1",uc.home(m,"Profile overview",1));
-        assertEquals("/user/1",uc.home(m,"",1));
+    public void testProfileOverview() {
+
+        assertEquals("redirect:/user/1", uc.profileOverview(m, "back to Dummyhome", 1, "", "", "", ""));
+        assertEquals("profileoverview", uc.profileOverview(m, "Apply changes", 1, "borri2", "Borri", "test@testing.com", "Bushatlestelle"));
+        assertEquals("profileoverview", uc.profileOverview(m, "Apply changes", 1, "conmi", "Borri", "test@testing.com", "Bushatlestelle"));
+        assertEquals("profileoverview", uc.profileOverview(m, "Apply changes", 1, "conmi ", "Borri", "test@testing.com", "Bushatlestelle"));
+        assertEquals("profileoverview", uc.profileOverview(m, "Apply changes", 1, "conmi ", "Borri", "email", "Bushatlestelle"));
 
     }
 
     @Test
-    public void testSignUp(){
-        assertEquals("redirect:/",uc.signUp(m,"wwe","name","email","adrees","backToLogin"));
-        assertEquals("signUp",uc.signUp(m,"","name","email","adrees",""));
-        assertEquals("signUp",uc.signUp(m,"we we we ","name","email","adrees",""));
-        assertEquals("signUp",uc.signUp(m,"borri","name","email","adrees",""));
+    public void testHome() {
+        assertEquals("redirect:/profileOverview/1", uc.home(m, "Profile overview", 1));
+        assertEquals("/user/1", uc.home(m, "", 1));
+
+    }
+
+    @Test
+    public void testSignUp() {
+        assertEquals("redirect:/", uc.signUp(m, "wwe", "name", "email", "adrees", "backToLogin"));
+        assertEquals("signUp", uc.signUp(m, "", "name", "email", "adrees", ""));
+        assertEquals("signUp", uc.signUp(m, "we we we ", "name", "email", "adrees", ""));
+        assertEquals("signUp", uc.signUp(m, "borri", "name", "email", "adrees", ""));
 
     }
 
