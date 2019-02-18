@@ -53,3 +53,8 @@ In diese Textfelder kann man auch schreiben um seine Profil zu verändern.
 Um das Profil zu verändern füllt man einfach die Felder aus, bei welchen man die Daten
 verändern will und betätigt den ApplyChanges Button, nun wurde das Profil in der datenbank aktualisiert.
 
+##Testing
+Wir haben viele Tests geschrieben und haben eine Overallline coverage von über 85% erreicht, 
+Es werden alle Methoden in dem Controller getestet, wir erreichen keine 100% coverage, weil wir 
+das Repository gemockt haben und in der Methode ins Repository gespeichert wird und in der gleichen methode
+ wieder ausgelesen wenn wir die Methode für diesen Username mocken wird er schon ind er vorherigen methode abgefangen.   
