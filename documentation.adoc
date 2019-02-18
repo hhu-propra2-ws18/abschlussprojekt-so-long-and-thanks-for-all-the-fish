@@ -42,8 +42,8 @@ wobei {id} durch die `articleID` des Artikels ersetzt wird.
 
 ### Ausleihe
 Eine Ausleihe ist eine eigene Entität namens 'Lending' diese beinhaltet die 'lendingId',
-die 'lendingPersonID' für die ausleihende Person und die 'articleID', um die Artikel
-in der Datenbank zu finden, weil diese die id von der Person besitzt die den Artikel anbietet.
+die 'lendingPerson' für die ausleihende Person und die 'lendedarticle', um die Artikel
+in der Datenbank zu finden, weil diese die id von der ownerPerson besitzt die den Artikel anbietet.
 Anfangs bekommt man eine Anfrage von der Artikelübersicht, und wird auf '/lendingRequest' weitergeleitet.
 Dort kann man das 'startDate' und das 'endDate' eingeben wie lange die Ausleihe gehen soll.
 Ebenfalls kann man einen 'requestComment' machen um sich für den Artikel zu bewerben.
@@ -52,6 +52,6 @@ um der Person die den Artikel anbietet eine Nachricht auf '/overview/{id}' zeigt
 sie die Anfrage auf den Artikel von der Person annehmen will.
 Auf '/overviewLendings/{id}' kann sich die eingeloggte Person Ihre ausgeliehene Artikel anschauen,
 hier wird eine Warnung ausgegeben falls die jetzige Zeit weiter ist als das 'endDate',
-hier kann die Person auch auf 'return' drücken, damit der ausgeliehene Artikel
+hier kann die Person auch auf 'return' drücken, damit der ausgeliehene Artikel 
 wieder verfügbar wird und auf '/overviewBorrows/{id}' kann sich die eingeloggte
- Person Ihre angebotenen Artikel anschauen. 
+ Person Ihre angebotenen Artikel anschauen.

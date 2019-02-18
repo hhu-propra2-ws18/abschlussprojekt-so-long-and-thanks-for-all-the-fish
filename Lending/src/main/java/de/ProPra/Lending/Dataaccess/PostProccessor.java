@@ -65,7 +65,7 @@ public class PostProccessor {
             }
         }
     }
-    private static void CleanUpLending(HashMap<String, String> postBodyParas, LendingRepository lendings, ArticleRepository articles) {
+    public static void CleanUpLending(HashMap<String, String> postBodyParas, LendingRepository lendings, ArticleRepository articles) {
         Lending lending = lendings.findLendingBylendingID(Long.parseLong(postBodyParas.get("lendingID"))).get();
         Article article = lending.getLendedArticle();
         //remove request out off article
