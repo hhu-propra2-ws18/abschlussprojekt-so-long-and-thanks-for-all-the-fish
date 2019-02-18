@@ -16,6 +16,7 @@ public class LendingRepresentation {
     private UserRepository users;
     private ArticleRepository articles;
 
+    // Returns a list of of lendings for a User given by his id, that are Accepted and not returned
     public List<Lending> FillLendings(long userID) {
         User user = users.findUserByuserID(userID).get();
         List<Lending> lendingList = lendings.findAllBylendingPersonAndIsAcceptedAndIsReturn(user, true, false);
@@ -31,6 +32,8 @@ public class LendingRepresentation {
 
         return lendingList;
     }
+
+    // Returns a list of all borrowed articles for a User given by his id
     public List<Article> FillBorrows(long borrowPersonID){
         User user = users.findUserByuserID(borrowPersonID).get();
         return articles.findAllByownerUser(user);
