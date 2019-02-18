@@ -4,12 +4,8 @@ import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
-import javax.sql.rowset.serial.SerialBlob;
 import java.io.IOException;
-import java.sql.Blob;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Data
@@ -25,15 +21,15 @@ public class Article {
     //@OneToOne
     long personID;
 
-    double deposit;
+    int deposit;
 
-    double rent;
+    int rent;
 
     @Transient
     public MultipartFile file;
 
     @OneToOne (fetch = FetchType.EAGER, cascade={CascadeType.PERSIST})
-    public Image images;
+    public Image image;
 
     boolean available;
 
@@ -41,7 +37,7 @@ public class Article {
     public Article(){
     }
 
-    public Article(String name, String comment, int personID, double deposit, double rent, boolean available, MultipartFile file) throws IOException, SQLException {
+    public Article(String name, String comment, int personID, int deposit, int rent, boolean available, MultipartFile file) throws IOException, SQLException {
         this.name = name;
         this.comment = comment;
         this.personID = personID;
@@ -52,10 +48,10 @@ public class Article {
     }
 
     public void saveImage() throws IOException {
-        this.images = new Image(file);
+        this.image = new Image(file);
     }
     public long getImageID(){
-        return images.getImageID();
+        return image.getImageID();
     }
 }
 
