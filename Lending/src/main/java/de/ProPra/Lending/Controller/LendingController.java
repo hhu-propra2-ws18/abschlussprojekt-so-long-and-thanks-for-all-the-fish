@@ -22,6 +22,7 @@ public class LendingController {
     private LendingRepository lendings;
     private UserRepository users;
     private ArticleRepository articles;
+    private PostProccessor postProccessor;
     //TODO: add History for lendings
 
     @Autowired
@@ -41,8 +42,8 @@ public class LendingController {
 
     @PostMapping("/lendings/{lendID}")
     public String LendingPageNew(Model model, @PathVariable final long lendID, @RequestBody String postBody) { //TODO: return procces erzeugen
-        HashMap<String, String> postBodyParas = PostProccessor.SplitString(postBody);
-        PostProccessor.initializeNewReturn(postBodyParas, lendings);
+        HashMap<String, String> postBodyParas = postProccessor.SplitString(postBody);
+        postProccessor.initializeNewReturn(postBodyParas, lendings);
         LendingRepresentation filledLendings = new LendingRepresentation(lendings, users,articles);
         model.addAttribute("lendings", filledLendings.FillLendings(lendID));
         model.addAttribute("id", lendID);
@@ -70,8 +71,8 @@ public class LendingController {
     public String PostOverview(Model model,@PathVariable final long id, @RequestBody String postBody) {
         RequestRepresentation filledRequests = new RequestRepresentation(users, articles, lendings , id);
         ReturnProcessRepresentation filledReturns = new ReturnProcessRepresentation(users, articles, id, lendings);
-        HashMap<String, String> postBodyParas = PostProccessor.SplitString(postBody);
-        PostProccessor.CheckDecision(postBodyParas, lendings, articles);
+        HashMap<String, String> postBodyParas = postProccessor.SplitString(postBody);
+        postProccessor.CheckDecision(postBodyParas, lendings, articles);
         model.addAttribute("id", id);
         model.addAttribute("requests", filledRequests.FillRequest());
         model.addAttribute("returns", filledReturns.FillReturns());
@@ -86,8 +87,8 @@ public class LendingController {
     }
     @PostMapping("/inquiry")
     public String inquiry(Model model, @RequestBody String postBody) {
-        HashMap<String, String> postBodyParas = PostProccessor.SplitString(postBody);
-        PostProccessor.CreateNewLending(postBodyParas, articles, lendings, users);
+        HashMap<String, String> postBodyParas = postProccessor.SplitString(postBody);
+        postProccessor.CreateNewLending(postBodyParas, articles, lendings, users);
         model.addAttribute("id", postBodyParas.get("requesterID"));
         return "inquiry";
     }
@@ -98,8 +99,5 @@ public class LendingController {
         System.out.println(oliver);
         return "overview";
     }
-
-
-
 
 }

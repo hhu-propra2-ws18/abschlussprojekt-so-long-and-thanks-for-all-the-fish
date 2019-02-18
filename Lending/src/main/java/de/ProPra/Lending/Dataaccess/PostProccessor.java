@@ -7,7 +7,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 
 public class PostProccessor {
-    public static HashMap<String, String> SplitString(String postBody){
+    public HashMap<String, String> SplitString(String postBody){
         HashMap<String, String> postBodyParas = new HashMap<>();
         String[] splittedPostBody = postBody.split("&");
         for (String para : splittedPostBody) {
@@ -16,7 +16,7 @@ public class PostProccessor {
         }
         return postBodyParas;
     }
-    public static void CreateNewLending(HashMap<String, String> postBodyParas, ArticleRepository articles, LendingRepository lendings, UserRepository users) {
+    public void CreateNewLending(HashMap<String, String> postBodyParas, ArticleRepository articles, LendingRepository lendings, UserRepository users) {
         //set timeperiod information
         Calendar startDate = Calendar.getInstance();
         String[] datePieces = postBodyParas.get("startDate").split("-");
@@ -41,7 +41,7 @@ public class PostProccessor {
         newLending.setStartDate(startDate);
         lendings.save(newLending);
     }
-    public static void CheckDecision(HashMap<String, String> postBodyParas, LendingRepository lendings, ArticleRepository articles) {
+    public void CheckDecision(HashMap<String, String> postBodyParas, LendingRepository lendings, ArticleRepository articles) {
         if(postBodyParas.containsKey("choice")) {
             if (postBodyParas.get("choice").equals("accept")) {
                 //remove request
@@ -65,7 +65,7 @@ public class PostProccessor {
             }
         }
     }
-    public static void CleanUpLending(HashMap<String, String> postBodyParas, LendingRepository lendings, ArticleRepository articles) {
+    public void CleanUpLending(HashMap<String, String> postBodyParas, LendingRepository lendings, ArticleRepository articles) {
         Lending lending = lendings.findLendingBylendingID(Long.parseLong(postBodyParas.get("lendingID"))).get();
         Article article = lending.getLendedArticle();
         //remove request out off article
@@ -77,7 +77,7 @@ public class PostProccessor {
         //remove lending
         lendings.delete(lending);
     }
-    public static void initializeNewReturn(HashMap<String, String> postBodyParas, LendingRepository lendings) {
+    public void initializeNewReturn(HashMap<String, String> postBodyParas, LendingRepository lendings) {
         Lending lending = lendings.findLendingBylendingID(Long.parseLong(postBodyParas.get("lendingID"))).get();
         lending.setReturn(true);
         lendings.save(lending);
