@@ -1,10 +1,14 @@
 package de.ProPra.Lending.Controller;
 
+import de.ProPra.Lending.APIProcessor;
 import de.ProPra.Lending.Dataaccess.PostProccessor;
-import de.ProPra.Lending.Dataaccess.Repositories.*;
+import de.ProPra.Lending.Dataaccess.Repositories.ArticleRepository;
+import de.ProPra.Lending.Dataaccess.Repositories.LendingRepository;
+import de.ProPra.Lending.Dataaccess.Repositories.UserRepository;
 import de.ProPra.Lending.Dataaccess.Representations.LendingRepresentation;
 import de.ProPra.Lending.Dataaccess.Representations.RequestRepresentation;
 import de.ProPra.Lending.Dataaccess.Representations.ReturnProcessRepresentation;
+import de.ProPra.Lending.Model.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -87,4 +91,15 @@ public class LendingController {
         model.addAttribute("id", postBodyParas.get("requesterID"));
         return "inquiry";
     }
+
+    @GetMapping("/test")
+    public String test(){
+        Account oliver = APIProcessor.getAccountInformation("Oliver", Account.class);
+        System.out.println(oliver);
+        return "overview";
+    }
+
+
+
+
 }
