@@ -40,15 +40,6 @@ public class UserController {
         return "";
     }
 
-    public String signIn(Model model, String username) {
-        if (isUsernameExistend(username)) {
-            model.addAttribute("username", username);
-            return "redirect:/user/" + userRepository.findByUsername(username).getId();
-        } else {
-            return "start";
-        }
-    }
-
     @GetMapping(path = "/user/{id}")
     public String loggedIn(Model model, @PathVariable long id) {
         return "dummyhome";
@@ -176,6 +167,15 @@ public class UserController {
             return true;
         }
         return false;
+    }
+
+    public String signIn(Model model, String username) {
+        if (isUsernameExistend(username)) {
+            model.addAttribute("username", username);
+            return "redirect:/user/" + userRepository.findByUsername(username).getId();
+        } else {
+            return "start";
+        }
     }
 
 }
