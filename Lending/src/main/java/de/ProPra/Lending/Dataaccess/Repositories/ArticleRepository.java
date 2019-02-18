@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ArticleRepository extends CrudRepository<Article, Long> {
-    Iterable<Article> findAll();
+    //Iterable<Article> findAll();
     List<Article> findAllByownerUser(User user);
     Optional<Article> findArticleByarticleID(long id);
     List<Article> findAllArticleByownerUserAndIsRequested(User user, boolean isRequested);

@@ -31,7 +31,7 @@ public class PostProccessor {
         lendedArticle.setLendingUser(lendingPerson);
         lendedArticle.setRequestComment(postBodyParas.get("requestComment"));
         lendedArticle.setRequested(true);
-        articles.save(lendedArticle);//TODO: person wieder rauslöschen wenn die ausleihe vorbei ist oder abgelehnt
+        articles.save(lendedArticle);
 
         // create new Lending
         Lending newLending = new Lending();
