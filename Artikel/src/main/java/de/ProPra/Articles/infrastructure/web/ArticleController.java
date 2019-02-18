@@ -61,7 +61,7 @@ public class ArticleController {
         return "editArticle";
     }
     @PostMapping("/article/edit/{id}")
-    public String editPersonPostMapping(@ModelAttribute("article") Article article, @PathVariable Long id){
+    public String editArticlePostMapping(@ModelAttribute("article") Article article, @PathVariable Long id){
         Article oldArticle = articleRepository.findById(id).get();
         oldArticle.setName(article.getName());
         oldArticle.setComment(article.getComment());

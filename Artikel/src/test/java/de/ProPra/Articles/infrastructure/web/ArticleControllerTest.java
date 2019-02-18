@@ -1,27 +1,36 @@
 package de.ProPra.Articles.infrastructure.web;
 
+import de.ProPra.Articles.domain.model.Article;
+import de.ProPra.Articles.domain.service.ArticleRepository;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.sql.SQLException;
+
+import static org.junit.Assert.*;
+
 public class ArticleControllerTest {
 
     @Autowired
     ArticleRepository articleRepository;
 
     @Test
-    public void testEditArticle() {
-        MultipartFile file = new MultipartFile();
+    public void testEditArticle() throws IOException, SQLException {
+        MultipartFile file = null;
         Article article = new Article("Article1", "Art1 Description", 15, 100.0, 10.0, true, file);
-        articleRepository.save(article);
-
-        Article newArticle = new Article("Article1", "Art1 new Description", 15, 200.0, 25.0, false, file);
-
         ArticleController articleController = new ArticleController();
 
-        articleController.editArticlePostMapping(newArticle, 15)
+        Article newArticle = new Article("Article1", "Art1 new Description", 15, 200.0, 25.0, false, file);
+        articleController.editArticlePostMapping(newArticle, (long) 15);
 
-        assertThat(articleRepository.findById(15).getName()).isEqualTo(newArticle.getName());
-        assertThat(articleRepository.findById(15).getComment()).isEqualTo(newArticle.getComment());
-        assertThat(articleRepository.findById(15).getArticleID()).isEqualTo(newArticle.getArticleID());
-        assertThat(articleRepository.findById(15).getDeposit()).isEqualTo(newArticle.getDeposit());
-        assertThat(articleRepository.findById(15).getRent()).isEqualTo(newArticle.getRent());
-        assertThat(articleRepository.findById(15).isAvailable()).isEqualTo(newArticle.isAvailable());
+        assertEquals(article.getName(),newArticle.getName());
+        assertEquals(article.getComment(),newArticle.getComment());
+        assertEquals(article.getArticleID(),newArticle.getArticleID());
+        assertEquals(article.getDeposit(),newArticle.getDeposit(), 0.1);
+        assertEquals(article.getRent(),newArticle.getRent(), 0.1);
+        assertEquals(article.isAvailable(), newArticle.isAvailable());
+
     }
 }
