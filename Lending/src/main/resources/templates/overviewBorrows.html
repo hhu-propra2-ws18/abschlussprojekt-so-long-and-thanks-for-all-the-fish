@@ -1,0 +1,24 @@
+<!DOCTYPE html >
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <title>Ausgeliehene Geräte</title>
+</head>
+<body>
+<p> Sie bieten zur Ausleihe an !</p>
+<table th:each="article : ${articles}">
+    <div style="margin:0; margin-right:10px; border:2px solid #dfdfdf;
+        padding: 0em 1em 1em 1em; background-color:#FFFFFF;text-align:center">
+        <h3>Articlename =</h3>
+        <div th:text="${article.name}">0</div>
+        <h3>comment =</h3>
+        <div th:text="${article.comment}">0</div>
+        <h3>Deposit =</h3>
+        <div th:text="${article.deposit}">0</div>
+        <h3>Rent =</h3>
+        <div th:text="${article.rent}">0</div>
+    </div>
+</table>
+</body>
+</html>

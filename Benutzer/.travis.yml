@@ -10,7 +10,7 @@ jobs:
  - script: cd ../Benutzer
  - script: ./gradlew build
  - stage: Ausleihe
- - script: cd ../Ausleihe
+ - script: cd ../Lending
  - script: ./gradlew build
 notifications:
  - email: false
