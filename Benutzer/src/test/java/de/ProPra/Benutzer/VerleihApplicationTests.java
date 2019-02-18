@@ -141,10 +141,10 @@ public class VerleihApplicationTests {
     public void testProfileOverview() {
 
         assertEquals("redirect:/user/1", uc.profileOverview(m, "back to Dummyhome", 1, "", "", "", ""));
-        assertEquals("profileoverview", uc.profileOverview(m, "Apply changes", 1, "borri2", "Borri", "test@testing.com", "Bushatlestelle"));
+        assertEquals("profileoverview", uc.profileOverview(m, "Apply changes", 1, "borri2 ", "Borri", "test@testing.com", "Bushatlestelle"));
         assertEquals("profileoverview", uc.profileOverview(m, "Apply changes", 1, "conmi", "Borri", "test@testing.com", "Bushatlestelle"));
-        assertEquals("profileoverview", uc.profileOverview(m, "Apply changes", 1, "conmi ", "Borri", "test@testing.com", "Bushatlestelle"));
-        assertEquals("profileoverview", uc.profileOverview(m, "Apply changes", 1, "conmi ", "Borri", "email", "Bushatlestelle"));
+        assertEquals("profileoverview", uc.profileOverview(m, "Apply changes", 1, "conmi", "Borri", "test@testing.com", "Bushatlestelle"));
+        assertEquals("profileoverview", uc.profileOverview(m, "Apply changes", 1, "conmi", "Borri", "email", "Bushatlestelle"));
 
     }
 
