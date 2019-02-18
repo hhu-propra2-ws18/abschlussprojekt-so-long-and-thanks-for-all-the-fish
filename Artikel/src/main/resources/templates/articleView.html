@@ -18,7 +18,6 @@
         <p th:text="${article.getPersonID()}"></p>
         <p th:text="${article.getDeposit()}"></p>
         <p th:text="${article.getRent()}"></p>
-        <p th:text="${article.getImageid()}"></p>
 
         <td th:switch="${article.isAvailable()}">
             <span th:case="true"><i class="fa fa-check-circle-o" aria-hidden="true"></i></span>
