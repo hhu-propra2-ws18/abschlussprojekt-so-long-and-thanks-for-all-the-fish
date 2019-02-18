@@ -1,13 +1,16 @@
 language: java
-branches:
-  only:
-  - master
 jdk:
  - openjdk8
-script:
- - cd Artikel
- # run / test
- - cd ../Benutzer
- # run / test
- - cd ../Ausleihe
- # run / test
+jobs:
+ include:
+ - stage: Artikel
+ - script: cd Artikel
+ - script: ./gradlew build
+ - stage: Benutzer
+ - script: cd ../Benutzer
+ - script: ./gradlew build
+ - stage: Ausleihe
+ - script: cd ../Lending
+ - script: ./gradlew build
+notifications:
+ - email: false

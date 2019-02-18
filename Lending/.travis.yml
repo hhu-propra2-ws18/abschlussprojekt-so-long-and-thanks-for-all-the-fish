@@ -6,7 +6,7 @@ script:
   - ./gradlew build
   - cd ../Benutzer
   - ./gradlew build
-  - cd ../Ausleihe
+  - cd ../Lending
   - ./gradlew build
 notifications:
   - email: false

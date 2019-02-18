@@ -1,15 +1,9 @@
 package de.ProPra.Lending.Dataaccess;
 
-import de.ProPra.Lending.Dataaccess.Repositories.ArticleRepository;
-import de.ProPra.Lending.Dataaccess.Repositories.LendingRepository;
-import de.ProPra.Lending.Dataaccess.Repositories.PersonRepository;
-import de.ProPra.Lending.Dataaccess.Repositories.RequestRepository;
-import de.ProPra.Lending.Model.Article;
-import de.ProPra.Lending.Model.Lending;
-import de.ProPra.Lending.Model.Request;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import de.ProPra.Lending.Dataaccess.Repositories.*;
+import de.ProPra.Lending.Model.*;
+
+import java.util.Calendar;
 import java.util.HashMap;
 
 public class PostProccessor {
@@ -18,56 +12,74 @@ public class PostProccessor {
         String[] splittedPostBody = postBody.split("&");
         for (String para : splittedPostBody) {
             String[] splittedPara = para.split("=");
-            postBodyParas.put(splittedPara[0], splittedPara[1]);
+            postBodyParas.put(splittedPara[0], splittedPara[1].replace("+"," "));
         }
         return postBodyParas;
     }
-    public static void CreateNewEntryRequest(HashMap<String,String> postBodyParas, RequestRepository requests){
-        try {
+    public static void CreateNewLending(HashMap<String, String> postBodyParas, ArticleRepository articles, LendingRepository lendings, UserRepository users) {
+        //set timeperiod information
+        Calendar startDate = Calendar.getInstance();
+        String[] datePieces = postBodyParas.get("startDate").split("-");
+        startDate.set(Integer.parseInt(datePieces[0]), Integer.parseInt(datePieces[1])-1, Integer.parseInt(datePieces[2]));
+        Calendar endDate = Calendar.getInstance();
+        datePieces = postBodyParas.get("endDate").split("-");
+        endDate.set(Integer.parseInt(datePieces[0]), Integer.parseInt(datePieces[1])-1, Integer.parseInt(datePieces[2]));
 
-            Date startDate = new SimpleDateFormat("yyyy-MM-dd").parse(postBodyParas.get("startDate")); //TODO: Date ändern
-            Date endDate = new SimpleDateFormat("yyyy-MM-dd").parse(postBodyParas.get("endDate"));
+        //collect necessary information
+        User lendingPerson = users.findUserByuserID(Long.parseLong(postBodyParas.get("requesterID"))).get();
+        Article lendedArticle = articles.findArticleByarticleID(Long.parseLong(postBodyParas.get("articleID"))).get();
+        lendedArticle.setLendingUser(lendingPerson);
+        lendedArticle.setRequestComment(postBodyParas.get("requestComment"));
+        lendedArticle.setRequested(true);
+        articles.save(lendedArticle);
 
-            long requesterID = Long.parseLong(postBodyParas.get("requesterID"));
-            long articleID = Long.parseLong(postBodyParas.get("articleID"));
-            Request request = new Request(false, requesterID, articleID, postBodyParas.get("requestComment"), startDate, endDate); //TODO: Date ändern
-            requests.save(request);
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.err.println("Things went wrong and not right, git gud");
-            //TODO: falls es ned klappt redirect auf fehlerseite
+        // create new Lending
+        Lending newLending = new Lending();
+        newLending.setLendingPerson(lendingPerson);
+        newLending.setLendedArticle(lendedArticle);
+        newLending.setEndDate(endDate);
+        newLending.setStartDate(startDate);
+        lendings.save(newLending);
+    }
+    public static void CheckDecision(HashMap<String, String> postBodyParas, LendingRepository lendings, ArticleRepository articles) {
+        if(postBodyParas.containsKey("choice")) {
+            if (postBodyParas.get("choice").equals("accept")) {
+                //remove request
+                Lending lending = lendings.findLendingBylendingID(Long.parseLong(postBodyParas.get("lendingID"))).get();
+                Article article = lending.getLendedArticle();
+                //remove request out off article leave lending perosn behind
+                article.setRequestComment("");
+                article.setRequested(false);
+                articles.save(article);
+                //set isAccepted true
+                lending.setAccepted(true);
+                lendings.save(lending);
+            } else {
+                CleanUpLending(postBodyParas, lendings, articles);
+            }
+        }else if(postBodyParas.containsKey("choicereturn")){
+            if (postBodyParas.get("choicereturn").equals("accept")) {
+                CleanUpLending(postBodyParas, lendings, articles);
+            } else {
+                //redirect to problemsolving queue
+            }
         }
     }
-
-    public static void CheckDecision(HashMap<String, String> postBodyParas, LendingRepository lendings, ArticleRepository articles, RequestRepository requests) {
-        Request request = requests.findById(Long.valueOf(postBodyParas.get("requestID"))).get();
-
-        if(postBodyParas.get("choice").equals("accept")){
-            Lending acceptedLending = new Lending();
-            //fill new lending
-            acceptedLending.setArticleID(request.getArticleID());
-
-            acceptedLending.setEndDate(request.getEndDate());  //TODO: Date ändern
-            acceptedLending.setStartDate(request.getStartDate());
-
-            acceptedLending.setLendingPersonID(request.getRequesterID());
-            lendings.save(acceptedLending);
-            requests.delete(request);
-        }else{
-            //set article to available add no lending
-            Article article = articles.findById(request.getArticleID()).get();
-            article.setAvailable(true);
-            articles.save(article);
-            //TODO: optional we inform the lending person
-            requests.delete(request);
-
-        }
-    }
-
-    public static void RetunLending(HashMap<String, String> postBody, LendingRepository lendings, ArticleRepository articles) {
-        Article article = articles.findById(Long.valueOf(postBody.get("articleID"))).get();
+    public static void CleanUpLending(HashMap<String, String> postBodyParas, LendingRepository lendings, ArticleRepository articles) {
+        Lending lending = lendings.findLendingBylendingID(Long.parseLong(postBodyParas.get("lendingID"))).get();
+        Article article = lending.getLendedArticle();
+        //remove request out off article
+        article.setRequestComment("");
+        article.setRequested(false);
+        article.setLendingUser(null);
         article.setAvailable(true);
         articles.save(article);
-        lendings.delete(lendings.findById(Long.valueOf(postBody.get("lendingID"))).get());
+        //remove lending
+        lendings.delete(lending);
+    }
+    public static void initializeNewReturn(HashMap<String, String> postBodyParas, LendingRepository lendings) {
+        Lending lending = lendings.findLendingBylendingID(Long.parseLong(postBodyParas.get("lendingID"))).get();
+        lending.setReturn(true);
+        lendings.save(lending);
     }
 }

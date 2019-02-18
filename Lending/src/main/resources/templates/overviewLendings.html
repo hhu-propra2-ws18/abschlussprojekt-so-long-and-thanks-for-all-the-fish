@@ -11,21 +11,20 @@
     <div style="margin:0; margin-right:10px; border:2px solid #dfdfdf;
         padding: 0em 1em 1em 1em; background-color:#FFFFFF;text-align:center">
         <h3>Articlename =</h3>
-        <div th:text="${lending.articleName}">0</div>
+        <div th:text="${lending.lendedArticle.name}">0</div>
         <h3>comment =</h3>
-        <div th:text="${lending.comment}">0</div>
+        <div th:text="${lending.lendedArticle.comment}">0</div>
         <h3>Person you are borrowing from =</h3>
-        <div th:text="${lending.borrowPerson}">0</div>
+        <div th:text="${lending.lendedArticle.ownerUser.name}">0</div>
         <h3>Deposit =</h3>
-        <div th:text="${lending.deposit}">0</div>
+        <div th:text="${lending.lendedArticle.deposit}">0</div>
         <h3>Rent =</h3>
-        <div th:text="${lending.rent}">0</div>
+        <div th:text="${lending.lendedArticle.rent}">0</div>
         <h3>Info =</h3>
         <div th:text="${lending.warning}">0</div>
         <form th:action="@{/lendings/{id}(id = ${id})}" method="post">
             <input type="hidden" name="lendingID" th:value="${lending.lendingID}">
-            <input type="hidden" name="articleID" th:value="${lending.articleID}">
-
+            <input type="hidden" name="articleID" th:value="${lending.lendedArticle.articleID}">
             <button type="finish">Return</button>
         </form>
     </div>

@@ -6,7 +6,14 @@
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and WebStorm
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
-# User-specific stuff
+# Specific stuff
+Artikel/build/
+Lending/build/
+Benutzer/build/
+.settings/
+build/
+
+# IntelliJ Folder
 .idea/
 
 # Gradle folder

@@ -1,22 +1,18 @@
 package de.ProPra.Lending.Dataaccess;
 
-import de.ProPra.Lending.Dataaccess.Repositories.ArticleRepository;
-import de.ProPra.Lending.Dataaccess.Repositories.LendingRepository;
-import de.ProPra.Lending.Dataaccess.Repositories.PersonRepository;
-import de.ProPra.Lending.Dataaccess.Repositories.RequestRepository;
+import de.ProPra.Lending.Dataaccess.Repositories.*;
 import de.ProPra.Lending.Model.Article;
 import de.ProPra.Lending.Model.Lending;
-import de.ProPra.Lending.Model.Person;
-import de.ProPra.Lending.Model.Request;
+import de.ProPra.Lending.Model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 @Component
 public class DatabaseInitializer implements ServletContextInitializer {
@@ -25,48 +21,47 @@ public class DatabaseInitializer implements ServletContextInitializer {
     LendingRepository lendings;
 
     @Autowired
-    PersonRepository persons;
+    UserRepository users;
 
     @Autowired
     ArticleRepository articles;
 
-    @Autowired
-    RequestRepository requests;
-
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
         System.out.println("Lendings will be generated");
-        Article testArticle1 = new Article(1, "Rasenmäher", "funktioniert, kein Benzin, Schnitthöhe 1cm - 50 m", 2, 500, 5, false);
-        Article testArticle2 = new Article(2, "Geschirr", "nur ein bisschen zerbrochen, für 20 mann", 3, 10, 250, false);
-        Article testArticle3 = new Article(3, "Grillkohle", "schon verbrannt", 2, 816230, 25230, false);
-        Person testPerson1 = new Person(1, "Wolfgang");
-        Person testPerson2 = new Person(2, "Oliver");
-        Person testPerson3 = new Person(3, "Robin");
 
-       try {
-            Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse("2019-12-02"); //TODO: Date ändern
-            Date date2 = new SimpleDateFormat("yyyy-MM-dd").parse("2019-12-02");
-            Request testRequest1 = new Request(false, 1, 3, "ich will kohle", date1, date2);
-            requests.save(testRequest1);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        persons.save(testPerson1);
-        persons.save(testPerson2);
-        persons.save(testPerson3);
+        User testUser1 = new User(1, "Wolfgang");
+        User testUser2 = new User(2, "Oliver");
+        User testUser3 = new User(3, "Robin");
+        Article testArticle1 = new Article(1, "Rasenmäher", "funktioniert, kein Benzin, Schnitthöhe 1cm - 50 m", 2, 500, false, testUser1);
+        Article testArticle2 = new Article(2, "Geschirr", "nur ein bisschen zerbrochen, für 20 mann", 10, 250, false, testUser1);
+        Article testArticle3 = new Article(3, "Grillkohle", "schon verbrannt", 816230, 25230, false,testUser1);
+
+
+           Calendar date1 = Calendar.getInstance();
+           Calendar date2 = Calendar.getInstance();
+           date1.set(2019, 1, 12);
+           date2.set(2019, 1, 12);
+
+
+        users.save(testUser1);
+        users.save(testUser2);
+        users.save(testUser3);
         articles.save(testArticle1);
         articles.save(testArticle2);
         articles.save(testArticle3);
-        try {
-            Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse("2019-05-12");
-            Date date2 = new SimpleDateFormat("yyyy-MM-dd").parse("2019-02-12");
-            Lending testLending1 = new Lending(1, 1, date2, date1);
-            Lending testLending2 = new Lending(2, 2, date1, date2);
+
+            Calendar date3 = Calendar.getInstance();
+            Calendar date4 = Calendar.getInstance();
+            date1.set(2019, 4, 12);
+            date2.set(2019, 1, 12);
+            Lending testLending1 = new Lending( date4, date3, testUser1, testArticle2);
+            Lending testLending2 = new Lending( date3, date4, testUser2, testArticle1);
             lendings.save(testLending1);
             lendings.save(testLending2);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        List<Lending> yourLendings = new ArrayList<>();
+        yourLendings.add(testLending1);
+        users.save(testUser1);
         System.out.println("Lendings finished generating");
     }
 }
