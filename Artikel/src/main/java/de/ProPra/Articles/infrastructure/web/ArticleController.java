@@ -54,4 +54,22 @@ public class ArticleController {
         articleRepository.save(article);
         return "redirect:/article/";
     }
+    @GetMapping("/article/edit/{id}")
+    public String editArticle(Model model, @PathVariable long id){
+        Article article = articleRepository.findById(id).get();
+        model.addAttribute("article", article);
+        return "editArticle";
+    }
+    @PostMapping("/article/edit/{id}")
+    public String editPersonPostMapping(@ModelAttribute("article") Article article, @PathVariable Long id){
+        Article oldArticle = articleRepository.findById(id).get();
+        oldArticle.setName(article.getName());
+        oldArticle.setComment(article.getComment());
+        oldArticle.setRent(article.getRent());
+        oldArticle.setDeposit(article.getDeposit());
+        oldArticle.setAvailable(article.isAvailable());
+        articleRepository.save(oldArticle);
+        return "redirect:/article/" + id;
+    }
+
 }
