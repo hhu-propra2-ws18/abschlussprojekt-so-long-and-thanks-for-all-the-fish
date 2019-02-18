@@ -67,13 +67,17 @@ public class LendingApplicationTests {
 		testLendingList.add(testLending);
 		Mockito.when(lendingRepository.findAllBylendingPersonAndIsAcceptedAndIsReturn(testUser.get(), true, false)).thenReturn(testLendingList);
 
+		Calendar currentDate = Calendar.getInstance();
+		long time = endDate.getTime().getTime() - currentDate.getTime().getTime();
+		long expectedDays = Math.round( (double)time / (24. * 60.*60.*1000.) );
+
 		//Act
 		LendingRepresentation lendingRepresentation = new LendingRepresentation(lendingRepository, userRepository, articleRepository);
 		List<Lending> resultLendings = lendingRepresentation.FillLendings(1);
 		Lending resultLending = resultLendings.get(0);
 
 		//Assert
-		Assert.assertEquals("You can use this article without worries", resultLending.getWarning());
+		Assert.assertEquals("You can use this article without worries for the next "+expectedDays+" days", resultLending.getWarning());
 	}
 	@Test
 	public void PostBodyWithTwoParas(){

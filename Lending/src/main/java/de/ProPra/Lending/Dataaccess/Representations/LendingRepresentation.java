@@ -26,7 +26,9 @@ public class LendingRepresentation {
             if (currentDate.after(endDate)) {
                 lending.setWarning("ATTENTION: YOU HAVE RETURN THIS ARTICLE");
             } else {
-                lending.setWarning("You can use this article without worries");
+                long time = endDate.getTime().getTime() - currentDate.getTime().getTime();
+                long days = Math.round( (double)time / (24. * 60.*60.*1000.) );
+                lending.setWarning("You can use this article without worries for the next "+days+" days");
             }
         }
 
