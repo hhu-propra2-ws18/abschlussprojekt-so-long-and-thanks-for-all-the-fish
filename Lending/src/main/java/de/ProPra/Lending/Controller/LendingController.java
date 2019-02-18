@@ -23,6 +23,7 @@ public class LendingController {
     private UserRepository users;
     private ArticleRepository articles;
     private PostProccessor postProccessor;
+    private APIProcessor apiProcessor;
     //TODO: add History for lendings
 
     @Autowired
@@ -81,6 +82,7 @@ public class LendingController {
 
     @GetMapping("/lendingRequest")
         public String LendingRequest(Model model, @RequestParam("requesterID") long requesterID, @RequestParam("articleID") long articleID){
+        apiProcessor.getAccountInformationWithId(requesterID, users);
         model.addAttribute("requesterID",requesterID);
         model.addAttribute("articleID", articleID);
         return "lendingRequest";
@@ -95,7 +97,7 @@ public class LendingController {
 
     @GetMapping("/test")
     public String test(){
-        Account oliver = APIProcessor.getAccountInformation("Oliver", Account.class);
+        Account oliver = apiProcessor.getAccountInformation("Oliver", Account.class);
         System.out.println(oliver);
         return "overview";
     }
