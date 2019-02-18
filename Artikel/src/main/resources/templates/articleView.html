@@ -14,6 +14,7 @@
     <div class="container">
         <h1 th:text="${article.getName()}"></h1>
         <!--<img th:src="/image/imageID">-->
+        <img th:src="@{/image/{id} (id = ${article.getImageID()})}" width="300px" height="300px"/>
         <p th:text="${article.getComment()}"></p>
         <p th:text="${article.getPersonID()}"></p>
         <p th:text="${article.getDeposit()}"></p>

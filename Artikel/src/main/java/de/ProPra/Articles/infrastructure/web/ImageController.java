@@ -1,21 +1,25 @@
 package de.ProPra.Articles.infrastructure.web;
 
 import de.ProPra.Articles.domain.model.Image;
+import de.ProPra.Articles.domain.service.ArticleRepository;
 import de.ProPra.Articles.domain.service.ImageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+
+@Controller
 public class ImageController {
 
     @Autowired
     ImageRepository imageRepository;
 
-    @RequestMapping(value = "/imageController/{imageId}")
+
+    @RequestMapping("/image/{id}")
     @ResponseBody
-    public byte[] helloWorld(@PathVariable long imageId)  {
-        Image image = imageRepository.findById(imageId).get();
+    public byte[] returnCurrentImage(@PathVariable long id){
+        Image image = imageRepository.findById(id).get();
         return image.getFilebytes();
     }
 

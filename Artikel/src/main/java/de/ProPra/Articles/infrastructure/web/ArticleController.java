@@ -2,6 +2,8 @@ package de.ProPra.Articles.infrastructure.web;
 
 import de.ProPra.Articles.domain.model.Article;
 import de.ProPra.Articles.domain.service.ArticleRepository;
+import de.ProPra.Articles.domain.service.ImageRepository;
+import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +24,9 @@ public class ArticleController {
 
     @Autowired
     ArticleRepository articleRepository;
+
+    @Autowired
+    ImageRepository imageRepository;
 
     @GetMapping("/article/{id}")
     public String articleView(Model model, @PathVariable long id){
