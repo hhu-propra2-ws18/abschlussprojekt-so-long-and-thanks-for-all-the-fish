@@ -30,14 +30,8 @@ public class ArticleController {
     @Autowired
     ImageRepository imageRepository;
 
-    @GetMapping("/{id}")
-    public String articleView(Model model, @PathVariable long id){
-        Article article = articleRepository.findById(id).get();
-        model.addAttribute("article", article);
-        return "articleView";
-    }
     @GetMapping("/")
-    public String articleView(Model model){
+    public String viewAll(Model model){
         Iterable<Article> articles= articleRepository.findAll();
         model.addAttribute("articles", articles);
         return "viewAll";
@@ -51,8 +45,14 @@ public class ArticleController {
         return "viewFromPerson";
     }
 
+    @GetMapping("/{id}")
+    public String articleView(Model model, @PathVariable long id){
+        Article article = articleRepository.findById(id);
+        model.addAttribute("article", article);
+        return "articleView";
+    }
 
-    // The New Article Mapping
+    //Create
     @GetMapping("/new/{id}")
     public String newArticle(Model model, @PathVariable long id){
         Article article = new Article();
@@ -68,16 +68,17 @@ public class ArticleController {
         return "redirect:/article/";
     }
 
-    // The Edit Mapping
+    //Edit
     @GetMapping("/edit/{id}")
     public String editArticle(Model model, @PathVariable long id){
-        Article article = articleRepository.findById(id).get();
+        Article article = articleRepository.findById(id);
         model.addAttribute("article", article);
         return "editArticle";
     }
+
     @PostMapping("/edit/{id}")
-    public String editArticlePostMapping(@ModelAttribute("article") Article article, @PathVariable Long id){
-        Article oldArticle = articleRepository.findById(id).get();
+    public String editArticlePostMapping(@ModelAttribute("article") Article article, @PathVariable long id){
+        Article oldArticle = articleRepository.findById(id);
         oldArticle.setName(article.getName());
         oldArticle.setComment(article.getComment());
         oldArticle.setRent(article.getRent());
@@ -87,17 +88,17 @@ public class ArticleController {
         return "redirect:/article/" + id;
     }
 
-    //DeleteMapping
+    //Delete
     @GetMapping("/delete/{id}")
     public String deleteAArticle(@PathVariable long id, Model model){
-        Article article = articleRepository.findById(id).get();
+        Article article = articleRepository.findById(id);
         model.addAttribute("article",article);
         return "deleteArticle";
     }
 
     @PostMapping("/delete/{id}")
     public String deleteArticleFromDB(@PathVariable long id){
-        Article article = articleRepository.findById(id).get();
+        Article article = articleRepository.findById(id);
         articleRepository.delete(article);
         return "redirect:/article/";
     }
