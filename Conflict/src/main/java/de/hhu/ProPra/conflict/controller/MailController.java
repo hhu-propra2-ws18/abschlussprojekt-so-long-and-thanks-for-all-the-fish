@@ -18,10 +18,12 @@ public class MailController {
         return "Test";
     }
 
-    @RequestMapping("/sendEmail")
+    @RequestMapping("/sendEmail/{id}")
     public String send() {
+        String conflictMessage = "";
+        long id = 1;
         try{
-            mailService.sendTest();
+            mailService.sendTest(id, conflictMessage);
             System.out.println("Should be sent");
         } catch(MailException e){
             System.out.println("error");
