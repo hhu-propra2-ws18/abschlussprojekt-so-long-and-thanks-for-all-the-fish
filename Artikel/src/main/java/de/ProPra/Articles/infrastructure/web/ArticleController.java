@@ -30,10 +30,10 @@ public class ArticleController {
         return "viewAll";
     }
 
-    @GetMapping("/view/{id}")
-    public String viewMyArticles(Model model, @PathVariable long id){
-        List<Article> articles = articleRepository.findByPersonID(id);
-        model.addAttribute("id",id);
+    @GetMapping("/view/{personID}")
+    public String viewMyArticles(Model model, @PathVariable long personID){
+        List<Article> articles = articleRepository.findByPersonID(personID);
+        model.addAttribute("id",personID);
         model.addAttribute("articles", articles);
         return "viewFromPerson";
     }
@@ -54,17 +54,17 @@ public class ArticleController {
 
 
     //Create
-    @GetMapping("/new/{id}")
-    public String newArticle(Model model, @PathVariable long id){
+    @GetMapping("/new/{personID}")
+    public String newArticle(Model model, @PathVariable long personID){
         Article article = new Article();
         model.addAttribute("article",article);
         return  "newArticle";
     }
 
-    @PostMapping("/new/{id}")
-    public String saveArticle(HttpServletRequest request, Model model, @ModelAttribute("article") Article article, @PathVariable long id) throws IOException, SQLException {
+    @PostMapping("/new/{personID}")
+    public String saveArticle(HttpServletRequest request, Model model, @ModelAttribute("article") Article article, @PathVariable long personID) throws IOException, SQLException {
         article.saveImage();
-        article.setPersonID(id);
+        article.setPersonID(personID);
         articleRepository.save(article);
         return "redirect:/article/";
     }
