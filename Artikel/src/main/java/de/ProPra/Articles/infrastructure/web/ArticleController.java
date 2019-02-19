@@ -23,6 +23,8 @@ public class ArticleController {
     @Autowired
     ImageRepository imageRepository;
 
+
+    //View
     @GetMapping("/")
     public String viewAll(Model model){
         Iterable<Article> articles= articleRepository.findAll();
