@@ -39,7 +39,7 @@ Artikel mit ihren Namen, den Mietkosten und einem Link zur entsprechenden Detail
 des einzelnen Artikels darstellt, und die eben genannte Detailansicht, die alle
 Variablen des Artikels außer der `articleID` darstellt, unter `localhost:8080/article/{id}`,
 wobei {id} durch die `articleID` des Artikels ersetzt wird.
-Als erweiterte Features wurden dann noch ein paar Grundlagen implementiert. Darunter fällt das Editieren von Artikeln,
+Als erweiterte Features wurden dann noch ein paar Grundlagen implementiert. Darunter fällt das Editieren von Artikeln, sowie
 auch das Löschen. Zurzeit noch ohne ein Permissions-System, da das erst mit dem Springboot-Security später hinzugefügt wird.
 Desweiteren haben wir uns einem anspruchsvolleren Feature gewidmet. Die Implementierung von Bildern. Diese werden beim Erstellen
 dem Artikel hinzugefügt und können weder bearbeitet, noch gelöscht werden. Die Bilder sieht man dann bei der Artikelübersicht.

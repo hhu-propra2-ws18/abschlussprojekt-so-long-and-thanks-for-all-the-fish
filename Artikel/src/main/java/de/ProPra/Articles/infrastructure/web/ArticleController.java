@@ -91,4 +91,11 @@ public class ArticleController {
         return "redirect:/article/";
     }
 
+    //Search
+    @GetMapping("/search")
+    public String searchForArticle(@RequestParam String query, Model model){
+        model.addAttribute("articles", articleRepository.findAllByNameContainingOrCommentContainingAllIgnoreCase(query,query));
+        model.addAttribute("query", query);
+        return "searchArticle";
+    }
 }
