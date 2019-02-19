@@ -22,24 +22,26 @@
                     </div>
                 </div>
             </form>
-            <div class="col-md-6"  th:each="article:${articles}">
-                <table class="table table-hover">
-                    <tr>
-                        <td>Artikel:</td>
-                        <td th:text="${article.getName()}"></td>
-                    </tr>
-                    <tr>
-                        <td>Artikelbild</td>
-                        <td> <img th:src="@{/image/{id} (id = ${article.getImageID()})}" width="250px" height=auto/></td>
-                    </tr>
-                    <tr>
-                        <td>Mietpreis:</td>
-                        <td th:text="${article.getRent()} + '€'"></td>
-                    </tr>
-                    <tr>
-                        <td><a th:href="|/article/${article.articleID}|"><button class="btn btn-success" type="button">Zum Artikel</button></a></td>
-                    </tr>
-                </table>
+        <div class="row mb-3">
+                <div class="col-md-4"  th:each="article:${articles}">
+                    <table class="table table-hover">
+                        <tr>
+                            <td>Artikel:</td>
+                            <td th:text="${article.getName()}"></td>
+                        </tr>
+                        <tr>
+                            <td>Artikelbild</td>
+                            <td> <img th:src="@{/image/{id} (id = ${article.getImageID()})}" width="250px" height=auto/></td>
+                        </tr>
+                        <tr>
+                            <td>Mietpreis:</td>
+                            <td th:text="${article.getRent()} + '€'"></td>
+                        </tr>
+                        <tr>
+                            <td><a th:href="|/article/${article.articleID}|"><button class="btn btn-success" type="button">Zum Artikel</button></a></td>
+                        </tr>
+                    </table>
+                </div>
             </div>
         <a th:href="|/article/new/|"><button class="btn btn-primary" type="button">Neuen Artikel anlegen</button></a>
     </div>
