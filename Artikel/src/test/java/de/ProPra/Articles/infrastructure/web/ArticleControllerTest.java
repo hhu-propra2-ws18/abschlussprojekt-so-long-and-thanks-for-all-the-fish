@@ -3,34 +3,44 @@ package de.ProPra.Articles.infrastructure.web;
 import de.ProPra.Articles.domain.model.Article;
 import de.ProPra.Articles.domain.service.ArticleRepository;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.sql.SQLException;
 
 import static org.junit.Assert.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@RunWith(SpringRunner.class)
+@WebMvcTest(ArticleController.class)
 public class ArticleControllerTest {
 
-    @Autowired
-    ArticleRepository articleRepository;
+	@Autowired
+	private MockMvc mvc;
+
+	@Autowired
+	private ArticleRepository articleRepository;
 
     @Test
-    public void testEditArticle() throws IOException, SQLException {
-        MultipartFile file = null;
-        Article article = new Article("Article1", "Art1 Description", 15, 100, 10, true, file);
-        ArticleController articleController = new ArticleController();
+    public void whenMappingEdit_thenSetNewValuesButKeepOldValuesAsSpecified() throws Exception {
+    	//Arrange
+        Article chainsaw = Article.builder().name("Kettensäge").comment("Sägt super").personID(15).articleID(3).deposit(200).rent(15).available(true).build();
+		Article betterChainsaw = Article.builder().name("Bessere Kettensäge").comment("Sägt noch besser!").deposit(250).rent(25).available(false).build();
 
-        Article newArticle = new Article("Article1", "Art1 new Description", 15, 200, 25, false, file);
-        articleController.editArticlePostMapping(newArticle, (long) 15);
+		//Act
+		mvc.perform(post("/article/edit/3"))
+				.andExpect(status().isOk())
+				.andExpect()
+		;
 
-        assertEquals(article.getName(),newArticle.getName());
-        assertEquals(article.getComment(),newArticle.getComment());
-        assertEquals(article.getArticleID(),newArticle.getArticleID());
-        assertEquals(article.getDeposit(),newArticle.getDeposit());
-        assertEquals(article.getRent(),newArticle.getRent());
-        assertEquals(article.isAvailable(), newArticle.isAvailable());
 
     }
 }
