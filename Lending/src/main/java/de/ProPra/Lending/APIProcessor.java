@@ -2,22 +2,13 @@ package de.ProPra.Lending;
 
 import de.ProPra.Lending.Dataaccess.Repositories.ArticleRepository;
 import de.ProPra.Lending.Dataaccess.Repositories.UserRepository;
-import de.ProPra.Lending.Model.*;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.message.BasicNameValuePair;
+import de.ProPra.Lending.Model.Account;
+import de.ProPra.Lending.Model.Article;
+import de.ProPra.Lending.Model.User;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 public class APIProcessor {
@@ -94,14 +85,22 @@ public class APIProcessor {
         return mono.block();
     }
 
-    //   transfer     HttpPost post = new HttpPost("http://localhost:8888/account/+sourceAccount+/transfer/+targetAccount+");
-    //        amount double;
-
-
-    //   aufheben     HttpPost post = new HttpPost("http://localhost:8888/reservation/realese/+account+");
-    //   reservationId    int64;
-
-    //   bestrafen     HttpPost post = new HttpPost("http://localhost:8888/reservation/punish/+account+");
-    //   reservationId    int64; TODO: konfliktstelle!!!!!!!!! ! ! ! ! !  ! !
-
+    public <T> T punishOrRealeseReservation(final Class<T> type, Account lendingAccount, Article article, long id, String punishOrRelease) {
+        final Mono<T> mono = WebClient
+                .create()
+                .post()
+                .uri(builder ->
+                        builder.scheme("http")
+                                .host("localhost")
+                                .port("8888")
+                                .pathSegment("reservation", punishOrRelease, lendingAccount.getAccount())
+                                // for trailing slash
+                                .path("/")
+                                .queryParam("reservationId", id)
+                                .build())
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .retrieve()
+                .bodyToMono(type);
+        return mono.block();
+    }
 }

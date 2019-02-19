@@ -1,23 +1,14 @@
 package de.ProPra.Lending.Dataaccess;
 
 import de.ProPra.Lending.APIProcessor;
-import de.ProPra.Lending.Dataaccess.Repositories.*;
+import de.ProPra.Lending.Dataaccess.Repositories.ArticleRepository;
+import de.ProPra.Lending.Dataaccess.Repositories.LendingRepository;
+import de.ProPra.Lending.Dataaccess.Repositories.ReservationRepository;
+import de.ProPra.Lending.Dataaccess.Repositories.UserRepository;
 import de.ProPra.Lending.Model.*;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.message.BasicNameValuePair;
 
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 
 public class PostProccessor {
     public HashMap<String, String> SplitString(String postBody){
@@ -92,12 +83,13 @@ public class PostProccessor {
             Article article = lending.getLendedArticle();
             Account lendingAccount = apiProcessor.getAccountInformationWithId(lending.getLendingPerson().getUserID(), users);
             double amount = CalculateLendingPrice(lending, article);
-            System.out.println(apiProcessor.postTransfer(String.class,lendingAccount, article, amount));
+            apiProcessor.postTransfer(String.class, lendingAccount, article, amount);
             if (postBodyParas.get("choicereturn").equals("accept")) {
-
-                //TODO: bezahlen und kaution zurück.
+                apiProcessor.punishOrRealeseReservation(Account.class, lendingAccount, article, lending.getProPayReservation().getId(), "release");
                 CleanUpLending(postBodyParas, lendings, articles);
+                reservations.delete(lending.getProPayReservation());
             } else {
+                apiProcessor.punishOrRealeseReservation(Account.class, lendingAccount, article, lending.getProPayReservation().getId(), "punish");
                 //TODO: bezahlen und warnstelle
             }
         }
