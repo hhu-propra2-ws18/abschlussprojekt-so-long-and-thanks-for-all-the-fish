@@ -1,12 +1,10 @@
 package de.hhu.ProPra.conflict.model;
 
 
+import lombok.Builder;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Entity
 @Data
@@ -20,25 +18,28 @@ public class Article {
 
     String comment;
 
-    //@OneToOne
-    long personID;
-
     double deposit;
 
     double rent;
 
     boolean available;
 
+    @OneToOne
+    User ownerUser;
+
+    @OneToOne
+    User lendingUser;
 
     public Article(){
     }
 
-    public Article(String name, String comment, int personID, double deposit, double rent, boolean available){
+
+    public Article(String name, String comment, double deposit, double rent, boolean available, User ownerUser) {
         this.name = name;
         this.comment = comment;
-        this.personID = personID;
         this.deposit = deposit;
         this.rent = rent;
         this.available = available;
+        this.ownerUser = ownerUser;
     }
 }
