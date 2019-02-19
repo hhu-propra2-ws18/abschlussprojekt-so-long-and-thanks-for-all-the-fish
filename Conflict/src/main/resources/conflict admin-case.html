@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="jumbotron text-center">
+  <h1>Conflictplace</h1>
+  <p>Artikelname</p> 
+  <p>Conflict ID</p>
+</div>
+  
+<div class="container">
+  <div class="form-group">
+      <label for=OwningPerson>Owning Person</label>
+      <input class="form-control" type="text" placeholder="user1" readonly>
+      <label for=BorrowPerson>Person who borrowed</label>
+       <input class="form-control" type="text" placeholder="user2" readonly>
+      <label for=BorrowPerson>Lending ID</label>
+       <input class="form-control" type="text" placeholder="lending ID" readonly>
+  </div>
+     <div class="form-group">
+    <label for="conflictText">Problem:</label>
+    <textarea class="form-control" id="conflictTextarea" rows="5" placeholder="Describe your conflict here as precise as possible"></textarea>
+  </div>
+    <div class="float-right">
+    <button type="button"  value="baxck" class="btn btn-light">back</button>
+    <button type="button"  value="winBorrower" class="btn btn-danger">mark as solved for Borrower</button>
+            <button type="button" value="winOwner" class="btn btn-success">mark as solved for Owner</button>
+       
+    </div>
+</div>
+
+</body>
+</html>
+
+
