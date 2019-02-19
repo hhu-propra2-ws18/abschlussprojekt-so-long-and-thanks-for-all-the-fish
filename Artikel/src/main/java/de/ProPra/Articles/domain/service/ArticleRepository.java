@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface ArticleRepository extends CrudRepository<Article, Long> {
 
 	List<Article> findByPersonID(long id);
+    List<Article> findAllByNameContainingOrCommentContainingAllIgnoreCase(String namequery, String commentquery);
 }
