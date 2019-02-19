@@ -3,6 +3,7 @@ package de.ProPra.Lending;
 import de.ProPra.Lending.Dataaccess.PostProccessor;
 import de.ProPra.Lending.Dataaccess.Repositories.ArticleRepository;
 import de.ProPra.Lending.Dataaccess.Repositories.LendingRepository;
+import de.ProPra.Lending.Dataaccess.Repositories.ReservationRepository;
 import de.ProPra.Lending.Dataaccess.Repositories.UserRepository;
 import de.ProPra.Lending.Dataaccess.Representations.LendingRepresentation;
 import de.ProPra.Lending.Model.Article;
@@ -103,12 +104,13 @@ public class LendingApplicationTests {
 		//Assert
 		Assert.assertEquals(expectedPostBody,resultPostBody);
 	}
-	/*@Test
+	@Test
 	public void UserAcceptLending(){
 		//Arrange
 		UserRepository userRepository = Mockito.mock(UserRepository.class);
 		LendingRepository lendingRepository = Mockito.mock(LendingRepository.class);
 		ArticleRepository articleRepository = Mockito.mock(ArticleRepository.class);
+		ReservationRepository reservations = Mockito.mock(ReservationRepository.class);
 
 		Article testArticle = Article.builder().build();
 		Optional<Lending> testLending = Optional.ofNullable(Lending.builder().lendingID(1).lendedArticle(testArticle).build());
@@ -118,10 +120,10 @@ public class LendingApplicationTests {
 		testMap.put("choice","accept");
 		testMap.put("lendingID", "1");
 		//Act
-		postProccessor.CheckDecision(testMap, lendingRepository, articleRepository, userRepository);
+		postProccessor.CheckDecision(testMap, lendingRepository, articleRepository, userRepository, reservations);
 		//Assert
 		Assert.assertEquals(true,testLending.get().isAccepted());
 		Assert.assertEquals(false,testLending.get().getLendedArticle().isRequested());
-	}*/
+	}
 }
 

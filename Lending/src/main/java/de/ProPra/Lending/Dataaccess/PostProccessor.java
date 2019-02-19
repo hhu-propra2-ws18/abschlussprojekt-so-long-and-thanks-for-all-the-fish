@@ -59,20 +59,19 @@ public class PostProccessor {
                     if(apiProcessor.hasEnoughMoneyForDeposit(lendingAccount, article.getArticleID(), articles)){
                         //make reservation
                         Reservation reservation = apiProcessor.postCreateReservation(Reservation.class, lendingAccount, article);
-                        //remove request out off article leave lending perosn behind
                         reservations.save(reservation);
-                        article.setRequestComment("");
-                        article.setRequested(false);
-                        articles.save(article);
-                        //set isAccepted true
                         lending.setProPayReservation(reservation);
-                        lending.setAccepted(true);
-                        lendings.save(lending);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                     //TODO: reservierung konnte nicht angenommen werden
                 }
+                article.setRequestComment("");
+                article.setRequested(false);
+                articles.save(article);
+
+                lending.setAccepted(true);
+                lendings.save(lending);
 
             } else {
                 CleanUpLending(postBodyParas, lendings, articles);
