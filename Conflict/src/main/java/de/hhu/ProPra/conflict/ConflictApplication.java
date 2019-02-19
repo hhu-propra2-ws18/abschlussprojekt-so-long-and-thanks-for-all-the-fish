@@ -1,13 +1,13 @@
-package de.ProPra;
+package de.hhu.ProPra.conflict;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Application {
+public class ConflictApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
+		SpringApplication.run(ConflictApplication.class, args);
 	}
 
 }
