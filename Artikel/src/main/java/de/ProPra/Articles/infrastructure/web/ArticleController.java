@@ -1,23 +1,16 @@
 package de.ProPra.Articles.infrastructure.web;
 
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import de.ProPra.Articles.domain.model.Article;
 import de.ProPra.Articles.domain.service.ArticleRepository;
 import de.ProPra.Articles.domain.service.ImageRepository;
-import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -45,12 +38,20 @@ public class ArticleController {
         return "viewFromPerson";
     }
 
-    @GetMapping("/{id}")
-    public String articleView(Model model, @PathVariable long id){
+    @GetMapping("/open/{id}")
+    public String openArticleView(Model model, @PathVariable long id){
         Article article = articleRepository.findById(id);
         model.addAttribute("article", article);
-        return "articleView";
+        return "openArticleView";
     }
+
+    @GetMapping("/admin/{id}")
+    public String privateArticleView(Model model, @PathVariable long id){
+        Article article = articleRepository.findById(id);
+        model.addAttribute("article", article);
+        return "privateArticleView";
+    }
+
 
     //Create
     @GetMapping("/new/{id}")

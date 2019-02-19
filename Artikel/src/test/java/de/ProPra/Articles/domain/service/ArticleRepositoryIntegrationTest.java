@@ -33,10 +33,10 @@ public class ArticleRepositoryIntegrationTest {
 		entityManager.flush();
 
 		//Act
-		Optional<Article> found = articleRepository.findById(chainsaw.getArticleID());
+		Article found = articleRepository.findById(chainsaw.getArticleID());
 
 		//Assert
-		assertThat(found.get()).isEqualTo(chainsaw);
+		assertThat(found).isEqualTo(chainsaw);
 	}
 
 	@Test
