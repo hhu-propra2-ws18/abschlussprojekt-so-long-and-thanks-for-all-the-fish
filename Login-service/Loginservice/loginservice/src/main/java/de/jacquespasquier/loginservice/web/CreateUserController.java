@@ -25,7 +25,7 @@ public class CreateUserController {
         users.save(newUser);
         System.out.println("User: " + username);
         System.out.println("Password: " + password_encrypted);
-        return "loginpage";
+        return "redirect: /login";
     }
 
 }
