@@ -4,6 +4,7 @@ import de.ProPra.Lending.APIProcessor;
 import de.ProPra.Lending.Dataaccess.PostProccessor;
 import de.ProPra.Lending.Dataaccess.Repositories.ArticleRepository;
 import de.ProPra.Lending.Dataaccess.Repositories.LendingRepository;
+import de.ProPra.Lending.Dataaccess.Repositories.ReservationRepository;
 import de.ProPra.Lending.Dataaccess.Repositories.UserRepository;
 import de.ProPra.Lending.Dataaccess.Representations.LendingRepresentation;
 import de.ProPra.Lending.Dataaccess.Representations.RequestRepresentation;
@@ -15,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.Optional;
 
 @Controller
 public class LendingController {
@@ -22,15 +24,17 @@ public class LendingController {
     private LendingRepository lendings;
     private UserRepository users;
     private ArticleRepository articles;
-    private PostProccessor postProccessor;
-    private APIProcessor apiProcessor;
+    private ReservationRepository reservations;
+    private PostProccessor postProccessor = new PostProccessor();
+    private APIProcessor apiProcessor = new APIProcessor();
     //TODO: add History for lendings
 
     @Autowired
-    public LendingController(LendingRepository lendings, UserRepository users, ArticleRepository articles){
+    public LendingController(LendingRepository lendings, UserRepository users, ArticleRepository articles, ReservationRepository reservations){
         this.lendings = lendings;
         this.articles = articles;
         this.users = users;
+        this.reservations=reservations;
     }
 
     @GetMapping("/lendings/{lendID}")
@@ -73,7 +77,7 @@ public class LendingController {
         RequestRepresentation filledRequests = new RequestRepresentation(users, articles, lendings , id);
         ReturnProcessRepresentation filledReturns = new ReturnProcessRepresentation(users, articles, id, lendings);
         HashMap<String, String> postBodyParas = postProccessor.SplitString(postBody);
-        postProccessor.CheckDecision(postBodyParas, lendings, articles);
+        postProccessor.CheckDecision(postBodyParas, lendings, articles, users, reservations);
         model.addAttribute("id", id);
         model.addAttribute("requests", filledRequests.FillRequest());
         model.addAttribute("returns", filledReturns.FillReturns());
@@ -82,10 +86,14 @@ public class LendingController {
 
     @GetMapping("/lendingRequest")
         public String LendingRequest(Model model, @RequestParam("requesterID") long requesterID, @RequestParam("articleID") long articleID){
-        apiProcessor.getAccountInformationWithId(requesterID, users);
+        Account lenderAccountInformation = apiProcessor.getAccountInformationWithId(requesterID, users);
+        if(apiProcessor.hasEnoughMoneyForDeposit(lenderAccountInformation, articleID, articles)){
+            model.addAttribute("requesterID",requesterID);
+            model.addAttribute("articleID", articleID);
+            return "lendingRequest";
+        }
         model.addAttribute("requesterID",requesterID);
-        model.addAttribute("articleID", articleID);
-        return "lendingRequest";
+        return "povertyPage";
     }
     @PostMapping("/inquiry")
     public String inquiry(Model model, @RequestBody String postBody) {
@@ -95,10 +103,14 @@ public class LendingController {
         return "inquiry";
     }
 
+    //TODO: getmapping für testzwecke löschen
     @GetMapping("/test")
     public String test(){
-        Account oliver = apiProcessor.getAccountInformation("Oliver", Account.class);
-        System.out.println(oliver);
+        System.out.println(apiProcessor.getAccountInformation("Kathrin", Account.class));
+        System.out.println(apiProcessor.getAccountInformation("Lisa", Account.class));
+        System.out.println(apiProcessor.getAccountInformation("Olaf", Account.class));
+        System.out.println(apiProcessor.getAccountInformation("Memfred", Account.class));
+
         return "overview";
     }
 

@@ -12,7 +12,6 @@ public class User {
     @Id
     long userID;
     String name;
-    double backBalance;
     int score;
 
     public User(){}
@@ -22,10 +21,9 @@ public class User {
         this.name = name;
     }
 
-    public User(long userID, String name, double backBalance, int score) {
+    public User(long userID, String name, int score) {
         this.userID = userID;
         this.name = name;
-        this.backBalance = backBalance;
         this.score = score;
     }
 }

@@ -30,6 +30,9 @@ public class Lending {
     boolean isReturn;
     String warning;
 
+    @OneToOne
+    Reservation proPayReservation;
+
     public Lending(){}
     public Lending(Calendar startDate, Calendar endDate, User lendingPerson, Article lendedArticle) {
         this.startDate = startDate;
@@ -48,7 +51,7 @@ public class Lending {
         this.endDate = endDate;
     }
 
-    public Lending(long lendingID, User lendingPerson, Article lendedArticle, Calendar startDate, Calendar endDate, String formattedStartDate, String formattedEndDate, boolean isAccepted, boolean isReturn, String warning) {
+    public Lending(long lendingID, User lendingPerson, Article lendedArticle, Calendar startDate, Calendar endDate, String formattedStartDate, String formattedEndDate, boolean isAccepted, boolean isReturn, String warning, Reservation proPayReservation) {
         this.lendingID = lendingID;
         this.lendingPerson = lendingPerson;
         this.lendedArticle = lendedArticle;
@@ -59,6 +62,7 @@ public class Lending {
         this.isAccepted = isAccepted;
         this.isReturn = isReturn;
         this.warning = warning;
+        this.proPayReservation = proPayReservation;
     }
 
 
