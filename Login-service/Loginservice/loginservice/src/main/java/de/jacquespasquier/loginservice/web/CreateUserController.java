@@ -17,7 +17,7 @@ public class CreateUserController {
     @Autowired
     public ServiceUserProvider users;
 
-    @PostMapping("/store")
+    @PostMapping("/newaccount")
     public String saveNewUser(String name, String surname, String username, String password) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String password_encrypted = passwordEncoder.encode(password);
@@ -25,7 +25,7 @@ public class CreateUserController {
         users.save(newUser);
         System.out.println("User: " + username);
         System.out.println("Password: " + password_encrypted);
-        return "mainpage";
+        return "loginpage";
     }
 
 }
