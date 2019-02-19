@@ -19,9 +19,9 @@ public class DatabaseInitializer implements ServletContextInitializer {
     public void onStartup(ServletContext servletContext) throws ServletException { //hier wird die Datenbank gefüllt
         System.out.println("Populating the database");
 
-        ServiceUser root = new ServiceUser("0", "$2a$08$MbCSKfkg1C9A6mx82wwVneBpUkyW1ZwhsEjorhqkMYrhRxLJDZ9yO", "ROLE_ADMIN");
-        ServiceUser joe = new ServiceUser("1", "$2a$08$MbCSKfkg1C9A6mx82wwVneBpUkyW1ZwhsEjorhqkMYrhRxLJDZ9yO", "ROLE_ADMIN");
-        ServiceUser jacques = new ServiceUser("2", "$2a$08$MbCSKfkg1C9A6mx82wwVneBpUkyW1ZwhsEjorhqkMYrhRxLJDZ9yO", "ROLE_ADMIN");
+        ServiceUser root = new ServiceUser("Pasquier", "Jacques", "0", "$2a$08$MbCSKfkg1C9A6mx82wwVneBpUkyW1ZwhsEjorhqkMYrhRxLJDZ9yO", "ROLE_ADMIN");
+        ServiceUser joe = new ServiceUser("Test", "Test", "1", "$2a$08$MbCSKfkg1C9A6mx82wwVneBpUkyW1ZwhsEjorhqkMYrhRxLJDZ9yO", "ROLE_ADMIN");
+        ServiceUser jacques = new ServiceUser("Test", "Test", "2", "$2a$08$MbCSKfkg1C9A6mx82wwVneBpUkyW1ZwhsEjorhqkMYrhRxLJDZ9yO", "ROLE_ADMIN");
 
         users.saveAll(Arrays.asList(root, joe, jacques));
     }

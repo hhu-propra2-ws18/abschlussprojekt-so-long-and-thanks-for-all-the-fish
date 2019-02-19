@@ -16,6 +16,10 @@ public class ServiceUser {
     @Column(nullable = false)
     private Long id;
 
+    private String name;
+
+    private String surname;
+
     private String username;
 
     private String password;
@@ -23,7 +27,9 @@ public class ServiceUser {
     private String role;
 
 
-    public ServiceUser(String username, String password, String role) {
+    public ServiceUser(String name, String surname, String username, String password, String role) {
+        this.name = name;
+        this.surname = surname;
         this.username = username;
         this.password = password;
         this.role = role;
