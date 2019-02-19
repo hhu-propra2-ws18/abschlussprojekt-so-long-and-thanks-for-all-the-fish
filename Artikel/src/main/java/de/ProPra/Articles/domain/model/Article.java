@@ -1,6 +1,9 @@
 package de.ProPra.Articles.domain.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
@@ -9,6 +12,9 @@ import java.sql.SQLException;
 
 @Entity
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Article {
     @Id
     @GeneratedValue
@@ -33,11 +39,7 @@ public class Article {
 
     boolean available;
 
-
-    public Article(){
-    }
-
-    public Article(String name, String comment, int personID, int deposit, int rent, boolean available, MultipartFile file) throws IOException, SQLException {
+    public Article(String name, String comment, long personID, int deposit, int rent, boolean available, MultipartFile file) throws IOException, SQLException {
         this.name = name;
         this.comment = comment;
         this.personID = personID;
