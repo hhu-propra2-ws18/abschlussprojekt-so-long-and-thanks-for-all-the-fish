@@ -5,6 +5,6 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface LendingRepository extends CrudRepository<Lending, Long> {
 
-    public Lending findByLendingID(long lendingID);
+    Lending findById(long lendingID);
 
 }

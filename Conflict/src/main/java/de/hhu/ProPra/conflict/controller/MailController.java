@@ -45,7 +45,8 @@ public class MailController {
         }
         if(button.equals("open")){
             System.out.println("open");
-            Lending l = lendRepo.findByLendingID(lendingID);
+            System.out.println(lendingID);
+            Lending l = lendRepo.findById(lendingID);
             System.out.println(l==null);
             System.out.println(lendRepo.count());
             l.setConflict(true);
@@ -54,7 +55,7 @@ public class MailController {
             send(lendingID,description,(owner.getId()),(l.getLendingPerson().getId()));
 
         }
-        return "conflict submitted";
+        return "conflict-admin-overview";
 
     }
 }

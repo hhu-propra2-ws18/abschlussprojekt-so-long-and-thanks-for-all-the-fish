@@ -20,7 +20,7 @@ public class DatabaseInitializer implements ServletContextInitializer {
 
 
     @Autowired
-    LendingRepository lendings;
+    LendingRepository lending;
 
     @Autowired
     UserRepository users;
@@ -56,10 +56,8 @@ public class DatabaseInitializer implements ServletContextInitializer {
         date4.set(2019, 1, 12);
         Lending testLending1 = new Lending( date4, date3, testUser1, testArticle2);
         Lending testLending2 = new Lending( date3, date4, testUser2, testArticle1);
-        lendings.save(testLending1);
-        testLending1.setLendingID(1);
-        testLending2.setLendingID(2);
-        lendings.save(testLending2);
+        lending.save(testLending1);
+        lending.save(testLending2);
 
 
 
