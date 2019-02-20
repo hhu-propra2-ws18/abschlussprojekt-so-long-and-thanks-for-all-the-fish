@@ -41,6 +41,4 @@ public class Article {
         this.available = available;
         this.ownerUser = ownerUser;
     }
-
-
 }

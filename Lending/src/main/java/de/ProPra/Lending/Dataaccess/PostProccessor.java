@@ -45,6 +45,9 @@ public class PostProccessor {
         newLending.setStartDate(startDate);
         lendings.save(newLending);
     }
+
+
+
     public void CheckDecision(APIProcessor apiProcessor,HashMap<String, String> postBodyParas, LendingRepository lendings, ArticleRepository articles, UserRepository users, ReservationRepository reservations) {
         if(postBodyParas.containsKey("choice")) {
             if (postBodyParas.get("choice").equals("accept")) {

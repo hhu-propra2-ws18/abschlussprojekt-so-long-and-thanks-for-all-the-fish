@@ -13,6 +13,7 @@ import de.ProPra.Lending.Model.User;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -129,48 +130,6 @@ public class LendingApplicationTests {
 		Assert.assertEquals(true,testLending.get().isAccepted());
 		Assert.assertEquals(false,testLending.get().getLendedArticle().isRequested());
 	}
-
-	/*@Test
-	public void CreateNewLendingTest(){
-		//Arrange
-		UserRepository userRepository = Mockito.mock(UserRepository.class);
-		LendingRepository lendingRepository = Mockito.mock(LendingRepository.class);
-		ArticleRepository articleRepository = Mockito.mock(ArticleRepository.class);
-
-		HashMap<String,String> testMap = new HashMap<>();
-		testMap.put("startDate","02-01-2019");
-		testMap.put("endDate", "03-01-2019");
-		testMap.put("articleID", "1");
-		testMap.put("requesterID", "1");
-
-		Calendar startDate = Calendar.getInstance();
-
-		when(Calendar.getInstance()).thenReturn(startDate);
-		Calendar endDate = Calendar.getInstance();
-		Calendar startDate = Calendar.getInstance();
-		String[] datePieces = testMap.get("startDate").split("-");
-		startDate.set(Integer.parseInt(datePieces[0]), Integer.parseInt(datePieces[1])-1, Integer.parseInt(datePieces[2]));
-		Calendar endDate = Calendar.getInstance();
-		datePieces = testMap.get("endDate").split("-");
-		endDate.set(Integer.parseInt(datePieces[0]), Integer.parseInt(datePieces[1])-1, Integer.parseInt(datePieces[2]));
-
-		Optional<User> testUser = Optional.ofNullable(User.builder().userID(1).build());
-		Optional<Article> testArticle = Optional.ofNullable(Article.builder().articleID(1).lendingUser(testUser.get()).isRequested(true).build());
-		Optional<User> testUser2 = Optional.ofNullable(User.builder().userID(1).build());
-		Optional<Article> testArticle2 = Optional.ofNullable(Article.builder().articleID(1).build());
-		Optional<Lending> testLending = Optional.ofNullable(Lending.builder().startDate(startDate).endDate(endDate).lendedArticle(testArticle.get()).lendingID(1).lendingPerson(testUser.get()).build());
-
-		//PostProccessor postProccessor = Mockito.mock(PostProccessor.class);
-
-		when(userRepository.findUserByuserID(1)).thenReturn(testUser2);
-		when(articleRepository.findArticleByarticleID(1)).thenReturn(testArticle2);
-		//Act
-		postProccessor.CreateNewLending(testMap, articleRepository, lendingRepository, userRepository);
-		testLending.get().setLendingID(0);
-
-		//Assert
-		Mockito.verify(lendingRepository).save(testLending.get());
-	}*/
 	@Test
 	public void hasEnoughMoneyForLendingTest(){
 		//Arrange
