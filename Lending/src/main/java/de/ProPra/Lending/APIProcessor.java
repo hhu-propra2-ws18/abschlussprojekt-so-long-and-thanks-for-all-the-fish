@@ -119,6 +119,24 @@ public class APIProcessor {
                 .flatMap(clientResponse -> ErrorHandling(type, clientResponse));
         return mono.block();
     }
+    public <T> T postMoney(final Class<T> type, Account lendingAccount, double amount) {
+        final Mono<T> mono = WebClient
+                .create()
+                .post()
+                .uri(builder ->
+                        builder.scheme("http")
+                                .host("localhost")
+                                .port("8888")
+                                .pathSegment("account", lendingAccount.getAccount())
+                                // for trailing slash
+                                .path("/")
+                                .queryParam("amount", amount)
+                                .build())
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .exchange()
+                .flatMap(clientResponse -> ErrorHandling(type, clientResponse));
+        return mono.block();
+    }
 
     public <T> T punishOrRealeseReservation(final Class<T> type, Account lendingAccount, Article article, long id, String punishOrRelease) {
         final Mono<T> mono = WebClient

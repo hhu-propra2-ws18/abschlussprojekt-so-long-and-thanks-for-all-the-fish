@@ -134,6 +134,31 @@ public class LendingController {
         return "inquiry";
     }
 
+    //
+    @GetMapping("/proPay/{id}")
+    public String GetProPayOverview(Model model, @PathVariable final long id){
+        Account account = apiProcessor.getAccountInformationWithId(id, users);
+        model.addAttribute("account", account);
+        model.addAttribute("id", id);
+        if (apiProcessor.isErrorOccurred()) {
+            model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
+            return "errorPage";
+        }
+        return "proPayOverview";
+    }
+    @PostMapping("/proPay/{id}")
+    public String SetProPayOverview(Model model, @PathVariable final long id, @RequestBody String postBody){
+        HashMap<String, String> postBodyParas = postProccessor.SplitString(postBody);
+        Account account = apiProcessor.getAccountInformationWithId(id, users);
+        account = apiProcessor.postMoney(Account.class, account, Double.parseDouble(postBodyParas.get("amount")));
+        model.addAttribute("account", account);
+        model.addAttribute("id", id);
+        if (apiProcessor.isErrorOccurred()) {
+            model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
+            return "errorPage";
+        }
+        return "proPayOverview";
+    }
     //TODO: getmapping für testzwecke löschen
     @GetMapping("/test")
     public String test() {
