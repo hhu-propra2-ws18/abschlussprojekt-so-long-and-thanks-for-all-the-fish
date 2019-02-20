@@ -4,6 +4,7 @@ package de.hhu.ProPra.conflict.controller;
 import de.hhu.ProPra.conflict.model.Lending;
 import de.hhu.ProPra.conflict.model.User;
 import de.hhu.ProPra.conflict.service.Repositorys.LendingRepository;
+import de.hhu.ProPra.conflict.service.Repositorys.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.stereotype.Controller;
@@ -22,12 +23,13 @@ public class MailController {
     @Autowired
     LendingRepository lendRepo;
 
-    public String send(long lendId,String conflictMessage,long ownerId,long lenderId) {
+    @Autowired
+    UserRepository userRepo;
+
+    public String send(long lendId,String conflictMessage,long ownerId,long lenderId, User admin) {
         try{
-            mailService.sendTest(lendId, conflictMessage,ownerId,lenderId);
-            System.out.println("Should be sent");
+            mailService.sendTest(lendId, conflictMessage,ownerId,lenderId, admin);
         } catch(MailException e){
-            System.out.println("error");
             //catch error
         }
 
@@ -54,7 +56,8 @@ public class MailController {
             l.setConflict(true);
             l.getLendingPerson();
             User owner = l.getLendedArticle().getOwnerUser();
-            send(lendingID,description,(owner.getId()),(l.getLendingPerson().getId()));
+            User admin = userRepo.findById(3);
+            send(lendingID,description,(owner.getId()),(l.getLendingPerson().getId()),admin);
 
         }
         return "conflict-admin-overview";
@@ -64,7 +67,7 @@ public class MailController {
     @GetMapping("/conflictOverview")
     public String conflictOverview(Model model){
         List<Lending>  lendings = lendRepo.findAllByConflict(true);
-        model.addAttribute(lendings);
+        model.addAttribute("lendings",lendings);
         return "conflict-admin-overview";
     }
 

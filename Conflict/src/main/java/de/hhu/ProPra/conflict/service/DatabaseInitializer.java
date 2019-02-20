@@ -31,9 +31,9 @@ public class DatabaseInitializer implements ServletContextInitializer {
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
 
-        User testUser1 = new User("jeff", "Jeff", "Jeff@email.com", true, "1, zuhause str, Dueseldorf");
-        User testUser2 = new User("george", "George", "George@email.com", false, "2, lupo str, Duesseldorf");
-        User testUser3 = new User("franz", "Franz", "Franz@email.com", true, "3, heinrich heine allee, Duesseldorf");
+        User testUser1 = new User("jeff", "Jeff", "hoffmannfraenz@gmail.com", false, "1, zuhause str, Dueseldorf");
+        User testUser2 = new User("george", "George", "hoffmannfraenz@gmail.com", false, "2, lupo str, Duesseldorf");
+        User testUser3 = new User("franz", "Franz", "hoffmannfraenz@gmail.com", true, "3, heinrich heine allee, Duesseldorf");
 
         Article testArticle1 = new Article("Rasenmäher", "funktioniert, kein Benzin, Schnitthöhe 1cm - 50 m", 2, 500, false, testUser1, testUser2);
         Article testArticle2 = new Article("Geschirr", "nur ein bisschen zerbrochen, für 20 mann", 10, 250, false, testUser2, testUser3);
@@ -56,6 +56,7 @@ public class DatabaseInitializer implements ServletContextInitializer {
         date4.set(2019, 1, 12);
         Lending testLending1 = new Lending( date4, date3, testUser1, testArticle2);
         Lending testLending2 = new Lending( date3, date4, testUser2, testArticle1);
+        testLending2.setConflict(true);
         lending.save(testLending1);
         lending.save(testLending2);
 
