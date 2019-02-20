@@ -16,7 +16,6 @@ import java.util.Optional;
 public class UserService implements UserDetailsService{
 
 
-
     @Autowired
     private ServiceUserProvider users;
 

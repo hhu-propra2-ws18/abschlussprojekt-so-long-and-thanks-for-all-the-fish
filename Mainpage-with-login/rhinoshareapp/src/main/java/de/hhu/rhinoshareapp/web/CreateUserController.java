@@ -17,11 +17,12 @@ public class CreateUserController {
     public String saveNewUser(String name, String surname, String username, String email, String password) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String password_encrypted = passwordEncoder.encode(password);
-        ServiceUser newUser = new ServiceUser(name, surname, username, email, password_encrypted, "ROLE_ADMIN");
+        ServiceUser newUser = new ServiceUser(name, surname, username, email, password_encrypted, "ROLE_USER");
+
         users.save(newUser);
         System.out.println("User: " + username);
         System.out.println("Password: " + password_encrypted);
-        return "redirect: /login";
+        return "redirect:/login";
     }
 
 }

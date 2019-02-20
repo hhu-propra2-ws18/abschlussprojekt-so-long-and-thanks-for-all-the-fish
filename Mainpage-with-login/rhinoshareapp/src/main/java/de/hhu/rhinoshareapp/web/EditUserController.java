@@ -20,7 +20,7 @@ public class EditUserController {
     public String loadEditPage(Model m, Principal p) {
         Optional<ServiceUser> u = users.findByUsername(p.getName());
         ServiceUser user = u.get();
-        m.addAttribute("username", user.getSurname());
+        m.addAttribute("username", user.getUsername());
         m.addAttribute("surname", user.getSurname());
         m.addAttribute("name", user.getName());
         m.addAttribute("email", user.getEmail());
