@@ -1,14 +1,15 @@
 package de.ProPra.Articles.domain.model;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.io.IOException;
-import java.util.Base64;
 
 @Data
 @Entity
+@NoArgsConstructor
 public class Image {
 
     @Id
@@ -19,9 +20,6 @@ public class Image {
 
     @Lob
     public byte[] filebytes;
-
-    public Image() {
-    }
 
     public Image(MultipartFile file) throws IOException {
         this.filebytes = file.getBytes();

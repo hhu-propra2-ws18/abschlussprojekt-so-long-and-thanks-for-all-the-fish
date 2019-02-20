@@ -12,8 +12,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.is;
 import static org.junit.Assert.assertEquals;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -40,21 +40,14 @@ public class ArticleControllerTest {
 
 		//Act
 		mvc.perform(post("/article/edit/3")
-
-			.sessionAttr("article", betterChainsaw)
+				.param("name", betterChainsaw.getName())
+				.param("comment", betterChainsaw.getComment())
+				.param("deposit", "250")
+				.param("rent", "25")
 			)
-				.andExpect(status().isOk())
-				.andExpect(view().name("redirect:article/3"))
-				.andExpect(redirectedUrl("/article/3"))
-				//unchanged values
-				.andExpect(model().attribute("id", is("3")))
-				.andExpect(model().attribute("personID", is("15")))
-				//changed values
-				.andExpect(model().attribute("name", is("Bessere Kettensäge")))
-				.andExpect(model().attribute("comment", is("Sägt noch besser")))
-				.andExpect(model().attribute("deposit", is("250")))
-				.andExpect(model().attribute("rent", is("25")))
-				.andExpect(model().attribute("available", is("false")));
+				.andExpect(status().is3xxRedirection())
+				.andExpect(view().name("redirect:/article/3"))
+				.andExpect(redirectedUrl("/article/3"));
 
 		//Assert
 		assertEquals(chainsaw.getName(), betterChainsaw.getName());
@@ -62,4 +55,25 @@ public class ArticleControllerTest {
 		assertEquals(chainsaw.getDeposit(), betterChainsaw.getDeposit());
 		assertEquals(chainsaw.getRent(), betterChainsaw.getRent());
     }
+
+    @Test
+	public void whenMappingSearch_thenReturnAllArticlesWithQueryInNameOrComment() throws Exception {
+    	//Arrange
+		Article chainsaw = Article.builder().name("Kettensäge").comment("Super Teil!").build();
+		Article chippers = Article.builder().name("Häcksler").comment("Macht alles klein, wie eine Säge!").build();
+		Article saw = Article.builder().name("Säge").comment("Meine liebste Säge!").build();
+		Article plow = Article.builder().name("Schneepflug").comment("Befreit deine Straße von Schnee!").build();
+		//persist all 4, query should return only the first 3
+
+		//Act
+		mvc.perform(get("/article/search")
+				.param("query", "säge")
+			)
+				.andExpect(status().isOk())
+				.andExpect(view().name("searchArticle"))
+				.andExpect(model().attributeExists("articles"));
+
+		//Assert
+
+	}
 }

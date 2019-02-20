@@ -10,11 +10,11 @@ import javax.persistence.*;
 import java.io.IOException;
 import java.sql.SQLException;
 
-@Entity
 @Data
+@Entity
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class Article {
     @Id
     @GeneratedValue
@@ -32,7 +32,7 @@ public class Article {
     int rent;
 
     @Transient
-    public MultipartFile file;
+    MultipartFile file;
 
     @OneToOne (fetch = FetchType.EAGER, cascade={CascadeType.PERSIST})
     public Image image;
