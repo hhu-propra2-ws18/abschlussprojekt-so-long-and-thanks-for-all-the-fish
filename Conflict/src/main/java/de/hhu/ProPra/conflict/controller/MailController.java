@@ -55,6 +55,7 @@ public class MailController {
             System.out.println(lendRepo.count());
             l.setConflict(true);
             l.getLendingPerson();
+            lendRepo.save(l);
             User owner = l.getLendedArticle().getOwnerUser();
             User admin = userRepo.findById(3);
             send(lendingID, description, (owner.getId()), (l.getLendingPerson().getId()), admin);
