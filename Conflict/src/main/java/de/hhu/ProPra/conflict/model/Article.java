@@ -34,12 +34,13 @@ public class Article {
     }
 
 
-    public Article(String name, String comment, double deposit, double rent, boolean available, User ownerUser) {
+    public Article(String name, String comment, double deposit, double rent, boolean available, User ownerUser, User lendingUser) {
         this.name = name;
         this.comment = comment;
         this.deposit = deposit;
         this.rent = rent;
         this.available = available;
         this.ownerUser = ownerUser;
+        this.lendingUser = lendingUser;
     }
 }
