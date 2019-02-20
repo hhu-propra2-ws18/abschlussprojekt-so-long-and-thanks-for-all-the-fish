@@ -34,10 +34,7 @@
         <form method="post">
         <div class="form-group">
             <button type="submit" value="back" class="btn btn-dark" name="action">back</button>
-            <select th:field="*{lendings}" th:name="lendingID">
-                <option th:each="lending :${lendings} "  th:value="${lending.lendingID}"  th:text="${lending.lendingID}">
-                </option>
-            </select>
+            <input th:name="lendingID" type="text" />
             <button type="submit" value="show" class="btn" name="action">show conflict</button>
         </div>
         </form>
