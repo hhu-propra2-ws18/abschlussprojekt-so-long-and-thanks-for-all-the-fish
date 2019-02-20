@@ -16,15 +16,23 @@
 <div class="container">
     <table class="table table-dark table-striped table-bordered">
         <thead>
+        <td>LendingID</td>
+        <td>Artikel</td>
+        <td>Owner</td>
+        <td>Borrower</td>
+        </thead>
+        <tbody>
         <tr th:each="lending: ${lendings}">
-            <td th:text="${lending.id}"/>
+            <td th:text="${lending.lendingID}"/>
+            <td th:text="${lending.lendedArticle.name}"/>
             <td th:text="${lending.lendingPerson.username}"/>
+            <td th:text="${lending.lendedArticle.ownerUser.username}"/>
         </tr>
         </tbody>
     </table>
     <div class="align-right">
-        <button type="button" value="back" class="btn btn-light">back</button>
-        <button type="button" value="show" class="btn btn-light">show conflict</button>
+        <button type="button" value="back" class="btn btn-dark">back</button>
+        <button type="button" value="show" class="btn ">show conflict</button>
     </div>
 
 </div>
