@@ -55,9 +55,8 @@ public class MailController {
             User owner = l.getLendedArticle().getOwnerUser();
             User admin = userRepo.findById(3);
             send(lendingID, description, (owner.getId()), (l.getLendingPerson().getId()), admin);
-
         }
-        return "conflict-admin-overview";
+        return "redirect:/";
 
     }
 
@@ -102,7 +101,7 @@ public class MailController {
             lendRepo.save(l);
             return "redirect:/ownerWin";
         }
-        return"redirect/conflictOverview";
+        return"redirect:/conflictOverview";
     }
 
 

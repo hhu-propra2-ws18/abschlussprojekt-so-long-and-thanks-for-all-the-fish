@@ -25,8 +25,7 @@ public class MailService {
         mail.setTo(admin.getEmail());
         mail.setFrom("rhinoshareconflict@gmail.com");
         mail.setSubject("Conflict" + lendingId);
-        mail.setText("LendingId: " + lendingId + "\nConflict message: " + conflictMessage + "\n" + "\nOwnerID:" + ownerId +
-                "\nlenderID:" + lenderId + "");
+        mail.setText("LendingId: " + lendingId + "\nConflict message: " + conflictMessage + "\n" + "\nOwnerID:" + ownerId + "\nlenderID:" + lenderId + "");
 
         javaMailSender.send(mail);
     }
