@@ -159,6 +159,14 @@ public class LendingController {
         }
         return "proPayOverview";
     }
+
+    @PostMapping("/releaseConflictingLending")
+    public String ReleaseConflictingLending(@RequestBody String postBody ){
+        HashMap<String, String> postBodyParas = postProccessor.SplitString(postBody);
+        apiProcessor.PunishOrReleaseConflictingLending(postBodyParas, lendings, users, articles, reservations);
+        return "overview";
+    }
+
     //TODO: getmapping für testzwecke löschen
     @GetMapping("/test")
     public String test() {

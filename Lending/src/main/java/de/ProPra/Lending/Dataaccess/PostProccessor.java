@@ -90,7 +90,7 @@ public class PostProccessor {
                 CleanUpLending(postBodyParas, lendings, articles);
                 reservations.delete(lending.getProPayReservation());
             } else {
-                apiProcessor.punishOrRealeseReservation(Account.class, lendingAccount, article, lending.getProPayReservation().getId(), "punish");
+                //apiProcessor.punishOrRealeseReservation(Account.class, lendingAccount, article, lending.getProPayReservation().getId(), "punish");
                 //TODO: warnstelle
             }
         }
