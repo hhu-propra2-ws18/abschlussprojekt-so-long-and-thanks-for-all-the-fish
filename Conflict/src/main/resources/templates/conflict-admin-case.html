@@ -24,13 +24,15 @@
         <label>Lending ID</label>
         <input class="form-control" th:placeholder="${lendingID}" type="text" readonly>
     </div>
+    <form method="post">
     <div class="form-group">
         <div class="float-right">
-            <button type="button" value="back" class="btn btn-light">back</button>
-            <button type="button" value="winBorrower" class="btn btn-danger">mark as solved for Borrower</button>
-            <button type="button" value="winOwner" class="btn btn-success">mark as solved for Owner</button>
+            <button type="submit" name="action" value="back" class="btn btn-light">back</button>
+            <button type="submit" name="action" value="winBorrower" class="btn btn-danger">mark as solved for Borrower</button>
+            <button type="submit" name="action" value="winOwner" class="btn btn-success">mark as solved for Owner</button>
         </div>
     </div>
+    </form>
 </div>
 </body>
 </html>
