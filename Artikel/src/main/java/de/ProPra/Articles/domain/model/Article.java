@@ -22,6 +22,7 @@ public class Article {
 
     String name;
 
+    @Lob
     String comment;
 
     //@OneToOne
