@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Rhinoshare</title>
+        <link rel="stylesheet" type="text/css" href="/css/stylesheet.css">
+        <link rel="icon" href="/img/RhinoLogoSmall.png">
+    </head>
+    <body>
+        <img id="titleImageTest" src="/img/rhinoLogoBig.png" width="300" height="75">
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="#news">News</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a class="active" href="/edit" th:text="${username}">Benutzer</a></li>
+            <li style="float:right"><a href="/logout">Logout</a></li>
+        </ul>
+        <h1 class="title">Konto bearbeiten</h1>
+        <p class="information">Hier kannst du deine hinterlegten Informationen ändern. Du siehst
+        im Folgenden nochmal alle Details, die aktuell bei uns hinterlegt sind.</p>
+
+        <table>
+            <tr>
+                <td>Vorname:</td>
+                <td th:text="">Platzhalter</td>
+            </tr>
+            <tr>
+                <td>Nachname:</td>
+                <td>Platzhalter</td>
+            </tr>
+            <tr>
+                <td>Email Adresse:</td>
+                <td>Platzhalter</td>
+            </tr>
+        </table>
+
+        <form method="post" action="/edit">
+
+        </form>
+    </body>
+</html>
