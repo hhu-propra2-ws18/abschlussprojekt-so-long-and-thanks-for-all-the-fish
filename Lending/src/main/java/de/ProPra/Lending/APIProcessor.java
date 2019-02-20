@@ -23,9 +23,9 @@ public class APIProcessor {
     private HashMap<String, String> errorMessage = new HashMap<>();
 
     public Account getAccountInformationWithId(long userID, UserRepository users) {
+        errorOccurred = false;
         Optional<User> user= users.findUserByuserID(userID);
         if(!user.isPresent()){
-            System.out.println("hallo ist nicht da!");
             errorOccurred = true;
             errorMessage.put("reason", "User not found");
             return null;
@@ -81,8 +81,8 @@ public class APIProcessor {
     }
 
     private <T> Mono<? extends T> ErrorHandling(Class<T> type, ClientResponse clientResponse) {
-
-        if (clientResponse.statusCode().is5xxServerError() || clientResponse.statusCode().is4xxClientError() || clientResponse.statusCode().is3xxRedirection() || clientResponse.statusCode().isError()) {
+        errorOccurred = false;
+        if (clientResponse.statusCode().is5xxServerError() || clientResponse.statusCode().is4xxClientError() || clientResponse.statusCode().is3xxRedirection()) {
             clientResponse.body((clientHttpResponse, context) -> {
                 System.out.println("ERROR ---------------------------------------------->");
                 //System.out.println(clientResponse.statusCode());

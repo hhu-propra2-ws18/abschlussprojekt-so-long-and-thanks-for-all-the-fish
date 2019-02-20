@@ -124,7 +124,7 @@ public class LendingApplicationTests {
 		testMap.put("choice","accept");
 		testMap.put("lendingID", "1");
 		//Act
-		postProccessor.CheckDecision(testMap, lendingRepository, articleRepository, userRepository, reservations);
+		postProccessor.CheckDecision(apiProcessor,testMap, lendingRepository, articleRepository, userRepository, reservations);
 		//Assert
 		Assert.assertEquals(true,testLending.get().isAccepted());
 		Assert.assertEquals(false,testLending.get().getLendedArticle().isRequested());

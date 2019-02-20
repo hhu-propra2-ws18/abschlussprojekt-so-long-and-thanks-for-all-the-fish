@@ -45,12 +45,11 @@ public class PostProccessor {
         newLending.setStartDate(startDate);
         lendings.save(newLending);
     }
-    public void CheckDecision(HashMap<String, String> postBodyParas, LendingRepository lendings, ArticleRepository articles, UserRepository users, ReservationRepository reservations) {
+    public void CheckDecision(APIProcessor apiProcessor,HashMap<String, String> postBodyParas, LendingRepository lendings, ArticleRepository articles, UserRepository users, ReservationRepository reservations) {
         if(postBodyParas.containsKey("choice")) {
             if (postBodyParas.get("choice").equals("accept")) {
                 //Deposit check and lock depositamount
 
-                APIProcessor apiProcessor = new APIProcessor();
                 Lending lending = lendings.findLendingBylendingID(Long.parseLong(postBodyParas.get("lendingID"))).get();
                 Article article = lending.getLendedArticle();
 
@@ -77,23 +76,19 @@ public class PostProccessor {
                 CleanUpLending(postBodyParas, lendings, articles);
             }
         }else if(postBodyParas.containsKey("choicereturn")){
-            APIProcessor apiProcessor = new APIProcessor();
             Lending lending = lendings.findLendingBylendingID(Long.parseLong(postBodyParas.get("lendingID"))).get();
             Article article = lending.getLendedArticle();
             Account lendingAccount = apiProcessor.getAccountInformationWithId(lending.getLendingPerson().getUserID(), users);
             double amount = CalculateLendingPrice(lending, article);
-            String s = null;
+            apiProcessor.postTransfer(String.class, lendingAccount, article, amount);
 
-                s = apiProcessor.postTransfer(String.class, lendingAccount, article, amount);
-
-            System.out.println("Return "+s);
             if (postBodyParas.get("choicereturn").equals("accept")) {
                 apiProcessor.punishOrRealeseReservation(Account.class, lendingAccount, article, lending.getProPayReservation().getId(), "release");
                 CleanUpLending(postBodyParas, lendings, articles);
                 reservations.delete(lending.getProPayReservation());
             } else {
                 apiProcessor.punishOrRealeseReservation(Account.class, lendingAccount, article, lending.getProPayReservation().getId(), "punish");
-                //TODO: bezahlen und warnstelle
+                //TODO: warnstelle
             }
         }
     }
