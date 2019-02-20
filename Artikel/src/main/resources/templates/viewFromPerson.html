@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.ord">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -11,17 +11,6 @@
 <body>
     <div class="container">
         <h1 class="display-3">Übersicht</h1>
-            <form method="get" action="/article/search">
-                <div class="form-group row">
-                    <label for="colFormLabel" class="col-sm-0 col-form-label"></label>
-                    <div class="col-sm-10">
-                        <input type="search" name="query" class="form-control" id="colFormLabel" placeholder="Wonach suchen sie?">
-                    </div>
-                    <div class="col-sm-2">
-                        <button class="btn btn-primary" type="submit">Search</button>
-                    </div>
-                </div>
-            </form>
         <div class="row mb-3">
                 <div class="col-md-4"  th:each="article:${articles}">
                     <table class="table table-hover">
@@ -38,11 +27,12 @@
                             <td th:text="${article.getRent()} + '€'"></td>
                         </tr>
                         <tr>
-                            <td><a th:href="|/article/open/${article.articleID}|"><button class="btn btn-success" type="button">Zum Artikel</button></a></td>
+                            <td><a th:href="|/article/admin/${article.articleID}|"><button class="btn btn-success" type="button">Zum Artikel</button></a></td>
                         </tr>
                     </table>
                 </div>
             </div>
+        <a th:href="|/article/new/${id}|"><button class="btn btn-primary" type="button">Neuen Artikel anlegen</button></a>
     </div>
 </body>
 

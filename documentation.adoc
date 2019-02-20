@@ -20,9 +20,9 @@ bearbeitete Problem volständig funktioniert, getestet und dokumentiert wurde.
 
 ## Planung
 Unser Plan sieht es vor, 3 Self-contained-systems zu erstellen, die sich um die
-Verwaltung der Daten von Benutzern, Atrikeln und Ausleihen kümmern und alle ihr
+Verwaltung der Daten von Benutzern, Artikeln und Ausleihen kümmern und jeweils ihr
 eigenes Mapping ausführen. Im Hintergrund soll dazu eine `Postgres`-Datenbank
-laufen, auf die alle drei Systeme Zugriff haben.
+laufen, auf die alle drei Systeme Zugriff haben und die die Daten speichert.
 
 ## Dokumentation
 ### Artikel
@@ -32,13 +32,38 @@ in die Datenbank einfügt. Ein einzelner Artikel enthält die Variablen `article
 Daten speichern zu können. Dies wurde mit den entsprechenden Annotationen implementiert.
 Als nächstes wurde ein entsprechendes Repository `ArticleRepository` erstellt, dass
 das CrudRepository extended, um die Funktionen ebendieses für das Mapping anwenden
-zu können. Zuletzt folgte ein Controller `ArticleController`, der das Mapping für
-die einzelnen Artikel übernimmt. Der Controller kann hier zwei verschiede Ansichten
-erzeugen: eine Übersicht aller Atrikel unter `localhost:8080/article/`, die die einzelnen
-Artikel mit ihren Namen, den Mietkosten und einem Link zur entsprechenden Detailansicht
-des einzelnen Artikels darstellt, und die eben genannte Detailansicht, die alle
-Variablen des Artikels außer der `articleID` darstellt, unter `localhost:8080/article/{id}`,
-wobei {id} durch die `articleID` des Artikels ersetzt wird.
+zu können. Danach folgte ein Controller `ArticleController`, der das Mapping für
+die einzelnen Artikel übernimmt. Der Controller kann verschiede Ansichten erzeugen,
+unter Anderem eine Übersicht über alle hochgeladenen Artikel und eine Detailansicht
+ebendieser.
+
+Zudem können Artikel bearbeitet werden. Dabei können lediglich die Attribute
+`name`, `comment`, `deposit`, `rent` und `available` geändert werden, der Rest wird
+vom alten Artikel automatisch übernommen.
+Als erweiterte Features wurden dann noch ein paar Grundlagen implementiert, unter
+anderem das Editieren von Artikeln sowie das Löschen. Zurzeit läuft dies noch ohne
+ein Permissions-System, da dies erst mit Springboot-Security in einem späteren
+Schritt hinzugefügt wird.
+
+Desweiteren haben wir uns einem anspruchsvolleren Feature gewidmet: dem hinzufügen
+von Bildern. Diese werden beim Erstellen dem Artikel hochgeladen und können weder
+bearbeitet, noch gelöscht werden. Die Bilder sieht man dann in der Artikelübersicht.
+Um das zu vollbringen haben wir das Bild erstmal als MultipartFile dem Artikel nicht
+Persistent hinzugefügt, dann die wichtigen Informationen aus dem `File` ausgelesen
+und in einer `Image` Klasse dafür gespeichert. Dem Artikel weisen wir dann in einer
+`OnetoOne` Beziehung ein Image zu. In der Artikelansicht wird dann ein spezieller
+Imagecontroller aufgerufen, der die Bytes des Bildes zurückgibt.
+
+Als nächstes implementierten wir eine Suchfunktion, die einen `Query` entgegennimmt
+und nach dem Vorkommen des Queries in den Namen und Beschreibungen der Artikel sucht.
+Alle auf diese Weise gefundenen Artikel werden dann auf einer Übersichtsseite ausgegeben.
+Die von uns implementierte Suche ist zudem Case-insensitive.
+
+Zuletzt wurden Tests geschrieben, die einige Funktionen des Repositories und des
+Controllers testen. So haben wir das Editieren von Artikeln und das Suchen nach
+diesen getestet. Desweiteren haben wir einen Test zur `findById`-Funktion geschrieben
+und einen weiteren zur `findByPersonId`-Funktion, wobei letztere alle Artikel einer
+einzelnen Person zurückgeben soll.
 
 
 ### User

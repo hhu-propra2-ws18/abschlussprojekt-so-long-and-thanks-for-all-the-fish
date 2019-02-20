@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Artikel bearbeiten</h1>
+        <form method="post" th:object="${article}" action="#">
+            <table>
+                <tr>
+                    <th scope="row">Name</th>
+                    <td> <Input type="text" th:placeholder="${article.getName()}" th:field="*{name}"/></td>
+                </tr>
+                <tr>
+                    <th scope="row">Beschreibung</th>
+                    <td> <Input type="text" th:placeholder="${article.getComment()}" th:field="*{comment}"/> </td>
+                </tr>
+                <tr>
+                    <th scope="row">Kaution</th>
+                    <td> <Input type="number" th:placeholder="${article.getDeposit()}" th:field="*{deposit}"/>  </td>
+                </tr>
+                <tr>
+                    <th scope="row">Mietpreis</th>
+                    <td> <Input type="number" th:placeholder="${article.getRent()}" th:field="*{rent}"/> </td>
+                </tr>
+                <tr>
+                    <th scope="row">Verfügbar?</th>
+                    <td> <Input type="checkbox" th:checked="${article.isAvailable()}" th:field="*{available}"/> </td>
+                </tr>
+                <th scope="row"></th>
+                <td><button type="submit" class="btn btn-primary">Aktuallisieren</button></td>
+                <td><a th:href="|/article/|" > <button class="btn btn-warning" type="button">Abbrechen</button></a></td>
+            </table>
+        </form>
+    </div>
+</body>
+
+</html>
