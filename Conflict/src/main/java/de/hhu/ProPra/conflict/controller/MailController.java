@@ -64,7 +64,7 @@ public class MailController {
     @GetMapping("/conflictOverview")
     public String conflictOverview(Model model){
         List<Lending>  lendings = lendRepo.findAllByConflict(true);
-        model.addAttribute(lendings);
+        model.addAttribute("lendings",lendings);
         return "conflict-admin-overview";
     }
 
