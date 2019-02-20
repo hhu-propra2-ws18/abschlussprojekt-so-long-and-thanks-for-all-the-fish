@@ -60,6 +60,8 @@ public class MailController {
 
     }
 
+
+
     @GetMapping("/conflictOverview")
     public String conflictOverview(Model model) {
         List<Lending> lendings = lendRepo.findAllByConflict(true);
@@ -70,7 +72,7 @@ public class MailController {
     @PostMapping("/conflictOverview")
     public String postConflictOverview(Model model, @RequestParam long lendingID, @RequestParam(value = "action") String button) {
         if (button.equals("back")) {
-            return "";
+            return "redirect:/";
         }
         if (button.equals("show")) {
             return "redirect:/showcase/" + lendingID;
