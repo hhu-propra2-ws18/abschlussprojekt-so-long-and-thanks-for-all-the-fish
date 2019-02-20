@@ -10,7 +10,6 @@ import javax.persistence.OneToOne;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-@Builder
 @Data
 @Entity
 public class Lending {
@@ -30,6 +29,7 @@ public class Lending {
     boolean isAccepted;
     boolean isReturn;
     String warning;
+    boolean conflict = false;
 
     public Lending(){}
     public Lending(Calendar startDate, Calendar endDate, User lendingPerson, Article lendedArticle) {

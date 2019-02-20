@@ -5,7 +5,6 @@ import de.hhu.ProPra.conflict.model.Article;
 import de.hhu.ProPra.conflict.model.Lending;
 import de.hhu.ProPra.conflict.model.User;
 import de.hhu.ProPra.conflict.service.Repositorys.ArticleRepository;
-import de.hhu.ProPra.conflict.service.Repositorys.ConflictRepository;
 import de.hhu.ProPra.conflict.service.Repositorys.LendingRepository;
 import de.hhu.ProPra.conflict.service.Repositorys.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,11 +52,13 @@ public class DatabaseInitializer implements ServletContextInitializer {
         date2.set(2019, 1, 12);
         Calendar date3 = Calendar.getInstance();
         Calendar date4 = Calendar.getInstance();
-        date1.set(2019, 4, 12);
-        date2.set(2019, 1, 12);
+        date3.set(2019, 4, 12);
+        date4.set(2019, 1, 12);
         Lending testLending1 = new Lending( date4, date3, testUser1, testArticle2);
         Lending testLending2 = new Lending( date3, date4, testUser2, testArticle1);
         lendings.save(testLending1);
+        testLending1.setLendingID(1);
+        testLending2.setLendingID(2);
         lendings.save(testLending2);
 
 

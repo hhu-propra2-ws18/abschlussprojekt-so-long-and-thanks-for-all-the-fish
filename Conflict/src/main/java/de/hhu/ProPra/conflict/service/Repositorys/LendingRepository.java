@@ -4,4 +4,7 @@ import de.hhu.ProPra.conflict.model.Lending;
 import org.springframework.data.repository.CrudRepository;
 
 public interface LendingRepository extends CrudRepository<Lending, Long> {
+
+    public Lending findByLendingID(long lendingID);
+
 }

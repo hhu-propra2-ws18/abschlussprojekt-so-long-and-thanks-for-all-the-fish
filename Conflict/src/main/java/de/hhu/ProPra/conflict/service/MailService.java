@@ -18,13 +18,14 @@ public class MailService {
         this.javaMailSender = javaMailSender;
     }
 
-    public void sendTest(long lendingId, String conflictMessage) throws MailException {
+    public void sendTest(long lendingId, String conflictMessage, long ownerId, long lenderId) throws MailException {
         //sendEmail
         SimpleMailMessage mail = new SimpleMailMessage();
         mail.setTo("hoffmannfraenz@gmail.com");
         mail.setFrom("rhinoshareconflict@gmail.com");
-        mail.setSubject("Conflict"+lendingId);
-        mail.setText("UserId: "+lendingId /**userId*/+"\n Conflict message: "+conflictMessage+"\n");
+        mail.setSubject("Conflict" + lendingId);
+        mail.setText("LendingId: " + lendingId /**userId*/ + "\n Conflict message: " + conflictMessage + "\n" + "OwneriD:" + ownerId +
+                "lenderId" + lenderId + "");
 
         javaMailSender.send(mail);
     }
