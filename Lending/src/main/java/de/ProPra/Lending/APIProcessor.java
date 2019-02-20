@@ -1,22 +1,35 @@
 package de.ProPra.Lending;
 
+import de.ProPra.Lending.Controller.LendingController;
 import de.ProPra.Lending.Dataaccess.Repositories.ArticleRepository;
 import de.ProPra.Lending.Dataaccess.Repositories.UserRepository;
 import de.ProPra.Lending.Model.Account;
 import de.ProPra.Lending.Model.Article;
 import de.ProPra.Lending.Model.User;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.HashMap;
 import java.util.Optional;
 import java.util.function.Consumer;
 
+@Data
 public class APIProcessor {
     // This Class interacts with the ProPay Application
+    private boolean errorOccurred = false;
+    private HashMap<String, String> errorMessage;
+
+    public APIProcessor(HashMap<String, String> errorMessage) {
+        this.errorOccurred = errorOccurred;
+    }
 
     public Account getAccountInformationWithId(long userID, UserRepository users) {
         Optional<User> user= users.findUserByuserID(userID);
@@ -75,6 +88,11 @@ public class APIProcessor {
         if (clientResponse.statusCode().is5xxServerError() || clientResponse.statusCode().is4xxClientError()) {
             clientResponse.body((clientHttpResponse, context) -> {
                 System.out.println("ERROR ---------------------------------------------->");
+                System.out.println(clientResponse.statusCode());
+                //Fill error Informations for error Page
+                errorOccurred = true;
+                errorMessage.put("reason", clientHttpResponse.getStatusCode().getReasonPhrase());
+                System.out.println(errorMessage.get("reason"));
 
                 return clientHttpResponse.getBody();
             });

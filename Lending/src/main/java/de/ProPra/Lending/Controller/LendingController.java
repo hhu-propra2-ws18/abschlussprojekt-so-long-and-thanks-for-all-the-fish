@@ -26,6 +26,7 @@ public class LendingController {
     private ReservationRepository reservations;
     private PostProccessor postProccessor = new PostProccessor();
     private APIProcessor apiProcessor = new APIProcessor();
+
     //TODO: add History for lendings
 
     @Autowired
@@ -34,6 +35,7 @@ public class LendingController {
         this.articles = articles;
         this.users = users;
         this.reservations=reservations;
+
     }
 
     @GetMapping("/lendings/{lendID}")

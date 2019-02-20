@@ -75,6 +75,7 @@ public class DatabaseInitializer implements ServletContextInitializer {
         System.out.println(s);
 
 
+
         System.out.println("Lendings finished generating");
     }
 }
