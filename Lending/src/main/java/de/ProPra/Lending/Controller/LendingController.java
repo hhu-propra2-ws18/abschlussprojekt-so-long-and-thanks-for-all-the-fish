@@ -40,35 +40,51 @@ public class LendingController {
 
     @GetMapping("/lendings/{lendID}")
         public String LendingPage(Model model, @PathVariable final long lendID) {
+            model.addAttribute("id", lendID);
+            if(apiProcessor.isErrorOccurred()){
+                model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
+                return "errorPage";
+            }
             LendingRepresentation filledLendings = new LendingRepresentation(lendings, users,articles);
             model.addAttribute("lendings", filledLendings.FillLendings(lendID));
-            model.addAttribute("id", lendID);
             return "overviewLendings";
         }
 
     @PostMapping("/lendings/{lendID}")
     public String LendingPageNew(Model model, @PathVariable final long lendID, @RequestBody String postBody) { //TODO: return procces erzeugen
+        model.addAttribute("id", lendID);
+        if(apiProcessor.isErrorOccurred()){
+            model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
+            return "errorPage";
+        }
         HashMap<String, String> postBodyParas = postProccessor.SplitString(postBody);
         postProccessor.initializeNewReturn(postBodyParas, lendings);
         LendingRepresentation filledLendings = new LendingRepresentation(lendings, users,articles);
         model.addAttribute("lendings", filledLendings.FillLendings(lendID));
-        model.addAttribute("id", lendID);
         return "overviewLendings";
     }
 
     @GetMapping("/borrows/{borrowID}")
     public String BorrowPage(Model model, @PathVariable final long borrowID) {
+        model.addAttribute("id", borrowID);
+        if(apiProcessor.isErrorOccurred()){
+            model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
+            return "errorPage";
+        }
         LendingRepresentation filledArticles = new LendingRepresentation(lendings, users,articles);
         model.addAttribute("articles", filledArticles.FillBorrows(borrowID));
-        model.addAttribute("id", borrowID);
         return "overviewBorrows";
     }
 
     @GetMapping("/{id}")
     public String Overview(Model model, @PathVariable final long id) {
+        model.addAttribute("id", id);
+        if(apiProcessor.isErrorOccurred()){
+            model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
+            return "errorPage";
+        }
         RequestRepresentation filledRequests = new RequestRepresentation(users, articles,lendings , id);
         ReturnProcessRepresentation filledReturns = new ReturnProcessRepresentation(users, articles, id, lendings);
-        model.addAttribute("id", id);
         model.addAttribute("requests", filledRequests.FillRequest());
         model.addAttribute("returns", filledReturns.FillReturns());
         return "overview";
@@ -76,11 +92,15 @@ public class LendingController {
 
     @PostMapping("/{id}")
     public String PostOverview(Model model,@PathVariable final long id, @RequestBody String postBody) {
+        model.addAttribute("id", id);
+        if(apiProcessor.isErrorOccurred()){
+            model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
+            return "errorPage";
+        }
         RequestRepresentation filledRequests = new RequestRepresentation(users, articles, lendings , id);
         ReturnProcessRepresentation filledReturns = new ReturnProcessRepresentation(users, articles, id, lendings);
         HashMap<String, String> postBodyParas = postProccessor.SplitString(postBody);
         postProccessor.CheckDecision(postBodyParas, lendings, articles, users, reservations);
-        model.addAttribute("id", id);
         model.addAttribute("requests", filledRequests.FillRequest());
         model.addAttribute("returns", filledReturns.FillReturns());
         return "overview";
@@ -89,6 +109,10 @@ public class LendingController {
     @GetMapping("/lendingRequest")
         public String LendingRequest(Model model, @RequestParam("requesterID") long requesterID, @RequestParam("articleID") long articleID){
         Account lenderAccountInformation = apiProcessor.getAccountInformationWithId(requesterID, users);
+        if(apiProcessor.isErrorOccurred()){
+            model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
+            return "errorPage";
+        }
         if(apiProcessor.hasEnoughMoneyForDeposit(lenderAccountInformation, articleID, articles)){
             model.addAttribute("requesterID",requesterID);
             model.addAttribute("articleID", articleID);
@@ -99,9 +123,13 @@ public class LendingController {
     }
     @PostMapping("/inquiry")
     public String inquiry(Model model, @RequestBody String postBody) {
+        if(apiProcessor.isErrorOccurred()){
+            model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
+            return "errorPage";
+        }
         HashMap<String, String> postBodyParas = postProccessor.SplitString(postBody);
-        postProccessor.CreateNewLending(postBodyParas, articles, lendings, users);
         model.addAttribute("id", postBodyParas.get("requesterID"));
+        postProccessor.CreateNewLending(postBodyParas, articles, lendings, users);
         return "inquiry";
     }
 

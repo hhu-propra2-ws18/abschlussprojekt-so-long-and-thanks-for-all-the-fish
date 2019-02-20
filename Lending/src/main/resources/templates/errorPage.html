@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <title>Inquiry</title>
+</head>
+<body>
+<h>Your action failed</h>
+<dr>
+   <div Reason : th:text="${error}">0</div>
+<a th:href="@{/{id}(id = ${id})}" role="button">overview</a>
+</dr>
+</body>
+</html>

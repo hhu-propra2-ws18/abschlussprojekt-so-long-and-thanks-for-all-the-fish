@@ -72,7 +72,7 @@ public class DatabaseInitializer implements ServletContextInitializer {
         Account lendingAccount = Account.builder().account("Bagger").amount(10).build();
 
         String s = apiProcessor.postTransfer(String.class, lendingAccount, golklumpen, 1000000);
-        System.out.println(s);
+        //System.out.println(s);
 
 
 

@@ -1,38 +1,35 @@
 package de.ProPra.Lending;
 
-import de.ProPra.Lending.Controller.LendingController;
 import de.ProPra.Lending.Dataaccess.Repositories.ArticleRepository;
 import de.ProPra.Lending.Dataaccess.Repositories.UserRepository;
 import de.ProPra.Lending.Model.Account;
 import de.ProPra.Lending.Model.Article;
 import de.ProPra.Lending.Model.User;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.core.io.buffer.DataBuffer;
-import org.springframework.http.HttpStatus;
+import lombok.NoArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.ClientResponse;
-import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.HashMap;
 import java.util.Optional;
-import java.util.function.Consumer;
 
 @Data
+@NoArgsConstructor
 public class APIProcessor {
     // This Class interacts with the ProPay Application
     private boolean errorOccurred = false;
-    private HashMap<String, String> errorMessage;
-
-    public APIProcessor(HashMap<String, String> errorMessage) {
-        this.errorOccurred = errorOccurred;
-    }
+    private HashMap<String, String> errorMessage = new HashMap<>();
 
     public Account getAccountInformationWithId(long userID, UserRepository users) {
         Optional<User> user= users.findUserByuserID(userID);
+        if(!user.isPresent()){
+            System.out.println("hallo ist nicht da!");
+            errorOccurred = true;
+            errorMessage.put("reason", "User not found");
+            return null;
+        }
         return getAccountInformation(user.get().getName(), Account.class);
     }
 
@@ -85,14 +82,14 @@ public class APIProcessor {
 
     private <T> Mono<? extends T> ErrorHandling(Class<T> type, ClientResponse clientResponse) {
 
-        if (clientResponse.statusCode().is5xxServerError() || clientResponse.statusCode().is4xxClientError()) {
+        if (clientResponse.statusCode().is5xxServerError() || clientResponse.statusCode().is4xxClientError() || clientResponse.statusCode().is3xxRedirection() || clientResponse.statusCode().isError()) {
             clientResponse.body((clientHttpResponse, context) -> {
                 System.out.println("ERROR ---------------------------------------------->");
-                System.out.println(clientResponse.statusCode());
+                //System.out.println(clientResponse.statusCode());
                 //Fill error Informations for error Page
                 errorOccurred = true;
                 errorMessage.put("reason", clientHttpResponse.getStatusCode().getReasonPhrase());
-                System.out.println(errorMessage.get("reason"));
+                System.out.println("error message: " + errorMessage.get("reason"));
 
                 return clientHttpResponse.getBody();
             });
