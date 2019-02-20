@@ -35,7 +35,7 @@
         <div class="form-group">
             <button type="submit" value="back" class="btn btn-dark" name="action">back</button>
             <select th:field="*{lendings}" th:name="lendingID">
-                <option th:each="lending :${lendings} "  th:value="${lending.lendingID}" th:name="lendingID" th:text="${lending.lendingID}">
+                <option th:each="lending :${lendings} "  th:value="${lending.lendingID}"  th:text="${lending.lendingID}">
                 </option>
             </select>
             <button type="submit" value="show" class="btn" name="action">show conflict</button>
