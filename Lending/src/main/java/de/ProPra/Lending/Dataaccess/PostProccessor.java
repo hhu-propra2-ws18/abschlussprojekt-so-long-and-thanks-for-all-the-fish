@@ -32,7 +32,7 @@ public class PostProccessor {
         //collect necessary information
         User lendingPerson = users.findUserByuserID(Long.parseLong(postBodyParas.get("requesterID"))).get();
         Article lendedArticle = articles.findArticleByarticleID(Long.parseLong(postBodyParas.get("articleID"))).get();
-        lendedArticle.setLendingUser(lendingPerson);
+        //lendedArticle.setLendingUser(lendingPerson);
         lendedArticle.setRequestComment(postBodyParas.get("requestComment"));
         lendedArticle.setRequested(true);
         articles.save(lendedArticle);
@@ -82,7 +82,11 @@ public class PostProccessor {
             Article article = lending.getLendedArticle();
             Account lendingAccount = apiProcessor.getAccountInformationWithId(lending.getLendingPerson().getUserID(), users);
             double amount = CalculateLendingPrice(lending, article);
-            apiProcessor.postTransfer(String.class, lendingAccount, article, amount);
+            String s = null;
+
+                s = apiProcessor.postTransfer(String.class, lendingAccount, article, amount);
+
+            System.out.println("Return "+s);
             if (postBodyParas.get("choicereturn").equals("accept")) {
                 apiProcessor.punishOrRealeseReservation(Account.class, lendingAccount, article, lending.getProPayReservation().getId(), "release");
                 CleanUpLending(postBodyParas, lendings, articles);
@@ -100,7 +104,7 @@ public class PostProccessor {
         //remove request out off article
         article.setRequestComment("");
         article.setRequested(false);
-        article.setLendingUser(null);
+        //article.setLendingUser(null);
         article.setAvailable(true);
         articles.save(article);
         //remove lending

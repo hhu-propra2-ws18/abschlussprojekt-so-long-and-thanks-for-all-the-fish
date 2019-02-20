@@ -5,11 +5,15 @@ import de.ProPra.Lending.Dataaccess.Repositories.UserRepository;
 import de.ProPra.Lending.Model.Account;
 import de.ProPra.Lending.Model.Article;
 import de.ProPra.Lending.Model.User;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.web.reactive.function.client.ClientResponse;
+import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import java.util.Optional;
+import java.util.function.Consumer;
 
 public class APIProcessor {
     // This Class interacts with the ProPay Application
@@ -32,8 +36,8 @@ public class APIProcessor {
                                 .path("/")
                                 .build())
                 .accept(MediaType.APPLICATION_JSON_UTF8)
-                .retrieve()
-                .bodyToMono(type);
+                .exchange()
+                .flatMap(clientResponse -> ErrorHandling(type, clientResponse));
         return mono.block();
     }
 
@@ -61,9 +65,25 @@ public class APIProcessor {
                                 .queryParam("amount", String.valueOf(article.getDeposit()))
                                 .build())
                 .accept(MediaType.APPLICATION_JSON_UTF8)
-                .retrieve()
-                .bodyToMono(type);
+                .exchange()
+                .flatMap(clientResponse -> ErrorHandling(type, clientResponse));
         return mono.block();
+    }
+
+    private <T> Mono<? extends T> ErrorHandling(Class<T> type, ClientResponse clientResponse) {
+
+        if (clientResponse.statusCode().is5xxServerError() || clientResponse.statusCode().is4xxClientError()) {
+            clientResponse.body((clientHttpResponse, context) -> {
+                System.out.println("ERROR ---------------------------------------------->");
+
+                return clientHttpResponse.getBody();
+            });
+        }
+        else{
+            System.out.println(clientResponse.statusCode());
+            return clientResponse.bodyToMono(type);
+        }
+        return clientResponse.bodyToMono(type);
     }
 
     public <T> T postTransfer(final Class<T> type, Account lendingAccount, Article article, double amount) {
@@ -80,8 +100,8 @@ public class APIProcessor {
                                 .queryParam("amount", amount)
                                 .build())
                 .accept(MediaType.APPLICATION_JSON_UTF8)
-                .retrieve()
-                .bodyToMono(type);
+                .exchange()
+                .flatMap(clientResponse -> ErrorHandling(type, clientResponse));
         return mono.block();
     }
 
@@ -99,8 +119,11 @@ public class APIProcessor {
                                 .queryParam("reservationId", id)
                                 .build())
                 .accept(MediaType.APPLICATION_JSON_UTF8)
-                .retrieve()
-                .bodyToMono(type);
+                .exchange()
+                .flatMap(clientResponse -> ErrorHandling(type, clientResponse));
         return mono.block();
     }
+
+
+
 }
