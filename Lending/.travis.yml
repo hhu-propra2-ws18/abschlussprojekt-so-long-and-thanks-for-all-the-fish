@@ -7,7 +7,7 @@ jobs:
    script: cd Artikel && ./gradlew build
  - stage: Benutzer
    script: cd Benutzer && ./gradlew build
- - stage: Lendings
-   script: cd Lendings && ./gradlew build
+ - stage: Lending
+   script: cd Lending && ./gradlew build
 notifications:
  - email: false
