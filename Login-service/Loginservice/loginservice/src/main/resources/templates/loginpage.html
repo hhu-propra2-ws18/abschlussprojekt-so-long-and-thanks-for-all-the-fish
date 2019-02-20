@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Anmelden - Rhinoshare</title>
+    <link rel="stylesheet" type="text/css" href="/css/stylesheet.css">
+    <link rel="icon" href="/img/RhinoLogoSmall.png">
+</head>
+<body>
+<a href="/">
+    <img id="titleImage" src="/img/rhinoLogoBig.png" width="300" height="75">
+</a>
+<div id="loginform" th:fragment="content">
+    <p id="logintitle">Anmelden</p>
+    <div id="errorMessage" th:if="${param.error}" class="alert alert-error">
+        Falscher Nutzername oder falsches Passwort.
+    </div>
+    <div id="logoutMessage" th:if="${param.logout}" class="alert alert-success">
+        You have been logged out.
+    </div>
+    <form id="loginInput" method="post" action="/login">
+        <p class="loginText">E-Mail-Adresse oder RhinoID</p>
+        <input class="loginTextfield" id="username" name="username" type="text">
+        <p class="loginText">Passwort</p>
+        <input class="loginTextfield" id="password" name="password" type="password">
+        <a href="/" id="forgotPassword">Passwort vergessen?</a>
+        <input class="button" type="submit" name="loginButton" value="Anmelden">
+        <p class="separator">Neu bei Rhinoshare?</p>
+    </form>
+    <a href="/newaccount">
+        <button class="buttonCreate">Erstellen Sie ihr Rhino-Konto</button>
+    </a>
+</div>
+</body>
+</html>

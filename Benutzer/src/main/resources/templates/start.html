@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title>Ausleih</title>
+</head>
+<body>
+	<div>
+		<h1 class="container" style="text-align: center;">Ausleih App</h1>
+		<form method="post" style="text-align: center;">
+			<p>
+				Username: <input th:name="username" type="text"/>
+			</p>
+			<p>
+				<strong> Passwort</strong>: <input name="password" type="password" placeholder="Passwort nicht nötig"/>
+			</p>
+            <input value="Login" name="action" type="submit" > 
+            <input value="Signup" name="action" type="submit">
+		</form>
+	</div>
+</body>
+</html>
