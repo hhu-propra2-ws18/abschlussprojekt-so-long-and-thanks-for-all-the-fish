@@ -48,11 +48,7 @@ public class MailController {
             return "Back";
         }
         if (button.equals("open")) {
-            System.out.println("open");
-            System.out.println(lendingID);
             Lending l = lendRepo.findById(lendingID);
-            System.out.println(l == null);
-            System.out.println(lendRepo.count());
             l.setConflict(true);
             l.getLendingPerson();
             lendRepo.save(l);
