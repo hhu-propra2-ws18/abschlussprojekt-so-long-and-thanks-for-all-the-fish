@@ -31,12 +31,16 @@
         </tbody>
     </table>
     <div class="align-right">
-        <button type="button" value="back" class="btn btn-dark" name="action">back</button>
-        <select th:field="*{lendings}">
-            <option th:each="lending :${lendings} " th:value="${lending.lendingID}" th:text="${lending.lendingID}">
-            </option>
-        </select>
-        <button type="button" value="show" class="btn" name="action">show conflict</button>
+        <form method="post">
+        <div class="form-group">
+            <button type="submit" value="back" class="btn btn-dark" name="action">back</button>
+            <select th:field="*{lendings}" th:name="lendingID">
+                <option th:each="lending :${lendings} "  th:value="${lending.lendingID}" th:name="lendingID" th:text="${lending.lendingID}">
+                </option>
+            </select>
+            <button type="submit" value="show" class="btn" name="action">show conflict</button>
+        </div>
+        </form>
     </div>
 
 </div>

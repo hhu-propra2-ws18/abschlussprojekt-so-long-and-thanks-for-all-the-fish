@@ -69,16 +69,27 @@ public class MailController {
     }
 
     @PostMapping("/conflictOverview")
-    public String postConflictOverview(Model model,@RequestParam long lendingID, @RequestParam(value = "action") String button){
-        if(button.equals("back")){
+    public String postConflictOverview(Model model, @RequestParam long lendingID, @RequestParam(value = "action") String button) {
+        if (button.equals("back")) {
             return "";
         }
-        if(button.equals("show")){
-            return "redirect:/showcase/"+lendingID;
+        if (button.equals("show")) {
+            return "redirect:/showcase/" + lendingID;
         }
         return "";
     }
 
+    @GetMapping("/showcase/{id}")
+    public String getShowCase(Model model, @PathVariable long id) {
+
+
+        Lending l = lendRepo.findById(id);
+        model.addAttribute("owningPerson",l.getLendedArticle().getOwnerUser().getUsername());
+        model.addAttribute("borrowwPerson",l.getLendingPerson().getUsername());
+        model.addAttribute("lendingID",l.getLendingID());
+        model.addAttribute("articleName",l.getLendedArticle().getName());
+        return "conflict-admin-case";
+    }
 
 
 }
