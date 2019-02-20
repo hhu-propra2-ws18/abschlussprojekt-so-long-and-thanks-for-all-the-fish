@@ -116,6 +116,6 @@ public class PostProccessor {
         Calendar startDate = lending.getStartDate();
         long time = currentDate.getTime().getTime() - startDate.getTime().getTime();
         long days = Math.round( (double)time / (24. * 60.*60.*1000.) );
-        return days * article.getRent() + 1.0;
+        return (days +1) * article.getRent();
     }
 }
