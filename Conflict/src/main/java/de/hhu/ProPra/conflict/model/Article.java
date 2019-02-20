@@ -30,7 +30,7 @@ public class Article {
     @OneToOne
     User lendingUser;
 
-    public Article(){
+    public Article() {
     }
 
 

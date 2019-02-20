@@ -31,14 +31,17 @@ public class Lending {
     String warning;
     boolean conflict = false;
 
-    public Lending(){}
+    public Lending() {
+    }
+
     public Lending(Calendar startDate, Calendar endDate, User lendingPerson, Article lendedArticle) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.lendingPerson = lendingPerson;
         this.lendedArticle = lendedArticle;
     }
-    public void FillFormattedDates(){
+
+    public void FillFormattedDates() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         formattedEndDate = dateFormat.format(endDate.getTime());
         formattedStartDate = dateFormat.format(startDate.getTime());

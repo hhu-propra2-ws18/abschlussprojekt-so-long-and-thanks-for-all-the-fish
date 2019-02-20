@@ -26,10 +26,10 @@ public class MailController {
     @Autowired
     UserRepository userRepo;
 
-    public String send(long lendId,String conflictMessage,long ownerId,long lenderId, User admin) {
-        try{
-            mailService.sendTest(lendId, conflictMessage,ownerId,lenderId, admin);
-        } catch(MailException e){
+    public String send(long lendId, String conflictMessage, long ownerId, long lenderId, User admin) {
+        try {
+            mailService.sendTest(lendId, conflictMessage, ownerId, lenderId, admin);
+        } catch (MailException e) {
             //catch error
         }
 
@@ -37,27 +37,27 @@ public class MailController {
     }
 
     @GetMapping("/openConflict")
-    public String openConflict(Model model){
+    public String openConflict(Model model) {
         return "conflictUserOpen";
     }
 
     @PostMapping("/openConflict")
-    public String openConflictpost(Model model, @RequestParam(value = "action") String button,@RequestParam long lendingID,
-    @RequestParam String description){
-        if(button.equals("back")){
+    public String openConflictpost(Model model, @RequestParam(value = "action") String button, @RequestParam long lendingID,
+                                   @RequestParam String description) {
+        if (button.equals("back")) {
             return "Back";
         }
-        if(button.equals("open")){
+        if (button.equals("open")) {
             System.out.println("open");
             System.out.println(lendingID);
             Lending l = lendRepo.findById(lendingID);
-            System.out.println(l==null);
+            System.out.println(l == null);
             System.out.println(lendRepo.count());
             l.setConflict(true);
             l.getLendingPerson();
             User owner = l.getLendedArticle().getOwnerUser();
             User admin = userRepo.findById(3);
-            send(lendingID,description,(owner.getId()),(l.getLendingPerson().getId()),admin);
+            send(lendingID, description, (owner.getId()), (l.getLendingPerson().getId()), admin);
 
         }
         return "conflict-admin-overview";
@@ -65,9 +65,9 @@ public class MailController {
     }
 
     @GetMapping("/conflictOverview")
-    public String conflictOverview(Model model){
-        List<Lending>  lendings = lendRepo.findAllByConflict(true);
-        model.addAttribute("lendings",lendings);
+    public String conflictOverview(Model model) {
+        List<Lending> lendings = lendRepo.findAllByConflict(true);
+        model.addAttribute("lendings", lendings);
         return "conflict-admin-overview";
     }
 
