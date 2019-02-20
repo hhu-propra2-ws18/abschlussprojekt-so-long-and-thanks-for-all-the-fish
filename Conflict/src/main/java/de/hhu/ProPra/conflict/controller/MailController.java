@@ -11,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import de.hhu.ProPra.conflict.service.MailService;
 
+import java.util.List;
+
 @Controller
 public class MailController {
 
@@ -58,4 +60,12 @@ public class MailController {
         return "conflict-admin-overview";
 
     }
+
+    @GetMapping("/conflictOverview")
+    public String conflictOverview(Model model){
+        List<Lending>  lendings = lendRepo.findAllByConflict(true);
+        model.addAttribute(lendings);
+        return "conflict-admin-overview";
+    }
+
 }
