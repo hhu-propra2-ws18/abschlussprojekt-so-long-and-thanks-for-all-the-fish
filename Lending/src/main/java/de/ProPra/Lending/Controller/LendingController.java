@@ -58,6 +58,7 @@ public class LendingController {
     public String BorrowPage(Model model, @PathVariable final long borrowID) {
         LendingRepresentation filledArticles = new LendingRepresentation(lendings, users,articles);
         model.addAttribute("articles", filledArticles.FillBorrows(borrowID));
+        model.addAttribute("id", borrowID);
         return "overviewBorrows";
     }
 
