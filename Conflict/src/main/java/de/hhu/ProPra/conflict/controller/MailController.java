@@ -72,6 +72,17 @@ public class MailController {
         return "conflict-admin-overview";
     }
 
+    @PostMapping("/conflictOverview")
+    public String postConflictOverview(Model model,@RequestParam long lendingID, @RequestParam(value = "action") String button){
+        if(button.equals("back")){
+            return "";
+        }
+        if(button.equals("show")){
+            return "redirect:/showcase/"+lendingID;
+        }
+        return "";
+    }
+
 
 
 }
