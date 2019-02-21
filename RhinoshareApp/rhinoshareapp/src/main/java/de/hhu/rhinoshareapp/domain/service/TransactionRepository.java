@@ -1,7 +1,7 @@
-package de.ProPra.Lending.Dataaccess.Repositories;
+package de.hhu.rhinoshareapp.domain.service;
 
-import de.ProPra.Lending.Model.ServiceUser;
-import de.ProPra.Lending.Model.Transaction;
+import de.hhu.rhinoshareapp.domain.model.ServiceUser;
+import de.hhu.rhinoshareapp.domain.model.Transaction;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

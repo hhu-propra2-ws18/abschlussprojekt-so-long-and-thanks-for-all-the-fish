@@ -2,7 +2,7 @@ package de.ProPra.Lending.Dataaccess.Representations;
 
 import de.ProPra.Lending.Dataaccess.Repositories.ArticleRepository;
 import de.ProPra.Lending.Dataaccess.Repositories.LendingRepository;
-import de.ProPra.Lending.Dataaccess.Repositories.UserRepository;
+import de.ProPra.Lending.Dataaccess.Repositories.ServiceUserProvider;
 import de.ProPra.Lending.Model.Article;
 import de.ProPra.Lending.Model.Lending;
 
@@ -11,12 +11,12 @@ import java.util.List;
 import java.util.Optional;
 
 public class ReturnProcessRepresentation {
-    private UserRepository users;
+    private ServiceUserProvider users;
     private ArticleRepository articles;
     private LendingRepository lendings;
     long userID;
 
-    public ReturnProcessRepresentation(UserRepository users, ArticleRepository articles, long userID, LendingRepository lendings) {
+    public ReturnProcessRepresentation(ServiceUserProvider users, ArticleRepository articles, long userID, LendingRepository lendings) {
         this.users = users;
         this.articles = articles;
         this.userID = userID;

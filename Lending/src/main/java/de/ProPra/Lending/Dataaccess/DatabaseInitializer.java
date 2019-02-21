@@ -5,7 +5,7 @@ import de.ProPra.Lending.APIProcessor;
 import de.ProPra.Lending.Dataaccess.Repositories.ArticleRepository;
 import de.ProPra.Lending.Dataaccess.Repositories.LendingRepository;
 import de.ProPra.Lending.Dataaccess.Repositories.ReservationRepository;
-import de.ProPra.Lending.Dataaccess.Repositories.UserRepository;
+import de.ProPra.Lending.Dataaccess.Repositories.ServiceUserProvider;
 import de.ProPra.Lending.Model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
@@ -22,7 +22,7 @@ public class DatabaseInitializer implements ServletContextInitializer {
     LendingRepository lendings;
 
     @Autowired
-    UserRepository users;
+    ServiceUserProvider users;
 
     @Autowired
     ArticleRepository articles;

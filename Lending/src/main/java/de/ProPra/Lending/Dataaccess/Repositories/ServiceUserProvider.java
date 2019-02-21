@@ -7,7 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.Optional;
 
 
-public interface UserRepository extends CrudRepository<ServiceUser, Long> {
+public interface ServiceUserProvider extends CrudRepository<ServiceUser, Long> {
     //Iterable<ServiceUser> findAll();
     Optional<ServiceUser> findUserByuserID(long id);
 }

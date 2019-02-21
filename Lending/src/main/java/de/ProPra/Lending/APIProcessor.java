@@ -4,7 +4,7 @@ import de.ProPra.Lending.Dataaccess.PostProccessor;
 import de.ProPra.Lending.Dataaccess.Repositories.ArticleRepository;
 import de.ProPra.Lending.Dataaccess.Repositories.LendingRepository;
 import de.ProPra.Lending.Dataaccess.Repositories.ReservationRepository;
-import de.ProPra.Lending.Dataaccess.Repositories.UserRepository;
+import de.ProPra.Lending.Dataaccess.Repositories.ServiceUserProvider;
 import de.ProPra.Lending.Model.Account;
 import de.ProPra.Lending.Model.Article;
 import de.ProPra.Lending.Model.Lending;
@@ -26,7 +26,7 @@ public class APIProcessor {
     private boolean errorOccurred = false;
     private HashMap<String, String> errorMessage = new HashMap<>();
 
-    public Account getAccountInformationWithId(long userID, UserRepository users) {
+    public Account getAccountInformationWithId(long userID, ServiceUserProvider users) {
         errorOccurred = false;
         Optional<ServiceUser> user = users.findUserByuserID(userID);
         if (!user.isPresent()) {
@@ -141,7 +141,7 @@ public class APIProcessor {
         return mono.block();
     }
 
-    public void PunishOrReleaseConflictingLending(HashMap<String, String> postBodyParas, LendingRepository lendings, UserRepository users, ArticleRepository articles, ReservationRepository reservations) {
+    public void PunishOrReleaseConflictingLending(HashMap<String, String> postBodyParas, LendingRepository lendings, ServiceUserProvider users, ArticleRepository articles, ReservationRepository reservations) {
         String lendingID = postBodyParas.get("lendingID");
         String decision = postBodyParas.get("decision");
         Lending conflictingLending = lendings.findLendingBylendingID(Long.parseLong(lendingID)).get();

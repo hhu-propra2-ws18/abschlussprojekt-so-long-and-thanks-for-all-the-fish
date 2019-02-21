@@ -2,7 +2,7 @@ package de.ProPra.Lending.Dataaccess.Representations;
 
 import de.ProPra.Lending.Dataaccess.Repositories.ArticleRepository;
 import de.ProPra.Lending.Dataaccess.Repositories.LendingRepository;
-import de.ProPra.Lending.Dataaccess.Repositories.UserRepository;
+import de.ProPra.Lending.Dataaccess.Repositories.ServiceUserProvider;
 import de.ProPra.Lending.Model.Article;
 import de.ProPra.Lending.Model.Lending;
 import de.ProPra.Lending.Model.ServiceUser;
@@ -13,7 +13,7 @@ import java.util.*;
 public class LendingRepresentation {
 
     private LendingRepository lendings;
-    private UserRepository users;
+    private ServiceUserProvider users;
     private ArticleRepository articles;
 
     // Returns a list of of lendings for a ServiceUser given by his id, that are Accepted and not returned
@@ -62,7 +62,7 @@ public class LendingRepresentation {
         return articles.findAllByownerUser(serviceUser);
     }
     @Autowired
-    public LendingRepresentation(LendingRepository lendings, UserRepository users, ArticleRepository articles) {
+    public LendingRepresentation(LendingRepository lendings, ServiceUserProvider users, ArticleRepository articles) {
         this.lendings = lendings;
         this.users = users;
         this.articles = articles;

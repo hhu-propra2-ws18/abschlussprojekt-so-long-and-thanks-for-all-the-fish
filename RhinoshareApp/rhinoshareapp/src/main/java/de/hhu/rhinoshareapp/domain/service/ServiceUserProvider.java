@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface ServiceUserProvider extends JpaRepository<ServiceUser, Long> {
 
     Optional<ServiceUser> findByUsername(String username);
+    Optional<ServiceUser> findUserByuserID(long id);
 }

@@ -1,7 +1,7 @@
 package de.ProPra.Lending.Dataaccess.Representations;
 
 import de.ProPra.Lending.Dataaccess.Repositories.TransactionRepository;
-import de.ProPra.Lending.Dataaccess.Repositories.UserRepository;
+import de.ProPra.Lending.Dataaccess.Repositories.ServiceUserProvider;
 import de.ProPra.Lending.Model.ServiceUser;
 import de.ProPra.Lending.Model.Transaction;
 
@@ -10,9 +10,9 @@ import java.util.Optional;
 
 public class TransactionRepresentation {
     private TransactionRepository transactions;
-    private UserRepository users;
+    private ServiceUserProvider users;
 
-    public TransactionRepresentation(TransactionRepository transactions, UserRepository users) {
+    public TransactionRepresentation(TransactionRepository transactions, ServiceUserProvider users) {
         this.transactions = transactions;
         this.users = users;
     }

@@ -4,7 +4,7 @@ import de.ProPra.Lending.Dataaccess.PostProccessor;
 import de.ProPra.Lending.Dataaccess.Repositories.ArticleRepository;
 import de.ProPra.Lending.Dataaccess.Repositories.LendingRepository;
 import de.ProPra.Lending.Dataaccess.Repositories.ReservationRepository;
-import de.ProPra.Lending.Dataaccess.Repositories.UserRepository;
+import de.ProPra.Lending.Dataaccess.Repositories.ServiceUserProvider;
 import de.ProPra.Lending.Dataaccess.Representations.LendingRepresentation;
 import de.ProPra.Lending.Model.Account;
 import de.ProPra.Lending.Model.Article;
@@ -31,12 +31,12 @@ public class LendingApplicationTests {
 	@Test
 	public void UserHasOneLendingWithWarning(){
 		//Arrange
-		UserRepository userRepository = Mockito.mock(UserRepository.class);
+		ServiceUserProvider serviceUserProvider = Mockito.mock(ServiceUserProvider.class);
 		LendingRepository lendingRepository = Mockito.mock(LendingRepository.class);
 		ArticleRepository articleRepository = Mockito.mock(ArticleRepository.class);
 
 		Optional <ServiceUser> testUser = Optional.ofNullable(ServiceUser.builder().userID(1).name("testUser").build());
-		when(userRepository.findUserByuserID(1)).thenReturn(testUser);
+		when(serviceUserProvider.findUserByuserID(1)).thenReturn(testUser);
 
 		Calendar endDate = Calendar.getInstance();
 		endDate.set(2019, 1, 14);
@@ -46,7 +46,7 @@ public class LendingApplicationTests {
 		when(lendingRepository.findAllBylendingPersonAndIsAcceptedAndIsReturnAndIsConflict(testUser.get(), true, false, false)).thenReturn(testLendingList);
 
 		//Act
-		LendingRepresentation lendingRepresentation = new LendingRepresentation(lendingRepository, userRepository, articleRepository);
+		LendingRepresentation lendingRepresentation = new LendingRepresentation(lendingRepository, serviceUserProvider, articleRepository);
 		List<Lending> resultLendings = lendingRepresentation.FillLendings(1);
 		Lending resultLending = resultLendings.get(0);
 
@@ -57,12 +57,12 @@ public class LendingApplicationTests {
 	@Test
 	public void UserHasOneLendingWithoutWarning(){
 		//Arrange
-		UserRepository userRepository = Mockito.mock(UserRepository.class);
+		ServiceUserProvider serviceUserProvider = Mockito.mock(ServiceUserProvider.class);
 		LendingRepository lendingRepository = Mockito.mock(LendingRepository.class);
 		ArticleRepository articleRepository = Mockito.mock(ArticleRepository.class);
 
 		Optional <ServiceUser> testUser = Optional.ofNullable(ServiceUser.builder().userID(1).name("testUser").build());
-		when(userRepository.findUserByuserID(1)).thenReturn(testUser);
+		when(serviceUserProvider.findUserByuserID(1)).thenReturn(testUser);
 
 		// Set EndDate one year after current Date
 		Calendar endDate = Calendar.getInstance();
@@ -78,7 +78,7 @@ public class LendingApplicationTests {
 		long expectedDays = Math.round( (double)time / (24. * 60.*60.*1000.) );
 
 		//Act
-		LendingRepresentation lendingRepresentation = new LendingRepresentation(lendingRepository, userRepository, articleRepository);
+		LendingRepresentation lendingRepresentation = new LendingRepresentation(lendingRepository, serviceUserProvider, articleRepository);
 		List<Lending> resultLendings = lendingRepresentation.FillLendings(1);
 		Lending resultLending = resultLendings.get(0);
 
@@ -111,7 +111,7 @@ public class LendingApplicationTests {
 	@Test
 	public void UserAcceptLending(){
 		//Arrange
-		UserRepository userRepository = Mockito.mock(UserRepository.class);
+		ServiceUserProvider serviceUserProvider = Mockito.mock(ServiceUserProvider.class);
 		LendingRepository lendingRepository = Mockito.mock(LendingRepository.class);
 		ArticleRepository articleRepository = Mockito.mock(ArticleRepository.class);
 		ReservationRepository reservations = Mockito.mock(ReservationRepository.class);
@@ -124,7 +124,7 @@ public class LendingApplicationTests {
 		testMap.put("choice","accept");
 		testMap.put("lendingID", "1");
 		//Act
-		postProccessor.CheckDecision(apiProcessor,testMap, lendingRepository, articleRepository, userRepository, reservations);
+		postProccessor.CheckDecision(apiProcessor,testMap, lendingRepository, articleRepository, serviceUserProvider, reservations);
 		//Assert
 		Assert.assertEquals(true,testLending.get().isAccepted());
 		Assert.assertEquals(false,testLending.get().getLendedArticle().isRequested());

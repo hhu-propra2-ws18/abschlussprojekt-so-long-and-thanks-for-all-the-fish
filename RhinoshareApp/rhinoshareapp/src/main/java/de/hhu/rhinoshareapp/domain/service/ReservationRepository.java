@@ -1,6 +1,6 @@
-package de.ProPra.Lending.Dataaccess.Repositories;
+package de.hhu.rhinoshareapp.domain.service;
 
-import de.ProPra.Lending.Model.Reservation;
+import de.hhu.rhinoshareapp.domain.model.Reservation;
 import org.springframework.data.repository.CrudRepository;
 
 public interface ReservationRepository extends CrudRepository<Reservation, Long> {
