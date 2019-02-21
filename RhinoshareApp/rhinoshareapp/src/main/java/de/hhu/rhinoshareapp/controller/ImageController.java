@@ -1,7 +1,7 @@
-package de.ProPra.Articles.infrastructure.web;
+package de.hhu.rhinoshareapp.controller;
 
-import de.ProPra.Articles.domain.model.Image;
-import de.ProPra.Articles.domain.service.ImageRepository;
+import de.hhu.rhinoshareapp.domain.model.Image;
+import de.hhu.rhinoshareapp.domain.service.ImageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
