@@ -1,7 +1,6 @@
 package de.ProPra.Lending.Dataaccess.Repositories;
 
 import de.ProPra.Lending.Model.Article;
-import de.ProPra.Lending.Model.Lending;
 import de.ProPra.Lending.Model.User;
 import org.springframework.data.repository.CrudRepository;
 

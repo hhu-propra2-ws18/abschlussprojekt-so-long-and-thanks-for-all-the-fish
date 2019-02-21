@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <title>Transactions</title>
+</head>
+<body>
+fincancial expenses
+<table th:each="giving : ${givings}">
+    <div style="margin:0; margin-right:10px; border:2px solid #dfdfdf;
+        padding: 0em 1em 1em 1em; background-color:#FFFFFF;text-align:center">
+        <h3>To User =</h3>
+        <div th:text="${giving.reciever.name}">0</div>
+        <h3>Amount =</h3>
+        <div th:text="${giving.amount}">0</div>
+        <h3>Article =</h3>
+        <div th:text="${giving.article.name}">0</div>
+        <h3>Date =</h3>
+        <div th:text="${giving.formattedTransactionDate}">0</div>
+
+    </div>
+</table>
+financial income
+<table th:each="recieve : ${recieves}">
+    <div style="margin:0; margin-right:10px; border:2px solid #dfdfdf;
+        padding: 0em 1em 1em 1em; background-color:#FFFFFF;text-align:center">
+        <h3>From User =</h3>
+        <div th:text="${recieve.giver.name}">0</div>
+        <h3>Amount =</h3>
+        <div th:text="${recieve.amount}">0</div>
+        <h3>Article =</h3>
+        <div th:text="${recieve.article.name}">0</div>
+        <h3>Date =</h3>
+        <div th:text="${recieve.formattedTransactionDate}">0</div>
+    </div>
+</table>
+<dr>
+<a th:href="@{/{id}(id = ${id})}" role="button">overview</a>
+</dr>
+</body>
+</html>

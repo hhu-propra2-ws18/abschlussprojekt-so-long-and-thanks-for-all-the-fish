@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <title>Conflicts</title>
+</head>
+<body>
+<table th:each="conflict : ${conflicts}">
+    <div style="margin:0; margin-right:10px; border:2px solid #dfdfdf;
+        padding: 0em 1em 1em 1em; background-color:#FFFFFF;text-align:center">
+        <h3>Articlename =</h3>
+        <div th:text="${conflict.lendedArticle.name}">0</div>
+        <h3>comment =</h3>
+        <div th:text="${conflict.lendedArticle.comment}">0</div>
+        <h3>Person you are borrowing from =</h3>
+        <div th:text="${conflict.lendedArticle.ownerUser.name}">0</div>
+        <h3>Deposit =</h3>
+        <div th:text="${conflict.lendedArticle.deposit}">0</div>
+        <h3>Rent =</h3>
+        <div th:text="${conflict.lendedArticle.rent}">0</div>
+        <h3>Info =</h3>
+        <div th:text="${conflict.warning}">0</div>
+    </div>
+</table>
+<table th:each="yourConflict : ${yourConflicts}">
+    <div style="margin:0; margin-right:10px; border:2px solid #dfdfdf;
+        padding: 0em 1em 1em 1em; background-color:#FFFFFF;text-align:center">
+        <h3>Articlename =</h3>
+        <div th:text="${yourConflict.lendedArticle.name}">0</div>
+        <h3>comment =</h3>
+        <div th:text="${yourConflict.lendedArticle.comment}">0</div>
+        <h3>Who was lending your Article =</h3>
+        <div th:text="${yourConflict.lendingPerson}">0</div>
+        <h3>Deposit =</h3>
+        <div th:text="${yourConflict.lendedArticle.deposit}">0</div>
+        <h3>Rent =</h3>
+        <div th:text="${yourConflict.lendedArticle.rent}">0</div>
+        <h3>Info =</h3>
+        <div th:text="${yourConflict.warning}">0</div>
+    </div>
+</table>
+<dr>>
+<a th:href="@{/{id}(id = ${id})}" role="button">overview</a>
+</dr>
+</body>
+</html>
