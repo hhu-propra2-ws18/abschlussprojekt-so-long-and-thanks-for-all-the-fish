@@ -1,8 +1,8 @@
-package de.ProPra.Articles.infrastructure.web;
+package de.hhu.rhinoshareapp.controller;
 
-import de.ProPra.Articles.domain.model.Article;
-import de.ProPra.Articles.domain.service.ArticleRepository;
-import de.ProPra.Articles.domain.service.ImageRepository;
+import de.hhu.rhinoshareapp.domain.model.Article;
+import de.hhu.rhinoshareapp.domain.service.ArticleRepository;
+import de.hhu.rhinoshareapp.domain.service.ImageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,7 +29,7 @@ public class ArticleController {
     public String viewAll(Model model){
         Iterable<Article> articles= articleRepository.findAll();
         model.addAttribute("articles", articles);
-        return "viewAll";
+        return "Article/viewAll";
     }
 
     @GetMapping("/view/{personID}")
@@ -37,21 +37,21 @@ public class ArticleController {
         List<Article> articles = articleRepository.findByPersonID(personID);
         model.addAttribute("id",personID);
         model.addAttribute("articles", articles);
-        return "viewFromPerson";
+        return "Article/viewFromPerson";
     }
 
     @GetMapping("/open/{id}")
     public String openArticleView(Model model, @PathVariable long id){
         Article article = articleRepository.findById(id);
         model.addAttribute("article", article);
-        return "openArticleView";
+        return "Article/openArticleView";
     }
 
     @GetMapping("/admin/{id}")
     public String privateArticleView(Model model, @PathVariable long id){
         Article article = articleRepository.findById(id);
         model.addAttribute("article", article);
-        return "privateArticleView";
+        return "Article/privateArticleView";
     }
 
 
@@ -60,7 +60,7 @@ public class ArticleController {
     public String newArticle(Model model, @PathVariable long personID){
         Article article = new Article();
         model.addAttribute("article",article);
-        return  "newArticle";
+        return  "Article/newArticle";
     }
 
     @PostMapping("/new/{personID}")
@@ -76,7 +76,7 @@ public class ArticleController {
     public String editArticle(Model model, @PathVariable long id){
         Article article = articleRepository.findById(id);
         model.addAttribute("article", article);
-        return "editArticle";
+        return "Article/editArticle";
     }
 
     @PostMapping("/edit/{id}")
@@ -96,7 +96,7 @@ public class ArticleController {
     public String deleteAArticle(@PathVariable long id, Model model){
         Article article = articleRepository.findById(id);
         model.addAttribute("article",article);
-        return "deleteArticle";
+        return "Article/deleteArticle";
     }
 
     @PostMapping("/delete/{id}")
@@ -111,6 +111,6 @@ public class ArticleController {
     public String searchForArticle(@RequestParam String query, Model model){
         model.addAttribute("articles", articleRepository.findAllByNameContainingOrCommentContainingAllIgnoreCase(query,query));
         model.addAttribute("query", query);
-        return "searchArticle";
+        return "Article/searchArticle";
     }
 }

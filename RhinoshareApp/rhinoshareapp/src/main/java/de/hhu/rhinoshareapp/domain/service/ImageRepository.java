@@ -1,6 +1,6 @@
-package de.ProPra.Articles.domain.service;
+package de.hhu.rhinoshareapp.domain.service;
 
-import de.ProPra.Articles.domain.model.Image;
+import de.hhu.rhinoshareapp.domain.model.Image;
 import org.springframework.data.repository.CrudRepository;
 
 public interface ImageRepository extends CrudRepository<Image, Long>{

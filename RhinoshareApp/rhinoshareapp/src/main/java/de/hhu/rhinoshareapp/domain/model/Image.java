@@ -1,4 +1,4 @@
-package de.ProPra.Articles.domain.model;
+package de.hhu.rhinoshareapp.domain.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

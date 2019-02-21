@@ -1,4 +1,4 @@
-package de.hhu.rhinoshareapp.web;
+package de.hhu.rhinoshareapp.controller;
 
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;

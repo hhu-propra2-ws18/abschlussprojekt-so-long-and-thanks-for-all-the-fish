@@ -1,4 +1,4 @@
-package de.hhu.rhinoshareapp.web;
+package de.hhu.rhinoshareapp.controller;
 
 import de.hhu.rhinoshareapp.domain.model.ServiceUser;
 import de.hhu.rhinoshareapp.domain.service.ServiceUserProvider;
