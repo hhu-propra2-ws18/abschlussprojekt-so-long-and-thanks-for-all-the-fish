@@ -15,7 +15,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Controller
-@RequestMapping("/artikel")
+@RequestMapping("/article")
 public class ArticleController {
 
     @Autowired

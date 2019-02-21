@@ -23,6 +23,7 @@ public class MainpageController {
             ServiceUser user = u.get();
             m.addAttribute("surname", user.getSurname());
             m.addAttribute("loggedIn", "true");
+            m.addAttribute("id", user.getId());
         }
         else {
             m.addAttribute("surname", "Account erstellen");
