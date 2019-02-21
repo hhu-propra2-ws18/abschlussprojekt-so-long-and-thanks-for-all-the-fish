@@ -1,4 +1,4 @@
-package de.ProPra.Lending.Controller;
+package de.hhu.rhinoshareapp.controller;
 
 import de.ProPra.Lending.APIProcessor;
 import de.ProPra.Lending.Dataaccess.PostProccessor;
