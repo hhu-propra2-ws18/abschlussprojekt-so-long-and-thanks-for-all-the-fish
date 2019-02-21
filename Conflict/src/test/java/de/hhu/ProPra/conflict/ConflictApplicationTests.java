@@ -111,9 +111,10 @@ public class ConflictApplicationTests {
         Mockito.when(userRepo.findById(2)).thenReturn(testUser2);
         Mockito.when(userRepo.findById(3)).thenReturn(testUser3);
         Mockito.when(lendingRepo.findAllByConflict(true)).thenReturn(null);
-
         Mockito.when(lendingRepo.findById(7)).thenReturn(testLending1);
         Mockito.when(lendingRepo.save(testLending1)).thenReturn(testLending1);
+        Mockito.when(lendingRepo.findById(1)).thenReturn(testLending1);
+
 
         controller.setUserRepository(userRepo);
         controller.setLendingRepository(lendingRepo);
@@ -142,14 +143,25 @@ public class ConflictApplicationTests {
 	}
 
 	@Test
-    public void testPostMapping(){
+    public void testPostMappingConflictSolved(){
 
         assertEquals("redirect:/borrowerWin",controller.conflictSolved(m,"winBorrower",7));
         assertEquals("redirect:/ownerWin",controller.conflictSolved(m,"winOwner",7));
         assertEquals("redirect:/conflictOverview",controller.conflictSolved(m,"",7));
     }
 
+    @Test
+	public void postConflictOverviewTest(){
+    	assertEquals("redirect:/", controller.postConflictOverview(m, 1, "back"));
+    	assertEquals("redirect:/showcase/1", controller.postConflictOverview(m, 1, "show"));
+    	assertEquals("redirect:/conflictOverview", controller.postConflictOverview(m, 1, "no"));
+	}
 
+	@Test
+	public void getShowcaseTest(){
+    	assertEquals("conflict-admin-case", controller.getShowCase(m,1));
+    	assertEquals("redirect:/conflictOverview", controller.getShowCase(m,2));
+	}
 
 
 }

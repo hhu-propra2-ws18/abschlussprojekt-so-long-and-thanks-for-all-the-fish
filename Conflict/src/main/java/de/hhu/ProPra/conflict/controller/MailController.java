@@ -20,10 +20,6 @@ public class MailController {
     @Autowired
     private MailService mailService;
 
-    public void setLendRepo(LendingRepository lendRepo) {
-        this.lendRepo = lendRepo;
-    }
-
     @Autowired
     LendingRepository lendRepo;
 
