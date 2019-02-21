@@ -1,6 +1,6 @@
-package de.ProPra.Articles.domain.service;
+package de.hhu.rhinoshareapp.domain.service;
 
-import de.ProPra.Articles.domain.model.Article;
+import de.hhu.rhinoshareapp.domain.model.Article;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
