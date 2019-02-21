@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Benutzerverwaltung - Rhinoshare</title>
+    <link rel="stylesheet" type="text/css" href="/css/stylesheet.css">
+    <link rel="icon" href="/img/RhinoLogoSmall.png">
+</head>
+<body>
+<img id="titleImageTest" src="/img/rhinoLogoBigAdmin.png" width="300" height="75">
+<ul class="navigationbar">
+    <li class="navbaritem"><a href="/admin">Überblick</a></li>
+    <li class="navbaritem"><a class="active" href="/admin/usermanagement">Benutzerverwaltung</a></li>
+    <li class="navbaritem"><a href="/admin">Konfliktlösung</a></li>
+    <li class="navbaritem"><a href="/admin">Contact</a></li>
+    <li class="navbaritem"><a href="/">Hauptseite</a></li>
+    <li style="float: right;" class="navbaritem" href th:if="${loggedIn == 'false'}">
+        <a href="/login">Einloggen</a>
+    </li>
+    <li style="float: right" class="navbaritem" href th:if="${loggedIn == 'true'}">
+        <a href="/logout">Ausloggen</a>
+    </li>
+</ul>
+<table id="useroverview">
+    <th>ID</th>
+    <th>Name</th>
+    <th>Vorname</th>
+    <th>Adresse</th>
+    <th>RhinoID</th>
+    <th>Email</th>
+    <th>Score</th>
+    <th>Berechtigungen</th>
+    <th>Aktion</th>
+    <th:block th:each="user : ${userlist}">
+        <tr>
+            <td th:text="${user.id}">...</td>
+            <td th:text="${user.name}">...</td>
+            <td th:text="${user.surname}">...</td>
+            <td th:text="${user.address}">...</td>
+            <td th:text="${user.username}">...</td>
+            <td th:text="${user.email}">...</td>
+            <td th:text="${user.score}">...</td>
+            <td th:text="${user.role}">...</td>
+            <td>
+                <a href="/admin/usermanagement">
+                    <button>O</button>
+                </a>
+            </td>
+        </tr>
+    </th:block>
+</table>
+</body>
+</html>

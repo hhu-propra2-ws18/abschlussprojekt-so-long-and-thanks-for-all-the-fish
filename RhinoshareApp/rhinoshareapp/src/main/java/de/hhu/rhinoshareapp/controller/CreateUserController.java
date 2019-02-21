@@ -14,10 +14,10 @@ public class CreateUserController {
     public ServiceUserProvider users;
 
     @PostMapping("/newaccount")
-    public String saveNewUser(String name, String surname, String username, String email, String password) {
+    public String saveNewUser(String name, String surname, String username, String address, String email, String password) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String password_encrypted = passwordEncoder.encode(password);
-        ServiceUser newUser = new ServiceUser(name, surname, username, email, password_encrypted, "ROLE_USER");
+        ServiceUser newUser = new ServiceUser(name, surname, address, username, email, password_encrypted, "ROLE_USER");
 
         users.save(newUser);
         System.out.println("User: " + username);

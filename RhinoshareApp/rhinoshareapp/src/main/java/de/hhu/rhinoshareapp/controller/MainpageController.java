@@ -18,17 +18,7 @@ public class MainpageController {
 
     @GetMapping("/")
     public String loadMainPage(Model m, Principal p) {
-        if (p != null) {
-            Optional<ServiceUser> u = users.findByUsername(p.getName());
-            ServiceUser user = u.get();
-            m.addAttribute("surname", user.getSurname());
-            m.addAttribute("loggedIn", "true");
-            m.addAttribute("id", user.getId());
-        }
-        else {
-            m.addAttribute("surname", "Account erstellen");
-            m.addAttribute("loggedIn", "false");
-        }
+        ActualUserChecker.checkActualUser(m, p, users);
         return "mainpage";
     }
 
