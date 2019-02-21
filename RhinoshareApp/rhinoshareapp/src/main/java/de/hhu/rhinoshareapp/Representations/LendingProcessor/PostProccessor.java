@@ -82,7 +82,7 @@ public class PostProccessor {
             if(HasEnoughMoneyForRent(lendingAccount, article.getArticleID(), articles) && postBodyParas.get("choicereturn").equals("accept")) {
                 apiProcessor.postTransfer(String.class, lendingAccount, article, amount);
                 Calendar timeStamp = Calendar.getInstance();
-                Transaction transaction = new Transaction(article.getOwnerServiceUser(), lending.getLendingPerson(), article, amount, timeStamp);
+                Transaction transaction = new Transaction(article.getOwnerUser(), lending.getLendingPerson(), article, amount, timeStamp);
                 transactions.save(transaction);
                 apiProcessor.punishOrRealeseReservation(Account.class, lendingAccount, article, lending.getProPayReservation().getId(), "release");
                 CleanUpLending(postBodyParas, lendings, articles);

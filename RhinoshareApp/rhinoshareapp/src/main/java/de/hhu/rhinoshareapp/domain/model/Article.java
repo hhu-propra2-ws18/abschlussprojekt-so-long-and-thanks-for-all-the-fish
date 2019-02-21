@@ -29,7 +29,7 @@ public class Article {
     //@OneToOne
     long personID;
     @OneToOne
-    ServiceUser ownerServiceUser;
+    ServiceUser ownerUser;
 
     int deposit;
 

@@ -1,13 +1,13 @@
 package de.hhu.rhinoshareapp.controller;
 
-import de.ProPra.Lending.APIProcessor;
-import de.ProPra.Lending.Dataaccess.PostProccessor;
-import de.ProPra.Lending.Dataaccess.Repositories.*;
-import de.ProPra.Lending.Dataaccess.Representations.LendingRepresentation;
-import de.ProPra.Lending.Dataaccess.Representations.RequestRepresentation;
-import de.ProPra.Lending.Dataaccess.Representations.ReturnProcessRepresentation;
-import de.ProPra.Lending.Dataaccess.Representations.TransactionRepresentation;
-import de.ProPra.Lending.Model.Account;
+import de.hhu.rhinoshareapp.Representations.LendingProcessor.APIProcessor;
+import de.hhu.rhinoshareapp.Representations.LendingProcessor.PostProccessor;
+import de.hhu.rhinoshareapp.Representations.LendingRepresentation;
+import de.hhu.rhinoshareapp.Representations.RequestRepresentation;
+import de.hhu.rhinoshareapp.Representations.ReturnProcessRepresentation;
+import de.hhu.rhinoshareapp.Representations.TransactionRepresentation;
+import de.hhu.rhinoshareapp.domain.model.Account;
+import de.hhu.rhinoshareapp.domain.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +19,7 @@ import java.util.HashMap;
 public class LendingController {
 
     private LendingRepository lendings;
-    private UserRepository users;
+    private ServiceUserProvider users;
     private ArticleRepository articles;
     private ReservationRepository reservations;
     private TransactionRepository transactions;
@@ -29,7 +29,7 @@ public class LendingController {
     //TODO: add History for lendings
 
     @Autowired
-    public LendingController(LendingRepository lendings, UserRepository users, ArticleRepository articles, ReservationRepository reservations, TransactionRepository transactions) {
+    public LendingController(LendingRepository lendings, ServiceUserProvider users, ArticleRepository articles, ReservationRepository reservations, TransactionRepository transactions) {
         this.lendings = lendings;
         this.articles = articles;
         this.users = users;
@@ -44,10 +44,10 @@ public class LendingController {
         LendingRepresentation filledLendings = new LendingRepresentation(lendings, users, articles);
         if (apiProcessor.isErrorOccurred()) {
             model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
-            return "errorPage";
+            return "Lending/errorPage";
         }
         model.addAttribute("lendings", filledLendings.FillLendings(lendID));
-        return "overviewLendings";
+        return "Lending/overviewLendings";
     }
 
     @PostMapping("/lendings/{lendID}")
@@ -58,10 +58,10 @@ public class LendingController {
         LendingRepresentation filledLendings = new LendingRepresentation(lendings, users, articles);
         if (apiProcessor.isErrorOccurred()) {
             model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
-            return "errorPage";
+            return "Lending/errorPage";
         }
         model.addAttribute("lendings", filledLendings.FillLendings(lendID));
-        return "overviewLendings";
+        return "Lending/overviewLendings";
     }
 
     @GetMapping("/borrows/{borrowID}")
@@ -70,10 +70,10 @@ public class LendingController {
         LendingRepresentation filledArticles = new LendingRepresentation(lendings, users, articles);
         if (apiProcessor.isErrorOccurred()) {
             model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
-            return "errorPage";
+            return "Lending/errorPage";
         }
         model.addAttribute("articles", filledArticles.FillBorrows(borrowID));
-        return "overviewBorrows";
+        return "Lending/overviewBorrows";
     }
 
     @GetMapping("/{id}")
@@ -83,11 +83,11 @@ public class LendingController {
         ReturnProcessRepresentation filledReturns = new ReturnProcessRepresentation(users, articles, id, lendings);
         if (apiProcessor.isErrorOccurred()) {
             model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
-            return "errorPage";
+            return "Lending/errorPage";
         }
         model.addAttribute("requests", filledRequests.FillRequest());
         model.addAttribute("returns", filledReturns.FillReturns());
-        return "overview";
+        return "Lending/overview";
     }
 
     @PostMapping("/{id}")
@@ -99,11 +99,11 @@ public class LendingController {
         postProccessor.CheckDecision(apiProcessor,postBodyParas, lendings, articles, users, reservations, transactions);
         if (apiProcessor.isErrorOccurred()) {
             model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
-            return "errorPage";
+            return "Lending/errorPage";
         }
         model.addAttribute("requests", filledRequests.FillRequest());
         model.addAttribute("returns", filledReturns.FillReturns());
-        return "overview";
+        return "Lending/overview";
     }
 
     @GetMapping("/lendingRequest")
@@ -112,14 +112,14 @@ public class LendingController {
         model.addAttribute("requesterID", requesterID);
         if (apiProcessor.isErrorOccurred()) {
             model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
-            return "errorPage";
+            return "Lending/errorPage";
         }
         if (apiProcessor.hasEnoughMoneyForDeposit(lenderAccountInformation, articleID, articles)) {
             model.addAttribute("requesterID", requesterID);
             model.addAttribute("articleID", articleID);
-            return "lendingRequest";
+            return "Lending/lendingRequest";
         }
-        return "povertyPage";
+        return "Lending/povertyPage";
     }
 
     @PostMapping("/inquiry")
@@ -129,9 +129,9 @@ public class LendingController {
         postProccessor.CreateNewLending(postBodyParas, articles, lendings, users);
         if (apiProcessor.isErrorOccurred()) {
             model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
-            return "errorPage";
+            return "Lending/errorPage";
         }
-        return "inquiry";
+        return "Lending/inquiry";
     }
 
     //
@@ -142,9 +142,9 @@ public class LendingController {
         model.addAttribute("id", id);
         if (apiProcessor.isErrorOccurred()) {
             model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
-            return "errorPage";
+            return "Lending/errorPage";
         }
-        return "proPayOverview";
+        return "Lending/proPayOverview";
     }
     @PostMapping("/proPay/{id}")
     public String SetProPayOverview(Model model, @PathVariable final long id, @RequestBody String postBody){
@@ -155,16 +155,16 @@ public class LendingController {
         model.addAttribute("id", id);
         if (apiProcessor.isErrorOccurred()) {
             model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
-            return "errorPage";
+            return "Lending/errorPage";
         }
-        return "proPayOverview";
+        return "Lending/proPayOverview";
     }
 
     @PostMapping("/releaseConflictingLending")
     public String ReleaseConflictingLending(@RequestBody String postBody ){
         HashMap<String, String> postBodyParas = postProccessor.SplitString(postBody);
         apiProcessor.PunishOrReleaseConflictingLending(postBodyParas, lendings, users, articles, reservations);
-        return "overview";
+        return "Lending/overview";
     }
     @GetMapping("/conflictPage/{id}")
     public String ReleaseConflictingLending(Model model, @PathVariable final long id){
@@ -172,11 +172,11 @@ public class LendingController {
         model.addAttribute("id",id);
         if (apiProcessor.isErrorOccurred()) {
             model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
-            return "errorPage";
+            return "Lending/errorPage";
         }
         model.addAttribute("conflicts",filledConflicts.FillConflicts(id));
         model.addAttribute("yourConflicts", filledConflicts.FillConflictsOwner(id));
-        return "conflictPage";
+        return "Lending/conflictPage";
     }
     @GetMapping("/transaction/{id}")
     public String ShowTransactions(Model model, @PathVariable final long id){
@@ -184,11 +184,11 @@ public class LendingController {
         model.addAttribute("id",id);
         if (apiProcessor.isErrorOccurred()) { ;
             model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
-            return "errorPage";
+            return "Lending/errorPage";
         }
         model.addAttribute("givings",transactionRepresentation.FillGivings(id));
         model.addAttribute("recieves", transactionRepresentation.FillRecieves(id));
-        return "transactionsPage";
+        return "Lending/transactionsPage";
     }
 
 
@@ -200,7 +200,7 @@ public class LendingController {
         System.out.println(apiProcessor.getAccountInformation("Olaf", Account.class));
         System.out.println(apiProcessor.getAccountInformation("Memfred", Account.class));
 
-        return "overview";
+        return "Lending/overview";
     }
 
 }
