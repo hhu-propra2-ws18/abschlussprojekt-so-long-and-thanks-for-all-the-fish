@@ -18,11 +18,11 @@
     <div class="container">
         <div class="form-group">
             <label> Lending ID</label>
-            <input th:name="lendingID" class="form-control" type="text" placeholder="insert lendingID">
+            <input th:name="lendingID" class="form-control" type="number" min="0" required="requiredd" placeholder="insert lendingID">
         </div>
         <div class="form-group">
             <label>Problem:</label>
-            <textarea th:name="description" class="form-control" id="conflictTextarea" rows="5"
+            <textarea th:name="description" class="form-control" required="required" id="conflictTextarea" rows="5"
                       placeholder="Describe your conflict here as precise as possible"></textarea>
         <div class="align-right">
             <input type="submit" value="back" name="action">

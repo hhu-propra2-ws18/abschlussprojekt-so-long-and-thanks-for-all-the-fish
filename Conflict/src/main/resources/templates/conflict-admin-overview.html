@@ -31,10 +31,11 @@
         </tbody>
     </table>
     <div class="align-right">
+        <input type="submit" value="back"
+               onclick="window.location='/openConflict';" />
         <form method="post">
         <div class="form-group">
-            <button type="submit" value="back" class="btn btn-dark" name="action">back</button>
-            <input th:name="lendingID" type="text" />
+            <input th:name="lendingID" type="number" min="0" required="required" />
             <button type="submit" value="show" class="btn" name="action">show conflict</button>
         </div>
         </form>

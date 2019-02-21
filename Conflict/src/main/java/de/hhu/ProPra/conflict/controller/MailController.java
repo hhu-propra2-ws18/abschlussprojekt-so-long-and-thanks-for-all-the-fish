@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.*;
 import de.hhu.ProPra.conflict.service.MailService;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -44,17 +46,19 @@ public class MailController {
     @PostMapping("/openConflict")
     public String openConflictpost(Model model, @RequestParam(value = "action") String button, @RequestParam long lendingID,
                                    @RequestParam String description) {
-        if (button.equals("back")) {
-            return "Back";
-        }
         if (button.equals("open")) {
-            Lending l = lendRepo.findById(lendingID);
-            l.setConflict(true);
-            l.getLendingPerson();
-            lendRepo.save(l);
-            User owner = l.getLendedArticle().getOwnerUser();
-            User admin = userRepo.findById(3);
-            send(lendingID, description, (owner.getId()), (l.getLendingPerson().getId()), admin);
+            if(!(description.equals(""))) {
+                Lending l = lendRepo.findById(lendingID);
+                l.setConflict(true);
+                l.getLendingPerson();
+                lendRepo.save(l);
+                User owner = l.getLendedArticle().getOwnerUser();
+                User admin = userRepo.findById(3);
+                send(lendingID, description, (owner.getId()), (l.getLendingPerson().getId()), admin);
+            }
+            else{
+                return "redirect:8080/openConflict";
+            }
         }
         return "redirect:/";
 
@@ -74,19 +78,25 @@ public class MailController {
         if (button.equals("back")) {
             return "redirect:/";
         }
-        if (button.equals("show")) {
+        if(button.equals("show")){
             return "redirect:/showcase/" + lendingID;
         }
-        return "";
+        return "redirect:/conflictOverview";
     }
 
     @GetMapping("/showcase/{id}")
     public String getShowCase(Model model, @PathVariable long id) {
-        Lending l = lendRepo.findById(id);
-        model.addAttribute("owningPerson",l.getLendedArticle().getOwnerUser().getUsername());
-        model.addAttribute("borrowwPerson",l.getLendingPerson().getUsername());
-        model.addAttribute("lendingID",l.getLendingID());
-        model.addAttribute("articleName",l.getLendedArticle().getName());
+
+        try {
+            Lending l = lendRepo.findById(id);
+            model.addAttribute("owningPerson", l.getLendedArticle().getOwnerUser().getUsername());
+            model.addAttribute("borrowwPerson", l.getLendingPerson().getUsername());
+            model.addAttribute("lendingID", l.getLendingID());
+            model.addAttribute("articleName", l.getLendedArticle().getName());
+        } catch(Exception e){
+            return "redirect:/conflictOverview";
+        }
+
         return "conflict-admin-case";
     }
 
@@ -105,6 +115,4 @@ public class MailController {
         }
         return"redirect:/conflictOverview";
     }
-
-
 }
