@@ -1,8 +1,7 @@
-package de.ProPra.Lending.Dataaccess;
+package de.hhu.rhinoshareapp.Representations.LendingProcessor;
 
-import de.ProPra.Lending.APIProcessor;
-import de.ProPra.Lending.Dataaccess.Repositories.*;
-import de.ProPra.Lending.Model.*;
+import de.hhu.rhinoshareapp.domain.model.*;
+import de.hhu.rhinoshareapp.domain.service.*;
 
 import java.util.Calendar;
 import java.util.HashMap;
