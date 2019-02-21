@@ -1,11 +1,11 @@
-package de.ProPra.Lending.Dataaccess.Representations;
+package de.hhu.rhinoshareapp.Representations;
 
-import de.ProPra.Lending.Dataaccess.Repositories.ArticleRepository;
-import de.ProPra.Lending.Dataaccess.Repositories.LendingRepository;
-import de.ProPra.Lending.Dataaccess.Repositories.ServiceUserProvider;
-import de.ProPra.Lending.Model.Article;
-import de.ProPra.Lending.Model.Lending;
-import de.ProPra.Lending.Model.ServiceUser;
+import de.hhu.rhinoshareapp.domain.model.Article;
+import de.hhu.rhinoshareapp.domain.model.Lending;
+import de.hhu.rhinoshareapp.domain.model.ServiceUser;
+import de.hhu.rhinoshareapp.domain.service.ArticleRepository;
+import de.hhu.rhinoshareapp.domain.service.LendingRepository;
+import de.hhu.rhinoshareapp.domain.service.ServiceUserProvider;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,9 +1,9 @@
-package de.ProPra.Lending.Dataaccess.Representations;
+package de.hhu.rhinoshareapp.Representations;
 
-import de.ProPra.Lending.Dataaccess.Repositories.TransactionRepository;
-import de.ProPra.Lending.Dataaccess.Repositories.ServiceUserProvider;
-import de.ProPra.Lending.Model.ServiceUser;
-import de.ProPra.Lending.Model.Transaction;
+import de.hhu.rhinoshareapp.domain.model.ServiceUser;
+import de.hhu.rhinoshareapp.domain.model.Transaction;
+import de.hhu.rhinoshareapp.domain.service.ServiceUserProvider;
+import de.hhu.rhinoshareapp.domain.service.TransactionRepository;
 
 import java.util.List;
 import java.util.Optional;
