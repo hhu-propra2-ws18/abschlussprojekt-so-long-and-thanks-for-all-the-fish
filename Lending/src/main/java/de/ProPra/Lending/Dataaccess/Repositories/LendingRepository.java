@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface LendingRepository extends CrudRepository<Lending, Long> {
     //Iterable<Lending> findAll();
-    List<Lending> findAllBylendingPersonAndIsAcceptedAndIsReturn(User user, boolean accepted, boolean isReturn);
+    List<Lending> findAllBylendingPersonAndIsAcceptedAndIsReturnAndIsConflict(User user, boolean accepted, boolean isReturn, boolean isConflict);
     Optional<Lending> findLendingBylendedArticle(Article article);
     Optional<Lending> findLendingBylendedArticleAndIsReturn(Article article, boolean isReturn);
     Optional<Lending> findLendingBylendingID(long id);

@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <meta charset="UTF-8">
     <title>Overview</title>
 </head>
 <body>
 <a th:href="@{/lendings/{id}(id = ${id})}" role="button">Lendings</a>
 <a th:href="@{/borrows/{id}(id = ${id})}" role="button">Borrows</a>
+<a th:href="@{/conflictPage/{id}(id = ${id})}" role="button">Conflicts</a>
+<a th:href="@{/transaction/{id}(id = ${id})}" role="button">Transactions</a>
+<a th:href="@{/proPay/{id}(id = ${id})}" role="button">ProPay Account</a>
 <div>
     Your article requests
     <table th:each="request : ${requests}">
