@@ -12,7 +12,7 @@
 <body>
     <div class="container">
         <h1 th:text="${article.getName()}">SampleName</h1>
-        <img th:src="@{/image/{id} (id = ${article.getImageID()})}" width=auto height="300px"/>
+        <img th:src="@{/image/{id} (id = ${article.getImage().get(0).getImageID()})}" width=auto height="300px"/>
         <table>
             <tr>
                 <td>Beschreibung:</td>
