@@ -11,6 +11,9 @@
         <ul class="navigationbar">
             <li class="navbaritem"><a class="active" href="/">Rhino-Übersicht</a></li>
             <li class="navbaritem"><a href="/">News</a></li>
+            <li class="navbaritem"><a href="/article/">Artikel</a></li>
+            <li style="float: right" class="navbaritem" href th:if="${loggedIn == 'true'}">
+                <a th:href="@{'/article/view/' + ${id}}">Meine Artikel</a>
             <li class="navbaritem"><a href="/rent">Ausleihen</a></li>
             <li class="navbaritem"><a href="">Contact</a></li>
             <li class="navbaritem" href th:if="${loggedIn == 'false'}">
