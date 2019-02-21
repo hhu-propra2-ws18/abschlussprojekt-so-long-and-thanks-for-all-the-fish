@@ -3,6 +3,8 @@
     src: url("../fonts/Geneva.dfont");
 }
 
+/*Title*/
+
 #titleImage {
     display: block;
     margin-left: auto;
@@ -13,9 +15,9 @@
     border: 1px solid lightgray;
     border-radius: 5px;
     margin-top: 10px;
-    margin-left: 38%;
-    margin-right: 38%;
-    min-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 400px;
     padding-bottom: 20px;
 }
 
@@ -46,8 +48,23 @@
     margin-top: 20px;
 }
 
+#globalSearchField[type=text] {
+    font-family: Geneva;
+    font-size: 18px;
+    border-radius: 6px;
+    width: 300px;
+    padding: 6px 10px;
+    margin-left: 20px;
+    margin-top: 5px;
+    margin-right: 10px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    box-sizing: border-box;
+    height: 80%;
+}
 
-input[type=text], select {
+.loginTextfield[type=text], select {
     font-family: Geneva;
     font-size: 18px;
     width: 90%;
@@ -60,7 +77,7 @@ input[type=text], select {
     height: 40px;
 }
 
-input[type=email], select {
+.loginTextfield[type=email], select {
     font-family: Geneva;
     font-size: 18px;
     width: 90%;
@@ -73,7 +90,7 @@ input[type=email], select {
     height: 40px;
 }
 
-input[type=password], select {
+.loginTextfield[type=password], select {
     font-family: Geneva;
     font-size: 18px;
     width: 90%;
@@ -184,19 +201,20 @@ th, td {
 }
 /*Other Testsite*/
 
-ul {
+.navigationbar {
     list-style-type: none;
+    border-radius: 7px;
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #cdcdcd;
+    background-color: #e0e0e0;
 }
 
-li {
+.navbaritem {
     float: left;
 }
 
-li a {
+.navbaritem a {
     display: block;
     color: black;
     font-family: Geneva;
@@ -205,9 +223,9 @@ li a {
     text-decoration: none;
 }
 
-li a:hover:not(.active) {
+.navbaritem a:hover:not(.active) {
     background-color: #a2c6ed;
-    transition-duration: 300ms;
+    transition-duration: 400ms;
 }
 
 .active {
@@ -219,3 +237,16 @@ li a:hover:not(.active) {
     margin-left: 20px;
     margin-bottom: 10px;
 }
+
+.footer {
+    position: fixed;
+    height: 50px;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    color: white;
+    text-align: center;
+}
+
+/*Artikel*/
+

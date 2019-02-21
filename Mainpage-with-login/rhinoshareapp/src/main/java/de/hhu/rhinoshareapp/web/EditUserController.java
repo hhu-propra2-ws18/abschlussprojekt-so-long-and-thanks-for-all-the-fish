@@ -24,6 +24,7 @@ public class EditUserController {
         m.addAttribute("surname", user.getSurname());
         m.addAttribute("name", user.getName());
         m.addAttribute("email", user.getEmail());
+        m.addAttribute("loggedIn", "true");
         return "edituser";
     }
 }

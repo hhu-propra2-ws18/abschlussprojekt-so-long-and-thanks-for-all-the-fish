@@ -2,18 +2,31 @@
 <html lang="de" xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="UTF-8">
-        <title>Rhinoshare</title>
+        <title>Dein Konto - Rhinoshare</title>
         <link rel="stylesheet" type="text/css" href="/css/stylesheet.css">
         <link rel="icon" href="/img/RhinoLogoSmall.png">
     </head>
     <body>
         <img id="titleImageTest" src="/img/rhinoLogoBig.png" width="300" height="75">
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="#news">News</a></li>
-            <li><a href="#contact">Contact</a></li>
-            <li><a class="active" href="/edit" th:text="${username}">Benutzer</a></li>
-            <li style="float:right"><a href="/logout">Logout</a></li>
+        <ul class="navigationbar">
+            <li class="navbaritem"><a href="/">Rhino-Übersicht</a></li>
+            <li class="navbaritem"><a href="/">News</a></li>
+            <li class="navbaritem"><a href="/rent">Ausleihen</a></li>
+            <li class="navbaritem"><a href="/">Contact</a></li>
+            <li class="navbaritem" href th:if="${loggedIn == 'false'}">
+                <a href="/newaccount">Registrieren</a>
+            </li>
+            <li class="navbaritem" href th:if="${loggedIn == 'true'}">
+                <a class="active" href="/edit" th:text="${surname}">Benutzer</a>
+            </li>
+            <li class="navbaritem"><input id="globalSearchField" type="text" placeholder="Suchen..."></li>
+            <li class="navbaritem"><a href="/">Suchen</a></li>
+            <li style="float: right;" class="navbaritem" href th:if="${loggedIn == 'false'}">
+                <a href="/login">Einloggen</a>
+            </li>
+            <li style="float: right" class="navbaritem" href th:if="${loggedIn == 'true'}">
+                <a href="/logout">Ausloggen</a>
+            </li>
         </ul>
         <h1 class="title">Konto bearbeiten</h1>
         <p class="information">Hier kannst du deine hinterlegten Informationen ändern. Du siehst
