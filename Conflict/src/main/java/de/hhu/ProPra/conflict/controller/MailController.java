@@ -9,10 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.*;
 import de.hhu.ProPra.conflict.service.MailService;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -31,6 +29,18 @@ public class MailController {
 
     @Autowired
     UserRepository userRepo;
+
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepo = userRepository;
+    }
+
+    public void setLendingRepository(LendingRepository lendingRepository) {
+        this.lendRepo = lendRepo;
+    }
+
+    public void setMailService(MailService mailService){
+        this.mailService = mailService;
+    }
 
     public String send(long lendId, String conflictMessage, long ownerId, long lenderId, User admin) {
         try {
@@ -51,7 +61,7 @@ public class MailController {
     public String openConflictpost(Model model, @RequestParam(value = "action") String button, @RequestParam long lendingID,
                                    @RequestParam String description) {
         if (button.equals("open")) {
-            if(!(description.equals(""))) {
+            if (!(description.equals(""))) {
                 Lending l = lendRepo.findById(lendingID);
                 l.setConflict(true);
                 l.getLendingPerson();
@@ -59,15 +69,13 @@ public class MailController {
                 User owner = l.getLendedArticle().getOwnerUser();
                 User admin = userRepo.findById(3);
                 send(lendingID, description, (owner.getId()), (l.getLendingPerson().getId()), admin);
-            }
-            else{
-                return "redirect:8080/openConflict";
+            } else {
+                return "redirect:/openConflict";
             }
         }
         return "redirect:/";
 
     }
-
 
 
     @GetMapping("/conflictOverview")
@@ -82,7 +90,7 @@ public class MailController {
         if (button.equals("back")) {
             return "redirect:/";
         }
-        if(button.equals("show")){
+        if (button.equals("show")) {
             return "redirect:/showcase/" + lendingID;
         }
         return "redirect:/conflictOverview";
@@ -97,7 +105,7 @@ public class MailController {
             model.addAttribute("borrowwPerson", l.getLendingPerson().getUsername());
             model.addAttribute("lendingID", l.getLendingID());
             model.addAttribute("articleName", l.getLendedArticle().getName());
-        } catch(Exception e){
+        } catch (Exception e) {
             return "redirect:/conflictOverview";
         }
 
@@ -105,18 +113,17 @@ public class MailController {
     }
 
     @PostMapping("/showcase/{id}")
-    public String conflictSolved(Model model, @RequestParam(value ="action") String button, @PathVariable long id){
+    public String conflictSolved(Model model, @RequestParam(value = "action") String button, @PathVariable long id) {
         Lending l = lendRepo.findById(id);
-        if(button.equals("winBorrower")){
+        if (button.equals("winBorrower")) {
             l.setConflict(false);
             lendRepo.save(l);
             return "redirect:/borrowerWin";
-        }
-        else if(button.equals("winOwner")){
+        } else if (button.equals("winOwner")) {
             l.setConflict(false);
             lendRepo.save(l);
             return "redirect:/ownerWin";
         }
-        return"redirect:/conflictOverview";
+        return "redirect:/conflictOverview";
     }
 }

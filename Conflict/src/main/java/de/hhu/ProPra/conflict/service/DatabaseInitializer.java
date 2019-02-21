@@ -59,8 +59,6 @@ public class DatabaseInitializer implements ServletContextInitializer {
         testLending2.setConflict(true);
         lending.save(testLending1);
         lending.save(testLending2);
-
-
     }
 
 
