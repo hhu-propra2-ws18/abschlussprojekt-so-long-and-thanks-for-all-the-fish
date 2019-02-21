@@ -90,6 +90,10 @@ public class PostProccessor {
                 CleanUpLending(postBodyParas, lendings, articles);
                 reservations.delete(lending.getProPayReservation());
             } else {
+                Lending tmpLending = lendings.findLendingBylendingID(Long.parseLong(postBodyParas.get("lendingID"))).get();
+                tmpLending.setReturn(false);
+                tmpLending.setConflict(true);
+                lendings.save(tmpLending);
                 //apiProcessor.punishOrRealeseReservation(Account.class, lendingAccount, article, lending.getProPayReservation().getId(), "punish");
                 //TODO: warnstelle
             }

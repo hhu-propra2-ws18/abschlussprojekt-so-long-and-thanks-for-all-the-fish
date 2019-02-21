@@ -13,7 +13,6 @@ import de.ProPra.Lending.Model.User;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -44,7 +43,7 @@ public class LendingApplicationTests {
 		Lending testLending = Lending.builder().lendingPerson(testUser.get()).endDate(endDate).build();
 		List<Lending> testLendingList = new ArrayList<>();
 		testLendingList.add(testLending);
-		when(lendingRepository.findAllBylendingPersonAndIsAcceptedAndIsReturn(testUser.get(), true, false)).thenReturn(testLendingList);
+		when(lendingRepository.findAllBylendingPersonAndIsAcceptedAndIsReturnAndIsConflict(testUser.get(), true, false, false)).thenReturn(testLendingList);
 
 		//Act
 		LendingRepresentation lendingRepresentation = new LendingRepresentation(lendingRepository, userRepository, articleRepository);
@@ -72,7 +71,7 @@ public class LendingApplicationTests {
 		Lending testLending = Lending.builder().lendingPerson(testUser.get()).endDate(endDate).build();
 		List<Lending> testLendingList = new ArrayList<>();
 		testLendingList.add(testLending);
-		when(lendingRepository.findAllBylendingPersonAndIsAcceptedAndIsReturn(testUser.get(), true, false)).thenReturn(testLendingList);
+		when(lendingRepository.findAllBylendingPersonAndIsAcceptedAndIsReturnAndIsConflict(testUser.get(), true, false, false)).thenReturn(testLendingList);
 
 		Calendar currentDate = Calendar.getInstance();
 		long time = endDate.getTime().getTime() - currentDate.getTime().getTime();

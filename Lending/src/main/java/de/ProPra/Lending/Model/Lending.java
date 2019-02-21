@@ -1,7 +1,9 @@
 package de.ProPra.Lending.Model;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,6 +15,8 @@ import java.util.Calendar;
 @Builder
 @Data
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class Lending {
     @Id
     @GeneratedValue
@@ -28,12 +32,12 @@ public class Lending {
     String formattedEndDate;
     boolean isAccepted;
     boolean isReturn;
+    boolean isConflict;
     String warning;
 
     @OneToOne
     Reservation proPayReservation;
 
-    public Lending(){}
     public Lending(Calendar startDate, Calendar endDate, User lendingPerson, Article lendedArticle) {
         this.startDate = startDate;
         this.endDate = endDate;
@@ -50,20 +54,5 @@ public class Lending {
         this.lendingPerson = lendingPerson;
         this.endDate = endDate;
     }
-
-    public Lending(long lendingID, User lendingPerson, Article lendedArticle, Calendar startDate, Calendar endDate, String formattedStartDate, String formattedEndDate, boolean isAccepted, boolean isReturn, String warning, Reservation proPayReservation) {
-        this.lendingID = lendingID;
-        this.lendingPerson = lendingPerson;
-        this.lendedArticle = lendedArticle;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.formattedStartDate = formattedStartDate;
-        this.formattedEndDate = formattedEndDate;
-        this.isAccepted = isAccepted;
-        this.isReturn = isReturn;
-        this.warning = warning;
-        this.proPayReservation = proPayReservation;
-    }
-
 
 }

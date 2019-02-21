@@ -166,6 +166,20 @@ public class LendingController {
         apiProcessor.PunishOrReleaseConflictingLending(postBodyParas, lendings, users, articles, reservations);
         return "overview";
     }
+    @GetMapping("/conflictPage/{id}")
+    public String ReleaseConflictingLending(Model model, @PathVariable final long id){
+        LendingRepresentation filledConflicts = new LendingRepresentation(lendings, users, articles);
+        model.addAttribute("id",id);
+        if (apiProcessor.isErrorOccurred()) {
+            System.out.println("hallo hallo");
+            model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
+            return "errorPage";
+        }
+        model.addAttribute("conflicts",filledConflicts.FillConflicts(id));
+        model.addAttribute("yourConflicts", filledConflicts.FillConflictsOwner(id));
+        return "conflictPage";
+    }
+
 
     //TODO: getmapping für testzwecke löschen
     @GetMapping("/test")
