@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.persistence.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 @Data
@@ -27,6 +28,8 @@ public class Article {
 
     //@OneToOne
     long personID;
+    @OneToOne
+    ServiceUser ownerServiceUser;
 
     int deposit;
 
@@ -39,6 +42,11 @@ public class Article {
     public List<Image> image = new ArrayList<>();
 
     boolean available;
+
+    Calendar finalStartDate;
+    Calendar finalEndDate;
+    boolean isRequested;
+    String requestComment;
 
     public Article(String name, String comment, long personID, int deposit, int rent, boolean available, MultipartFile file) {
         this.name = name;

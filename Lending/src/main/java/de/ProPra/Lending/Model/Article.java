@@ -19,7 +19,7 @@ public class Article {
     String name;
     String comment;
     @OneToOne
-    User ownerUser;
+    ServiceUser ownerServiceUser;
     double deposit;
     double rent;
     boolean available;
@@ -30,13 +30,13 @@ public class Article {
 
 
     public Article(){}
-    public Article(long articleID, String name, String comment, double deposit, double rent, boolean available, User ownerUser) {
+    public Article(long articleID, String name, String comment, double deposit, double rent, boolean available, ServiceUser ownerServiceUser) {
         this.articleID = articleID;
         this.name = name;
         this.comment = comment;
         this.deposit = deposit;
         this.rent = rent;
         this.available = available;
-        this.ownerUser = ownerUser;
+        this.ownerServiceUser = ownerServiceUser;
     }
 }

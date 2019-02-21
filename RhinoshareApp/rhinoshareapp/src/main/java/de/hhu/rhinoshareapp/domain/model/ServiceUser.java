@@ -1,6 +1,9 @@
 package de.hhu.rhinoshareapp.domain.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,13 +11,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+@Builder
 @Data
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class ServiceUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
-    private Long id;
+    private long userID;
 
     private String name;
 
@@ -26,7 +32,7 @@ public class ServiceUser {
 
     private String address;
 
-    private Integer score;
+    private int score;
 
     private String password;
 
@@ -42,9 +48,5 @@ public class ServiceUser {
         this.password = password;
         this.role = role;
         this.score = 0;
-    }
-
-    public ServiceUser() {
-
     }
 }

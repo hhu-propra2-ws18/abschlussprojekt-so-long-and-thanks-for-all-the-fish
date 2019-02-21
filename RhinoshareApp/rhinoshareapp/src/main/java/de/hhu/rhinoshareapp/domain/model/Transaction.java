@@ -1,4 +1,4 @@
-package de.ProPra.Lending.Model;
+package de.hhu.rhinoshareapp.domain.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,14 +22,14 @@ public class Transaction {
     @GeneratedValue
     long transactionID;
     @OneToOne
-    User reciever;
+    ServiceUser reciever;
     @OneToOne
-    User giver;
+    ServiceUser giver;
     @OneToOne
     Article article;
     double amount;
 
-    public Transaction(User reciever, User giver,Article article, double amount, Calendar transactionDate) {
+    public Transaction(ServiceUser reciever, ServiceUser giver, Article article, double amount, Calendar transactionDate) {
         this.reciever = reciever;
         this.giver = giver;
         this.article = article;

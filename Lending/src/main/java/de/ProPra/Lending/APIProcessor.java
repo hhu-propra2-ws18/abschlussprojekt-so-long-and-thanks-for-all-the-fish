@@ -8,7 +8,7 @@ import de.ProPra.Lending.Dataaccess.Repositories.UserRepository;
 import de.ProPra.Lending.Model.Account;
 import de.ProPra.Lending.Model.Article;
 import de.ProPra.Lending.Model.Lending;
-import de.ProPra.Lending.Model.User;
+import de.ProPra.Lending.Model.ServiceUser;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.http.MediaType;
@@ -28,10 +28,10 @@ public class APIProcessor {
 
     public Account getAccountInformationWithId(long userID, UserRepository users) {
         errorOccurred = false;
-        Optional<User> user = users.findUserByuserID(userID);
+        Optional<ServiceUser> user = users.findUserByuserID(userID);
         if (!user.isPresent()) {
             errorOccurred = true;
-            errorMessage.put("reason", "User not found");
+            errorMessage.put("reason", "ServiceUser not found");
             return null;
         }
         return getAccountInformation(user.get().getName(), Account.class);
@@ -73,7 +73,7 @@ public class APIProcessor {
                         builder.scheme("http")
                                 .host("localhost")
                                 .port("8888")
-                                .pathSegment("reservation", "reserve", lendingAccount.getAccount(), article.getOwnerUser().getName())
+                                .pathSegment("reservation", "reserve", lendingAccount.getAccount(), article.getOwnerServiceUser().getName())
                                 // for trailing slash
                                 .path("/")
                                 .queryParam("amount", String.valueOf(article.getDeposit()))
@@ -92,7 +92,7 @@ public class APIProcessor {
                         builder.scheme("http")
                                 .host("localhost")
                                 .port("8888")
-                                .pathSegment("account", lendingAccount.getAccount(), "transfer", article.getOwnerUser().getName())
+                                .pathSegment("account", lendingAccount.getAccount(), "transfer", article.getOwnerServiceUser().getName())
                                 // for trailing slash
                                 .path("/")
                                 .queryParam("amount", amount)

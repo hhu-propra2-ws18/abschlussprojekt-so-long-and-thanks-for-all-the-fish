@@ -12,7 +12,7 @@ public class ImageController {
     @Autowired
     ImageRepository imageRepository;
 
-    @RequestMapping("/image/{id}")
+    @RequestMapping("/image/{userID}")
     @ResponseBody
     public byte[] returnCurrentImage(@PathVariable long id){
         Image image = imageRepository.findById(id);

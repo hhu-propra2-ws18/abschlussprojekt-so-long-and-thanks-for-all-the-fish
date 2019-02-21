@@ -5,7 +5,7 @@ import de.ProPra.Lending.Dataaccess.Repositories.LendingRepository;
 import de.ProPra.Lending.Dataaccess.Repositories.UserRepository;
 import de.ProPra.Lending.Model.Article;
 import de.ProPra.Lending.Model.Lending;
-import de.ProPra.Lending.Model.User;
+import de.ProPra.Lending.Model.ServiceUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ public class RequestRepresentation {
 
    public List<Lending> FillRequest(){
        //suche alle artikel wo die request flag gesetzt ist
-       Optional<User> user = users.findUserByuserID(borrowID);
+       Optional<ServiceUser> user = users.findUserByuserID(borrowID);
        List<Lending> filledLendings = new ArrayList<>();
        List<Article> requestedIsTrue = articles.findAllArticleByownerUserAndIsRequested(user.get(), true);
        for (Article article : requestedIsTrue) {

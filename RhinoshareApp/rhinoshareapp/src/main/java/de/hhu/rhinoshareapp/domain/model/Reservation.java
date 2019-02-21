@@ -1,4 +1,4 @@
-package de.ProPra.Lending.Model;
+package de.hhu.rhinoshareapp.domain.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

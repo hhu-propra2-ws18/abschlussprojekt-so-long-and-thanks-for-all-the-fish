@@ -37,19 +37,19 @@ public class ArticleController {
     public String viewMyArticles(Model model, @PathVariable long personID, Principal p){
         p.getName();
         List<Article> articles = articleRepository.findByPersonID(personID);
-        model.addAttribute("id",personID);
+        model.addAttribute("userID",personID);
         model.addAttribute("articles", articles);
         return "Article/viewFromPerson";
     }
 
-    @GetMapping("/open/{id}")
+    @GetMapping("/open/{userID}")
     public String openArticleView(Model model, @PathVariable long id){
         Article article = articleRepository.findById(id);
         model.addAttribute("article", article);
         return "Article/openArticleView";
     }
 
-    @GetMapping("/admin/{id}")
+    @GetMapping("/admin/{userID}")
     public String privateArticleView(Model model, @PathVariable long id){
         Article article = articleRepository.findById(id);
         model.addAttribute("article", article);
@@ -74,14 +74,14 @@ public class ArticleController {
     }
 
     //Edit
-    @GetMapping("/edit/{id}")
+    @GetMapping("/edit/{userID}")
     public String editArticle(Model model, @PathVariable long id){
         Article article = articleRepository.findById(id);
         model.addAttribute("article", article);
         return "Article/editArticle";
     }
 
-    @PostMapping("/edit/{id}")
+    @PostMapping("/edit/{userID}")
     public String editArticlePostMapping(@ModelAttribute("article") Article article, @PathVariable long id){
         Article oldArticle = articleRepository.findById(id);
         oldArticle.setName(article.getName());
@@ -94,14 +94,14 @@ public class ArticleController {
     }
 
     //Delete
-    @GetMapping("/delete/{id}")
+    @GetMapping("/delete/{userID}")
     public String deleteAArticle(@PathVariable long id, Model model){
         Article article = articleRepository.findById(id);
         model.addAttribute("article",article);
         return "Article/deleteArticle";
     }
 
-    @PostMapping("/delete/{id}")
+    @PostMapping("/delete/{userID}")
     public String deleteArticleFromDB(@PathVariable long id){
         Article article = articleRepository.findById(id);
         articleRepository.delete(article);

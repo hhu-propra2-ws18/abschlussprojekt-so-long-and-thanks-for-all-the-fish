@@ -8,20 +8,20 @@ import javax.persistence.*;
 @Builder
 @Data
 @Entity
-public class User {
+public class ServiceUser {
     @Id
     long userID;
     String name;
     int score;
 
-    public User(){}
+    public ServiceUser(){}
 
-    public User(long userID, String name) {
+    public ServiceUser(long userID, String name) {
         this.userID = userID;
         this.name = name;
     }
 
-    public User(long userID, String name, int score) {
+    public ServiceUser(long userID, String name, int score) {
         this.userID = userID;
         this.name = name;
         this.score = score;

@@ -9,7 +9,7 @@ import de.ProPra.Lending.Dataaccess.Representations.LendingRepresentation;
 import de.ProPra.Lending.Model.Account;
 import de.ProPra.Lending.Model.Article;
 import de.ProPra.Lending.Model.Lending;
-import de.ProPra.Lending.Model.User;
+import de.ProPra.Lending.Model.ServiceUser;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,7 +35,7 @@ public class LendingApplicationTests {
 		LendingRepository lendingRepository = Mockito.mock(LendingRepository.class);
 		ArticleRepository articleRepository = Mockito.mock(ArticleRepository.class);
 
-		Optional <User> testUser = Optional.ofNullable(User.builder().userID(1).name("testUser").build());
+		Optional <ServiceUser> testUser = Optional.ofNullable(ServiceUser.builder().userID(1).name("testUser").build());
 		when(userRepository.findUserByuserID(1)).thenReturn(testUser);
 
 		Calendar endDate = Calendar.getInstance();
@@ -61,7 +61,7 @@ public class LendingApplicationTests {
 		LendingRepository lendingRepository = Mockito.mock(LendingRepository.class);
 		ArticleRepository articleRepository = Mockito.mock(ArticleRepository.class);
 
-		Optional <User> testUser = Optional.ofNullable(User.builder().userID(1).name("testUser").build());
+		Optional <ServiceUser> testUser = Optional.ofNullable(ServiceUser.builder().userID(1).name("testUser").build());
 		when(userRepository.findUserByuserID(1)).thenReturn(testUser);
 
 		// Set EndDate one year after current Date

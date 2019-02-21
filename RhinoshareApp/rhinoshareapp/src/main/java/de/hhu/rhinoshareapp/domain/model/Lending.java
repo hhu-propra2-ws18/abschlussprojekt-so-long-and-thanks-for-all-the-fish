@@ -1,4 +1,4 @@
-package de.ProPra.Lending.Model;
+package de.hhu.rhinoshareapp.domain.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,7 +22,7 @@ public class Lending {
     @GeneratedValue
     long lendingID;
     @OneToOne
-    User lendingPerson;
+    ServiceUser lendingPerson;
     @OneToOne
     Article lendedArticle;
 
@@ -38,7 +38,7 @@ public class Lending {
     @OneToOne
     Reservation proPayReservation;
 
-    public Lending(Calendar startDate, Calendar endDate, User lendingPerson, Article lendedArticle) {
+    public Lending(Calendar startDate, Calendar endDate, ServiceUser lendingPerson, Article lendedArticle) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.lendingPerson = lendingPerson;
@@ -50,7 +50,7 @@ public class Lending {
         formattedStartDate = dateFormat.format(startDate.getTime());
     }
 
-    public Lending(User lendingPerson, Calendar endDate) {
+    public Lending(ServiceUser lendingPerson, Calendar endDate) {
         this.lendingPerson = lendingPerson;
         this.endDate = endDate;
     }
