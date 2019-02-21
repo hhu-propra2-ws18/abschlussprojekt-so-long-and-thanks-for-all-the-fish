@@ -1,8 +1,11 @@
-package de.ProPra.Articles.infrastructure.web;
+package de.hhu.rhinoshareapp.infrastructure.web;
 
-import de.ProPra.Articles.domain.model.Article;
-import de.ProPra.Articles.domain.service.ArticleRepository;
-import de.ProPra.Articles.domain.service.ImageRepository;
+
+
+import de.hhu.rhinoshareapp.controller.ArticleController;
+import de.hhu.rhinoshareapp.domain.model.Article;
+import de.hhu.rhinoshareapp.domain.service.ArticleRepository;
+import de.hhu.rhinoshareapp.domain.service.ImageRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
