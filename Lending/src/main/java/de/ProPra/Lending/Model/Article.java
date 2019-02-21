@@ -25,8 +25,6 @@ public class Article {
     boolean available;
     Calendar finalStartDate;
     Calendar finalEndDate;
-    //@OneToOne
-    //User lendingUser;
     boolean isRequested;
     String requestComment;
 

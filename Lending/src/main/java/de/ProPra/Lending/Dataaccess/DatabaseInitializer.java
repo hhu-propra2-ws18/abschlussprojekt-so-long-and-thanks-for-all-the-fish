@@ -2,12 +2,11 @@ package de.ProPra.Lending.Dataaccess;
 
 
 import de.ProPra.Lending.APIProcessor;
-import de.ProPra.Lending.Dataaccess.Repositories.ReservationRepository;
-import de.ProPra.Lending.Model.*;
 import de.ProPra.Lending.Dataaccess.Repositories.ArticleRepository;
 import de.ProPra.Lending.Dataaccess.Repositories.LendingRepository;
+import de.ProPra.Lending.Dataaccess.Repositories.ReservationRepository;
 import de.ProPra.Lending.Dataaccess.Repositories.UserRepository;
-import lombok.AllArgsConstructor;
+import de.ProPra.Lending.Model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.stereotype.Component;
