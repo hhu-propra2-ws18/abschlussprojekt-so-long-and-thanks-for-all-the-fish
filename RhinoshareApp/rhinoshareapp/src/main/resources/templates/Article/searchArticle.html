@@ -9,32 +9,32 @@
 </head>
 
 <body>
-    <div class="container">
+<div class="container">
 
-        <h1 class="display-3">Suche nach <span th:text="|'${query}'|"></span></h1>
-        <div class="row mb-3">
-            <div class="col-md-6"  th:each="article:${articles}">
-                <table class="table table-hover">
-                    <tr>
-                        <td>Artikel:</td>
-                        <td th:text="${article.getName()}"></td>
-                    </tr>
-                    <tr>
-                        <td>Artikelbild</td>
-                        <td> <img th:src="@{/image/{id} (id = ${article.getImageID()})}" width="250px" height=auto/></td>
-                    </tr>
-                    <tr>
-                        <td>Mietpreis:</td>
-                        <td th:text="${article.getRent()} + '€'"></td>
-                    </tr>
-                    <tr>
-                        <td><a th:href="|/article/${article.articleID}|"><button class="btn btn-success" type="button">Zum Artikel</button></a></td>
-                    </tr>
-                </table>
-            </div>
+    <h1 class="display-3">Suche nach <span th:text="|'${query}'|"></span></h1>
+    <div class="row mb-3">
+        <div class="col-md-6"  th:each="article:${articles}">
+            <table class="table table-hover">
+                <tr>
+                    <td>Artikel:</td>
+                    <td th:text="${article.getName()}"></td>
+                </tr>
+                <tr>
+                    <td>Artikelbild</td>
+                    <td> <img th:src="@{/image/{id} (id = ${article.getImage().get(0).getImageID()})}" width="250px" height=auto/></td>
+                </tr>
+                <tr>
+                    <td>Mietpreis:</td>
+                    <td th:text="${article.getRent()} + '€'"></td>
+                </tr>
+                <tr>
+                    <td><a th:href="|/article/${article.articleID}|"><button class="btn btn-success" type="button">Zum Artikel</button></a></td>
+                </tr>
+            </table>
         </div>
-        <a th:href="|/article/|"><button class="btn btn-primary" type="button">Zurück zur Übersicht</button></a>
     </div>
+    <a th:href="|/article/|"><button class="btn btn-primary" type="button">Zurück zur Übersicht</button></a>
+</div>
 </body>
 
 </html>

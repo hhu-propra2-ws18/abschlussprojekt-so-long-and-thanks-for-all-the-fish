@@ -1,5 +1,6 @@
 package de.hhu.rhinoshareapp.domain.model;
 
+import de.hhu.rhinoshareapp.domain.model.Image;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,7 +9,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.io.IOException;
-import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -22,7 +24,6 @@ public class Article {
 
     String name;
 
-    @Lob
     String comment;
 
     //@OneToOne
@@ -35,12 +36,12 @@ public class Article {
     @Transient
     MultipartFile file;
 
-    @OneToOne (fetch = FetchType.EAGER, cascade={CascadeType.PERSIST})
-    public Image image;
+    @OneToMany (fetch = FetchType.EAGER, cascade={CascadeType.ALL})
+    public List<Image> image = new ArrayList<>();
 
     boolean available;
 
-    public Article(String name, String comment, long personID, int deposit, int rent, boolean available, MultipartFile file) throws IOException, SQLException {
+    public Article(String name, String comment, long personID, int deposit, int rent, boolean available, MultipartFile file) {
         this.name = name;
         this.comment = comment;
         this.personID = personID;
@@ -51,10 +52,6 @@ public class Article {
     }
 
     public void saveImage() throws IOException {
-        this.image = new Image(file);
-    }
-    public long getImageID(){
-        return image.getImageID();
+        this.image.add(new Image(file));
     }
 }
-

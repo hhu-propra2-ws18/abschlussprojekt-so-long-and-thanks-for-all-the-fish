@@ -11,8 +11,8 @@
 <body>
     <div class="container">
         <h1 class="display-3">Übersicht</h1>
-        <div class="row mb-3">
-                <div class="col-md-4"  th:each="article:${articles}">
+        <div class="row mb-2">
+                <div class="col-md-6"  th:each="article:${articles}">
                     <table class="table table-hover">
                         <tr>
                             <td>Artikel:</td>
@@ -20,7 +20,7 @@
                         </tr>
                         <tr>
                             <td>Artikelbild</td>
-                            <td> <img th:src="@{/image/{id} (id = ${article.getImageID()})}" width="250px" height=auto/></td>
+                            <td> <img th:src="@{/image/{id} (id = ${article.getImage().get(0).getImageID()})}" width="200px" height=auto/></td>
                         </tr>
                         <tr>
                             <td>Mietpreis:</td>

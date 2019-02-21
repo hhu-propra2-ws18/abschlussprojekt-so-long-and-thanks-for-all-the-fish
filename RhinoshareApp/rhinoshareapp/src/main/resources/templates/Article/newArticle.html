@@ -9,40 +9,40 @@
 </head>
 
 <body>
-    <div class="container">
-        <h1>Neuen Artikel anlegen</h1>
-        <form method="post" th:object="${article}" enctype="multipart/form-data" action="">
-            <table>
-                <tr>
-                    <th scope="row">Name</th>
-                    <td> <Input type="text" th:field="*{name}"/>  </td>
-                </tr>
-                <tr>
-                    <th scope="row">Beschreibung</th>
-                    <td> <Input type="text" th:field="*{comment}"/> </td>
-                </tr>
-                <tr>
-                    <th scope="row">Kaution</th>
-                    <td> <Input type="number" th:field="*{deposit}"/>  </td>
-                </tr>
-                <tr>
-                    <th scope="row">Mietpreis</th>
-                    <td> <Input type="number" th:field="*{rent}"/> </td>
-                </tr>
-                <tr>
-                    <th scope="row">Bild zum hochladen auswählen:</th>
-                    <td> <Input th:field="*{file}" type="file"/> </td>
-                </tr>
-                <tr>
-                    <th scope="row">Verfügbar?</th>
-                    <td> <Input type="checkbox" th:field="*{available}"/> </td>
-                </tr>
-                <th scope="row"></th>
-                <td><button type="submit" class="btn btn-primary">Neuen Artikel anlegen</button></td>
-                <td><a th:href="|/article/|"><button class="btn btn-warning" type="button">Abbrechen</button></a></td>
-            </table>
-        </form>
-    </div>
+<div class="container">
+    <h1>Neuen Artikel anlegen</h1>
+    <form method="post" th:object="${article}" enctype="multipart/form-data" action="">
+        <table>
+            <tr>
+                <th scope="row">Name</th>
+                <td> <Input type="text" th:field="*{name}"/>  </td>
+            </tr>
+            <tr>
+                <th scope="row">Beschreibung</th>
+                <td> <Input type="text" th:field="*{comment}"/> </td>
+            </tr>
+            <tr>
+                <th scope="row">Kaution</th>
+                <td> <Input type="number" th:field="*{deposit}"/>  </td>
+            </tr>
+            <tr>
+                <th scope="row">Mietpreis</th>
+                <td> <Input type="number" th:field="*{rent}"/> </td>
+            </tr>
+            <tr>
+                <th scope="row">Bild zum hochladen auswählen:</th>
+                <td> <Input th:field="*{file}" type="file"/> </td>
+            </tr>
+            <tr>
+                <th scope="row">Verfügbar?</th>
+                <td> <Input type="checkbox" th:field="*{available}"/> </td>
+            </tr>
+            <th scope="row"></th>
+            <td><button type="submit" class="btn btn-primary">Neuen Artikel anlegen</button></td>
+            <td><a th:href="|/article/|"><button class="btn btn-warning" type="button">Abbrechen</button></a></td>
+        </table>
+    </form>
+</div>
 </body>
 
 </html>

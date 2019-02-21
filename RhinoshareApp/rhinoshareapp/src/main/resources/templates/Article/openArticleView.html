@@ -10,38 +10,38 @@
 </head>
 
 <body>
-    <div class="container">
-        <h1 th:text="${article.getName()}">SampleName</h1>
-        <img th:src="@{/image/{id} (id = ${article.getImageID()})}" width=auto height="300px"/>
-        <table>
-            <tr>
-                <td>Beschreibung:</td>
-                <td th:text="${article.getComment()}">SampleComment</td>
-            </tr>
-            <tr>
-                <td>Person</td>
-                <td th:text="${article.getPersonID()}">SamplePerson</td>
-            </tr>
-            <tr>
-                <td>Kaution</td>
-                <td th:text="${article.getDeposit()}+'€'">SampleDeposit</td>
-            </tr>
-            <tr>
-                <td>Mietpreis</td>
-                <td th:text="${article.getRent()} +'€'">SampleRent</td>
-            </tr>
-            <tr>
-                <td>Verfügbarkeit</td>
-                <td th:switch="${article.isAvailable()}">
-                    <span th:case="true"><i class="fa fa-check-circle-o" aria-hidden="true"></i></span>
-                    <span th:case="false"><i class="fa fa-times-circle-o" aria-hidden="true"></i></span>
-                </td>
-            </tr>
-        </table>
-        <br>
-        <td>
-            <a th:href="|/article/|"> <button class="btn btn-warning" type="button">Zurück zur Übersicht</button></a>
-        </td>
-    </div>
+<div class="container">
+    <h1 th:text="${article.getName()}">SampleName</h1>
+    <img th:src="@{/image/{id} (id = ${article.getImage().get(0).getImageID()})}" width=auto height="300px"/>
+    <table>
+        <tr>
+            <td>Beschreibung:</td>
+            <td th:text="${article.getComment()}">SampleComment</td>
+        </tr>
+        <tr>
+            <td>Person</td>
+            <td th:text="${article.getPersonID()}">SamplePerson</td>
+        </tr>
+        <tr>
+            <td>Kaution</td>
+            <td th:text="${article.getDeposit()}+'€'">SampleDeposit</td>
+        </tr>
+        <tr>
+            <td>Mietpreis</td>
+            <td th:text="${article.getRent()} +'€'">SampleRent</td>
+        </tr>
+        <tr>
+            <td>Verfügbarkeit</td>
+            <td th:switch="${article.isAvailable()}">
+                <span th:case="true"><i class="fa fa-check-circle-o" aria-hidden="true"></i></span>
+                <span th:case="false"><i class="fa fa-times-circle-o" aria-hidden="true"></i></span>
+            </td>
+        </tr>
+    </table>
+    <br>
+    <td>
+        <a th:href="|/article/|"> <button class="btn btn-warning" type="button">Zurück zur Übersicht</button></a>
+    </td>
+</div>
 </body>
 </html>
