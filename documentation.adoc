@@ -52,6 +52,6 @@ um der Person die den Artikel anbietet eine Nachricht auf '/overview/{id}' zeigt
 sie die Anfrage auf den Artikel von der Person annehmen will.
 Auf '/overviewLendings/{id}' kann sich die eingeloggte Person Ihre ausgeliehene Artikel anschauen,
 hier wird eine Warnung ausgegeben falls die jetzige Zeit weiter ist als das 'endDate',
-hier kann die Person auch auf 'return' drücken, damit der ausgeliehene Artikel 
+hier kann die Person auch auf 'return' drücken, damit der ausgeliehene Artikel
 wieder verfügbar wird und auf '/overviewBorrows/{id}' kann sich die eingeloggte
  Person Ihre angebotenen Artikel anschauen.

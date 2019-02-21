@@ -1,10 +1,7 @@
 package de.ProPra.Lending.Dataaccess;
 
 import de.ProPra.Lending.APIProcessor;
-import de.ProPra.Lending.Dataaccess.Repositories.ArticleRepository;
-import de.ProPra.Lending.Dataaccess.Repositories.LendingRepository;
-import de.ProPra.Lending.Dataaccess.Repositories.ReservationRepository;
-import de.ProPra.Lending.Dataaccess.Repositories.UserRepository;
+import de.ProPra.Lending.Dataaccess.Repositories.*;
 import de.ProPra.Lending.Model.*;
 
 import java.util.Calendar;
@@ -48,7 +45,7 @@ public class PostProccessor {
 
 
 
-    public void CheckDecision(APIProcessor apiProcessor,HashMap<String, String> postBodyParas, LendingRepository lendings, ArticleRepository articles, UserRepository users, ReservationRepository reservations) {
+    public void CheckDecision(APIProcessor apiProcessor, HashMap<String, String> postBodyParas, LendingRepository lendings, ArticleRepository articles, UserRepository users, ReservationRepository reservations, TransactionRepository transactions) {
         if(postBodyParas.containsKey("choice")) {
             if (postBodyParas.get("choice").equals("accept")) {
                 //Deposit check and lock depositamount
@@ -83,9 +80,11 @@ public class PostProccessor {
             Article article = lending.getLendedArticle();
             Account lendingAccount = apiProcessor.getAccountInformationWithId(lending.getLendingPerson().getUserID(), users);
             double amount = CalculateLendingPrice(lending, article);
-            apiProcessor.postTransfer(String.class, lendingAccount, article, amount);
-
-            if (postBodyParas.get("choicereturn").equals("accept")) {
+            if(HasEnoughMoneyForRent(lendingAccount, article.getArticleID(), articles) && postBodyParas.get("choicereturn").equals("accept")) {
+                apiProcessor.postTransfer(String.class, lendingAccount, article, amount);
+                Calendar timeStamp = Calendar.getInstance();
+                Transaction transaction = new Transaction(article.getOwnerUser(), lending.getLendingPerson(), article, amount, timeStamp);
+                transactions.save(transaction);
                 apiProcessor.punishOrRealeseReservation(Account.class, lendingAccount, article, lending.getProPayReservation().getId(), "release");
                 CleanUpLending(postBodyParas, lendings, articles);
                 reservations.delete(lending.getProPayReservation());
@@ -97,6 +96,15 @@ public class PostProccessor {
                 //apiProcessor.punishOrRealeseReservation(Account.class, lendingAccount, article, lending.getProPayReservation().getId(), "punish");
                 //TODO: warnstelle
             }
+        }
+    }
+    public boolean HasEnoughMoneyForRent(Account lenderAccountInformation, long articleID, ArticleRepository articles) {
+        double amount = lenderAccountInformation.getAmount();
+        double deposit = articles.findArticleByarticleID(articleID).get().getRent();
+        if (amount >= deposit) {
+            return true;
+        } else {
+            return false;
         }
     }
 

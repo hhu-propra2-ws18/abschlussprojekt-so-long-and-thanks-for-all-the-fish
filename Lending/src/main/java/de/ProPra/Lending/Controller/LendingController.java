@@ -2,13 +2,11 @@ package de.ProPra.Lending.Controller;
 
 import de.ProPra.Lending.APIProcessor;
 import de.ProPra.Lending.Dataaccess.PostProccessor;
-import de.ProPra.Lending.Dataaccess.Repositories.ArticleRepository;
-import de.ProPra.Lending.Dataaccess.Repositories.LendingRepository;
-import de.ProPra.Lending.Dataaccess.Repositories.ReservationRepository;
-import de.ProPra.Lending.Dataaccess.Repositories.UserRepository;
+import de.ProPra.Lending.Dataaccess.Repositories.*;
 import de.ProPra.Lending.Dataaccess.Representations.LendingRepresentation;
 import de.ProPra.Lending.Dataaccess.Representations.RequestRepresentation;
 import de.ProPra.Lending.Dataaccess.Representations.ReturnProcessRepresentation;
+import de.ProPra.Lending.Dataaccess.Representations.TransactionRepresentation;
 import de.ProPra.Lending.Model.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,17 +22,19 @@ public class LendingController {
     private UserRepository users;
     private ArticleRepository articles;
     private ReservationRepository reservations;
+    private TransactionRepository transactions;
     private PostProccessor postProccessor = new PostProccessor();
     private APIProcessor apiProcessor = new APIProcessor();
 
     //TODO: add History for lendings
 
     @Autowired
-    public LendingController(LendingRepository lendings, UserRepository users, ArticleRepository articles, ReservationRepository reservations) {
+    public LendingController(LendingRepository lendings, UserRepository users, ArticleRepository articles, ReservationRepository reservations, TransactionRepository transactions) {
         this.lendings = lendings;
         this.articles = articles;
         this.users = users;
         this.reservations = reservations;
+        this.transactions = transactions;
 
     }
 
@@ -96,7 +96,7 @@ public class LendingController {
         RequestRepresentation filledRequests = new RequestRepresentation(users, articles, lendings, id);
         ReturnProcessRepresentation filledReturns = new ReturnProcessRepresentation(users, articles, id, lendings);
         HashMap<String, String> postBodyParas = postProccessor.SplitString(postBody);
-        postProccessor.CheckDecision(apiProcessor,postBodyParas, lendings, articles, users, reservations);
+        postProccessor.CheckDecision(apiProcessor,postBodyParas, lendings, articles, users, reservations, transactions);
         if (apiProcessor.isErrorOccurred()) {
             model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
             return "errorPage";
@@ -171,13 +171,24 @@ public class LendingController {
         LendingRepresentation filledConflicts = new LendingRepresentation(lendings, users, articles);
         model.addAttribute("id",id);
         if (apiProcessor.isErrorOccurred()) {
-            System.out.println("hallo hallo");
             model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
             return "errorPage";
         }
         model.addAttribute("conflicts",filledConflicts.FillConflicts(id));
         model.addAttribute("yourConflicts", filledConflicts.FillConflictsOwner(id));
         return "conflictPage";
+    }
+    @GetMapping("/transaction/{id}")
+    public String ShowTransactions(Model model, @PathVariable final long id){
+        TransactionRepresentation transactionRepresentation = new TransactionRepresentation(transactions, users);
+        model.addAttribute("id",id);
+        if (apiProcessor.isErrorOccurred()) { ;
+            model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
+            return "errorPage";
+        }
+        model.addAttribute("givings",transactionRepresentation.FillGivings(id));
+        model.addAttribute("recieves", transactionRepresentation.FillRecieves(id));
+        return "transactionsPage";
     }
 
 

@@ -49,8 +49,8 @@ public class DatabaseInitializer implements ServletContextInitializer {
 
        Article haecksler = Article.builder().articleID(1).isRequested(true).available(false).deposit(300).rent(10).ownerUser(lisa).name("Häcksler").finalEndDate(endDate).build();
        Article dreiTeller = Article.builder().articleID(2).isRequested(true).available(false).deposit(40).rent(1).ownerUser(kathrin).name("Drei Teller").finalEndDate(endDate).build();
-       Article raclette = Article.builder().articleID(3).isRequested(true).available(false).deposit(10).rent(2).ownerUser(lisa).name("Raclettegrill").finalEndDate(endDate).build();
-       Article fahrrad = Article.builder().articleID(4).isRequested(true).available(false).deposit(100).rent(4).ownerUser(memfred).name("Fahrrad").finalEndDate(endDate).build();
+       Article raclette = Article.builder().articleID(3).isRequested(true).available(false).deposit(10).rent(25).ownerUser(lisa).name("Raclettegrill").finalEndDate(endDate).build();
+       Article fahrrad = Article.builder().articleID(4).isRequested(true).available(false).deposit(100).rent(500).ownerUser(memfred).name("Fahrrad").finalEndDate(endDate).build();
        Article goldklumpen = Article.builder().articleID(5).isRequested(true).available(false).deposit(10000).rent(4).ownerUser(memfred).name("Goldklumpen").finalEndDate(endDate).build();
        articles.save(haecksler);
        articles.save(dreiTeller);
