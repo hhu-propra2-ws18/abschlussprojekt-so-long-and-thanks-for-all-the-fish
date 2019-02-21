@@ -1,5 +1,6 @@
 package de.hhu.rhinoshareapp.domain.service;
 
+import de.hhu.rhinoshareapp.*;
 import de.hhu.rhinoshareapp.domain.model.Article;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,6 +14,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
