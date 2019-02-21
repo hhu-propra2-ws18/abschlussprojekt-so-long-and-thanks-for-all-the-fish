@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="jumbotron text-center">
+    <h1>Conflictplace</h1>
+    <p th:text="${articleName}">Artikelname</p>
+</div>
+
+<div class="container">
+    <div class="form-group">
+        <label>Owning Person</label>
+        <input class="form-control" th:placeholder="${owningPerson}" type="text" readonly>
+        <label>Person who borrowed</label>
+        <input class="form-control" th:placeholder="${borrowwPerson}" type="text" readonly>
+        <label>Lending ID</label>
+        <input class="form-control" th:placeholder="${lendingID}" type="text" readonly>
+    </div>
+    <form method="post">
+    <div class="form-group">
+        <div class="float-right">
+            <button type="submit" name="action" value="back" class="btn btn-light">back</button>
+            <button type="submit" name="action" value="winBorrower" class="btn btn-danger">mark as solved for Borrower</button>
+            <button type="submit" name="action" value="winOwner" class="btn btn-success">mark as solved for Owner</button>
+        </div>
+    </div>
+    </form>
+</div>
+</body>
+</html>
+
+
