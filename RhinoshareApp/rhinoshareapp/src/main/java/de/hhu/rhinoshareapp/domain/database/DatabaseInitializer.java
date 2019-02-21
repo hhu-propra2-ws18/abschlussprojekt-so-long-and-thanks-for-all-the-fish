@@ -1,6 +1,8 @@
-package de.hhu.rhinoshareapp.security.database;
+package de.hhu.rhinoshareapp.domain.database;
 
 
+import de.hhu.rhinoshareapp.domain.model.ServiceUser;
+import de.hhu.rhinoshareapp.domain.service.ServiceUserProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.stereotype.Component;

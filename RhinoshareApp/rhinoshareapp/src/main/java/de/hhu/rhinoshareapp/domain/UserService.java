@@ -1,7 +1,7 @@
-package de.hhu.rhinoshareapp.security;
+package de.hhu.rhinoshareapp.domain;
 
-import de.hhu.rhinoshareapp.security.database.ServiceUser;
-import de.hhu.rhinoshareapp.security.database.ServiceUserProvider;
+import de.hhu.rhinoshareapp.domain.model.ServiceUser;
+import de.hhu.rhinoshareapp.domain.service.ServiceUserProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.security.core.userdetails.User;

@@ -1,4 +1,4 @@
-package de.hhu.rhinoshareapp.security.database;
+package de.hhu.rhinoshareapp.domain.model;
 
 import lombok.Data;
 

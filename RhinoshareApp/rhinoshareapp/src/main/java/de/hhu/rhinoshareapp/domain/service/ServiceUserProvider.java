@@ -1,5 +1,6 @@
-package de.hhu.rhinoshareapp.security.database;
+package de.hhu.rhinoshareapp.domain.service;
 
+import de.hhu.rhinoshareapp.domain.model.ServiceUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
