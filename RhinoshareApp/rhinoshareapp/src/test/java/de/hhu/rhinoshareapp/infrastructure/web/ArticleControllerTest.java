@@ -58,25 +58,4 @@ public class ArticleControllerTest {
 		assertEquals(chainsaw.getDeposit(), betterChainsaw.getDeposit());
 		assertEquals(chainsaw.getRent(), betterChainsaw.getRent());
     }
-
-    @Test
-	public void whenMappingSearch_thenReturnAllArticlesWithQueryInNameOrComment() throws Exception {
-    	//Arrange
-		Article chainsaw = Article.builder().name("Kettensäge").comment("Super Teil!").build();
-		Article chippers = Article.builder().name("Häcksler").comment("Macht alles klein, wie eine Säge!").build();
-		Article saw = Article.builder().name("Säge").comment("Meine liebste Säge!").build();
-		Article plow = Article.builder().name("Schneepflug").comment("Befreit deine Straße von Schnee!").build();
-		//persist all 4, query should return only the first 3
-
-		//Act
-		mvc.perform(get("/article/search")
-				.param("query", "säge")
-			)
-				.andExpect(status().isOk())
-				.andExpect(view().name("searchArticle"))
-				.andExpect(model().attributeExists("articles"));
-
-		//Assert
-
-	}
 }
