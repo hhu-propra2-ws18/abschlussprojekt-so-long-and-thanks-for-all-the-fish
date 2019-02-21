@@ -10,11 +10,12 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.security.Principal;
 import java.sql.SQLException;
 import java.util.List;
 
 @Controller
-@RequestMapping("/article")
+@RequestMapping("/artikel")
 public class ArticleController {
 
     @Autowired
@@ -33,7 +34,8 @@ public class ArticleController {
     }
 
     @GetMapping("/view/{personID}")
-    public String viewMyArticles(Model model, @PathVariable long personID){
+    public String viewMyArticles(Model model, @PathVariable long personID, Principal p){
+        p.getName();
         List<Article> articles = articleRepository.findByPersonID(personID);
         model.addAttribute("id",personID);
         model.addAttribute("articles", articles);
