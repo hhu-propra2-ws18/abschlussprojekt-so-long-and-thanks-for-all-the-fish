@@ -3,11 +3,7 @@ jdk:
  - openjdk8
 jobs:
  include:
- - stage: Artikel
-   script: cd Artikel && ./gradlew build
- - stage: Benutzer
-   script: cd Benutzer && ./gradlew build
- - stage: Lending
-   script: cd Lending && ./gradlew build
+ - stage: Rhinoshare
+   script: cd RhinoshareApp/rhinoshareapp && ./gradlew build
 notifications:
  - email: false
