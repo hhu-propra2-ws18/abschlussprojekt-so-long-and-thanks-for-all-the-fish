@@ -35,6 +35,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.ui.Model;
 
 import java.util.Calendar;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -93,7 +94,8 @@ public class ConflictApplicationTests {
         Calendar date4 = Calendar.getInstance();
         date3.set(2019, 4, 12);
         date4.set(2019, 1, 12);
-        Lending testLending1 = new Lending(date4, date3, testUser1, testArticle2);
+
+        Lending testLending1 = new Lending(7, testUser1, testArticle1,date1,date3,"12.01.2019","12.04.2019",true,false,"");
         Lending testLending2 = new Lending(date3, date4, testUser2, testArticle1);
         testLending2.setConflict(true);
         lendingRepo.save(testLending1);
@@ -108,6 +110,10 @@ public class ConflictApplicationTests {
         Mockito.when(userRepo.findById(1)).thenReturn(testUser1);
         Mockito.when(userRepo.findById(2)).thenReturn(testUser2);
         Mockito.when(userRepo.findById(3)).thenReturn(testUser3);
+        Mockito.when(lendingRepo.findAllByConflict(true)).thenReturn(null);
+
+        Mockito.when(lendingRepo.findById(7)).thenReturn(testLending1);
+        Mockito.when(lendingRepo.save(testLending1)).thenReturn(testLending1);
 
         controller.setUserRepository(userRepo);
         controller.setLendingRepository(lendingRepo);
@@ -124,13 +130,26 @@ public class ConflictApplicationTests {
     @Test
     public void testGetMapping() throws Exception {
         mvc.perform(get("/openConflict")).andExpect(status().isOk());
+        mvc.perform(get("/conflictOverview")).andExpect(status().isOk());
+
     }
 
 	@Test
 	public void openConflictTest(){
 		assertEquals("redirect:/openConflict", controller.openConflictpost(m, "open", 7, ""));
 		assertEquals("redirect:/", controller.openConflictpost(m, "notOpen", 7, ""));
+		assertEquals("redirect:/", controller.openConflictpost(m, "open", 7, "testkgzgjkg"));
 	}
+
+	@Test
+    public void testPostMapping(){
+
+        assertEquals("redirect:/borrowerWin",controller.conflictSolved(m,"winBorrower",7));
+        assertEquals("redirect:/ownerWin",controller.conflictSolved(m,"winOwner",7));
+        assertEquals("redirect:/conflictOverview",controller.conflictSolved(m,"",7));
+    }
+
+
 
 
 }
