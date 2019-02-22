@@ -5,14 +5,14 @@ import de.hhu.rhinoshareapp.domain.model.Lending;
 import de.hhu.rhinoshareapp.domain.model.User;
 import de.hhu.rhinoshareapp.domain.service.ArticleRepository;
 import de.hhu.rhinoshareapp.domain.service.LendingRepository;
-import de.hhu.rhinoshareapp.domain.service.ServiceUserProvider;
+import de.hhu.rhinoshareapp.domain.service.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class RequestRepresentation {
-    private ServiceUserProvider users;
+    private UserRepository users;
     private ArticleRepository articles;
     private LendingRepository lendings;
     long borrowID;
@@ -29,7 +29,7 @@ public class RequestRepresentation {
        }
        return filledLendings;
    }
-    public RequestRepresentation(ServiceUserProvider users, ArticleRepository articles, LendingRepository lendings, long borrowID) {
+    public RequestRepresentation(UserRepository users, ArticleRepository articles, LendingRepository lendings, long borrowID) {
         this.users = users;
         this.articles = articles;
         this.lendings = lendings;

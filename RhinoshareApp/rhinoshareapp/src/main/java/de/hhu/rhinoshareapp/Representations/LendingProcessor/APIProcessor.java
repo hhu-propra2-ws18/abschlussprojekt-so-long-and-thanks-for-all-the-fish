@@ -7,7 +7,7 @@ import de.hhu.rhinoshareapp.domain.model.User;
 import de.hhu.rhinoshareapp.domain.service.ArticleRepository;
 import de.hhu.rhinoshareapp.domain.service.LendingRepository;
 import de.hhu.rhinoshareapp.domain.service.ReservationRepository;
-import de.hhu.rhinoshareapp.domain.service.ServiceUserProvider;
+import de.hhu.rhinoshareapp.domain.service.UserRepository;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.http.MediaType;
@@ -25,7 +25,7 @@ public class APIProcessor {
     private boolean errorOccurred = false;
     private HashMap<String, String> errorMessage = new HashMap<>();
 
-    public Account getAccountInformationWithId(long userID, ServiceUserProvider users) {
+    public Account getAccountInformationWithId(long userID, UserRepository users) {
         errorOccurred = false;
         Optional<User> user = users.findUserByuserID(userID);
         if (!user.isPresent()) {
@@ -140,7 +140,7 @@ public class APIProcessor {
         return mono.block();
     }
 
-    public void PunishOrReleaseConflictingLending(HashMap<String, String> postBodyParas, LendingRepository lendings, ServiceUserProvider users, ArticleRepository articles, ReservationRepository reservations) {
+    public void PunishOrReleaseConflictingLending(HashMap<String, String> postBodyParas, LendingRepository lendings, UserRepository users, ArticleRepository articles, ReservationRepository reservations) {
         String lendingID = postBodyParas.get("lendingID");
         String decision = postBodyParas.get("decision");
         Lending conflictingLending = lendings.findLendingBylendingID(Long.parseLong(lendingID)).get();

@@ -4,19 +4,19 @@ import de.hhu.rhinoshareapp.domain.model.Article;
 import de.hhu.rhinoshareapp.domain.model.Lending;
 import de.hhu.rhinoshareapp.domain.service.ArticleRepository;
 import de.hhu.rhinoshareapp.domain.service.LendingRepository;
-import de.hhu.rhinoshareapp.domain.service.ServiceUserProvider;
+import de.hhu.rhinoshareapp.domain.service.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class ReturnProcessRepresentation {
-    private ServiceUserProvider users;
+    private UserRepository users;
     private ArticleRepository articles;
     private LendingRepository lendings;
     long userID;
 
-    public ReturnProcessRepresentation(ServiceUserProvider users, ArticleRepository articles, long userID, LendingRepository lendings) {
+    public ReturnProcessRepresentation(UserRepository users, ArticleRepository articles, long userID, LendingRepository lendings) {
         this.users = users;
         this.articles = articles;
         this.userID = userID;

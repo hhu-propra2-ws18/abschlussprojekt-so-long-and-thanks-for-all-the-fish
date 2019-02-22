@@ -4,6 +4,7 @@ import de.hhu.rhinoshareapp.domain.model.Article;
 import de.hhu.rhinoshareapp.domain.model.User;
 import de.hhu.rhinoshareapp.domain.service.ArticleRepository;
 import de.hhu.rhinoshareapp.domain.service.ImageRepository;
+import de.hhu.rhinoshareapp.domain.service.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +15,7 @@ import java.io.IOException;
 import java.security.Principal;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/article")
@@ -25,6 +27,9 @@ public class ArticleController {
     @Autowired
     ImageRepository imageRepository;
 
+    @Autowired
+    UserRepository userRepository;
+
 
     //View
     @GetMapping("/")
@@ -34,13 +39,11 @@ public class ArticleController {
         return "Article/viewAll";
     }
 
-    @GetMapping("/view/{userID}")
+    @GetMapping("/view")
     public String viewMyArticles(Model model,Principal p){
-        p.getName();
-        long userID = 1;
-        User owner= new User();
-        List<Article> articles = articleRepository.findByOwner(owner);
-        model.addAttribute("userID",userID);
+        Optional<User> user = userRepository.findUserByUsername(p.getName());
+        List<Article> articles = articleRepository.findByOwner(user.get());
+        model.addAttribute("userID",user.get().getUserID());
         model.addAttribute("articles", articles);
         return "Article/viewFromPerson";
     }

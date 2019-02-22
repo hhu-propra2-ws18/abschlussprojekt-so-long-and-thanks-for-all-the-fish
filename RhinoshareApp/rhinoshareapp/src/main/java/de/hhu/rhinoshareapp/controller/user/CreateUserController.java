@@ -2,7 +2,7 @@ package de.hhu.rhinoshareapp.controller.user;
 
 import de.hhu.rhinoshareapp.domain.model.Address;
 import de.hhu.rhinoshareapp.domain.model.User;
-import de.hhu.rhinoshareapp.domain.service.ServiceUserProvider;
+import de.hhu.rhinoshareapp.domain.service.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class CreateUserController {
 
     @Autowired
-    public ServiceUserProvider users;
+    public UserRepository users;
 
     @PostMapping("/newaccount")
     public String saveNewUser(String name, String surname, String username,

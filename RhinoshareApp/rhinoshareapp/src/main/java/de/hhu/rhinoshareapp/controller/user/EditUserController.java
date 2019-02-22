@@ -2,7 +2,7 @@ package de.hhu.rhinoshareapp.controller.user;
 
 import de.hhu.rhinoshareapp.domain.model.Address;
 import de.hhu.rhinoshareapp.domain.model.User;
-import de.hhu.rhinoshareapp.domain.service.ServiceUserProvider;
+import de.hhu.rhinoshareapp.domain.service.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +17,7 @@ import java.util.Optional;
 public class EditUserController {
 
     @Autowired
-    ServiceUserProvider users;
+    UserRepository users;
 
     @GetMapping("/edit")
     public String loadEditPage(Model m, Principal p) {

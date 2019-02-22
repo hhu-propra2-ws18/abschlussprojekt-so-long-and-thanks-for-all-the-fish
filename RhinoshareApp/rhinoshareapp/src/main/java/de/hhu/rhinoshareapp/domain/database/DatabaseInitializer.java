@@ -7,7 +7,7 @@ import de.hhu.rhinoshareapp.domain.model.Lending;
 import de.hhu.rhinoshareapp.domain.model.User;
 import de.hhu.rhinoshareapp.domain.service.ArticleRepository;
 import de.hhu.rhinoshareapp.domain.service.LendingRepository;
-import de.hhu.rhinoshareapp.domain.service.ServiceUserProvider;
+import de.hhu.rhinoshareapp.domain.service.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.stereotype.Component;
@@ -21,7 +21,7 @@ import java.util.Calendar;
 public class DatabaseInitializer implements ServletContextInitializer {
 
     @Autowired
-    ServiceUserProvider users;
+    UserRepository users;
 
     @Autowired
     ArticleRepository articles;

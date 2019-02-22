@@ -19,7 +19,7 @@ import java.util.HashMap;
 public class LendingController {
 
     private LendingRepository lendings;
-    private ServiceUserProvider users;
+    private UserRepository users;
     private ArticleRepository articles;
     private ReservationRepository reservations;
     private TransactionRepository transactions;
@@ -29,7 +29,7 @@ public class LendingController {
     //TODO: add History for lendings
 
     @Autowired
-    public LendingController(LendingRepository lendings, ServiceUserProvider users, ArticleRepository articles, ReservationRepository reservations, TransactionRepository transactions) {
+    public LendingController(LendingRepository lendings, UserRepository users, ArticleRepository articles, ReservationRepository reservations, TransactionRepository transactions) {
         this.lendings = lendings;
         this.articles = articles;
         this.users = users;
