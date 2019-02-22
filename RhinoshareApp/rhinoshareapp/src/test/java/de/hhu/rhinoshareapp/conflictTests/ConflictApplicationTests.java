@@ -2,6 +2,7 @@ package de.hhu.rhinoshareapp.conflictTests;
 
 import de.hhu.rhinoshareapp.controller.conflict.ConflictController;
 import de.hhu.rhinoshareapp.domain.mail.MailService;
+import de.hhu.rhinoshareapp.domain.model.Address;
 import de.hhu.rhinoshareapp.domain.model.Article;
 import de.hhu.rhinoshareapp.domain.model.Lending;
 import de.hhu.rhinoshareapp.domain.model.User;
@@ -56,9 +57,10 @@ public class ConflictApplicationTests {
 
     @Before
     public void setUp() {
-        User testUser1 = new User("Jeff", "Nosbusch", "strasse", "jeff", "jeff@mail.com", "1234", "user");
-        User testUser2 = new User("George", "Pi", "Blumenstrasse", "george", "george@mail.com", "1234", "user");
-        User testUser3 = new User("Franz", "Hoff", "Palmenstrasse", "franz", "franz@mail.com", "1234", "user");
+        Address address = new Address();
+        User testUser1 = new User("Jeff", "Nosbusch", address, "jeff", "jeff@mail.com", "1234", "user");
+        User testUser2 = new User("George", "Pi", address, "george", "george@mail.com", "1234", "user");
+        User testUser3 = new User("Franz", "Hoff", address, "franz", "franz@mail.com", "1234", "user");
 
         long id1 = testUser1.getUserID();
         long id2 = testUser2.getUserID();
