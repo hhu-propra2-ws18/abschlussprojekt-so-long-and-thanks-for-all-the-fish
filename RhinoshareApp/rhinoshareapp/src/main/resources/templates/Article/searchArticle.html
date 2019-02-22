@@ -11,30 +11,6 @@
 </head>
 
 <body>
-<img id="titleImageTest" src="/img/rhinoLogoBig.png" width="300" height="75">
-<ul class="navigationbar">
-    <li class="navbaritem"><a class="active" href="/">Rhino-Übersicht</a></li>
-    <li class="navbaritem"><a href="/">News</a></li>
-    <li class="navbaritem"><a href="/article/">Artikel</a></li>
-    <li style="float: right" class="navbaritem" href th:if="${loggedIn == 'true'}">
-        <a th:href="@{'/article/view/' + ${id}}">Meine Artikel</a>
-    <li class="navbaritem"><a href="/rent">Ausleihen</a></li>
-    <li class="navbaritem"><a href="">Contact</a></li>
-    <li class="navbaritem" href th:if="${loggedIn == 'false'}">
-        <a href="/newaccount">Registrieren</a>
-    </li>
-    <li class="navbaritem" href th:if="${loggedIn == 'true'}">
-        <a href="/edit" th:text="${surname}">Benutzer</a>
-    </li>
-    <li class="navbaritem"><input id="globalSearchField" type="text" placeholder="Suchen..."></li>
-    <li class="navbaritem"><a href="/">Suchen</a></li>
-    <li style="float: right;" class="navbaritem" href th:if="${loggedIn == 'false'}">
-        <a href="/login">Einloggen</a>
-    </li>
-    <li style="float: right" class="navbaritem" href th:if="${loggedIn == 'true'}">
-        <a href="/logout">Ausloggen</a>
-    </li>
-</ul>
 <div class="container">
 
     <h1 class="display-3">Suche nach <span th:text="|'${query}'|"></span></h1>
@@ -47,7 +23,7 @@
                 </tr>
                 <tr>
                     <td>Artikelbild</td>
-                    <td> <img th:src="@{/image/{id} (id = ${article.getImage().get(0).getImageID()})}" width="250px" height=auto/></td>
+                    <td> <img th:src="@{/image/{id} (id = ${article.getImage().get(0).getImageID()})}" width="200px" height=auto/></td>
                 </tr>
                 <tr>
                     <td>Mietpreis:</td>

@@ -30,7 +30,6 @@ public class ArticleController {
     @Autowired
     UserRepository userRepository;
 
-
     //View
     @GetMapping("/")
     public String viewAll(Model model){
@@ -40,41 +39,41 @@ public class ArticleController {
     }
 
     @GetMapping("/view")
-    public String viewMyArticles(Model model,Principal p){
-        Optional<User> user = userRepository.findUserByUsername(p.getName());
-        List<Article> articles = articleRepository.findByOwner(user.get());
-        model.addAttribute("userID",user.get().getUserID());
+    public String viewMyArticles(Model model, Principal p){
+        User user = userRepository.findByUsername(p.getName()).get();
+        List<Article> articles = articleRepository.findAllByOwner(user);
+        model.addAttribute("userID",user.getUserID());
         model.addAttribute("articles", articles);
         return "Article/viewFromPerson";
     }
 
     @GetMapping("/open/{articleID}")
     public String openArticleView(Model model, @PathVariable long articleID){
-        Article article = articleRepository.findById(articleID);
+        Article article = articleRepository.findById(articleID).get();
         model.addAttribute("article", article);
-        return "Article/openArticleView";
+        return "Article/viewFromPerson";
     }
 
     @GetMapping("/admin/{articleID}")
     public String privateArticleView(Model model, @PathVariable long articleID){
-        Article article = articleRepository.findById(articleID);
+        Article article = articleRepository.findById(articleID).get();
         model.addAttribute("article", article);
         return "Article/privateArticleView";
     }
 
 
     //Create
-    @GetMapping("/new/{personID}")
+    @GetMapping("/new/")
     public String newArticle(Model model){
         Article article = new Article();
         model.addAttribute("article",article);
         return  "Article/newArticle";
     }
 
-    @PostMapping("/new/{userID}")
-    public String saveArticle(HttpServletRequest request, Model model, @ModelAttribute("article") Article article, @PathVariable long userID) throws IOException, SQLException {
+    @PostMapping("/new/")
+    public String saveArticle(HttpServletRequest request, Model model, @ModelAttribute("article") Article article, Principal p) throws IOException, SQLException {
         article.saveImage();
-        article.setPersonID(userID);
+        article.setOwner(userRepository.findByUsername(p.getName()).get());
         articleRepository.save(article);
         return "redirect:/article/";
     }
@@ -82,14 +81,14 @@ public class ArticleController {
     //Edit
     @GetMapping("/edit/{articleID}")
     public String editArticle(Model model, @PathVariable long articleID){
-        Article article = articleRepository.findById(articleID);
+        Article article = articleRepository.findById(articleID).get();
         model.addAttribute("article", article);
         return "Article/editArticle";
     }
 
     @PostMapping("/edit/{articleID}")
     public String editArticlePostMapping(@ModelAttribute("article") Article article, @PathVariable long articleID){
-        Article oldArticle = articleRepository.findById(articleID);
+        Article oldArticle = articleRepository.findById(articleID).get();
         oldArticle.setName(article.getName());
         oldArticle.setComment(article.getComment());
         oldArticle.setRent(article.getRent());
@@ -102,14 +101,14 @@ public class ArticleController {
     //Delete
     @GetMapping("/delete/{articleID}")
     public String deleteAArticle(@PathVariable long articleID, Model model){
-        Article article = articleRepository.findById(articleID);
+        Article article = articleRepository.findById(articleID).get();
         model.addAttribute("article",article);
         return "Article/deleteArticle";
     }
 
     @PostMapping("/delete/{articleID}")
     public String deleteArticleFromDB(@PathVariable long articleID){
-        Article article = articleRepository.findById(articleID);
+        Article article = articleRepository.findById(articleID).get();
         articleRepository.delete(article);
         return "redirect:/article/";
     }

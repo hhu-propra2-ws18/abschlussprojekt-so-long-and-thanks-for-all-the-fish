@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta charset="UTF-8">
@@ -12,41 +12,21 @@
 </head>
 
 <body>
-<img id="titleImageTest" src="/img/rhinoLogoBig.png" width="300" height="75">
-<ul class="navigationbar">
-    <li class="navbaritem"><a class="active" href="/">Rhino-Übersicht</a></li>
-    <li class="navbaritem"><a href="/">News</a></li>
-    <li class="navbaritem"><a href="/article/">Artikel</a></li>
-    <li style="float: right" class="navbaritem" href th:if="${loggedIn == 'true'}">
-        <a th:href="@{'/article/view/' + ${id}}">Meine Artikel</a>
-    <li class="navbaritem"><a href="/rent">Ausleihen</a></li>
-    <li class="navbaritem"><a href="">Contact</a></li>
-    <li class="navbaritem" href th:if="${loggedIn == 'false'}">
-        <a href="/newaccount">Registrieren</a>
-    </li>
-    <li class="navbaritem" href th:if="${loggedIn == 'true'}">
-        <a href="/edit" th:text="${surname}">Benutzer</a>
-    </li>
-    <li class="navbaritem"><input id="globalSearchField" type="text" placeholder="Suchen..."></li>
-    <li class="navbaritem"><a href="/">Suchen</a></li>
-    <li style="float: right;" class="navbaritem" href th:if="${loggedIn == 'false'}">
-        <a href="/login">Einloggen</a>
-    </li>
-    <li style="float: right" class="navbaritem" href th:if="${loggedIn == 'true'}">
-        <a href="/logout">Ausloggen</a>
-    </li>
-</ul>
     <div class="container">
         <h1 th:text="${article.getName()}">SampleName</h1>
-        <img th:src="@{/image/{id} (id = ${article.getImage().get(0).getImageID()})}" width=auto height="300px"/>
         <table>
+            <!-- Hier if einfügen für default Bild-->
+            <tr th:each="image:${article.getImage()}">
+                <td>Artikelbild</td>
+                <td> <img th:src="@{/image/{id} (id = ${image.getImageID()})}" width=auto height="300px"/></td>
+            </tr>
             <tr>
                 <td>Beschreibung:</td>
                 <td th:text="${article.getComment()}">SampleComment</td>
             </tr>
             <tr>
                 <td>Person</td>
-                <td th:text="${article.getPersonID()}">SamplePerson</td>
+                <td th:text="${article.getOwner()}">SamplePerson</td>
             </tr>
             <tr>
                 <td>Kaution</td>
@@ -65,9 +45,11 @@
             </tr>
         </table>
         <br>
-        <td>
+        <td sec:authorize="#{isAuthenticated()}"> <!--Sollte noch ID überprüfen -->
             <a th:href="|/article/edit/${article.getArticleID()}|" class="btn btn-light">Editieren</a>
             <a th:href="|/article/delete/${article.getArticleID()}|"> <button class="btn btn-danger" type="button">Artikel löschen</button></a>
+        </td>
+        <td>
             <a th:href="|/article/|"> <button class="btn btn-warning" type="button">Zurück zur Übersicht</button></a>
         </td>
     </div>
