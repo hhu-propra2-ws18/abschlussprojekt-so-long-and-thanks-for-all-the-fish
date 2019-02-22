@@ -31,7 +31,7 @@ public class EditUserController {
         return "edituser";*/
         m.addAttribute("error", " ");
         m.addAttribute("user", user);
-        return "/EditUser/profileoverview";
+        return "/EditUser/profileOverview";
     }
 
     @PostMapping(path = "/edit")
@@ -56,7 +56,7 @@ public class EditUserController {
                 } else {
                     model.addAttribute("error", "Do not use spaces in your username please");
                     model.addAttribute("user",user);
-                    return "/EditUser/profileoverview";
+                    return "/EditUser/profileOverview";
                 }
             }
             if (surname.equals("") == false) {
@@ -84,14 +84,14 @@ public class EditUserController {
                 a.setHouseNumber(houseNumber);
             }
             if (!(postCode.equals(""))){
-                a.setPostCode(street);
+                a.setPostCode(postCode);
             }
             model.addAttribute("user",user);
             users.save(user);
         }
         model.addAttribute("error", " ");
         model.addAttribute("user", user);
-        return "/EditUser/profileoverview";
+        return "/EditUser/profileOverview";
     }
 
     public boolean isValidUsername(String username) {
