@@ -1,5 +1,6 @@
 package de.hhu.rhinoshareapp.controller.user;
 
+import de.hhu.rhinoshareapp.domain.model.Address;
 import de.hhu.rhinoshareapp.domain.model.User;
 import de.hhu.rhinoshareapp.domain.service.ServiceUserProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +15,19 @@ public class CreateUserController {
     public ServiceUserProvider users;
 
     @PostMapping("/newaccount")
-    public String saveNewUser(String name, String surname, String username, String address, String email, String password) {
+    public String saveNewUser(String name, String surname, String username,
+                              String street, String housenumber, String postalcode, String city, String country,
+                              String email, String password) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String password_encrypted = passwordEncoder.encode(password);
-        User newUser = new User(name, surname, address, username, email, password_encrypted, "ROLE_USER");
+        Address newUserAddress = Address.builder()
+                .street(street)
+                .houseNumber(housenumber)
+                .postCode(postalcode)
+                .city(city)
+                .country(country)
+                .build();
+        User newUser = new User(name, surname, newUserAddress, username, email, password_encrypted, "ROLE_USER");
 
         users.save(newUser);
         System.out.println("User: " + username);
