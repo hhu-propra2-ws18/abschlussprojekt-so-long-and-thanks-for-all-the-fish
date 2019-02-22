@@ -55,4 +55,8 @@ public class Lending {
         this.endDate = endDate;
     }
 
+    public String getOwnerUsername(){
+        return lendedArticle.getOwnerUser().getUsername();
+    }
+
 }

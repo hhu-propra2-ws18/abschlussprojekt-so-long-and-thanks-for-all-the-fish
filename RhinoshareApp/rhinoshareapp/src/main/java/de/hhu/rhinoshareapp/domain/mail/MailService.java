@@ -1,6 +1,7 @@
-package de.hhu.ProPra.conflict.service;
+package de.hhu.rhinoshareapp.domain.mail;
 
-import de.hhu.ProPra.conflict.model.User;
+
+import de.hhu.rhinoshareapp.domain.model.ServiceUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
@@ -19,7 +20,7 @@ public class MailService {
         this.javaMailSender = javaMailSender;
     }
 
-    public void sendTest(long lendingId, String conflictMessage, long ownerId, long lenderId, User admin) throws MailException {
+    public void sendTest(long lendingId, String conflictMessage, long ownerId, long lenderId, ServiceUser admin) throws MailException {
         //sendEmail
         SimpleMailMessage mail = new SimpleMailMessage();
         mail.setTo(admin.getEmail());

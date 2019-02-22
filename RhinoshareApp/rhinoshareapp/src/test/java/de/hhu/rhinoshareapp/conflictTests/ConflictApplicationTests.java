@@ -1,46 +1,34 @@
-package de.hhu.ProPra.conflict;
+package de.hhu.rhinoshareapp.conflictTests;
 
-import de.hhu.ProPra.conflict.controller.MailController;
-import static org.hamcrest.Matchers.containsString;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import de.hhu.ProPra.conflict.model.Article;
-import de.hhu.ProPra.conflict.model.Lending;
-import de.hhu.ProPra.conflict.model.User;
-import de.hhu.ProPra.conflict.model.Article;
-import de.hhu.ProPra.conflict.model.Lending;
-import de.hhu.ProPra.conflict.model.User;
-import de.hhu.ProPra.conflict.service.MailService;
-import de.hhu.ProPra.conflict.service.Repositorys.ArticleRepository;
-import de.hhu.ProPra.conflict.service.Repositorys.LendingRepository;
-import de.hhu.ProPra.conflict.service.Repositorys.UserRepository;
+
+import de.hhu.rhinoshareapp.controller.MailController;
+import de.hhu.rhinoshareapp.domain.mail.MailService;
+import de.hhu.rhinoshareapp.domain.model.Article;
+import de.hhu.rhinoshareapp.domain.model.Lending;
+import de.hhu.rhinoshareapp.domain.model.ServiceUser;
+import de.hhu.rhinoshareapp.domain.service.ArticleRepository;
+import de.hhu.rhinoshareapp.domain.service.LendingRepository;
+import de.hhu.rhinoshareapp.domain.service.ServiceUserProvider;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.ui.Model;
 
 import java.util.Calendar;
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-
-import static org.junit.Assert.assertNotEquals;
-
+import java.util.Optional;
 
 
 @RunWith(SpringRunner.class)
@@ -61,7 +49,7 @@ public class ConflictApplicationTests {
     LendingRepository lendingRepo;
 
     @MockBean
-    UserRepository userRepo;
+    ServiceUserProvider userRepo;
 
     @MockBean
     ArticleRepository articleRepo;
@@ -71,13 +59,16 @@ public class ConflictApplicationTests {
 
     @Before
     public void setUp() {
-        User testUser1 = new User("jeff", "Jeff", "hoffmannfraenz@gmail.com", false, "1, zuhause str, Dueseldorf");
-        User testUser2 = new User("george", "George", "hoffmannfraenz@gmail.com", false, "2, lupo str, Duesseldorf");
-        User testUser3 = new User("franz", "Franz", "hoffmannfraenz@gmail.com", true, "3, heinrich heine allee, Duesseldorf");
+        ServiceUser testUser1 = new ServiceUser("Jeff", "Nosbusch", "strasse", "jeff", "jeff@mail.com", "1234", "user");
+        ServiceUser testUser2 = new ServiceUser("George", "Pi", "Blumenstrasse", "george", "george@mail.com", "1234", "user");
+        ServiceUser testUser3 = new ServiceUser("Franz", "Hoff", "Palmenstrasse", "franz", "franz@mail.com", "1234", "user");
 
-        Article testArticle1 = new Article("Rasenmäher", "funktioniert, kein Benzin, Schnitthöhe 1cm - 50 m", 2, 500, false, testUser1, testUser2);
-        Article testArticle2 = new Article("Geschirr", "nur ein bisschen zerbrochen, für 20 mann", 10, 250, false, testUser2, testUser3);
-        Article testArticle3 = new Article("Grillkohle", "schon verbrannt", 816230, 25230, false, testUser3, testUser1);
+        long id1 = testUser1.getUserID();
+        long id2 = testUser2.getUserID();
+
+        Article testArticle1 = new Article("Rasenmäher", "funktioniert, kein Benzin, Schnitthöhe 1cm - 50 m", id1, 500, 25, true, null);
+        Article testArticle2 = new Article("Geschirr", "nur ein bisschen zerbrochen, für 20 mann", id2, 250, 25, true, null);
+        Article testArticle3 = new Article("Grillkohle", "schon verbrannt", id2, 25230, 88, false, null);
 
         userRepo.save(testUser1);
         userRepo.save(testUser2);
@@ -95,11 +86,13 @@ public class ConflictApplicationTests {
         date3.set(2019, 4, 12);
         date4.set(2019, 1, 12);
 
-        Lending testLending1 = new Lending(7, testUser1, testArticle1,date1,date3,"12.01.2019","12.04.2019",true,false,"");
+        Lending testLending1 = new Lending(date1,date2,testUser1,testArticle2);
         Lending testLending2 = new Lending(date3, date4, testUser2, testArticle1);
         testLending2.setConflict(true);
         lendingRepo.save(testLending1);
         lendingRepo.save(testLending2);
+
+       /*Optional<ServiceUser> sUser1= (Optional<ServiceUser>) testUser1;
 
         Mockito.when(userRepo.findByUsername("jeff"))
                 .thenReturn(testUser1);
@@ -110,8 +103,8 @@ public class ConflictApplicationTests {
         Mockito.when(userRepo.findById(1)).thenReturn(testUser1);
         Mockito.when(userRepo.findById(2)).thenReturn(testUser2);
         Mockito.when(userRepo.findById(3)).thenReturn(testUser3);
-        Mockito.when(lendingRepo.findAllByConflict(true)).thenReturn(null);
-        Mockito.when(lendingRepo.findById(7)).thenReturn(testLending1);
+        Mockito.when(lendingRepo.findAllByIsConflict(true)).thenReturn(null);
+        Mockito.when(lendingRepo.findLendingBylendedArticle(7)).thenReturn(testLending1);
         Mockito.when(lendingRepo.save(testLending1)).thenReturn(testLending1);
         Mockito.when(lendingRepo.findById(1)).thenReturn(testLending1);
 
@@ -120,7 +113,7 @@ public class ConflictApplicationTests {
         controller.setLendingRepository(lendingRepo);
         controller.setMailService(mailService);
         m = Mockito.mock(Model.class);
-
+*/
     }
 
     @Test
