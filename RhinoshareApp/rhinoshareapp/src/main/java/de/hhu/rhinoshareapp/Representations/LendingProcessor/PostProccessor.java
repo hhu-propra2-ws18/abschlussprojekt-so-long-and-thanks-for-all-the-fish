@@ -5,6 +5,7 @@ import de.hhu.rhinoshareapp.domain.service.*;
 
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Optional;
 
 public class PostProccessor {
     public HashMap<String, String> SplitString(String postBody){
@@ -130,5 +131,10 @@ public class PostProccessor {
         long time = currentDate.getTime().getTime() - startDate.getTime().getTime();
         long days = Math.round( (double)time / (24. * 60.*60.*1000.) );
         return (days +1) * article.getRent();
+    }
+
+    public long FindUserIDByUser(UserRepository users, String username) {
+        Optional<User> byUsername = users.findByUsername(username);
+        return byUsername.get().getUserID();
     }
 }

@@ -7,7 +7,7 @@
 </head>
 <body>
 <dr>
-    <a th:href="@{/{}(username = ${username})}" role="button">overview</a>
+    <a th:href="@{/{username}(username = ${username})}" role="button">overview</a>
 </dr>
 <p>Sie haben ausgeliehen !</p>
 <table th:each="lending : ${lendings}">

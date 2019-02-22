@@ -44,7 +44,7 @@ public class LendingController {
     @GetMapping("/lendings/{username}")
     public String LendingPage(Model model, Principal p) {
         String username = p.getName();
-        long lendID = users.findUserIDByUsername(username);
+        long lendID = postProccessor.FindUserIDByUser(users, username);
         model.addAttribute("username", username);
         model.addAttribute("id", lendID);
         LendingRepresentation filledLendings = new LendingRepresentation(lendings, users, articles);
@@ -59,7 +59,7 @@ public class LendingController {
     @PostMapping("/lendings/{username}")
     public String LendingPageNew(Model model, Principal p, @RequestBody String postBody) { //TODO: return procces erzeugen
         String username = p.getName();
-        long lendID = users.findUserIDByUsername(username);
+        long lendID = postProccessor.FindUserIDByUser(users, username);
         model.addAttribute("username", username);
         model.addAttribute("id", lendID);
         HashMap<String, String> postBodyParas = postProccessor.SplitString(postBody);
@@ -76,7 +76,7 @@ public class LendingController {
     @GetMapping("/borrows/{username}")
     public String BorrowPage(Model model, Principal p) {
         String username = p.getName();
-        long borrowID = users.findUserIDByUsername(username);
+        long borrowID = postProccessor.FindUserIDByUser(users, username);
         model.addAttribute("username", username);
         model.addAttribute("id", borrowID);
         LendingRepresentation filledArticles = new LendingRepresentation(lendings, users, articles);
@@ -91,7 +91,7 @@ public class LendingController {
     @GetMapping("/{username}")
     public String Overview(Model model, Principal p) {
         String username = p.getName();
-        long id = users.findUserIDByUsername(username);
+        long id = postProccessor.FindUserIDByUser(users, username);
         model.addAttribute("username", username);
         model.addAttribute("id", id);
         RequestRepresentation filledRequests = new RequestRepresentation(users, articles, lendings, id);
@@ -108,7 +108,7 @@ public class LendingController {
     @PostMapping("/{username}")
     public String PostOverview(Model model, Principal p, @RequestBody String postBody) {
         String username = p.getName();
-        long id = users.findUserIDByUsername(username);
+        long id = postProccessor.FindUserIDByUser(users, username);
         model.addAttribute("username", username);
         model.addAttribute("id", id);
         RequestRepresentation filledRequests = new RequestRepresentation(users, articles, lendings, id);
@@ -127,7 +127,7 @@ public class LendingController {
     @GetMapping("/lendingRequest")
     public String LendingRequest(Model model, Principal p, @RequestParam("articleID") long articleID) {
         String username = p.getName();
-        long requesterID = users.findUserIDByUsername(username);
+        long requesterID = postProccessor.FindUserIDByUser(users, username);
         model.addAttribute("username", username);
         Account lenderAccountInformation = apiProcessor.getAccountInformationWithId(requesterID, users);
         model.addAttribute("requesterID", requesterID);
@@ -161,7 +161,7 @@ public class LendingController {
     @GetMapping("/proPay/{username}")
     public String GetProPayOverview(Model model, Principal p){
         String username = p.getName();
-        long id = users.findUserIDByUsername(username);
+        long id = postProccessor.FindUserIDByUser(users, username);
         model.addAttribute("username", username);
         Account account = apiProcessor.getAccountInformationWithId(id, users);
         model.addAttribute("account", account);
@@ -175,7 +175,7 @@ public class LendingController {
     @PostMapping("/proPay/{username}")
     public String SetProPayOverview(Model model, Principal p, @RequestBody String postBody){
         String username = p.getName();
-        long id = users.findUserIDByUsername(username);
+        long id = postProccessor.FindUserIDByUser(users, username);
         HashMap<String, String> postBodyParas = postProccessor.SplitString(postBody);
         Account account = apiProcessor.getAccountInformationWithId(id, users);
         account = apiProcessor.postMoney(Account.class, account, Double.parseDouble(postBodyParas.get("amount")));
@@ -198,7 +198,7 @@ public class LendingController {
     @GetMapping("/conflictPage/{username}")
     public String ReleaseConflictingLending(Model model, Principal p){
         String username = p.getName();
-        long id = users.findUserIDByUsername(username);
+        long id = postProccessor.FindUserIDByUser(users, username);
         LendingRepresentation filledConflicts = new LendingRepresentation(lendings, users, articles);
         model.addAttribute("id",id);
         model.addAttribute("username", username);
@@ -213,7 +213,7 @@ public class LendingController {
     @GetMapping("/transaction/{username}")
     public String ShowTransactions(Model model, Principal p){
         String username = p.getName();
-        long id = users.findUserIDByUsername(username);
+        long id = postProccessor.FindUserIDByUser(users, username);
         TransactionRepresentation transactionRepresentation = new TransactionRepresentation(transactions, users);
         model.addAttribute("id",id);
         model.addAttribute("username",username);
