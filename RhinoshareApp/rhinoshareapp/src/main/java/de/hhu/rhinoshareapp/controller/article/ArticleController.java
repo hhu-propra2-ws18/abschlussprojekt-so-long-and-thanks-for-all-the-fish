@@ -36,7 +36,7 @@ public class ArticleController {
     @GetMapping("/view/{userID}")
     public String viewMyArticles(Model model,Principal p){
         p.getName();
-        long userID;
+        long userID = 1;
         List<Article> articles = articleRepository.findByUserID(userID);
         model.addAttribute("userID",userID);
         model.addAttribute("articles", articles);
