@@ -47,20 +47,6 @@ public class EditUserController {
         if (button.equals("Back")) {
             return "redirect:/";
         } else if (button.equals("Apply changes")) {
-            if (username.equals("") == false) {
-                if (isValidUsername(username)) {
-                    if (users.findByUsername(username)==null) {
-                        user.setUsername(username);
-                    } else {
-                        model.addAttribute("user",user);
-                        model.addAttribute("error", "Username already taken ");
-                    }
-                } else {
-                    model.addAttribute("error", "Do not use spaces in your username please");
-                    model.addAttribute("user",user);
-                    return "/EditUser/profileOverview";
-                }
-            }
             if (surname.equals("") == false) {
                 user.setSurname(surname);
             }
@@ -94,15 +80,5 @@ public class EditUserController {
         model.addAttribute("error", " ");
         model.addAttribute("user", user);
         return "/EditUser/profileOverview";
-    }
-
-    public boolean isValidUsername(String username) {
-        if (username.equals("") == false) {
-            if (username.contains(" ")) {
-                return false;
-            }
-            return true;
-        }
-        return false;
     }
 }
