@@ -51,7 +51,7 @@ public class ArticleRepositoryIntegrationTest {
 		entityManager.flush();
 
 		//Act
-		List<Article> found = articleRepository.findByPersonID(15);
+		List<Article> found = (List<Article>) articleRepository.findById(15);
 
 		//Assert
 		assertThat(chainsaw).isIn(found);
