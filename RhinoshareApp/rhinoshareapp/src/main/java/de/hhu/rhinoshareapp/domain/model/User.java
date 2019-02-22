@@ -5,18 +5,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Builder
 @Data
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class ServiceUser {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
@@ -30,7 +26,8 @@ public class ServiceUser {
 
     private String email;
 
-    private String address;
+    @OneToOne
+    private Address address;
 
     private int score;
 
@@ -39,7 +36,7 @@ public class ServiceUser {
     private String role;
 
 
-    public ServiceUser(String name, String surname, String address ,String username, String email, String password, String role) {
+    public User(String name, String surname, Address address , String username, String email, String password, String role) {
         this.name = name;
         this.surname = surname;
         this.username = username;

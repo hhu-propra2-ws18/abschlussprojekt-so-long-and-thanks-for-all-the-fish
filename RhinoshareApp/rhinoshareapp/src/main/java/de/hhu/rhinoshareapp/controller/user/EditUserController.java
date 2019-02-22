@@ -1,12 +1,11 @@
-package de.hhu.rhinoshareapp.controller;
+package de.hhu.rhinoshareapp.controller.user;
 
-import de.hhu.rhinoshareapp.domain.model.ServiceUser;
+import de.hhu.rhinoshareapp.domain.model.User;
 import de.hhu.rhinoshareapp.domain.service.ServiceUserProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -21,8 +20,8 @@ public class EditUserController {
 
     @GetMapping("/edit")
     public String loadEditPage(Model m, Principal p) {
-        Optional<ServiceUser> u = users.findByUsername(p.getName());
-        ServiceUser user = u.get();
+        Optional<User> u = users.findByUsername(p.getName());
+        User user = u.get();
         /*m.addAttribute("username", user.getUsername());
         m.addAttribute("surname", user.getSurname());
         m.addAttribute("name", user.getName());
@@ -36,8 +35,8 @@ public class EditUserController {
 
     @PostMapping(path = "/edit")
     public String profileOverview(Model model, Principal p, @RequestParam(value = "action") String button,@RequestParam String surname, @RequestParam String username, @RequestParam String name, @RequestParam String email, @RequestParam String address) {
-        Optional<ServiceUser> u = users.findByUsername(p.getName());
-        ServiceUser user = u.get();
+        Optional<User> u = users.findByUsername(p.getName());
+        User user = u.get();
         if (button.equals("back to Dummyhome")) {
             return "redirect:/";
         } else if (button.equals("Apply changes")) {

@@ -1,12 +1,12 @@
 package de.hhu.rhinoshareapp.domain.service;
 
-import de.hhu.rhinoshareapp.domain.model.ServiceUser;
+import de.hhu.rhinoshareapp.domain.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface ServiceUserProvider extends JpaRepository<ServiceUser, Long> {
+public interface ServiceUserProvider extends JpaRepository<User, Long> {
 
-    Optional<ServiceUser> findByUsername(String username);
-    Optional<ServiceUser> findUserByuserID(long id);
+    Optional<User> findByUsername(String username);
+    Optional<User> findUserByuserID(long id);
 }

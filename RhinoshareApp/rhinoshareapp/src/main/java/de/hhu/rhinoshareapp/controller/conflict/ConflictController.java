@@ -1,9 +1,9 @@
-package de.hhu.rhinoshareapp.controller;
+package de.hhu.rhinoshareapp.controller.conflict;
 
 
 import de.hhu.rhinoshareapp.domain.mail.MailService;
 import de.hhu.rhinoshareapp.domain.model.Lending;
-import de.hhu.rhinoshareapp.domain.model.ServiceUser;
+import de.hhu.rhinoshareapp.domain.model.User;
 import de.hhu.rhinoshareapp.domain.service.LendingRepository;
 import de.hhu.rhinoshareapp.domain.service.ServiceUserProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-public class MailController {
+public class ConflictController {
 
     @Autowired
     private MailService mailService;
@@ -39,7 +39,7 @@ public class MailController {
         this.mailService = mailService;
     }
 
-    public void send(long lendId, String conflictMessage, long ownerId, long lenderId, ServiceUser admin) {
+    public void send(long lendId, String conflictMessage, long ownerId, long lenderId, User admin) {
         try {
             mailService.sendTest(lendId, conflictMessage, ownerId, lenderId, admin);
         } catch (MailException e) {
@@ -62,9 +62,9 @@ public class MailController {
                 l.setConflict(true);
                 l.getLendingPerson();
                 lendRepo.save(l);
-                ServiceUser owner = l.getLendedArticle().getOwnerUser();
-                Optional<ServiceUser> serviceUser = userRepo.findUserByuserID(3);
-                ServiceUser admin = serviceUser.get();
+                User owner = l.getLendedArticle().getOwner();
+                Optional<User> serviceUser = userRepo.findUserByuserID(3);
+                User admin = serviceUser.get();
                 send(lendingID, description, (owner.getUserID()), (l.getLendingPerson().getUserID()), admin);
             } else {
                 return "redirect:/openConflict";
@@ -99,7 +99,7 @@ public class MailController {
         try {
             Optional<Lending> lendlist = lendRepo.findLendingBylendingID(id);
             Lending l = lendlist.get();
-            model.addAttribute("owningPerson", l.getLendedArticle().getOwnerUser().getUsername());
+            model.addAttribute("owningPerson", l.getLendedArticle().getOwner().getUsername());
             model.addAttribute("borrowwPerson", l.getLendingPerson().getUsername());
             model.addAttribute("lendingID", l.getLendingID());
             model.addAttribute("articleName", l.getLendedArticle().getName());

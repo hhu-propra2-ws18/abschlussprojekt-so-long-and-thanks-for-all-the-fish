@@ -1,34 +1,31 @@
 package de.hhu.rhinoshareapp.conflictTests;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-
-import de.hhu.rhinoshareapp.controller.MailController;
+import de.hhu.rhinoshareapp.controller.conflict.ConflictController;
 import de.hhu.rhinoshareapp.domain.mail.MailService;
 import de.hhu.rhinoshareapp.domain.model.Article;
 import de.hhu.rhinoshareapp.domain.model.Lending;
-import de.hhu.rhinoshareapp.domain.model.ServiceUser;
+import de.hhu.rhinoshareapp.domain.model.User;
 import de.hhu.rhinoshareapp.domain.service.ArticleRepository;
 import de.hhu.rhinoshareapp.domain.service.LendingRepository;
 import de.hhu.rhinoshareapp.domain.service.ServiceUserProvider;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.ui.Model;
 
 import java.util.Calendar;
-import java.util.Optional;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 @RunWith(SpringRunner.class)
@@ -37,7 +34,7 @@ import java.util.Optional;
 @WebMvcTest
 public class ConflictApplicationTests {
     @Autowired
-    MailController controller;
+    ConflictController controller;
 
     @Autowired
     MockMvc mvc;
@@ -59,9 +56,9 @@ public class ConflictApplicationTests {
 
     @Before
     public void setUp() {
-        ServiceUser testUser1 = new ServiceUser("Jeff", "Nosbusch", "strasse", "jeff", "jeff@mail.com", "1234", "user");
-        ServiceUser testUser2 = new ServiceUser("George", "Pi", "Blumenstrasse", "george", "george@mail.com", "1234", "user");
-        ServiceUser testUser3 = new ServiceUser("Franz", "Hoff", "Palmenstrasse", "franz", "franz@mail.com", "1234", "user");
+        User testUser1 = new User("Jeff", "Nosbusch", "strasse", "jeff", "jeff@mail.com", "1234", "user");
+        User testUser2 = new User("George", "Pi", "Blumenstrasse", "george", "george@mail.com", "1234", "user");
+        User testUser3 = new User("Franz", "Hoff", "Palmenstrasse", "franz", "franz@mail.com", "1234", "user");
 
         long id1 = testUser1.getUserID();
         long id2 = testUser2.getUserID();

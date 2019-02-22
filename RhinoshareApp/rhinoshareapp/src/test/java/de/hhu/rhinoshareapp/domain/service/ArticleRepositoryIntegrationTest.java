@@ -1,6 +1,5 @@
 package de.hhu.rhinoshareapp.domain.service;
 
-import de.hhu.rhinoshareapp.*;
 import de.hhu.rhinoshareapp.domain.model.Article;
 import org.junit.Test;
 import org.junit.runner.RunWith;

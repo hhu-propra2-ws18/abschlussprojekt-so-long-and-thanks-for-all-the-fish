@@ -1,4 +1,4 @@
-package de.hhu.rhinoshareapp.controller;
+package de.hhu.rhinoshareapp.controller.article;
 
 import de.hhu.rhinoshareapp.domain.model.Article;
 import de.hhu.rhinoshareapp.domain.service.ArticleRepository;

@@ -24,12 +24,13 @@ public class Article {
 
     String name;
 
+    @Lob
     String comment;
 
     //@OneToOne
     long personID;
     @OneToOne
-    ServiceUser ownerUser;
+    User owner;
 
     int deposit;
 
@@ -44,8 +45,12 @@ public class Article {
     boolean available;
 
     Calendar finalStartDate;
+
     Calendar finalEndDate;
+
     boolean isRequested;
+
+    @Lob
     String requestComment;
 
     public Article(String name, String comment, long personID, int deposit, int rent, boolean available, MultipartFile file) {

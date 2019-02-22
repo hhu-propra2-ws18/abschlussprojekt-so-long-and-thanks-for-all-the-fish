@@ -15,7 +15,9 @@ import javax.persistence.*;
 public class Account {
     @Id
     String account;
+
     double amount;
+
     @OneToMany(cascade = CascadeType.ALL)
     @OrderColumn
     Reservation[] reservations;

@@ -1,6 +1,6 @@
-package de.hhu.rhinoshareapp.controller;
+package de.hhu.rhinoshareapp.domain.security;
 
-import de.hhu.rhinoshareapp.domain.model.ServiceUser;
+import de.hhu.rhinoshareapp.domain.model.User;
 import de.hhu.rhinoshareapp.domain.service.ServiceUserProvider;
 import org.springframework.ui.Model;
 
@@ -9,10 +9,10 @@ import java.util.Optional;
 
 public class ActualUserChecker {
 
-    static void checkActualUser(Model m, Principal p, ServiceUserProvider users) {
+    public static void checkActualUser(Model m, Principal p, ServiceUserProvider users) {
         if (p != null) {
-            Optional<ServiceUser> u = users.findByUsername(p.getName());
-            ServiceUser user = u.get();
+            Optional<User> u = users.findByUsername(p.getName());
+            User user = u.get();
             m.addAttribute("surname", user.getSurname());
             m.addAttribute("loggedIn", "true");
         }

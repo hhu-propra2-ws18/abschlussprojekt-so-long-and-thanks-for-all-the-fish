@@ -21,15 +21,23 @@ public class Transaction {
     @Id
     @GeneratedValue
     long transactionID;
+
     @OneToOne
-    ServiceUser reciever;
+    User reciever;
+
     @OneToOne
-    ServiceUser giver;
+    User giver;
+
     @OneToOne
     Article article;
+
     double amount;
 
-    public Transaction(ServiceUser reciever, ServiceUser giver, Article article, double amount, Calendar transactionDate) {
+    Calendar transactionDate;
+
+    String formattedTransactionDate;
+
+    public Transaction(User reciever, User giver, Article article, double amount, Calendar transactionDate) {
         this.reciever = reciever;
         this.giver = giver;
         this.article = article;
@@ -37,10 +45,7 @@ public class Transaction {
         this.transactionDate = transactionDate;
     }
 
-    Calendar transactionDate;
-    String formattedTransactionDate;
-
-    public void FillFormattedDates(){
+    public void FillFormattedDates() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         formattedTransactionDate = dateFormat.format(transactionDate.getTime());
     }

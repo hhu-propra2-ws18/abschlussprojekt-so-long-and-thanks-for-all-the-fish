@@ -21,24 +21,33 @@ public class Lending {
     @Id
     @GeneratedValue
     long lendingID;
+
     @OneToOne
-    ServiceUser lendingPerson;
+    User lendingPerson;
+
     @OneToOne
     Article lendedArticle;
 
     Calendar startDate;
+
     Calendar endDate;
+
     String formattedStartDate;
+
     String formattedEndDate;
+
     boolean isAccepted;
+
     boolean isReturn;
+
     boolean isConflict;
+
     String warning;
 
     @OneToOne
     Reservation proPayReservation;
 
-    public Lending(Calendar startDate, Calendar endDate, ServiceUser lendingPerson, Article lendedArticle) {
+    public Lending(Calendar startDate, Calendar endDate, User lendingPerson, Article lendedArticle) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.lendingPerson = lendingPerson;
@@ -50,13 +59,14 @@ public class Lending {
         formattedStartDate = dateFormat.format(startDate.getTime());
     }
 
-    public Lending(ServiceUser lendingPerson, Calendar endDate) {
+    public Lending(User lendingPerson, Calendar endDate) {
         this.lendingPerson = lendingPerson;
         this.endDate = endDate;
     }
 
     public String getOwnerUsername(){
-        return lendedArticle.getOwnerUser().getUsername();
+
+        return lendedArticle.getOwner().getUsername();
     }
 
 }

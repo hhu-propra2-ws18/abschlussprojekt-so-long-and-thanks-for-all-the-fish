@@ -1,6 +1,6 @@
-package de.hhu.rhinoshareapp.controller;
+package de.hhu.rhinoshareapp.controller.user;
 
-import de.hhu.rhinoshareapp.domain.model.ServiceUser;
+import de.hhu.rhinoshareapp.domain.model.User;
 import de.hhu.rhinoshareapp.domain.service.ServiceUserProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,7 +17,7 @@ public class CreateUserController {
     public String saveNewUser(String name, String surname, String username, String address, String email, String password) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String password_encrypted = passwordEncoder.encode(password);
-        ServiceUser newUser = new ServiceUser(name, surname, address, username, email, password_encrypted, "ROLE_USER");
+        User newUser = new User(name, surname, address, username, email, password_encrypted, "ROLE_USER");
 
         users.save(newUser);
         System.out.println("User: " + username);

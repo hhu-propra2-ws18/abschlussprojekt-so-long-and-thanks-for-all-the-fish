@@ -2,7 +2,7 @@ package de.hhu.rhinoshareapp.Representations;
 
 import de.hhu.rhinoshareapp.domain.model.Article;
 import de.hhu.rhinoshareapp.domain.model.Lending;
-import de.hhu.rhinoshareapp.domain.model.ServiceUser;
+import de.hhu.rhinoshareapp.domain.model.User;
 import de.hhu.rhinoshareapp.domain.service.ArticleRepository;
 import de.hhu.rhinoshareapp.domain.service.LendingRepository;
 import de.hhu.rhinoshareapp.domain.service.ServiceUserProvider;
@@ -19,7 +19,7 @@ public class RequestRepresentation {
 
    public List<Lending> FillRequest(){
        //suche alle artikel wo die request flag gesetzt ist
-       Optional<ServiceUser> user = users.findUserByuserID(borrowID);
+       Optional<User> user = users.findUserByuserID(borrowID);
        List<Lending> filledLendings = new ArrayList<>();
        List<Article> requestedIsTrue = articles.findAllArticleByownerUserAndIsRequested(user.get(), true);
        for (Article article : requestedIsTrue) {

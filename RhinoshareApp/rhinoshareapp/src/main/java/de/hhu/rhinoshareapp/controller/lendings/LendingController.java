@@ -1,4 +1,4 @@
-package de.hhu.rhinoshareapp.controller;
+package de.hhu.rhinoshareapp.controller.lendings;
 
 import de.hhu.rhinoshareapp.Representations.LendingProcessor.APIProcessor;
 import de.hhu.rhinoshareapp.Representations.LendingProcessor.PostProccessor;

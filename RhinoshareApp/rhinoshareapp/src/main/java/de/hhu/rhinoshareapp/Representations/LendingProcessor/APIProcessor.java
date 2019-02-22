@@ -3,7 +3,7 @@ package de.hhu.rhinoshareapp.Representations.LendingProcessor;
 import de.hhu.rhinoshareapp.domain.model.Account;
 import de.hhu.rhinoshareapp.domain.model.Article;
 import de.hhu.rhinoshareapp.domain.model.Lending;
-import de.hhu.rhinoshareapp.domain.model.ServiceUser;
+import de.hhu.rhinoshareapp.domain.model.User;
 import de.hhu.rhinoshareapp.domain.service.ArticleRepository;
 import de.hhu.rhinoshareapp.domain.service.LendingRepository;
 import de.hhu.rhinoshareapp.domain.service.ReservationRepository;
@@ -27,10 +27,10 @@ public class APIProcessor {
 
     public Account getAccountInformationWithId(long userID, ServiceUserProvider users) {
         errorOccurred = false;
-        Optional<ServiceUser> user = users.findUserByuserID(userID);
+        Optional<User> user = users.findUserByuserID(userID);
         if (!user.isPresent()) {
             errorOccurred = true;
-            errorMessage.put("reason", "ServiceUser not found");
+            errorMessage.put("reason", "User not found");
             return null;
         }
         return getAccountInformation(user.get().getName(), Account.class);
@@ -72,7 +72,7 @@ public class APIProcessor {
                         builder.scheme("http")
                                 .host("localhost")
                                 .port("8888")
-                                .pathSegment("reservation", "reserve", lendingAccount.getAccount(), article.getOwnerUser().getName())
+                                .pathSegment("reservation", "reserve", lendingAccount.getAccount(), article.getOwner().getName())
                                 // for trailing slash
                                 .path("/")
                                 .queryParam("amount", String.valueOf(article.getDeposit()))
@@ -91,7 +91,7 @@ public class APIProcessor {
                         builder.scheme("http")
                                 .host("localhost")
                                 .port("8888")
-                                .pathSegment("account", lendingAccount.getAccount(), "transfer", article.getOwnerUser().getName())
+                                .pathSegment("account", lendingAccount.getAccount(), "transfer", article.getOwner().getName())
                                 // for trailing slash
                                 .path("/")
                                 .queryParam("amount", amount)

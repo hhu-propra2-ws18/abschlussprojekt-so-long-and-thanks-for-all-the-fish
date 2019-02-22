@@ -1,6 +1,6 @@
 package de.hhu.rhinoshareapp.Representations;
 
-import de.hhu.rhinoshareapp.domain.model.ServiceUser;
+import de.hhu.rhinoshareapp.domain.model.User;
 import de.hhu.rhinoshareapp.domain.model.Transaction;
 import de.hhu.rhinoshareapp.domain.service.ServiceUserProvider;
 import de.hhu.rhinoshareapp.domain.service.TransactionRepository;
@@ -18,7 +18,7 @@ public class TransactionRepresentation {
     }
 
     public List<Transaction> FillRecieves(long userID){
-        Optional<ServiceUser> user = users.findUserByuserID(userID);
+        Optional<User> user = users.findUserByuserID(userID);
         List<Transaction> reciever = transactions.findTransactionsByReciever(user.get());
         for (Transaction transaction : reciever) {
             transaction.FillFormattedDates();
@@ -27,7 +27,7 @@ public class TransactionRepresentation {
         return reciever;
     }
     public List<Transaction> FillGivings(long userID){
-        Optional<ServiceUser> user = users.findUserByuserID(userID);
+        Optional<User> user = users.findUserByuserID(userID);
         List<Transaction> giver = transactions.findTransactionsByGiver(user.get());
         for (Transaction transaction : giver) {
             transaction.FillFormattedDates();

@@ -1,4 +1,4 @@
-package de.hhu.rhinoshareapp.domain;
+package de.hhu.rhinoshareapp.domain.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

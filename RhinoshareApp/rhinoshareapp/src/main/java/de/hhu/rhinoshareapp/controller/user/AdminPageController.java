@@ -1,9 +1,9 @@
-package de.hhu.rhinoshareapp.controller;
+package de.hhu.rhinoshareapp.controller.user;
 
-import de.hhu.rhinoshareapp.domain.model.ServiceUser;
+import de.hhu.rhinoshareapp.domain.security.ActualUserChecker;
+import de.hhu.rhinoshareapp.domain.model.User;
 import de.hhu.rhinoshareapp.domain.service.ServiceUserProvider;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +27,7 @@ public class AdminPageController {
     @GetMapping("/admin/usermanagement")
     public String loadUserManagement(Principal p, Model m) {
         ActualUserChecker.checkActualUser(m, p, users);
-        List<ServiceUser> userlist = users.findAll();
+        List<User> userlist = users.findAll();
         m.addAttribute("userlist", userlist);
         return "Admin/admin_usermanagement";
     }
