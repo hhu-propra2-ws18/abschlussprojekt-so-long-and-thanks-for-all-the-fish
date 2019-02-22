@@ -49,7 +49,7 @@ public class MailController {
 
     @GetMapping("/openConflict")
     public String openConflict(Model model) {
-        return "conflictUserOpen";
+        return "/conflict/conflictUserOpen";
     }
 
     @PostMapping("/openConflict")
