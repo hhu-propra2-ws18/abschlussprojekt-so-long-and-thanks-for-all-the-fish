@@ -1,6 +1,7 @@
 package de.hhu.rhinoshareapp.controller.article;
 
 import de.hhu.rhinoshareapp.domain.model.Article;
+import de.hhu.rhinoshareapp.domain.model.User;
 import de.hhu.rhinoshareapp.domain.service.ArticleRepository;
 import de.hhu.rhinoshareapp.domain.service.ImageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +41,8 @@ public class ArticleController {
     public String viewMyArticles(Model model,Principal p){
         p.getName();
         long userID = 1;
-        List<Article> articles = articleRepository.findByUserID(userID);
+        User owner= new User();
+        List<Article> articles = articleRepository.findByOwner(owner);
         model.addAttribute("userID",userID);
         model.addAttribute("articles", articles);
         return "Article/viewFromPerson";

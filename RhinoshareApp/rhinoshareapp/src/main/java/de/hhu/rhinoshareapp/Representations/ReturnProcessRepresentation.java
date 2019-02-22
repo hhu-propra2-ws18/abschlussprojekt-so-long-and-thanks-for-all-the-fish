@@ -24,7 +24,7 @@ public class ReturnProcessRepresentation {
     }
     public List<Lending> FillReturns(){
         List<Lending> filledReturns = new ArrayList<>();
-        List<Article> articles = this.articles.findAllByownerUser(users.findUserByuserID(userID).get());
+        List<Article> articles = this.articles.findAllByowner(users.findUserByuserID(userID).get());
         for (Article article : articles) {
             Optional<Lending> lending = lendings.findLendingBylendedArticleAndIsReturn(article, true);
             if(lending.isPresent()) {

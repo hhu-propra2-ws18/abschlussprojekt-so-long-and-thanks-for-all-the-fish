@@ -26,7 +26,7 @@ public class User {
 
     private String email;
 
-    @OneToOne
+    @OneToOne (fetch = FetchType.EAGER, cascade={CascadeType.ALL})
     private Address address;
 
     private int score;

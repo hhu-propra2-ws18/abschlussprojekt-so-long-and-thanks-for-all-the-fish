@@ -8,8 +8,7 @@
 <div>
     <p th:text="${error} + ''"/>
     <form method="post" style="text-align: center;">
-        <h1 class="container" style="text-align: center;">Login sucessfull !</h1>
-        <input value="back to Dummyhome" name="action" type="submit"/>
+        <input value="Back" name="action" type="submit"/>
         <p>Username:</p>
         <p><input th:name="username" type="text" th:placeholder="${user.username}"/></p>
         <p>Surname:</p>
@@ -18,8 +17,16 @@
         <p><input th:name="surname" type="text" th:placeholder="${user.surname}"/></p>
         <p>Email:</p>
         <p><input th:name="email" type="text" th:placeholder="${user.email}"/></p>
-        <p>Address:</p>
-        <p><input th:name="address" type="text" th:placeholder="${user.address}"/></p>
+        <p>Street:</p>
+        <p><input th:name="street" type="text" th:placeholder="${user.address.street}"/></p>
+        <p>City:</p>
+        <p><input th:name="city" type="text" th:placeholder="${user.address.city}"/></p>
+        <p>Country:</p>
+        <p><input th:name="country" type="text" th:placeholder="${user.address.country}"/></p>
+        <p>House Number:</p>
+        <p><input th:name="houseNumber" type="text" th:placeholder="${user.address.houseNumber}"/></p>
+        <p>PostCode:</p>
+        <p><input th:name="postCode" type="text" th:placeholder="${user.address.postCode}"/></p>
         <p><input value="Apply changes" name="action" type="submit"/></p>
     </form>
 </div>
