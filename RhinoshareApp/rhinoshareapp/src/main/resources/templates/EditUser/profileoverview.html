@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Ausleih</title>
+</head>
+<body>
+<div>
+    <p th:text="${error} + ''"/>
+    <form method="post" style="text-align: center;">
+        <h1 class="container" style="text-align: center;">Login sucessfull !</h1>
+        <input value="back to Dummyhome" name="action" type="submit"/>
+        <p>Username:</p>
+        <p><input th:name="username" type="text" th:placeholder="${user.username}"/></p>
+        <p>Surname:</p>
+        <p><input th:name="name" type="text" th:placeholder="${user.name}"/></p>
+        <p>Name:</p>
+        <p><input th:name="surname" type="text" th:placeholder="${user.surname}"/></p>
+        <p>Email:</p>
+        <p><input th:name="email" type="text" th:placeholder="${user.email}"/></p>
+        <p>Address:</p>
+        <p><input th:name="address" type="text" th:placeholder="${user.address}"/></p>
+        <p><input value="Apply changes" name="action" type="submit"/></p>
+    </form>
+</div>
+</body>
+</html>
