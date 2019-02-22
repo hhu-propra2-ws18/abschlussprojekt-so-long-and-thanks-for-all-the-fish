@@ -31,11 +31,11 @@ public class LendingTests {
     @Test
     public void UserHasOneLendingWithWarning(){
         //Arrange
-        ServiceUserProvider serviceUserProvider = Mockito.mock(ServiceUserProvider.class);
+        UserRepository serviceUserProvider = Mockito.mock(UserRepository.class);
         LendingRepository lendingRepository = Mockito.mock(LendingRepository.class);
         ArticleRepository articleRepository = Mockito.mock(ArticleRepository.class);
 
-        User user = User.builder()
+        User user = User.builder().build();
         Optional<User> testUser = Optional.ofNullable(User.builder().userID(1).name("testUser").build());
         when(serviceUserProvider.findUserByuserID(1)).thenReturn(testUser);
 
@@ -58,7 +58,7 @@ public class LendingTests {
     @Test
     public void UserHasOneLendingWithoutWarning(){
         //Arrange
-        ServiceUserProvider serviceUserProvider = Mockito.mock(ServiceUserProvider.class);
+        UserRepository serviceUserProvider = Mockito.mock(UserRepository.class);
         LendingRepository lendingRepository = Mockito.mock(LendingRepository.class);
         ArticleRepository articleRepository = Mockito.mock(ArticleRepository.class);
 
@@ -112,7 +112,7 @@ public class LendingTests {
     @Test
     public void UserAcceptLending(){
         //Arrange
-        ServiceUserProvider serviceUserProvider = Mockito.mock(ServiceUserProvider.class);
+        UserRepository serviceUserProvider = Mockito.mock(UserRepository.class);
         LendingRepository lendingRepository = Mockito.mock(LendingRepository.class);
         ArticleRepository articleRepository = Mockito.mock(ArticleRepository.class);
         ReservationRepository reservations = Mockito.mock(ReservationRepository.class);
