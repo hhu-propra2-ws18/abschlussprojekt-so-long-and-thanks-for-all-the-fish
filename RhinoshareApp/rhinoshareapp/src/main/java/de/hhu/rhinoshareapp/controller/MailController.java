@@ -1,18 +1,19 @@
-package de.hhu.ProPra.conflict.controller;
+package de.hhu.rhinoshareapp.controller;
 
 
-import de.hhu.ProPra.conflict.model.Lending;
-import de.hhu.ProPra.conflict.model.User;
-import de.hhu.ProPra.conflict.service.Repositorys.LendingRepository;
-import de.hhu.ProPra.conflict.service.Repositorys.UserRepository;
+import de.hhu.rhinoshareapp.domain.mail.MailService;
+import de.hhu.rhinoshareapp.domain.model.Lending;
+import de.hhu.rhinoshareapp.domain.model.ServiceUser;
+import de.hhu.rhinoshareapp.domain.service.LendingRepository;
+import de.hhu.rhinoshareapp.domain.service.ServiceUserProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import de.hhu.ProPra.conflict.service.MailService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class MailController {
@@ -24,9 +25,9 @@ public class MailController {
     LendingRepository lendRepo;
 
     @Autowired
-    UserRepository userRepo;
+    ServiceUserProvider userRepo;
 
-    public void setUserRepository(UserRepository userRepository) {
+    public void setUserRepository(ServiceUserProvider userRepository) {
         this.userRepo = userRepository;
     }
 
@@ -38,14 +39,12 @@ public class MailController {
         this.mailService = mailService;
     }
 
-    public String send(long lendId, String conflictMessage, long ownerId, long lenderId, User admin) {
+    public void send(long lendId, String conflictMessage, long ownerId, long lenderId, ServiceUser admin) {
         try {
             mailService.sendTest(lendId, conflictMessage, ownerId, lenderId, admin);
         } catch (MailException e) {
             //catch error
         }
-
-        return "test";
     }
 
     @GetMapping("/openConflict")
@@ -58,13 +57,15 @@ public class MailController {
                                    @RequestParam String description) {
         if (button.equals("open")) {
             if (!(description.equals(""))) {
-                Lending l = lendRepo.findById(lendingID);
+                Optional<Lending> lendList = lendRepo.findLendingBylendingID(lendingID);
+                Lending l = lendList.get();
                 l.setConflict(true);
                 l.getLendingPerson();
                 lendRepo.save(l);
-                User owner = l.getLendedArticle().getOwnerUser();
-                User admin = userRepo.findById(3);
-                send(lendingID, description, (owner.getId()), (l.getLendingPerson().getId()), admin);
+                ServiceUser owner = l.getLendedArticle().getOwnerUser();
+                Optional<ServiceUser> serviceUser = userRepo.findUserByuserID(3);
+                ServiceUser admin = serviceUser.get();
+                send(lendingID, description, (owner.getUserID()), (l.getLendingPerson().getUserID()), admin);
             } else {
                 return "redirect:/openConflict";
             }
@@ -76,9 +77,9 @@ public class MailController {
 
     @GetMapping("/conflictOverview")
     public String conflictOverview(Model model) {
-        List<Lending> lendings = lendRepo.findAllByConflict(true);
+        List<Lending> lendings = lendRepo.findAllByIsConflict(true);
         model.addAttribute("lendings", lendings);
-        return "conflict-admin-overview";
+        return "/conflict/conflict-admin-overview";
     }
 
     @PostMapping("/conflictOverview")
@@ -96,7 +97,8 @@ public class MailController {
     public String getShowCase(Model model, @PathVariable long id) {
 
         try {
-            Lending l = lendRepo.findById(id);
+            Optional<Lending> lendlist = lendRepo.findLendingBylendingID(id);
+            Lending l = lendlist.get();
             model.addAttribute("owningPerson", l.getLendedArticle().getOwnerUser().getUsername());
             model.addAttribute("borrowwPerson", l.getLendingPerson().getUsername());
             model.addAttribute("lendingID", l.getLendingID());
@@ -105,12 +107,13 @@ public class MailController {
             return "redirect:/conflictOverview";
         }
 
-        return "conflict-admin-case";
+        return "/conflict/conflict-admin-case";
     }
 
     @PostMapping("/showcase/{id}")
     public String conflictSolved(Model model, @RequestParam(value = "action") String button, @PathVariable long id) {
-        Lending l = lendRepo.findById(id);
+        Optional<Lending> lendlist = lendRepo.findLendingBylendingID(id);
+        Lending l = lendlist.get();
         if (button.equals("winBorrower")) {
             l.setConflict(false);
             lendRepo.save(l);
