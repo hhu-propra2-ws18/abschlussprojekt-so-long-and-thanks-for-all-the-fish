@@ -74,6 +74,8 @@ public class PostProccessor {
 
             } else {
                 CleanUpLending(postBodyParas, lendings, articles);
+
+                //TODO: send MAIL to conflict place
             }
         }else if(postBodyParas.containsKey("choicereturn")){
             Lending lending = lendings.findLendingBylendingID(Long.parseLong(postBodyParas.get("lendingID"))).get();
