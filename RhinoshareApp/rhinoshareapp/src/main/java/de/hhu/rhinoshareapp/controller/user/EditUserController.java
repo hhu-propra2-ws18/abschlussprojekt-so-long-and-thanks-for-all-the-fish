@@ -2,6 +2,7 @@ package de.hhu.rhinoshareapp.controller.user;
 
 import de.hhu.rhinoshareapp.domain.model.Address;
 import de.hhu.rhinoshareapp.domain.model.User;
+import de.hhu.rhinoshareapp.domain.security.ActualUserChecker;
 import de.hhu.rhinoshareapp.domain.service.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,6 +30,7 @@ public class EditUserController {
         m.addAttribute("email", user.getEmail());
         m.addAttribute("loggedIn", "true");
         return "edituser";*/
+        ActualUserChecker.checkActualUser(m, p, users);
         m.addAttribute("error", " ");
         m.addAttribute("user", user);
         return "/EditUser/profileOverview";
