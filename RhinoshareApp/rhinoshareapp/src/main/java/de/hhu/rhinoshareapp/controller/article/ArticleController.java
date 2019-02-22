@@ -33,25 +33,25 @@ public class ArticleController {
         return "Article/viewAll";
     }
 
-    @GetMapping("/view/{personID}")
-    public String viewMyArticles(Model model, @PathVariable long personID, Principal p){
+    @GetMapping("/view/{userID}")
+    public String viewMyArticles(Model model, @PathVariable long userID, Principal p){
         p.getName();
-        List<Article> articles = articleRepository.findByPersonID(personID);
-        model.addAttribute("userID",personID);
+        List<Article> articles = articleRepository.findByPersonID(userID);
+        model.addAttribute("userID",userID);
         model.addAttribute("articles", articles);
         return "Article/viewFromPerson";
     }
 
-    @GetMapping("/open/{userID}")
-    public String openArticleView(Model model, @PathVariable long id){
-        Article article = articleRepository.findById(id);
+    @GetMapping("/open/{articleID}")
+    public String openArticleView(Model model, @PathVariable long articleID){
+        Article article = articleRepository.findById(articleID);
         model.addAttribute("article", article);
         return "Article/openArticleView";
     }
 
-    @GetMapping("/admin/{userID}")
-    public String privateArticleView(Model model, @PathVariable long id){
-        Article article = articleRepository.findById(id);
+    @GetMapping("/admin/{articleID}")
+    public String privateArticleView(Model model, @PathVariable long articleID){
+        Article article = articleRepository.findById(articleID);
         model.addAttribute("article", article);
         return "Article/privateArticleView";
     }
@@ -59,51 +59,51 @@ public class ArticleController {
 
     //Create
     @GetMapping("/new/{personID}")
-    public String newArticle(Model model, @PathVariable long personID){
+    public String newArticle(Model model){
         Article article = new Article();
         model.addAttribute("article",article);
         return  "Article/newArticle";
     }
 
-    @PostMapping("/new/{personID}")
-    public String saveArticle(HttpServletRequest request, Model model, @ModelAttribute("article") Article article, @PathVariable long personID) throws IOException, SQLException {
+    @PostMapping("/new/{userID}")
+    public String saveArticle(HttpServletRequest request, Model model, @ModelAttribute("article") Article article, @PathVariable long userID) throws IOException, SQLException {
         article.saveImage();
-        article.setPersonID(personID);
+        article.setPersonID(userID);
         articleRepository.save(article);
         return "redirect:/article/";
     }
 
     //Edit
-    @GetMapping("/edit/{userID}")
-    public String editArticle(Model model, @PathVariable long id){
-        Article article = articleRepository.findById(id);
+    @GetMapping("/edit/{articleID}")
+    public String editArticle(Model model, @PathVariable long articleID){
+        Article article = articleRepository.findById(articleID);
         model.addAttribute("article", article);
         return "Article/editArticle";
     }
 
-    @PostMapping("/edit/{userID}")
-    public String editArticlePostMapping(@ModelAttribute("article") Article article, @PathVariable long id){
-        Article oldArticle = articleRepository.findById(id);
+    @PostMapping("/edit/{articleID}")
+    public String editArticlePostMapping(@ModelAttribute("article") Article article, @PathVariable long articleID){
+        Article oldArticle = articleRepository.findById(articleID);
         oldArticle.setName(article.getName());
         oldArticle.setComment(article.getComment());
         oldArticle.setRent(article.getRent());
         oldArticle.setDeposit(article.getDeposit());
         oldArticle.setAvailable(article.isAvailable());
         articleRepository.save(oldArticle);
-        return "redirect:/article/" + id;
+        return "redirect:/article/" + articleID;
     }
 
     //Delete
-    @GetMapping("/delete/{userID}")
-    public String deleteAArticle(@PathVariable long id, Model model){
-        Article article = articleRepository.findById(id);
+    @GetMapping("/delete/{articleID}")
+    public String deleteAArticle(@PathVariable long articleID, Model model){
+        Article article = articleRepository.findById(articleID);
         model.addAttribute("article",article);
         return "Article/deleteArticle";
     }
 
-    @PostMapping("/delete/{userID}")
-    public String deleteArticleFromDB(@PathVariable long id){
-        Article article = articleRepository.findById(id);
+    @PostMapping("/delete/{articleID}")
+    public String deleteArticleFromDB(@PathVariable long articleID){
+        Article article = articleRepository.findById(articleID);
         articleRepository.delete(article);
         return "redirect:/article/";
     }

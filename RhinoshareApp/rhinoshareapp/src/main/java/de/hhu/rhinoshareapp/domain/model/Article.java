@@ -66,4 +66,7 @@ public class Article {
     public void saveImage() throws IOException {
         this.image.add(new Image(file));
     }
+    public long getUserID() {
+        return owner.getUserID();
+    }
 }
