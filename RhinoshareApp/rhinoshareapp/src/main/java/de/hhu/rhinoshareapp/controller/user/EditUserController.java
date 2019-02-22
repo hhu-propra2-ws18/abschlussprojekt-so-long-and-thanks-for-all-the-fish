@@ -41,6 +41,7 @@ public class EditUserController {
                                   @RequestParam String houseNumber, @RequestParam String postCode) {
         Optional<User> u = users.findByUsername(p.getName());
         User user = u.get();
+        Address a = user.getAddress();
         if (button.equals("Back")) {
             return "redirect:/";
         } else if (button.equals("Apply changes")) {
@@ -67,41 +68,30 @@ public class EditUserController {
             }
 
             if (email.equals("") == false) {
-                if (isValidEmailAddress(email)) {
                     user.setEmail(email);
-                } else {
-                    model.addAttribute("error", "Email is not valid!");
-                    model.addAttribute("user",user);
-                    return "/EditUser/profileoverview";
-                }
             }
-            if (!(street.equals("")) && !(city.equals("")) &&!(country.equals("")) && !(houseNumber.equals("")) && !(postCode.equals(""))) {
-                if (true) {
-                    Address a= new Address();
-                    a.setStreet(street);
-                    a.setStreet(city);
-                    a.setStreet(country);
-                    a.setStreet(houseNumber);
-                    a.setStreet(postCode);
-                    user.setAddress(a);
-                } else {
-                    model.addAttribute("user",user);
-                    model.addAttribute("error", "Address is not valid!");
-                    return "/EditUser/profileoverview";
-                }
+
+            if (!(street.equals(""))){
+                a.setStreet(street);
             }
+            if (!(city.equals(""))){
+                a.setCity(city);
+            }
+            if (!(country.equals(""))){
+                a.setCountry(country);
+            }
+            if (!(houseNumber.equals(""))){
+                a.setHouseNumber(houseNumber);
+            }
+            if (!(postCode.equals(""))){
+                a.setPostCode(street);
+            }
+            model.addAttribute("user",user);
             users.save(user);
         }
         model.addAttribute("error", " ");
         model.addAttribute("user", user);
         return "/EditUser/profileoverview";
-    }
-
-    public boolean isValidEmailAddress(String email) {
-        String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
-        java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
-        java.util.regex.Matcher m = p.matcher(email);
-        return m.matches();
     }
 
     public boolean isValidUsername(String username) {
