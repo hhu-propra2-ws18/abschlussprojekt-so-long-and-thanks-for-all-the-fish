@@ -7,7 +7,7 @@
 </head>
 <body>
 <dr>
-    <a th:href="@{/{id}(id = ${id})}" role="button">overview</a>
+    <a th:href="@{/{}(username = ${username})}" role="button">overview</a>
 </dr>
 <p>Sie haben ausgeliehen !</p>
 <table th:each="lending : ${lendings}">
@@ -25,7 +25,7 @@
         <div th:text="${lending.lendedArticle.rent}">0</div>
         <h3>Info =</h3>
         <div th:text="${lending.warning}">0</div>
-        <form th:action="@{/lendings/{id}(id = ${id})}" method="post">
+        <form th:action="@{/lendings/{username}(username = ${username})}" method="post">
             <input type="hidden" name="lendingID" th:value="${lending.lendingID}">
             <input type="hidden" name="articleID" th:value="${lending.lendedArticle.articleID}">
             <button type="finish">Return</button>

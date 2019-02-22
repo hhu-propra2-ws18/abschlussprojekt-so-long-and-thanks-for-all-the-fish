@@ -6,11 +6,11 @@
     <title>Overview</title>
 </head>
 <body>
-<a th:href="@{/lendings/{id}(id = ${id})}" role="button">Lendings</a>
-<a th:href="@{/borrows/{id}(id = ${id})}" role="button">Borrows</a>
-<a th:href="@{/conflictPage/{id}(id = ${id})}" role="button">Conflicts</a>
-<a th:href="@{/transaction/{id}(id = ${id})}" role="button">Transactions</a>
-<a th:href="@{/proPay/{id}(id = ${id})}" role="button">ProPay Account</a>
+<a th:href="@{/lendings/{username}(username = ${username})}" role="button">Lendings</a>
+<a th:href="@{/borrows/{username}(username = ${username})}" role="button">Borrows</a>
+<a th:href="@{/conflictPage/{username}(username = ${username})}" role="button">Conflicts</a>
+<a th:href="@{/transaction/{username}(username = ${username})}" role="button">Transactions</a>
+<a th:href="@{/proPay/{username}(username = ${username})}" role="button">ProPay Account</a>
 <div>
     Your article requests
     <table th:each="request : ${requests}">
@@ -26,7 +26,7 @@
             <div th:text="${request.formattedStartDate}">0</div>
             <h3>Enddate =</h3>
             <div th:text="${request.formattedEndDate}">0</div>
-            <form th:action="@{/{id}(id = ${id})}" method="post">
+            <form th:action="@{/{username}(username = ${username})}" method="post">
                 <fieldset>
                     <input type="hidden" name="lendingID" th:value="${request.lendingID}">
                     <input type="checkbox" id="yes" name="choice" value="accept">
@@ -49,7 +49,7 @@
             <div th:text="${return.lendingPerson.name}">0</div>
             <h3>Article =</h3>                                 <!-- href for the article -->
             <div th:text="${return.lendedArticle.name}">0</div>
-            <form th:action="@{/{id}(id = ${id})}" method="post">
+            <form th:action="@{/{username}(username = ${username})}" method="post">
                 <fieldset>
                     <input type="hidden" name="lendingID" th:value="${return.lendingID}">
                     <input type="checkbox" id="yes2" name="choicereturn" value="accept">
