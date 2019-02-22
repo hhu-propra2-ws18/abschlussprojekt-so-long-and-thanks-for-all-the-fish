@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@Service("UserDetails")
+@Service
 public class UserService implements UserDetailsService{
 
 

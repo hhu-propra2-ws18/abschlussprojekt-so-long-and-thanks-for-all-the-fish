@@ -3,12 +3,38 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Article View</title>
+    <title>Rhinoshare</title>
+    <link rel="stylesheet" type="text/css" href="/css/stylesheet.css">
+    <link rel="icon" href="/img/RhinoLogoSmall.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 </head>
 
 <body>
+<img id="titleImageTest" src="/img/rhinoLogoBig.png" width="300" height="75">
+<ul class="navigationbar">
+    <li class="navbaritem"><a class="active" href="/">Rhino-Übersicht</a></li>
+    <li class="navbaritem"><a href="/">News</a></li>
+    <li class="navbaritem"><a href="/article/">Artikel</a></li>
+    <li style="float: right" class="navbaritem" href th:if="${loggedIn == 'true'}">
+        <a th:href="@{'/article/view/' + ${id}}">Meine Artikel</a>
+    <li class="navbaritem"><a href="/rent">Ausleihen</a></li>
+    <li class="navbaritem"><a href="">Contact</a></li>
+    <li class="navbaritem" href th:if="${loggedIn == 'false'}">
+        <a href="/newaccount">Registrieren</a>
+    </li>
+    <li class="navbaritem" href th:if="${loggedIn == 'true'}">
+        <a href="/edit" th:text="${surname}">Benutzer</a>
+    </li>
+    <li class="navbaritem"><input id="globalSearchField" type="text" placeholder="Suchen..."></li>
+    <li class="navbaritem"><a href="/">Suchen</a></li>
+    <li style="float: right;" class="navbaritem" href th:if="${loggedIn == 'false'}">
+        <a href="/login">Einloggen</a>
+    </li>
+    <li style="float: right" class="navbaritem" href th:if="${loggedIn == 'true'}">
+        <a href="/logout">Ausloggen</a>
+    </li>
+</ul>
 <div class="container">
     <h1 class="display-3">Übersicht</h1>
     <form method="get" action="/article/search">
