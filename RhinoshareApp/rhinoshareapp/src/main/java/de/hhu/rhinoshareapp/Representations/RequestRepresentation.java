@@ -21,7 +21,7 @@ public class RequestRepresentation {
        //suche alle artikel wo die request flag gesetzt ist
        Optional<User> user = users.findUserByuserID(borrowID);
        List<Lending> filledLendings = new ArrayList<>();
-       List<Article> requestedIsTrue = articles.findAllArticleByownerUserAndIsRequested(user.get(), true);
+       List<Article> requestedIsTrue = articles.findAllArticleByOwnerAndIsRequested(user.get(), true);
        for (Article article : requestedIsTrue) {
            Lending lending = lendings.findLendingBylendedArticle(article).get();
            lending.FillFormattedDates();

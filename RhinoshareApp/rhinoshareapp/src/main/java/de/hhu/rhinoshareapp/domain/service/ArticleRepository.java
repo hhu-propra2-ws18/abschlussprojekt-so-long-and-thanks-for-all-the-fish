@@ -10,9 +10,9 @@ import java.util.Optional;
 public interface ArticleRepository extends CrudRepository<Article, Long> {
 
 	Article findById(long id);
-	List<Article> findByUserID(long id);
+	List<Article> findByOwner(User owner);
     List<Article> findAllByNameContainingOrCommentContainingAllIgnoreCase(String nameQuery, String commentQuery);
-	List<Article> findAllByownerUser(User user);
+	List<Article> findAllByowner(User user);
 	Optional<Article> findArticleByarticleID(long id);
-	List<Article> findAllArticleByownerUserAndIsRequested(User user, boolean isRequested);
+	List<Article> findAllArticleByOwnerAndIsRequested(User user, boolean isRequested);
 }

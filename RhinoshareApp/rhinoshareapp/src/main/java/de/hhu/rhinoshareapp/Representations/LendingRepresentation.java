@@ -47,7 +47,7 @@ public class LendingRepresentation {
     }
     public List<Lending> FillConflictsOwner(long userID) {
         User user = users.findUserByuserID(userID).get();
-        List<Article> articles = this.articles.findAllByownerUser(user);
+        List<Article> articles = this.articles.findAllByowner(user);
         List<Lending> lendingList = new ArrayList<>();
         for (Article article : articles) {
             Optional<Lending> conflictLending = lendings.findLendingBylendedArticle(article);
@@ -62,7 +62,7 @@ public class LendingRepresentation {
     // Returns a list of all borrowed articles for a User given by his id
     public List<Article> FillBorrows(long borrowPersonID){
         User user = users.findUserByuserID(borrowPersonID).get();
-        return articles.findAllByownerUser(user);
+        return articles.findAllByowner(user);
     }
     @Autowired
     public LendingRepresentation(LendingRepository lendings, ServiceUserProvider users, ArticleRepository articles) {

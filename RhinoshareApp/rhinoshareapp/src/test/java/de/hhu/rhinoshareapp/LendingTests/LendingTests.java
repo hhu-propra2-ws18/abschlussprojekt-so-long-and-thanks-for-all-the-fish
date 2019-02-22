@@ -1,10 +1,14 @@
 package de.hhu.rhinoshareapp.LendingTests;
 
 
+
 import de.hhu.rhinoshareapp.Representations.LendingProcessor.APIProcessor;
 import de.hhu.rhinoshareapp.Representations.LendingProcessor.PostProccessor;
 import de.hhu.rhinoshareapp.Representations.LendingRepresentation;
-import de.hhu.rhinoshareapp.domain.model.*;
+import de.hhu.rhinoshareapp.domain.model.Account;
+import de.hhu.rhinoshareapp.domain.model.Article;
+import de.hhu.rhinoshareapp.domain.model.Lending;
+import de.hhu.rhinoshareapp.domain.model.User;
 import de.hhu.rhinoshareapp.domain.service.*;
 import org.junit.Assert;
 import org.junit.Test;
@@ -31,6 +35,7 @@ public class LendingTests {
         LendingRepository lendingRepository = Mockito.mock(LendingRepository.class);
         ArticleRepository articleRepository = Mockito.mock(ArticleRepository.class);
 
+        User user = User.builder()
         Optional<User> testUser = Optional.ofNullable(User.builder().userID(1).name("testUser").build());
         when(serviceUserProvider.findUserByuserID(1)).thenReturn(testUser);
 

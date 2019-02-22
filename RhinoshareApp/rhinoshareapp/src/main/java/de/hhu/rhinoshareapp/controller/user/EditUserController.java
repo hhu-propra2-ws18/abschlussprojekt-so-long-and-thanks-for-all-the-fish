@@ -1,5 +1,6 @@
 package de.hhu.rhinoshareapp.controller.user;
 
+import de.hhu.rhinoshareapp.domain.model.Address;
 import de.hhu.rhinoshareapp.domain.model.User;
 import de.hhu.rhinoshareapp.domain.service.ServiceUserProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,10 +35,13 @@ public class EditUserController {
     }
 
     @PostMapping(path = "/edit")
-    public String profileOverview(Model model, Principal p, @RequestParam(value = "action") String button,@RequestParam String surname, @RequestParam String username, @RequestParam String name, @RequestParam String email, @RequestParam String address) {
+    public String profileOverview(Model model, Principal p, @RequestParam(value = "action") String button,@RequestParam String surname,
+                                  @RequestParam String username, @RequestParam String name, @RequestParam String email,
+                                  @RequestParam String street, @RequestParam String city, @RequestParam String country,
+                                  @RequestParam String houseNumber, @RequestParam String postCode) {
         Optional<User> u = users.findByUsername(p.getName());
         User user = u.get();
-        if (button.equals("back to Dummyhome")) {
+        if (button.equals("Back")) {
             return "redirect:/";
         } else if (button.equals("Apply changes")) {
             if (username.equals("") == false) {
@@ -71,9 +75,15 @@ public class EditUserController {
                     return "/EditUser/profileoverview";
                 }
             }
-            if (address.equals("") == false) {
+            if (!(street.equals("")) && !(city.equals("")) &&!(country.equals("")) && !(houseNumber.equals("")) && !(postCode.equals(""))) {
                 if (true) {
-                    user.setAddress(address);
+                    Address a= new Address();
+                    a.setStreet(street);
+                    a.setStreet(city);
+                    a.setStreet(country);
+                    a.setStreet(houseNumber);
+                    a.setStreet(postCode);
+                    user.setAddress(a);
                 } else {
                     model.addAttribute("user",user);
                     model.addAttribute("error", "Address is not valid!");
