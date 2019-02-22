@@ -5,7 +5,7 @@ import de.hhu.rhinoshareapp.domain.model.Lending;
 import de.hhu.rhinoshareapp.domain.model.User;
 import de.hhu.rhinoshareapp.domain.service.ArticleRepository;
 import de.hhu.rhinoshareapp.domain.service.LendingRepository;
-import de.hhu.rhinoshareapp.domain.service.ServiceUserProvider;
+import de.hhu.rhinoshareapp.domain.service.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ import java.util.Optional;
 public class LendingRepresentation {
 
     private LendingRepository lendings;
-    private ServiceUserProvider users;
+    private UserRepository users;
     private ArticleRepository articles;
 
     // Returns a list of of lendings for a User given by his id, that are Accepted and not returned
@@ -65,7 +65,7 @@ public class LendingRepresentation {
         return articles.findAllByownerUser(user);
     }
     @Autowired
-    public LendingRepresentation(LendingRepository lendings, ServiceUserProvider users, ArticleRepository articles) {
+    public LendingRepresentation(LendingRepository lendings, UserRepository users, ArticleRepository articles) {
         this.lendings = lendings;
         this.users = users;
         this.articles = articles;

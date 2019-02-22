@@ -24,6 +24,9 @@ public class ArticleController {
     @Autowired
     ImageRepository imageRepository;
 
+    @Autowired
+
+
 
     //View
     @GetMapping("/")

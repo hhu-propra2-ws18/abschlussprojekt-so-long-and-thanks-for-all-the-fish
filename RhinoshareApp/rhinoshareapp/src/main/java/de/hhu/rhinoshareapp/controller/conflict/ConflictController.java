@@ -5,7 +5,7 @@ import de.hhu.rhinoshareapp.domain.mail.MailService;
 import de.hhu.rhinoshareapp.domain.model.Lending;
 import de.hhu.rhinoshareapp.domain.model.User;
 import de.hhu.rhinoshareapp.domain.service.LendingRepository;
-import de.hhu.rhinoshareapp.domain.service.ServiceUserProvider;
+import de.hhu.rhinoshareapp.domain.service.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.stereotype.Controller;
@@ -25,9 +25,9 @@ public class ConflictController {
     LendingRepository lendRepo;
 
     @Autowired
-    ServiceUserProvider userRepo;
+    UserRepository userRepo;
 
-    public void setUserRepository(ServiceUserProvider userRepository) {
+    public void setUserRepository(UserRepository userRepository) {
         this.userRepo = userRepository;
     }
 

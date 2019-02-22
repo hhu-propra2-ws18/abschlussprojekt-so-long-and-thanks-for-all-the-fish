@@ -16,7 +16,7 @@ public class PostProccessor {
         }
         return postBodyParas;
     }
-    public void CreateNewLending(HashMap<String, String> postBodyParas, ArticleRepository articles, LendingRepository lendings, ServiceUserProvider users) {
+    public void CreateNewLending(HashMap<String, String> postBodyParas, ArticleRepository articles, LendingRepository lendings, UserRepository users) {
         //set timeperiod information
         Calendar startDate = Calendar.getInstance();
         String[] datePieces = postBodyParas.get("startDate").split("-");
@@ -44,7 +44,7 @@ public class PostProccessor {
 
 
 
-    public void CheckDecision(APIProcessor apiProcessor, HashMap<String, String> postBodyParas, LendingRepository lendings, ArticleRepository articles, ServiceUserProvider users, ReservationRepository reservations, TransactionRepository transactions) {
+    public void CheckDecision(APIProcessor apiProcessor, HashMap<String, String> postBodyParas, LendingRepository lendings, ArticleRepository articles, UserRepository users, ReservationRepository reservations, TransactionRepository transactions) {
         if(postBodyParas.containsKey("choice")) {
             if (postBodyParas.get("choice").equals("accept")) {
                 //Deposit check and lock depositamount

@@ -2,7 +2,7 @@ package de.hhu.rhinoshareapp.Representations;
 
 import de.hhu.rhinoshareapp.domain.model.User;
 import de.hhu.rhinoshareapp.domain.model.Transaction;
-import de.hhu.rhinoshareapp.domain.service.ServiceUserProvider;
+import de.hhu.rhinoshareapp.domain.service.UserRepository;
 import de.hhu.rhinoshareapp.domain.service.TransactionRepository;
 
 import java.util.List;
@@ -10,9 +10,9 @@ import java.util.Optional;
 
 public class TransactionRepresentation {
     private TransactionRepository transactions;
-    private ServiceUserProvider users;
+    private UserRepository users;
 
-    public TransactionRepresentation(TransactionRepository transactions, ServiceUserProvider users) {
+    public TransactionRepresentation(TransactionRepository transactions, UserRepository users) {
         this.transactions = transactions;
         this.users = users;
     }
