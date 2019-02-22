@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Administration - Rhinoshare</title>
+    <link rel="stylesheet" type="text/css" href="/css/stylesheet.css">
+    <link rel="icon" href="/img/RhinoLogoSmall.png">
+</head>
+<body>
+<img id="titleImageTest" src="/img/rhinoLogoBigAdmin.png" width="300" height="75">
+<ul class="navigationbar">
+    <li class="navbaritem"><a class="active" href="/admin">Überblick</a></li>
+    <li class="navbaritem"><a href="/admin/usermanagement">Benutzerverwaltung</a></li>
+    <li class="navbaritem"><a href="/admin">Konfliktlösung</a></li>
+    <li class="navbaritem"><a href="/admin">Contact</a></li>
+    <li class="navbaritem"><a href="/">Hauptseite</a></li>
+    <li style="float: right;" class="navbaritem" href th:if="${loggedIn == 'false'}">
+        <a href="/login">Einloggen</a>
+    </li>
+    <li style="float: right" class="navbaritem" href th:if="${loggedIn == 'true'}">
+        <a href="/logout">Ausloggen</a>
+    </li>
+</ul>
+<h1>ADMIN</h1>
+
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Ausleih</title>
+</head>
+<body>
+<div>
+    <p th:text="${error} + ''"/>
+    <form method="post" style="text-align: center;">
+        <input value="Back" name="action" type="submit"/>
+        <p>Username:</p>
+        <p><input th:name="username" type="text" th:placeholder="${user.username}"/></p>
+        <p>Surname:</p>
+        <p><input th:name="name" type="text" th:placeholder="${user.name}"/></p>
+        <p>Name:</p>
+        <p><input th:name="surname" type="text" th:placeholder="${user.surname}"/></p>
+        <p>Email:</p>
+        <p><input th:name="email" type="email" th:placeholder="${user.email}"/></p>
+        <p>Street:</p>
+        <p><input th:name="street" type="text" th:placeholder="${user.address.street}"/></p>
+        <p>City:</p>
+        <p><input th:name="city" type="text" th:placeholder="${user.address.city}"/></p>
+        <p>Country:</p>
+        <p><input th:name="country" type="text" th:placeholder="${user.address.country}"/></p>
+        <p>House Number:</p>
+        <p><input th:name="houseNumber" type="text" th:placeholder="${user.address.houseNumber}"/></p>
+        <p>PostCode:</p>
+        <p><input th:name="postCode" type="text" th:placeholder="${user.address.postCode}"/></p>
+        <p><input value="Apply changes" name="action" type="submit"/></p>
+    </form>
+</div>
+</body>
+</html>
