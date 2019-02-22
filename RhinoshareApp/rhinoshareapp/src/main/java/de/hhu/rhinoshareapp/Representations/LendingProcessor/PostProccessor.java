@@ -1,13 +1,18 @@
 package de.hhu.rhinoshareapp.Representations.LendingProcessor;
 
+import de.hhu.rhinoshareapp.domain.mail.MailService;
 import de.hhu.rhinoshareapp.domain.model.*;
 import de.hhu.rhinoshareapp.domain.service.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Optional;
 
 public class PostProccessor {
+    @Autowired
+    private MailService mailservice;
+
     public HashMap<String, String> SplitString(String postBody){
         HashMap<String, String> postBodyParas = new HashMap<>();
         String[] splittedPostBody = postBody.split("&");
@@ -74,8 +79,6 @@ public class PostProccessor {
 
             } else {
                 CleanUpLending(postBodyParas, lendings, articles);
-
-                //TODO: send MAIL to conflict place
             }
         }else if(postBodyParas.containsKey("choicereturn")){
             Lending lending = lendings.findLendingBylendingID(Long.parseLong(postBodyParas.get("lendingID"))).get();
@@ -96,7 +99,8 @@ public class PostProccessor {
                 tmpLending.setConflict(true);
                 lendings.save(tmpLending);
                 //apiProcessor.punishOrRealeseReservation(Account.class, lendingAccount, article, lending.getProPayReservation().getId(), "punish");
-                //TODO: warnstelle
+                mailservice.sendConflict(tmpLending.getLendingID(),"Der Artikel wurde in einem nicht angebrachten Zustand zurückgegeben", tmpLending.getLendedArticle().getOwner().getUserID(),tmpLending.getLendingPerson().getUserID(),users.findUserByuserID(3).get());
+                //TODO: Admin muss richtig gefunden werden.
             }
         }
     }
