@@ -25,7 +25,6 @@
     <th>ID</th>
     <th>Name</th>
     <th>Vorname</th>
-    <th>Adresse</th>
     <th>RhinoID</th>
     <th>Email</th>
     <th>Score</th>
@@ -33,17 +32,19 @@
     <th>Aktion</th>
     <th:block th:each="user : ${userlist}">
         <tr>
-            <td th:text="${user.id}">...</td>
+            <td th:text="${user.userID}">...</td>
             <td th:text="${user.name}">...</td>
             <td th:text="${user.surname}">...</td>
-            <td th:text="${user.address}">...</td>
             <td th:text="${user.username}">...</td>
             <td th:text="${user.email}">...</td>
             <td th:text="${user.score}">...</td>
             <td th:text="${user.role}">...</td>
             <td>
-                <a href="/admin/usermanagement">
-                    <button>O</button>
+                <a th:href="|/admin/usermanagement/edit/${user.getUserID()}|">
+                    <button>Bearbeiten</button>
+                </a>
+                <a th:href="|/admin/usermanagement/delete/${user.getUserID()}|">
+                    <button>Löschen</button>
                 </a>
             </td>
         </tr>

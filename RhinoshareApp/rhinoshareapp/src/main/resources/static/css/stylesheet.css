@@ -103,6 +103,19 @@
     height: 40px;
 }
 
+.loginTextfield[type=number], select {
+    font-family: Geneva;
+    font-size: 18px;
+    width: 90%;
+    padding: 6px 10px;
+    margin-left: 20px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    height: 40px;
+}
+
 .button {
     font-family: Geneva;
     background-color: #1092ed; /* Green */
@@ -259,7 +272,7 @@ th, td {
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
     border-collapse: collapse;
     margin-top: 20px;
-    width: 80%;
+    width: 95%;
 }
 
 #useroverview td, #useroverview th {
