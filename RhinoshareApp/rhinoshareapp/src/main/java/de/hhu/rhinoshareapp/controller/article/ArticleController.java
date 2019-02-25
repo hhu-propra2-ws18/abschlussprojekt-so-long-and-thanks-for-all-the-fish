@@ -10,12 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.security.Principal;
-import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/article")
@@ -54,7 +51,7 @@ public class ArticleController {
         Article article = articleRepository.findById(articleID).get();
         model.addAttribute("user" , user);
         model.addAttribute("article", article);
-        return "Article/privateArticleView";
+        return "articleView";
     }
 
 

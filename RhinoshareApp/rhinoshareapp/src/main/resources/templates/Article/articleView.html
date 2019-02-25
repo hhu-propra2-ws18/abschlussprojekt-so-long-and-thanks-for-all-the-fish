@@ -57,11 +57,11 @@
         </table>
         <br>
         <div th:if="${article.owner == user}">
-            <a th:href="|/article/edit/${article.getArticleID()}|" class="btn btn-light">Artikel bearbeiten</a>
+            <a th:href="|/article/edit/${article.getArticleID()}|"> <button class="btn btn-light" type="button">Artikel bearbeiten</button></a>
             <a th:href="|/article/delete/${article.getArticleID()}|"> <button class="btn btn-danger" type="button">Artikel löschen</button></a>
         </div>
-        <div th:if="${article.owner != user}">
-            <a th:href="|/lendingRequest/${article.articleID}}|" class="btn btn-light">Artikel Ausleihen</a>
+        <div th:if="${article.owner != user}" th:if="${article.available == true}">
+            <a th:href="|/lendingRequest/${article.articleID}}|"> <button class="btn btn-light" type="button">Artikel Ausleihen</button></a>
         </div>
         <div th:if="${article.owner != user}" th:if="${article.forSale == true}">
             <a th:href="|/saleRequest/${article.articleID}}|"> <button class="btn btn-danger" type="button">Artikel kaufen</button></a>
