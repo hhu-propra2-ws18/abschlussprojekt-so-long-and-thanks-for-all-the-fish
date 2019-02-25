@@ -190,11 +190,17 @@ public class LendingController {
 		String username = p.getName();
 		long id = postProccessor.FindUserIDByUser(users, username);
 		HashMap<String, String> postBodyParas = postProccessor.SplitString(postBody);
-		Account account = apiProcessor.getAccountInformationWithId(id, users);
-		account = apiProcessor.postMoney(Account.class, account, Double.parseDouble(postBodyParas.get("amount")));
-		model.addAttribute("account", account);
-		model.addAttribute("username", username);
-		model.addAttribute("id", id);
+        model.addAttribute("username", username);
+        model.addAttribute("id", id);
+        try {
+            Account account = apiProcessor.getAccountInformationWithId(id, users);
+            account = apiProcessor.postMoney(Account.class, account, Double.parseDouble(postBodyParas.get("amount")));
+            model.addAttribute("account", account);
+        } catch (Exception e) {
+            model.addAttribute("error", "Propay is not reachable, try it again later");
+            return "Lending/errorPage";
+        }
+
 		if (apiProcessor.isErrorOccurred()) {
 			model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
 			apiProcessor.setErrorOccurred(false);

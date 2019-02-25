@@ -69,6 +69,8 @@ public class PostProccessor {
 						lending.setProPayReservation(reservation);
 					}
 				} catch (Exception e) {
+					apiProcessor.setErrorOccurred(true);
+					apiProcessor.addErrorMessage("Propay is not reachable, try it again later");
 					e.printStackTrace();
 					return;
 				}
@@ -88,13 +90,21 @@ public class PostProccessor {
 			Account lendingAccount = apiProcessor.getAccountInformationWithId(lending.getLendingPerson().getUserID(), users);
 			double amount = CalculateLendingPrice(lending, article);
 			if (HasEnoughMoneyForRent(lendingAccount, article.getArticleID(), articles) && postBodyParas.get("choicereturn").equals("accept")) {
-				apiProcessor.postTransfer(String.class, lendingAccount, article, amount);
-				Calendar timeStamp = Calendar.getInstance();
-				Transaction transaction = new Transaction(article.getOwner(), lending.getLendingPerson(), article, amount, timeStamp);
-				transactions.save(transaction);
-				apiProcessor.punishOrRealeseReservation(Account.class, lendingAccount, article, lending.getProPayReservation().getId(), "release");
-				CleanUpLending(postBodyParas, lendings, articles);
-				reservations.delete(lending.getProPayReservation());
+				try {
+					apiProcessor.postTransfer(String.class, lendingAccount, article, amount);
+					Calendar timeStamp = Calendar.getInstance();
+					Transaction transaction = new Transaction(article.getOwner(), lending.getLendingPerson(), article, amount, timeStamp);
+					transactions.save(transaction);
+					apiProcessor.punishOrRealeseReservation(Account.class, lendingAccount, article, lending.getProPayReservation().getId(), "release");
+					CleanUpLending(postBodyParas, lendings, articles);
+					reservations.delete(lending.getProPayReservation());
+
+				}catch (Exception e) {
+					apiProcessor.setErrorOccurred(true);
+					apiProcessor.addErrorMessage("Propay is not reachable, try it again later");
+					e.printStackTrace();
+					return;
+				}
 			} else {
 				Lending tmpLending = lendings.findLendingBylendingID(Long.parseLong(postBodyParas.get("lendingID"))).get();
 				tmpLending.setReturn(false);

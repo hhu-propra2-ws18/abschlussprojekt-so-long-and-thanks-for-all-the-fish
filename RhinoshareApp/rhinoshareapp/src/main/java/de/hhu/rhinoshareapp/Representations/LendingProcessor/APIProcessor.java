@@ -36,7 +36,6 @@ public class APIProcessor {
 		try {
 			return getAccountInformation(user.get().getName(), Account.class);
 		} catch (Exception e) {
-			System.out.println("ich werde die richtige fehlermeldung geben meister");
 			errorOccurred = true;
 			errorMessage.put("reason", "Propay is not reachable, try it again later");
 			e.printStackTrace();
@@ -152,12 +151,20 @@ public class APIProcessor {
 		String lendingID = postBodyParas.get("lendingID");
 		String decision = postBodyParas.get("decision");
 		Lending conflictingLending = lendings.findLendingBylendingID(Long.parseLong(lendingID)).get();
-		Account lendingAccount = getAccountInformationWithId(conflictingLending.getLendingPerson().getUserID(), users);
 		Article conflictingArticle = conflictingLending.getLendedArticle();
-		if (decision.equals("true")) {
-			punishOrRealeseReservation(Account.class, lendingAccount, conflictingArticle, conflictingLending.getProPayReservation().getId(), "punish");
-		} else {
-			punishOrRealeseReservation(Account.class, lendingAccount, conflictingArticle, conflictingLending.getProPayReservation().getId(), "release");
+
+		try {
+			Account lendingAccount = getAccountInformationWithId(conflictingLending.getLendingPerson().getUserID(), users);
+			if (decision.equals("true")) {
+				punishOrRealeseReservation(Account.class, lendingAccount, conflictingArticle, conflictingLending.getProPayReservation().getId(), "punish");
+			} else {
+				punishOrRealeseReservation(Account.class, lendingAccount, conflictingArticle, conflictingLending.getProPayReservation().getId(), "release");
+			}
+		} catch (Exception e) {
+			errorOccurred = true;
+			errorMessage.put("reason", "Propay is not reachable, try it again later");
+			e.printStackTrace();
+			return;
 		}
 
 		// Delete Lending and Reservation
@@ -186,4 +193,7 @@ public class APIProcessor {
 	}
 
 
+	public void addErrorMessage(String reason) {
+		errorMessage.put("reason", reason);
+	}
 }
