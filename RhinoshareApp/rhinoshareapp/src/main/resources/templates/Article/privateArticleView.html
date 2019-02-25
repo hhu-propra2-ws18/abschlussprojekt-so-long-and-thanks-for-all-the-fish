@@ -16,7 +16,7 @@
         <h1 th:text="${article.getName()}">SampleName</h1>
         <table>
             <!-- Hier if einfügen für default Bild-->
-            <tr>
+            <tr th:if="${article.image != null}">
                 <td>Artikelbild</td>
                 <td> <img th:src="@{/image/{id} (id = ${article.getImageID()})}" width=auto height="300px"/></td>
             </tr>

@@ -37,7 +37,7 @@ public class Article {
     @Transient
     MultipartFile file;
 
-    @OneToOne (fetch = FetchType.EAGER, cascade={CascadeType.ALL})
+    @OneToOne (cascade={CascadeType.ALL})
     public Image image;
 
     boolean available;
