@@ -34,6 +34,8 @@ public class Article {
 
     int rent;
 
+    int sellingPrice;
+
     @Transient
     MultipartFile file;
 
@@ -41,6 +43,8 @@ public class Article {
     public Image image;
 
     boolean available;
+
+    boolean forSale;
 
     Calendar finalStartDate;
 
@@ -58,7 +62,6 @@ public class Article {
         this.rent = rent;
         this.available = available;
         this.file = file;
-        //this.saveImage();
     }
 
     public void saveImage() throws IOException {

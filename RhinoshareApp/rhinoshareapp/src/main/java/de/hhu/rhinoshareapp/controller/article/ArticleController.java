@@ -94,7 +94,9 @@ public class ArticleController {
         oldArticle.setComment(article.getComment());
         oldArticle.setRent(article.getRent());
         oldArticle.setDeposit(article.getDeposit());
+        oldArticle.setSellingPrice(article.getSellingPrice());
         oldArticle.setAvailable(article.isAvailable());
+        oldArticle.setForSale(article.isForSale());
         articleRepository.save(oldArticle);
         return "redirect:/article/" + articleID;
     }

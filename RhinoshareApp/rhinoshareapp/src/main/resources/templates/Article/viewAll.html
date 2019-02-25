@@ -39,6 +39,10 @@
                     <td>Mietpreis:</td>
                     <td th:text="${article.getRent()} + '€'"></td>
                 </tr>
+                <tr th:if="${article.forSale == true}">
+                    <td>Verkaufspreis:</td>
+                    <td th:text="${article.getSellingPrice()} + '€'"></td>
+                </tr>
                 <tr>
                     <td><a th:href="|/article/${article.articleID}|"><button class="btn btn-success" type="button">Zum Artikel</button></a></td>
                 </tr>
