@@ -47,14 +47,9 @@ public class ArticleController {
         return "Article/viewFromPerson";
     }
 
-    @GetMapping("/open/{articleID}")
-    public String openArticleView(Model model, @PathVariable long articleID){
-        Article article = articleRepository.findById(articleID).get();
-        model.addAttribute("article", article);
-        return "Article/viewFromPerson";
-    }
 
-    @GetMapping("/admin/{articleID}")
+
+    @GetMapping("/{articleID}")
     public String privateArticleView(Model model, @PathVariable long articleID){
         Article article = articleRepository.findById(articleID).get();
         model.addAttribute("article", article);
@@ -71,7 +66,7 @@ public class ArticleController {
     }
 
     @PostMapping("/new/")
-    public String saveArticle(HttpServletRequest request, Model model, @ModelAttribute("article") Article article, Principal p) throws IOException, SQLException {
+    public String saveArticle(@ModelAttribute("article") Article article, Principal p) throws IOException{
         article.saveImage();
         article.setOwner(userRepository.findByUsername(p.getName()).get());
         articleRepository.save(article);
