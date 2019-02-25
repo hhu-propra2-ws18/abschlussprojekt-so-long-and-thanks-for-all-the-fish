@@ -1,23 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{Article/mainpage}"
+<html lang="en" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{/mainpage}"
       xmlns:layout="http://www.w3.org/1999/xhtml" >
 
-<head></head>
+<head>
+    <title>RHINOSHARE</title>
+</head>
 
 <body>
-<div class="container" layout:fragment="content">
-    <h1 class="display-3">Übersicht</h1>
-    <form method="get" action="/article/search">
-        <div class="form-group row">
-            <label for="colFormLabel" class="col-sm-0 col-form-label"></label>
-            <div class="col-sm-10">
-                <input type="search" name="query" class="form-control" id="colFormLabel" placeholder="Wonach suchen sie?">
-            </div>
-            <div class="col-sm-2">
-                <button class="btn btn-primary" type="submit">Search</button>
-            </div>
-        </div>
-    </form>
+<div class="container" layout:fragment="content" style="margin-top: 50px">
     <div class="row mb-2">
         <div class="col-md-6"  th:each="article:${articles}">
             <table class="table table-hover">
