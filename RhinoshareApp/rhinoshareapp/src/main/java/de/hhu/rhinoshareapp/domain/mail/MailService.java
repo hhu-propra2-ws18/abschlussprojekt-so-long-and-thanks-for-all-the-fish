@@ -23,7 +23,7 @@ public class MailService {
     public void sendConflict(long lendingId, String conflictMessage, long ownerId, long lenderId, User admin) throws MailException {
         //sendEmail
         SimpleMailMessage mail = new SimpleMailMessage();
-        mail.setTo(admin.getEmail());
+        mail.setTo("rhinoshareconflict@gmail.com"/*admin.getEmail()*/);
         mail.setFrom("rhinoshareconflict@gmail.com");
         mail.setSubject("Conflict" + lendingId);
         mail.setText("LendingId: " + lendingId + "\nConflict message: " + conflictMessage + "\n" + "\nOwnerID:" + ownerId + "\nlenderID:" + lenderId + "");
