@@ -27,8 +27,6 @@ public class Article {
     @Lob
     String comment;
 
-    //@OneToOne
-    long personID;
     @OneToOne
     User owner;
 
@@ -36,13 +34,17 @@ public class Article {
 
     int rent;
 
+    int sellingPrice;
+
     @Transient
     MultipartFile file;
 
-    @OneToMany (fetch = FetchType.EAGER, cascade={CascadeType.ALL})
-    public List<Image> image = new ArrayList<>();
+    @OneToOne (cascade={CascadeType.ALL})
+    public Image image;
 
     boolean available;
+
+    boolean forSale;
 
     Calendar finalStartDate;
 
@@ -53,10 +55,9 @@ public class Article {
     @Lob
     String requestComment;
 
-    public Article(String name, String comment, long personID, int deposit, int rent, boolean available, MultipartFile file) {
+    public Article(String name, String comment, int deposit, int rent, boolean available, MultipartFile file){
         this.name = name;
         this.comment = comment;
-        this.personID = personID;
         this.deposit = deposit;
         this.rent = rent;
         this.available = available;
@@ -64,9 +65,10 @@ public class Article {
     }
 
     public void saveImage() throws IOException {
-        this.image.add(new Image(file));
+        this.image = new Image(file);
     }
-    public long getUserID() {
-        return owner.getUserID();
-    }
+
+    public long getImageID() {
+    	return this.image.getImageID();
+	}
 }
