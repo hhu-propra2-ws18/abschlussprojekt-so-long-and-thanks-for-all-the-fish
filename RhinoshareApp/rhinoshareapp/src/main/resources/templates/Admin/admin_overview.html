@@ -10,16 +10,17 @@
 <img id="titleImageTest" src="/img/rhinoLogoBigAdmin.png" width="300" height="75">
 <ul class="navigationbar">
     <li class="navbaritem"><a class="active" href="/admin">Überblick</a></li>
-    <li class="navbaritem"><a href="/admin/usermanagement">Benutzerverwaltung</a></li>
-    <li class="navbaritem"><a href="/admin">Konfliktlösung</a></li>
-    <li class="navbaritem"><a href="/admin">Contact</a></li>
-    <li class="navbaritem"><a href="/">Hauptseite</a></li>
-    <li style="float: right;" class="navbaritem" href th:if="${loggedIn == 'false'}">
-        <a href="/login">Einloggen</a>
+    <li class="navbaritem">
+        <a href="/admin/usermanagement">Benutzerverwaltung</a>
     </li>
-    <li style="float: right" class="navbaritem" href th:if="${loggedIn == 'true'}">
+    <li class="navbaritem"><a href="/admin/articlemanagement">Artikelverwaltung</a></li>
+    <li class="navbaritem"><a href="/admin/lendingmanagement">Ausleihen</a></li>
+    <li class="navbaritem"><a href="/admin">Konfliktlösung</a></li>
+    <li class="navbaritem"><a href="/">Hauptseite</a></li>
+    <li style="float: right" class="navbaritem">
         <a href="/logout">Ausloggen</a>
     </li>
+</ul>
 </ul>
 <h1>ADMIN</h1>
 

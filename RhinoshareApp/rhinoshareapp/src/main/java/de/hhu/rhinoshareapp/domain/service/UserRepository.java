@@ -9,6 +9,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByUsername(String username);
     Optional<User> findUserByuserID(long id);
-    long findUserIDByUsername(String username);
+    long findUserIDByUsername(String username); //TODO: kann ein long nicht zurückgegeben werden ?
     Optional<User> findUserByUsername(String username);
 }

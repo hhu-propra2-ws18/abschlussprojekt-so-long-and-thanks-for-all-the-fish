@@ -18,6 +18,7 @@ public class LendingRepresentation {
     private LendingRepository lendings;
     private UserRepository users;
     private ArticleRepository articles;
+    private boolean hasWarning = false;
 
     // Returns a list of of lendings for a User given by his id, that are Accepted and not returned
     public List<Lending> FillLendings(long userID) {
@@ -28,6 +29,7 @@ public class LendingRepresentation {
             Calendar currentDate = Calendar.getInstance();
             if (currentDate.after(endDate)) {
                 lending.setWarning("ATTENTION: YOU HAVE RETURN THIS ARTICLE");
+                hasWarning = true;
             } else {
                 long time = endDate.getTime().getTime() - currentDate.getTime().getTime();
                 long days = Math.round( (double)time / (24. * 60.*60.*1000.) );
@@ -69,5 +71,9 @@ public class LendingRepresentation {
         this.lendings = lendings;
         this.users = users;
         this.articles = articles;
+    }
+
+    public boolean isHasWarning() {
+        return hasWarning;
     }
 }
