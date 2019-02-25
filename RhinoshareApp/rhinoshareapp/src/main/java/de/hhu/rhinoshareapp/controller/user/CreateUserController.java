@@ -28,8 +28,7 @@ public class CreateUserController {
                 counter++;
             }
         }
-
-        if (counter < 1) {
+        if (counter < 1 && username.length() >= 1) {
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             String password_encrypted = passwordEncoder.encode(password);
             Address newUserAddress = Address.builder()
@@ -63,7 +62,7 @@ public class CreateUserController {
             }
         }
 
-        if (counter < 1) {
+        if (counter < 1 && username.length() >= 1) {
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             String password_encrypted = passwordEncoder.encode(password);
             Address newUserAddress = Address.builder()

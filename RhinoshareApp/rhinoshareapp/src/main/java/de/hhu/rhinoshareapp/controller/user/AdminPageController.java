@@ -1,9 +1,12 @@
 package de.hhu.rhinoshareapp.controller.user;
 
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import de.hhu.rhinoshareapp.domain.model.Address;
-import de.hhu.rhinoshareapp.domain.security.ActualUserChecker;
+import de.hhu.rhinoshareapp.domain.model.Article;
+import de.hhu.rhinoshareapp.domain.model.Lending;
 import de.hhu.rhinoshareapp.domain.model.User;
+import de.hhu.rhinoshareapp.domain.security.ActualUserChecker;
+import de.hhu.rhinoshareapp.domain.service.ArticleRepository;
+import de.hhu.rhinoshareapp.domain.service.LendingRepository;
 import de.hhu.rhinoshareapp.domain.service.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,11 +26,19 @@ public class AdminPageController {
     @Autowired
     UserRepository users;
 
+    @Autowired
+    ArticleRepository articles;
+
+    @Autowired
+    LendingRepository lendings;
+
     @GetMapping("/admin")
     public String loadAdminPage(Model m, Principal p) {
         ActualUserChecker.checkActualUser(m, p, users);
         return "Admin/admin_overview";
     }
+
+    //Usermanagement
 
     @GetMapping("/admin/usermanagement")
     public String loadUserManagement(Principal p, Model m) {
@@ -41,7 +52,9 @@ public class AdminPageController {
     public String loadEditForm(Model m, Principal p, @PathVariable long id) {
         ActualUserChecker.checkActualUser(m, p, users);
         Optional<User> user = users.findUserByuserID(id);
+        List<Article> allArticles = articles.findAllByOwner(user.get());
         m.addAttribute("userDetails", user.get());
+        m.addAttribute("articles", allArticles);
         return "Admin/admin_userEdit";
     }
 
@@ -138,7 +151,7 @@ public class AdminPageController {
                 counter++;
             }
         }
-        if (counter < 1) {
+        if (counter < 1 && username.length() >= 1) {
             User u = user.get();
             u.setUsername(username);
             users.save(u);
@@ -185,6 +198,36 @@ public class AdminPageController {
         String idAsString = "" + (userList.size() + 1);
         m.addAttribute("nextID", idAsString);
         return "Admin/admin_createUser";
+    }
+
+    //Artikelmanagement
+
+    @GetMapping("/admin/articlemanagement")
+    public String loadArticleManagement(Model m, Principal p) {
+        List<Article> allArticles = articles.findAll();
+        m.addAttribute("articles", allArticles);
+        return "Admin/admin_articlemanagement";
+    }
+
+    @GetMapping("/admin/articlemanagement/delete/{id}")
+    public String deleteArticle(Model m, Principal p, @PathVariable long id) {
+        articles.deleteById(id);
+        return "redirect:/admin/articlemanagement/";
+    }
+
+    //Ausleihmanagement
+
+    @GetMapping("/admin/lendingmanagement")
+    public String loadLendingManagement(Model m, Principal p) {
+        List<Lending> allLendings = lendings.findAll();
+        m.addAttribute("lendings", allLendings);
+        return "Admin/admin_lendingmanagement";
+    }
+
+    @GetMapping("/admin/lendingmanagement/delete/{id}")
+    public String deleteLending(Model m, Principal p, @PathVariable long id) {
+        lendings.deleteById(id);
+        return "redirect:/admin/lendingmanagement/";
     }
 
 }

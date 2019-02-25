@@ -1,4 +1,3 @@
-/*
 package de.hhu.rhinoshareapp.domain.service;
 
 import de.hhu.rhinoshareapp.domain.model.Article;
@@ -60,4 +59,3 @@ public class ArticleRepositoryIntegrationTest {
 		assertThat(snowplow).isNotIn(found);
 	}
 }
-*/

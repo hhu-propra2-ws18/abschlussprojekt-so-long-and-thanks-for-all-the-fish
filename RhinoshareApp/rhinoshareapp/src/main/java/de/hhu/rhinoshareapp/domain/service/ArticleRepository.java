@@ -13,4 +13,5 @@ public interface ArticleRepository extends CrudRepository<Article, Long> {
 	Optional<Article> findArticleByarticleID(long id);
 	List<Article> findAllArticleByOwnerAndIsRequested(User user, boolean isRequested);
     List<Article> findAllByNameContainingOrCommentContainingAllIgnoreCase(String nameQuery, String commentQuery);
+    List<Article> findAll();
 }

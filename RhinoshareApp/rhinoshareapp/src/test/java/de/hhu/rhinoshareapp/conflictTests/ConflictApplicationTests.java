@@ -1,4 +1,3 @@
-/*
 package de.hhu.rhinoshareapp.conflictTests;
 
 import de.hhu.rhinoshareapp.controller.conflict.ConflictController;
@@ -92,8 +91,7 @@ public class ConflictApplicationTests {
         lendingRepo.save(testLending1);
         lendingRepo.save(testLending2);
 
-       */
-/*Optional<ServiceUser> sUser1= (Optional<ServiceUser>) testUser1;
+Optional<ServiceUser> sUser1= (Optional<ServiceUser>) testUser1;
 
         Mockito.when(userRepo.findByUsername("jeff"))
                 .thenReturn(testUser1);
@@ -114,7 +112,7 @@ public class ConflictApplicationTests {
         controller.setLendingRepository(lendingRepo);
         controller.setMailService(mailService);
         m = Mockito.mock(Model.class);
-*//*
+
 
     }
 
@@ -162,4 +160,3 @@ public class ConflictApplicationTests {
 }
 
 
-*/

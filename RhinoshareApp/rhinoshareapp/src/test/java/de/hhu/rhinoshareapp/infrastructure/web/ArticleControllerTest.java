@@ -1,4 +1,3 @@
-/*
 package de.hhu.rhinoshareapp.infrastructure.web;
 
 
@@ -58,4 +57,4 @@ public class ArticleControllerTest {
 		assertEquals(chainsaw.getDeposit(), betterChainsaw.getDeposit());
 		assertEquals(chainsaw.getRent(), betterChainsaw.getRent());
     }
-}*/
+}

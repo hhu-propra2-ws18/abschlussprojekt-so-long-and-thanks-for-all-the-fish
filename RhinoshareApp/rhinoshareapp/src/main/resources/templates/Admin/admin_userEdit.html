@@ -10,28 +10,35 @@
 <img id="titleImageTest" src="/img/rhinoLogoBigAdmin.png" width="300" height="75">
 <ul class="navigationbar">
     <li class="navbaritem"><a href="/admin">Überblick</a></li>
-    <li class="navbaritem"><a class="active" href="/admin/usermanagement">Benutzerverwaltung</a></li>
-    <li class="navbaritem"><a href="/admin">Konfliktlösung</a></li>
-    <li class="navbaritem"><a href="/admin">Contact</a></li>
-    <li class="navbaritem"><a href="/">Hauptseite</a></li>
-    <li style="float: right;" class="navbaritem" href th:if="${loggedIn == 'false'}">
-        <a href="/login">Einloggen</a>
+    <li class="navbaritem">
+        <a class="active" href="/admin/usermanagement">Benutzerverwaltung</a>
     </li>
-    <li style="float: right" class="navbaritem" href th:if="${loggedIn == 'true'}">
+    <li class="navbaritem"><a href="/admin/articlemanagement">Artikelverwaltung</a></li>
+    <li class="navbaritem"><a href="/admin/lendingmanagement">Ausleihen</a></li>
+    <li class="navbaritem"><a href="/admin">Konfliktlösung</a></li>
+    <li class="navbaritem"><a href="/">Hauptseite</a></li>
+    <li style="float: right" class="navbaritem">
         <a href="/logout">Ausloggen</a>
     </li>
 </ul>
+<div>
+    <a href="/admin/usermanagement">
+        <button class="button_std">Zurück</button>
+    </a>
+</div>
 <table id="useroverview">
     <tr>
         <th>ID</th>
         <th th:text="${userDetails.userID}">Platzhalter</th>
+        <th></th>
     </tr>
     <tr>
         <td>Vorname</td>
         <td>
             <form method="post" th:action="|/admin/usermanagement/changesurname/${userDetails.userID}|">
                 <input class="loginTextfield" name="surname" type="text" th:placeholder="${userDetails.surname}">
-                <button type="submit">Ändern</button>
+                <td><button type="submit" class="button_std_white">Ändern</button></td>
+
             </form>
         </td>
     </tr>
@@ -40,7 +47,7 @@
         <td>
             <form method="post" th:action="|/admin/usermanagement/changename/${userDetails.userID}|">
                 <input class="loginTextfield" name="name" type="text" th:placeholder="${userDetails.name}">
-                <button type="submit">Ändern</button>
+                <td><button type="submit" class="button_std_white">Ändern</button></td>
             </form>
         </td>
     </tr>
@@ -49,7 +56,7 @@
         <td>
             <form method="post" th:action="|/admin/usermanagement/changestreet/${userDetails.userID}|">
                 <input class="loginTextfield" name="street" type="text" th:placeholder="${userDetails.address.street}">
-                <button type="submit">Ändern</button>
+                <td><button type="submit" class="button_std_white">Ändern</button></td>
             </form>
         </td>
     </tr>
@@ -58,7 +65,7 @@
         <td>
             <form method="post" th:action="|/admin/usermanagement/changehousenumber/${userDetails.userID}|">
                 <input class="loginTextfield" name="housenumber" type="text" th:placeholder="${userDetails.address.houseNumber}">
-                <button type="submit">Ändern</button>
+                <td><button type="submit" class="button_std_white">Ändern</button></td>
             </form>
         </td>
     </tr>
@@ -67,7 +74,7 @@
         <td>
             <form method="post" th:action="|/admin/usermanagement/changepostcode/${userDetails.userID}|">
                 <input class="loginTextfield" name="postcode" type="text" th:placeholder="${userDetails.address.postCode}">
-                <button type="submit">Ändern</button>
+                <td><button type="submit" class="button_std_white">Ändern</button></td>
             </form>
         </td>
     </tr>
@@ -76,7 +83,7 @@
         <td>
             <form method="post" th:action="|/admin/usermanagement/changecity/${userDetails.userID}|">
                 <input class="loginTextfield" name="city" type="text" th:placeholder="${userDetails.address.city}">
-                <button type="submit">Ändern</button>
+                <td><button type="submit" class="button_std_white">Ändern</button></td>
             </form>
         </td>
     </tr>
@@ -85,15 +92,16 @@
         <td>
             <form method="post" th:action="|/admin/usermanagement/changecountry/${userDetails.userID}|">
                 <input class="loginTextfield" name="country" type="text" th:placeholder="${userDetails.address.country}">
-                <button type="submit">Ändern</button>
+                <td><button type="submit" class="button_std_white">Ändern</button></td>
             </form>
-        </td>    </tr>
+        </td>
+    </tr>
     <tr>
         <td>RhinoID</td>
         <td>
             <form method="post" th:action="|/admin/usermanagement/changeusername/${userDetails.userID}|">
                 <input class="loginTextfield" name="username" type="text" th:placeholder="${userDetails.username}">
-                <button type="submit">Ändern</button>
+                <td><button type="submit" class="button_std_white">Ändern</button></td>
             </form>
         </td>
     </tr>
@@ -102,7 +110,7 @@
         <td>
             <form method="post" th:action="|/admin/usermanagement/changeemail/${userDetails.userID}|">
                 <input class="loginTextfield" name="email" type="text" th:placeholder="${userDetails.email}">
-                <button type="submit">Ändern</button>
+                <td><button type="submit" class="button_std_white">Ändern</button></td>
             </form>
         </td>
     </tr>
@@ -111,15 +119,14 @@
         <td>
             <form method="post" th:action="|/admin/usermanagement/changescore/${userDetails.userID}|">
                 <input class="loginTextfield" name="score" type="number" th:placeholder="${userDetails.score}">
-                <button type="submit">Ändern</button>
+                <td><button type="submit" class="button_std_white">Ändern</button></td>
             </form>
         </td>
     </tr>
+    <tr>
+        <td>Eigene Artikel</td>
+        <td th:text="${articles.size()}">...</td>
+    </tr>
 </table>
-<div>
-    <a href="/admin/usermanagement">
-        <button>Zurück</button>
-    </a>
-</div>
 </body>
 </html>

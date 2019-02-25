@@ -10,19 +10,22 @@
 <img id="titleImageTest" src="/img/rhinoLogoBigAdmin.png" width="300" height="75">
 <ul class="navigationbar">
     <li class="navbaritem"><a href="/admin">Überblick</a></li>
-    <li class="navbaritem"><a class="active" href="/admin/usermanagement">Benutzerverwaltung</a></li>
-    <li class="navbaritem"><a href="/admin">Konfliktlösung</a></li>
-    <li class="navbaritem"><a href="/admin">Contact</a></li>
-    <li class="navbaritem"><a href="/">Hauptseite</a></li>
-    <li style="float: right;" class="navbaritem" href th:if="${loggedIn == 'false'}">
-        <a href="/login">Einloggen</a>
+    <li class="navbaritem">
+        <a class="active" href="/admin/usermanagement">Benutzerverwaltung</a>
     </li>
-    <li style="float: right" class="navbaritem" href th:if="${loggedIn == 'true'}">
+    <li class="navbaritem"><a href="/admin/articlemanagement">Artikelverwaltung</a></li>
+    <li class="navbaritem"><a href="/admin/lendingmanagement">Ausleihen</a></li>
+    <li class="navbaritem"><a href="/admin">Konfliktlösung</a></li>
+    <li class="navbaritem"><a href="/">Hauptseite</a></li>
+    <li style="float: right" class="navbaritem">
         <a href="/logout">Ausloggen</a>
     </li>
 </ul>
-
 <form method="post" action="/admin/newaccount">
+    <button class="button_std" type="submit">Hinzufügen</button>
+    <a href="/admin/usermanagement">
+        <button class="button_std_white">Zurück</button>
+    </a>
     <table id="useroverview">
         <tr>
             <th>ID</th>
@@ -95,13 +98,6 @@
             </td>
         </tr>
     </table>
-    <button type="submit">Hinzufügen</button>
 </form>
-
-<div>
-    <a href="/admin/usermanagement">
-        <button>Zurück</button>
-    </a>
-</div>
 </body>
 </html>
