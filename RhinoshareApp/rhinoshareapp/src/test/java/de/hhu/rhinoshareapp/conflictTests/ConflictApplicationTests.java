@@ -8,8 +8,10 @@ import de.hhu.rhinoshareapp.domain.model.Lending;
 import de.hhu.rhinoshareapp.domain.model.User;
 import de.hhu.rhinoshareapp.domain.service.*;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -20,6 +22,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.ui.Model;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -65,6 +68,10 @@ public class ConflictApplicationTests {
 
     @MockBean
     TransactionRepository transRepo;
+
+    @Mock
+    Principal p;
+
 
     @Before
     public void setUp() {
@@ -130,7 +137,12 @@ public class ConflictApplicationTests {
         controller.setUserRepository(userRepo);
         controller.setLendingRepository(lendingRepo);
         controller.setMailService(mailService);
-        m = Mockito.mock(Model.class);
+
+        p = Mockito.mock(Principal.class);
+
+
+
+
 
     }
 
@@ -163,16 +175,11 @@ public class ConflictApplicationTests {
 
     @Test
     public void postConflictOverviewTest(){
-        assertEquals("redirect:/", controller.postConflictOverview(m, 1, "back"));
+        assertEquals("redirect:/conflictOverview", controller.postConflictOverview(m, 1, "back"));
         assertEquals("redirect:/showcase/1", controller.postConflictOverview(m, 1, "show"));
         assertEquals("redirect:/conflictOverview", controller.postConflictOverview(m, 1, "no"));
     }
-
-    @Test
-    public void getShowcaseTest(){
-        assertEquals("/conflict/conflict-admin-case", controller.getShowCase(m,7));
-        assertEquals("redirect:/conflictOverview", controller.getShowCase(m,2));
-    }
+    
 
 
 }
