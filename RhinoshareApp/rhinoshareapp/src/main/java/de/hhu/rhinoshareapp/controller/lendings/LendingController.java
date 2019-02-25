@@ -170,16 +170,16 @@ public class LendingController {
 		String username = p.getName();
 		long id = postProccessor.FindUserIDByUser(users, username);
 		HashMap<String, String> postBodyParas = postProccessor.SplitString(postBody);
-        model.addAttribute("username", username);
-        model.addAttribute("id", id);
-        try {
-            Account account = apiProcessor.getAccountInformationWithId(id, users);
-            account = apiProcessor.postMoney(Account.class, account, Double.parseDouble(postBodyParas.get("amount")));
-            model.addAttribute("account", account);
-        } catch (Exception e) {
-            model.addAttribute("error", "Propay is not reachable, try it again later");
-            return "Lending/errorPage";
-        }
+		model.addAttribute("username", username);
+		model.addAttribute("id", id);
+		try {
+			Account account = apiProcessor.getAccountInformationWithId(id, users);
+			account = apiProcessor.postMoney(Account.class, account, Double.parseDouble(postBodyParas.get("amount")));
+			model.addAttribute("account", account);
+		} catch (Exception e) {
+			model.addAttribute("error", "Propay is not reachable, try it again later");
+			return "Lending/errorPage";
+		}
 
 		if (apiProcessor.isErrorOccurred()) {
 			model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
@@ -219,17 +219,4 @@ public class LendingController {
 		model.addAttribute("recieves", transactionRepresentation.FillRecieves(id));
 		return "Lending/transactionsPage";
 	}
-
-
-	//TODO: getmapping für testzwecke löschen
-	@GetMapping("/test")
-	public String test() {
-		System.out.println(apiProcessor.getAccountInformation("Kathrin", Account.class));
-		System.out.println(apiProcessor.getAccountInformation("Lisa", Account.class));
-		System.out.println(apiProcessor.getAccountInformation("Olaf", Account.class));
-		System.out.println(apiProcessor.getAccountInformation("Memfred", Account.class));
-
-		return "Lending/overview";
-	}
-
 }
