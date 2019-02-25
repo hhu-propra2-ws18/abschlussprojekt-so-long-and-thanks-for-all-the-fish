@@ -66,6 +66,7 @@ public class ArticleController {
         return  "Article/newArticle";
     }
 
+
     @PostMapping("/new/")
     public String saveArticle(@ModelAttribute("article") Article article, Principal p) throws IOException{
         article.saveImage();
@@ -76,11 +77,15 @@ public class ArticleController {
 
     //Edit
     @GetMapping("/edit/{articleID}")
-    public String editArticle(Model model, @PathVariable long articleID){
+    public String editArticle(Model model, @PathVariable long articleID, Principal p){
         Article article = articleRepository.findById(articleID).get();
-        model.addAttribute("article", article);
-        return "Article/editArticle";
+        if (checkIfLoggedInIsOwner(p, article)) {
+            model.addAttribute("article", article);
+            return "Article/editArticle";
+        }
+        return "error/403";
     }
+
 
     @PostMapping("/edit/{articleID}")
     public String editArticlePostMapping(@ModelAttribute("article") Article article, @PathVariable long articleID){
@@ -94,13 +99,18 @@ public class ArticleController {
         return "redirect:/article/" + articleID;
     }
 
+
     //Delete
     @GetMapping("/delete/{articleID}")
-    public String deleteAArticle(@PathVariable long articleID, Model model){
+    public String deleteAArticle(@PathVariable long articleID, Model model, Principal p){
         Article article = articleRepository.findById(articleID).get();
-        model.addAttribute("article",article);
-        return "Article/deleteArticle";
+        if (checkIfLoggedInIsOwner(p, article)) {
+            model.addAttribute("article", article);
+            return "Article/deleteArticle";
+        }
+        return "error/403";
     }
+
 
     @PostMapping("/delete/{articleID}")
     public String deleteArticleFromDB(@PathVariable long articleID){
@@ -109,11 +119,18 @@ public class ArticleController {
         return "redirect:/article/";
     }
 
+
     //Search
     @GetMapping("/search")
     public String searchForArticle(@RequestParam String query, Model model){
         model.addAttribute("articles", articleRepository.findAllByNameContainingOrCommentContainingAllIgnoreCase(query,query));
         model.addAttribute("query", query);
         return "Article/searchArticle";
+    }
+
+
+    public boolean checkIfLoggedInIsOwner(Principal p, Article article) {
+        User user = userRepository.findByUsername(p.getName()).get();
+        return (article.getOwner() == user);
     }
 }
