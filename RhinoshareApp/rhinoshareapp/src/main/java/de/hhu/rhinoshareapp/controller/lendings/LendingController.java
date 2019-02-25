@@ -48,11 +48,6 @@ public class LendingController {
 		model.addAttribute("username", username);
 		model.addAttribute("id", lendID);
 		LendingRepresentation filledLendings = new LendingRepresentation(lendings, users, articles);
-		if (apiProcessor.isErrorOccurred()) {
-			model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
-			apiProcessor.setErrorOccurred(false);
-			return "Lending/errorPage";
-		}
 		model.addAttribute("lendings", filledLendings.FillLendings(lendID));
 		return "Lending/overviewLendings";
 	}
@@ -66,11 +61,6 @@ public class LendingController {
 		HashMap<String, String> postBodyParas = postProccessor.SplitString(postBody);
 		postProccessor.initializeNewReturn(postBodyParas, lendings);
 		LendingRepresentation filledLendings = new LendingRepresentation(lendings, users, articles);
-		if (apiProcessor.isErrorOccurred()) {
-			model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
-			apiProcessor.setErrorOccurred(false);
-			return "Lending/errorPage";
-		}
 		model.addAttribute("lendings", filledLendings.FillLendings(lendID));
 		return "Lending/overviewLendings";
 	}
@@ -82,11 +72,6 @@ public class LendingController {
 		model.addAttribute("username", username);
 		model.addAttribute("id", borrowID);
 		LendingRepresentation filledArticles = new LendingRepresentation(lendings, users, articles);
-		if (apiProcessor.isErrorOccurred()) {
-			model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
-			apiProcessor.setErrorOccurred(false);
-			return "Lending/errorPage";
-		}
 		model.addAttribute("articles", filledArticles.FillBorrows(borrowID));
 		return "Lending/overviewBorrows";
 	}
@@ -102,11 +87,6 @@ public class LendingController {
 		model.addAttribute("warning", filledLendings.isHasWarning());
 		RequestRepresentation filledRequests = new RequestRepresentation(users, articles, lendings, id);
 		ReturnProcessRepresentation filledReturns = new ReturnProcessRepresentation(users, articles, id, lendings);
-		if (apiProcessor.isErrorOccurred()) {
-			model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
-			apiProcessor.setErrorOccurred(false);
-			return "Lending/errorPage";
-		}
 		model.addAttribute("requests", filledRequests.FillRequest());
 		model.addAttribute("returns", filledReturns.FillReturns());
 		return "Lending/overview";

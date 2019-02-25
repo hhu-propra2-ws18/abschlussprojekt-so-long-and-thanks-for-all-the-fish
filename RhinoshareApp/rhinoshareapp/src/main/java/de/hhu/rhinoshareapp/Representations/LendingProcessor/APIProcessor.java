@@ -36,7 +36,6 @@ public class APIProcessor {
 		try {
 			return getAccountInformation(user.get().getName(), Account.class);
 		} catch (Exception e) {
-			System.out.println("ich werde die richtige fehlermeldung geben meister");
 			errorOccurred = true;
 			errorMessage.put("reason", "Propay is not reachable, try it again later");
 			e.printStackTrace();
