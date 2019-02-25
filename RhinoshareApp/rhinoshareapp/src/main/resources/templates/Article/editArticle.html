@@ -32,8 +32,20 @@
                     <td> <Input type="number" th:placeholder="${article.getRent()}" th:field="*{rent}"/> </td>
                 </tr>
                 <tr>
+                    <th scope="row">Optional: Verkaufspreis</th>
+                    <td> <Input type="number" th:placeholder="${article.getSellingPrice()}" th:field="*{sellingPrice}"/> </td>
+                </tr>
+                <tr th:if="${article.forSale == true}">
+                    <th scope="row">Verkaufspreis</th>
+                    <td> <Input type="number" th:placeholder="${article.getSellingPrice()}" th:field="*{sellingPrice}"/> </td>
+                </tr>
+                <tr>
                     <th scope="row">Verfügbar?</th>
                     <td> <Input type="checkbox" th:checked="${article.isAvailable()}" th:field="*{available}"/> </td>
+                </tr>
+                <tr>
+                    <th scope="row">Zum Verkauf?</th>
+                    <td> <Input type="checkbox" th:checked="${article.isForSale()}" th:field="*{forSale}"/> </td>
                 </tr>
                 <th scope="row"></th>
                 <td><button type="submit" class="btn btn-primary">Aktuallisieren</button></td>

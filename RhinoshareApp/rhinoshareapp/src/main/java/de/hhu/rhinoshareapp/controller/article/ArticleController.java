@@ -10,12 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.security.Principal;
-import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/article")
@@ -42,23 +39,19 @@ public class ArticleController {
     public String viewMyArticles(Model model, Principal p){
         User user = userRepository.findByUsername(p.getName()).get();
         List<Article> articles = articleRepository.findAllByOwner(user);
-        model.addAttribute("userID",user.getUserID());
         model.addAttribute("articles", articles);
         return "Article/viewFromPerson";
     }
 
-    @GetMapping("/open/{articleID}")
-    public String openArticleView(Model model, @PathVariable long articleID){
-        Article article = articleRepository.findById(articleID).get();
-        model.addAttribute("article", article);
-        return "Article/viewFromPerson";
-    }
 
-    @GetMapping("/admin/{articleID}")
-    public String privateArticleView(Model model, @PathVariable long articleID){
+
+    @GetMapping("/{articleID}")
+    public String privateArticleView(Model model, @PathVariable long articleID, Principal p){
+        User user = userRepository.findByUsername(p.getName()).get();
         Article article = articleRepository.findById(articleID).get();
+        model.addAttribute("user" , user);
         model.addAttribute("article", article);
-        return "Article/privateArticleView";
+        return "articleView";
     }
 
 
@@ -70,8 +63,9 @@ public class ArticleController {
         return  "Article/newArticle";
     }
 
+
     @PostMapping("/new/")
-    public String saveArticle(HttpServletRequest request, Model model, @ModelAttribute("article") Article article, Principal p) throws IOException, SQLException {
+    public String saveArticle(@ModelAttribute("article") Article article, Principal p) throws IOException{
         article.saveImage();
         article.setOwner(userRepository.findByUsername(p.getName()).get());
         articleRepository.save(article);
@@ -80,11 +74,15 @@ public class ArticleController {
 
     //Edit
     @GetMapping("/edit/{articleID}")
-    public String editArticle(Model model, @PathVariable long articleID){
+    public String editArticle(Model model, @PathVariable long articleID, Principal p){
         Article article = articleRepository.findById(articleID).get();
-        model.addAttribute("article", article);
-        return "Article/editArticle";
+        if (checkIfLoggedInIsOwner(p, article)) {
+            model.addAttribute("article", article);
+            return "Article/editArticle";
+        }
+        return "error/403";
     }
+
 
     @PostMapping("/edit/{articleID}")
     public String editArticlePostMapping(@ModelAttribute("article") Article article, @PathVariable long articleID){
@@ -93,18 +91,25 @@ public class ArticleController {
         oldArticle.setComment(article.getComment());
         oldArticle.setRent(article.getRent());
         oldArticle.setDeposit(article.getDeposit());
+        oldArticle.setSellingPrice(article.getSellingPrice());
         oldArticle.setAvailable(article.isAvailable());
+        oldArticle.setForSale(article.isForSale());
         articleRepository.save(oldArticle);
         return "redirect:/article/" + articleID;
     }
 
+
     //Delete
     @GetMapping("/delete/{articleID}")
-    public String deleteAArticle(@PathVariable long articleID, Model model){
+    public String deleteAArticle(@PathVariable long articleID, Model model, Principal p){
         Article article = articleRepository.findById(articleID).get();
-        model.addAttribute("article",article);
-        return "Article/deleteArticle";
+        if (checkIfLoggedInIsOwner(p, article)) {
+            model.addAttribute("article", article);
+            return "Article/deleteArticle";
+        }
+        return "error/403";
     }
+
 
     @PostMapping("/delete/{articleID}")
     public String deleteArticleFromDB(@PathVariable long articleID){
@@ -113,11 +118,18 @@ public class ArticleController {
         return "redirect:/article/";
     }
 
+
     //Search
     @GetMapping("/search")
     public String searchForArticle(@RequestParam String query, Model model){
         model.addAttribute("articles", articleRepository.findAllByNameContainingOrCommentContainingAllIgnoreCase(query,query));
         model.addAttribute("query", query);
         return "Article/searchArticle";
+    }
+
+
+    public boolean checkIfLoggedInIsOwner(Principal p, Article article) {
+        User user = userRepository.findByUsername(p.getName()).get();
+        return (article.getOwner() == user);
     }
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -16,9 +16,9 @@
         <h1 th:text="${article.getName()}">SampleName</h1>
         <table>
             <!-- Hier if einfügen für default Bild-->
-            <tr th:each="image:${article.getImage()}">
+            <tr th:if="${article.image != null}">
                 <td>Artikelbild</td>
-                <td> <img th:src="@{/image/{id} (id = ${image.getImageID()})}" width=auto height="300px"/></td>
+                <td> <img th:src="@{/image/{id} (id = ${article.getImageID()})}" width=auto height="300px"/></td>
             </tr>
             <tr>
                 <td>Beschreibung:</td>
@@ -26,7 +26,7 @@
             </tr>
             <tr>
                 <td>Person</td>
-                <td th:text="${article.getOwner()}">SamplePerson</td>
+                <td th:text="${article.getOwner().getUsername()}">SamplePerson</td>
             </tr>
             <tr>
                 <td>Kaution</td>
@@ -36,6 +36,10 @@
                 <td>Mietpreis</td>
                 <td th:text="${article.getRent()} +'€'">SampleRent</td>
             </tr>
+            <tr th:if="${article.forSale == true}">
+                <td>Verkaufspreis:</td>
+                <td th:text="${article.getSellingPrice()} + '€'">SamplePrice</td>
+            </tr>
             <tr>
                 <td>Verfügbarkeit</td>
                 <td th:switch="${article.isAvailable()}">
@@ -43,15 +47,28 @@
                     <span th:case="false"><i class="fa fa-times-circle-o" aria-hidden="true"></i></span>
                 </td>
             </tr>
+            <tr>
+                <td>Zum Verkauf</td>
+                <td th:switch="${article.isForSale()}">
+                    <span th:case="true"><i class="fa fa-check-circle-o" aria-hidden="true"></i></span>
+                    <span th:case="false"><i class="fa fa-times-circle-o" aria-hidden="true"></i></span>
+                </td>
+            </tr>
         </table>
         <br>
-        <td sec:authorize="#{isAuthenticated()}"> <!--Sollte noch ID überprüfen -->
-            <a th:href="|/article/edit/${article.getArticleID()}|" class="btn btn-light">Editieren</a>
+        <div th:if="${article.owner == user}">
+            <a th:href="|/article/edit/${article.getArticleID()}|"> <button class="btn btn-light" type="button">Artikel bearbeiten</button></a>
             <a th:href="|/article/delete/${article.getArticleID()}|"> <button class="btn btn-danger" type="button">Artikel löschen</button></a>
-        </td>
-        <td>
+        </div>
+        <div th:if="${article.owner != user}" th:if="${article.available == true}">
+            <a th:href="|/lendingRequest/${article.articleID}}|"> <button class="btn btn-light" type="button">Artikel Ausleihen</button></a>
+        </div>
+        <div th:if="${article.owner != user}" th:if="${article.forSale == true}">
+            <a th:href="|/saleRequest/${article.articleID}}|"> <button class="btn btn-danger" type="button">Artikel kaufen</button></a>
+        </div>
+        <div>
             <a th:href="|/article/|"> <button class="btn btn-warning" type="button">Zurück zur Übersicht</button></a>
-        </td>
+        </div>
     </div>
 </body>
 </html>

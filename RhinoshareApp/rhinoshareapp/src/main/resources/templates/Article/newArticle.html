@@ -32,12 +32,20 @@
                 <td> <Input type="number" th:field="*{rent}"/> </td>
             </tr>
             <tr>
+                <th scope="row">Optional: Verkaufspreis</th>
+                <td> <Input type="number" th:field="*{sellingPrice}"/> </td>
+            </tr>
+            <tr>
                 <th scope="row">Bild zum hochladen auswählen:</th>
                 <td> <Input th:field="*{file}" type="file"/> </td>
             </tr>
             <tr>
                 <th scope="row">Verfügbar?</th>
                 <td> <Input type="checkbox" th:field="*{available}"/> </td>
+            </tr>
+            <tr>
+                <th scope="row">Zum Verkauf?</th>
+                <td> <Input type="checkbox" th:field="*{forSale}"/> </td>
             </tr>
             <th scope="row"></th>
             <td><button type="submit" class="btn btn-primary">Neuen Artikel anlegen</button></td>
