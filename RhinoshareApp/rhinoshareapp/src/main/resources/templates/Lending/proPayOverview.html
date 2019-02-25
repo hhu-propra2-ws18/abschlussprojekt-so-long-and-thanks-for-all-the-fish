@@ -6,7 +6,7 @@
     <title>Overview</title>
 </head>
 <body>
-<a th:href="@{/{id}(id = ${id})}" role="button">overview</a>
+<a th:href="@{/{username}(username = ${username})}" role="button">overview</a>
 <div>
     Your ProPay Account
     <div style="margin:0; margin-right:10px; border:2px solid #dfdfdf;
@@ -21,7 +21,7 @@
             </div>
         </table>
     </div>
-    <form th:action="@{/proPay/{id}(id = ${id})}" method="post">
+    <form th:action="@{/proPay/{username}(username = ${username})}" method="post">
         <label>
             how much € will you transfer to your ProPay Account
             <input type="number" name="amount">
