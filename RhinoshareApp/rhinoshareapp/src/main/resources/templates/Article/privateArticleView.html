@@ -26,7 +26,7 @@
             </tr>
             <tr>
                 <td>Person</td>
-                <td th:text="${article.getOwner()}">SamplePerson</td>
+                <td th:text="${article.getOwner().getUsername()}">SamplePerson</td>
             </tr>
             <tr>
                 <td>Kaution</td>
@@ -45,7 +45,7 @@
             </tr>
         </table>
         <br>
-        <div sec:authorize="#{isAuthenticated()}"> <!--Sollte noch ID überprüfen -->
+        <div th:if="${article.owner == user}">
             <a th:href="|/article/edit/${article.getArticleID()}|" class="btn btn-light">Artikel bearbeiten</a>
             <a th:href="|/article/delete/${article.getArticleID()}|"> <button class="btn btn-danger" type="button">Artikel löschen</button></a>
         </div>

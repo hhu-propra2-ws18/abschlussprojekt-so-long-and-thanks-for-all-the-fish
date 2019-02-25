@@ -22,7 +22,7 @@ public class User {
 
     private String surname;
 
-    private String username;
+    public String username;
 
     private String email;
 
