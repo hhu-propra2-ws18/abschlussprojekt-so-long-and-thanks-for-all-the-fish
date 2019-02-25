@@ -2,6 +2,7 @@ package de.hhu.rhinoshareapp.controller.article;
 
 import de.hhu.rhinoshareapp.domain.model.Article;
 import de.hhu.rhinoshareapp.domain.model.User;
+import de.hhu.rhinoshareapp.domain.security.ActualUserChecker;
 import de.hhu.rhinoshareapp.domain.service.ArticleRepository;
 import de.hhu.rhinoshareapp.domain.service.ImageRepository;
 import de.hhu.rhinoshareapp.domain.service.UserRepository;
@@ -29,7 +30,8 @@ public class ArticleController {
 
     //View
     @GetMapping("/")
-    public String viewAll(Model model){
+    public String viewAll(Model model, Principal p){
+        ActualUserChecker.checkActualUser(model, p, userRepository);
         Iterable<Article> articles= articleRepository.findAll();
         model.addAttribute("articles", articles);
         return "Article/viewAll";
