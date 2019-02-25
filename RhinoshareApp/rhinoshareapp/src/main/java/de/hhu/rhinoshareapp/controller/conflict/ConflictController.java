@@ -89,7 +89,7 @@ public class ConflictController {
             List<Lending> lendings = lendRepo.findAllByIsConflict(true);
             model.addAttribute("lendings", lendings);
 
-        return "/admin/admin_conflicthandling";
+        return "Admin/admin_conflicthandling";
     }
 
     @PostMapping("/admin/conflicthandling")
@@ -114,7 +114,7 @@ public class ConflictController {
             return "redirect:/conflictOverview";
         }
 
-        return "/admin/conflicthandlingdetails";
+        return "/admin/admin_conflicthandlingdetails";
     }
 
     @PostMapping("admin/conflicthandling/showcase/{id}")

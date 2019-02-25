@@ -25,8 +25,9 @@
     <table id="useroverview">
         <th>LendingID</th>
         <th>Artikel</th>
-        <th>Owner</th>
-        <th>Borrower</th>
+        <th>Besitzer</th>
+        <th>Verliehen an</th>
+        <th>Aktion</th>
         <th:block th:each="lending: ${lendings}">
 
             <tr>
@@ -34,6 +35,11 @@
                 <td th:text="${lending.lendedArticle.name}"/>
                 <td th:text="${lending.lendingPerson.username}"/>
                 <td th:text="${lending.lendedArticle.owner.username}"/>
+                <td>
+                    <a th:href="|/admin/conflicthandling/showcase/${lending.lendingID}|">
+                        <button class="button_std">Details</button>
+                    </a>
+                </td>
             </tr>
         </th:block>
 
