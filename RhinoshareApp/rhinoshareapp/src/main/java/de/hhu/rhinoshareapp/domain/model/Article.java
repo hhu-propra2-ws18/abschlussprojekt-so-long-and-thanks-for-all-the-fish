@@ -51,14 +51,14 @@ public class Article {
     @Lob
     String requestComment;
 
-    public Article(String name, String comment, int deposit, int rent, boolean available, MultipartFile file) throws IOException {
+    public Article(String name, String comment, int deposit, int rent, boolean available, MultipartFile file){
         this.name = name;
         this.comment = comment;
         this.deposit = deposit;
         this.rent = rent;
         this.available = available;
         this.file = file;
-        this.saveImage();
+        //this.saveImage();
     }
 
     public void saveImage() throws IOException {

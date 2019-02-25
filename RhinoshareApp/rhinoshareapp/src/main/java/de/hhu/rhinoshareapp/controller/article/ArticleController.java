@@ -42,7 +42,6 @@ public class ArticleController {
     public String viewMyArticles(Model model, Principal p){
         User user = userRepository.findByUsername(p.getName()).get();
         List<Article> articles = articleRepository.findAllByOwner(user);
-        model.addAttribute("userID",user.getUserID());
         model.addAttribute("articles", articles);
         return "Article/viewFromPerson";
     }

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Calendar;
 
@@ -52,9 +53,11 @@ public class DatabaseInitializer implements ServletContextInitializer {
 		long id1 = user.getUserID();
 		long id2 = otherUser.getUserID();
 
-		/*Article testArticle1 = new Article("Rasenmäher", "funktioniert, kein Benzin, Schnitthöhe 1cm - 50 m", 500, 25, true, null);
+		Article testArticle1 = new Article("Rasenmäher", "funktioniert, kein Benzin, Schnitthöhe 1cm - 50 m", 500, 25, true, null);
 		Article testArticle2 = new Article("Geschirr", "nur ein bisschen zerbrochen, für 20 mann", 250, 25, true, null);
 		Article testArticle3 = new Article("Grillkohle", "schon verbrannt", 25230, 88, false, null);
+
+
 		testArticle1.setOwner(user);
 		testArticle2.setOwner(user);
 		testArticle3.setOwner(otherUser);
@@ -79,5 +82,5 @@ public class DatabaseInitializer implements ServletContextInitializer {
 		testLending2.setConflict(true);
 		lending.save(testLending1);
 		lending.save(testLending2);
-*/	}
+	}
 }
