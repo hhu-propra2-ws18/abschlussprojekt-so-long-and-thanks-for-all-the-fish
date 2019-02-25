@@ -34,7 +34,7 @@ public class ConflictController {
     }
 
     public void setLendingRepository(LendingRepository lendingRepository) {
-        this.lendRepo = lendRepo;
+        this.lendRepo = lendingRepository;
     }
 
     public void setMailService(MailService mailService){
@@ -65,7 +65,6 @@ public class ConflictController {
                 Optional<Lending> lendList = lendRepo.findLendingBylendingID(lendingID);
                 Lending l = lendList.get();
                 l.setConflict(true);
-                l.getLendingPerson();
                 lendRepo.save(l);
                 User owner = l.getLendedArticle().getOwner();
                 Optional<User> serviceUser = userRepo.findUserByuserID(3);
