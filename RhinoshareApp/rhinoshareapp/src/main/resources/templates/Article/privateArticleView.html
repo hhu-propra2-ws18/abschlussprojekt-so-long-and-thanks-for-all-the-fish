@@ -45,13 +45,13 @@
             </tr>
         </table>
         <br>
-        <td sec:authorize="#{isAuthenticated()}"> <!--Sollte noch ID überprüfen -->
-            <a th:href="|/article/edit/${article.getArticleID()}|" class="btn btn-light">Editieren</a>
+        <div sec:authorize="#{isAuthenticated()}"> <!--Sollte noch ID überprüfen -->
+            <a th:href="|/article/edit/${article.getArticleID()}|" class="btn btn-light">Artikel bearbeiten</a>
             <a th:href="|/article/delete/${article.getArticleID()}|"> <button class="btn btn-danger" type="button">Artikel löschen</button></a>
-        </td>
-        <td>
+        </div>
+        <div>
             <a th:href="|/article/|"> <button class="btn btn-warning" type="button">Zurück zur Übersicht</button></a>
-        </td>
+        </div>
     </div>
 </body>
 </html>
