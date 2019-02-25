@@ -45,6 +45,7 @@ public class PostProccessor {
         newLending.setLendedArticle(lendedArticle);
         newLending.setEndDate(endDate);
         newLending.setStartDate(startDate);
+        newLending.FillFormattedDates();
         lendings.save(newLending);
     }
 
