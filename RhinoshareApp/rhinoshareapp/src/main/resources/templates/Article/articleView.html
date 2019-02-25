@@ -12,41 +12,21 @@
 </head>
 
 <body>
-<img id="titleImageTest" src="/img/rhinoLogoBig.png" width="300" height="75">
-<ul class="navigationbar">
-    <li class="navbaritem"><a class="active" href="/">Rhino-Übersicht</a></li>
-    <li class="navbaritem"><a href="/">News</a></li>
-    <li class="navbaritem"><a href="/article/">Artikel</a></li>
-    <li style="float: right" class="navbaritem" href th:if="${loggedIn == 'true'}">
-        <a th:href="@{'/article/view/' + ${id}}">Meine Artikel</a>
-    <li class="navbaritem"><a href="/rent">Ausleihen</a></li>
-    <li class="navbaritem"><a href="">Contact</a></li>
-    <li class="navbaritem" href th:if="${loggedIn == 'false'}">
-        <a href="/newaccount">Registrieren</a>
-    </li>
-    <li class="navbaritem" href th:if="${loggedIn == 'true'}">
-        <a href="/edit" th:text="${surname}">Benutzer</a>
-    </li>
-    <li class="navbaritem"><input id="globalSearchField" type="text" placeholder="Suchen..."></li>
-    <li class="navbaritem"><a href="/">Suchen</a></li>
-    <li style="float: right;" class="navbaritem" href th:if="${loggedIn == 'false'}">
-        <a href="/login">Einloggen</a>
-    </li>
-    <li style="float: right" class="navbaritem" href th:if="${loggedIn == 'true'}">
-        <a href="/logout">Ausloggen</a>
-    </li>
-</ul>
     <div class="container">
         <h1 th:text="${article.getName()}">SampleName</h1>
-        <img th:src="@{/image/{id} (id = ${article.getImage().get(0).getImageID()})}" width=auto height="300px"/>
         <table>
+            <!-- Hier if einfügen für default Bild-->
+            <tr th:if="${article.image != null}">
+                <td>Artikelbild</td>
+                <td> <img th:src="@{/image/{id} (id = ${article.getImageID()})}" width=auto height="300px"/></td>
+            </tr>
             <tr>
                 <td>Beschreibung:</td>
                 <td th:text="${article.getComment()}">SampleComment</td>
             </tr>
             <tr>
                 <td>Person</td>
-                <td th:text="${article.getPersonID()}">SamplePerson</td>
+                <td th:text="${article.getOwner().getUsername()}">SamplePerson</td>
             </tr>
             <tr>
                 <td>Kaution</td>
@@ -56,6 +36,10 @@
                 <td>Mietpreis</td>
                 <td th:text="${article.getRent()} +'€'">SampleRent</td>
             </tr>
+            <tr th:if="${article.forSale == true}">
+                <td>Verkaufspreis:</td>
+                <td th:text="${article.getSellingPrice()} + '€'">SamplePrice</td>
+            </tr>
             <tr>
                 <td>Verfügbarkeit</td>
                 <td th:switch="${article.isAvailable()}">
@@ -63,13 +47,28 @@
                     <span th:case="false"><i class="fa fa-times-circle-o" aria-hidden="true"></i></span>
                 </td>
             </tr>
+            <tr>
+                <td>Zum Verkauf</td>
+                <td th:switch="${article.isForSale()}">
+                    <span th:case="true"><i class="fa fa-check-circle-o" aria-hidden="true"></i></span>
+                    <span th:case="false"><i class="fa fa-times-circle-o" aria-hidden="true"></i></span>
+                </td>
+            </tr>
         </table>
         <br>
-        <td>
-            <a th:href="|/article/edit/${article.getArticleID()}|" class="btn btn-light">Editieren</a>
+        <div th:if="${article.owner == user}">
+            <a th:href="|/article/edit/${article.getArticleID()}|"> <button class="btn btn-light" type="button">Artikel bearbeiten</button></a>
             <a th:href="|/article/delete/${article.getArticleID()}|"> <button class="btn btn-danger" type="button">Artikel löschen</button></a>
+        </div>
+        <div th:if="${article.owner != user}" th:if="${article.available == true}">
+            <a th:href="|/lendingRequest/${article.articleID}}|"> <button class="btn btn-light" type="button">Artikel Ausleihen</button></a>
+        </div>
+        <div th:if="${article.owner != user}" th:if="${article.forSale == true}">
+            <a th:href="|/saleRequest/${article.articleID}}|"> <button class="btn btn-danger" type="button">Artikel kaufen</button></a>
+        </div>
+        <div>
             <a th:href="|/article/|"> <button class="btn btn-warning" type="button">Zurück zur Übersicht</button></a>
-        </td>
+        </div>
     </div>
 </body>
 </html>

@@ -11,30 +11,6 @@
 </head>
 
 <body>
-<img id="titleImageTest" src="/img/rhinoLogoBig.png" width="300" height="75">
-<ul class="navigationbar">
-    <li class="navbaritem"><a class="active" href="/">Rhino-Übersicht</a></li>
-    <li class="navbaritem"><a href="/">News</a></li>
-    <li class="navbaritem"><a href="/article/">Artikel</a></li>
-    <li style="float: right" class="navbaritem" href th:if="${loggedIn == 'true'}">
-        <a th:href="@{'/article/view/' + ${id}}">Meine Artikel</a>
-    <li class="navbaritem"><a href="/rent">Ausleihen</a></li>
-    <li class="navbaritem"><a href="">Contact</a></li>
-    <li class="navbaritem" href th:if="${loggedIn == 'false'}">
-        <a href="/newaccount">Registrieren</a>
-    </li>
-    <li class="navbaritem" href th:if="${loggedIn == 'true'}">
-        <a href="/edit" th:text="${surname}">Benutzer</a>
-    </li>
-    <li class="navbaritem"><input id="globalSearchField" type="text" placeholder="Suchen..."></li>
-    <li class="navbaritem"><a href="/">Suchen</a></li>
-    <li style="float: right;" class="navbaritem" href th:if="${loggedIn == 'false'}">
-        <a href="/login">Einloggen</a>
-    </li>
-    <li style="float: right" class="navbaritem" href th:if="${loggedIn == 'true'}">
-        <a href="/logout">Ausloggen</a>
-    </li>
-</ul>
 <div class="container">
     <h1 class="display-3">Übersicht</h1>
     <form method="get" action="/article/search">
@@ -55,20 +31,25 @@
                     <td>Artikel:</td>
                     <td th:text="${article.getName()}"></td>
                 </tr>
-                <tr>
+                <tr th:if="${article.image != null}">
                     <td>Artikelbild</td>
-                    <td> <img th:src="@{/image/{id} (id = ${article.getImage().get(0).getImageID()})}" width="200px" height=auto/></td>
+                    <td> <img th:src="@{/image/{id} (id = ${article.getImageID()})}" width="200px" height=auto/></td>
                 </tr>
                 <tr>
                     <td>Mietpreis:</td>
                     <td th:text="${article.getRent()} + '€'"></td>
                 </tr>
+                <tr th:if="${article.forSale == true}">
+                    <td>Verkaufspreis:</td>
+                    <td th:text="${article.getSellingPrice()} + '€'"></td>
+                </tr>
                 <tr>
-                    <td><a th:href="|/article/open/${article.articleID}|"><button class="btn btn-success" type="button">Zum Artikel</button></a></td>
+                    <td><a th:href="|/article/${article.articleID}|"><button class="btn btn-success" type="button">Zum Artikel</button></a></td>
                 </tr>
             </table>
         </div>
     </div>
+    <a th:href="|/article/new/|"><button class="btn btn-primary" type="button">Neuen Artikel anlegen</button></a>
 </div>
 </body>
 
