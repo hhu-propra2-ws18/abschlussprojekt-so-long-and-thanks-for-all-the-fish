@@ -24,7 +24,6 @@ public class RequestRepresentation {
        List<Article> requestedIsTrue = articles.findAllArticleByOwnerAndIsRequested(user.get(), true);
        for (Article article : requestedIsTrue) {
            Lending lending = lendings.findLendingBylendedArticle(article).get();
-           lending.FillFormattedDates();
            filledLendings.add(lending);
        }
        return filledLendings;

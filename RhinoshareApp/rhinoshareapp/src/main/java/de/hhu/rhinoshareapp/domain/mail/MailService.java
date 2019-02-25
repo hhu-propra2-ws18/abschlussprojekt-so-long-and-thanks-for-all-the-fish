@@ -20,7 +20,7 @@ public class MailService {
         this.javaMailSender = javaMailSender;
     }
 
-    public void sendTest(long lendingId, String conflictMessage, long ownerId, long lenderId, User admin) throws MailException {
+    public void sendConflict(long lendingId, String conflictMessage, long ownerId, long lenderId, User admin) throws MailException {
         //sendEmail
         SimpleMailMessage mail = new SimpleMailMessage();
         mail.setTo("rhinoshareconflict@gmail.com"/*admin.getEmail()*/);
