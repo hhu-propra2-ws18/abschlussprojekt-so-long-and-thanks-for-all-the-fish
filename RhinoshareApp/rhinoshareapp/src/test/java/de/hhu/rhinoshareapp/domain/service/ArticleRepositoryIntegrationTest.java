@@ -1,12 +1,17 @@
 package de.hhu.rhinoshareapp.domain.service;
 
+import de.hhu.rhinoshareapp.controller.conflict.ConflictController;
+import de.hhu.rhinoshareapp.domain.mail.MailService;
 import de.hhu.rhinoshareapp.domain.model.Article;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.ui.Model;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -24,6 +29,27 @@ public class ArticleRepositoryIntegrationTest {
 
 	@Autowired
 	private ArticleRepository articleRepository;
+
+	@MockBean
+	Model m;
+
+	@MockBean
+	LendingRepository lendingRepo;
+
+	@MockBean
+	UserRepository userRepo;
+
+	@MockBean
+	ImageRepository imageRepo;
+
+	@MockBean
+	MailService mailService;
+
+	@MockBean
+	ReservationRepository reserveRepo;
+
+	@MockBean
+	TransactionRepository transRepo;
 
 	@Test
 	public void whenFindByArticleID_thenReturnArticle() throws IOException, SQLException {
@@ -51,7 +77,7 @@ public class ArticleRepositoryIntegrationTest {
 		entityManager.flush();
 
 		//Act
-		List<Article> found = articleRepository.findByPersonID(15);
+		List<Article> found = (List<Article>) articleRepository.findById(15);
 
 		//Assert
 		assertThat(chainsaw).isIn(found);

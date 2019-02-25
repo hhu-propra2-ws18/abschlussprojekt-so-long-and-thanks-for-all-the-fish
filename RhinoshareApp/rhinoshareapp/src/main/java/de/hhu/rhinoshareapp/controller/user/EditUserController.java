@@ -2,6 +2,7 @@ package de.hhu.rhinoshareapp.controller.user;
 
 import de.hhu.rhinoshareapp.domain.model.Address;
 import de.hhu.rhinoshareapp.domain.model.User;
+import de.hhu.rhinoshareapp.domain.security.ActualUserChecker;
 import de.hhu.rhinoshareapp.domain.service.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,9 +30,10 @@ public class EditUserController {
         m.addAttribute("email", user.getEmail());
         m.addAttribute("loggedIn", "true");
         return "edituser";*/
+        ActualUserChecker.checkActualUser(m, p, users);
         m.addAttribute("error", " ");
         m.addAttribute("user", user);
-        return "/EditUser/profileoverview";
+        return "/EditUser/profileOverview";
     }
 
     @PostMapping(path = "/edit")
@@ -45,20 +47,6 @@ public class EditUserController {
         if (button.equals("Back")) {
             return "redirect:/";
         } else if (button.equals("Apply changes")) {
-            if (username.equals("") == false) {
-                if (isValidUsername(username)) {
-                    if (users.findByUsername(username)==null) {
-                        user.setUsername(username);
-                    } else {
-                        model.addAttribute("user",user);
-                        model.addAttribute("error", "Username already taken ");
-                    }
-                } else {
-                    model.addAttribute("error", "Do not use spaces in your username please");
-                    model.addAttribute("user",user);
-                    return "/EditUser/profileoverview";
-                }
-            }
             if (surname.equals("") == false) {
                 user.setSurname(surname);
             }
@@ -84,23 +72,13 @@ public class EditUserController {
                 a.setHouseNumber(houseNumber);
             }
             if (!(postCode.equals(""))){
-                a.setPostCode(street);
+                a.setPostCode(postCode);
             }
             model.addAttribute("user",user);
             users.save(user);
         }
         model.addAttribute("error", " ");
         model.addAttribute("user", user);
-        return "/EditUser/profileoverview";
-    }
-
-    public boolean isValidUsername(String username) {
-        if (username.equals("") == false) {
-            if (username.contains(" ")) {
-                return false;
-            }
-            return true;
-        }
-        return false;
+        return "/EditUser/profileOverview";
     }
 }
