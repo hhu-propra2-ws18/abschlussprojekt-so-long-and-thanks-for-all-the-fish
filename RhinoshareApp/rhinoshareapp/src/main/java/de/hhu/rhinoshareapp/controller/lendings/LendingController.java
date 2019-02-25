@@ -112,8 +112,8 @@ public class LendingController {
 		return "Lending/overview";
 	}
 
-	@GetMapping("/lendingRequest")
-	public String LendingRequest(Model model, Principal p, @RequestParam("articleID") long articleID) {
+	@GetMapping("/lendingRequest/{articleID}")
+	public String LendingRequest(Model model, Principal p, @PathVariable("articleID") long articleID) {
 		String username = p.getName();
 		long requesterID = postProccessor.FindUserIDByUser(users, username);
 		model.addAttribute("username", username);
@@ -127,6 +127,26 @@ public class LendingController {
 		if (apiProcessor.hasEnoughMoneyForDeposit(lenderAccountInformation, articleID, articles)) {
 			model.addAttribute("requesterID", requesterID);
 			model.addAttribute("articleID", articleID);
+			return "Lending/sellRequest";
+		}
+		return "Lending/povertyPage";
+	}
+
+	@GetMapping("/saleRequest/{articleID}")
+	public String SellingRequest(Model model, Principal p, @PathVariable("articleID") long articleID) {
+		String username = p.getName();
+		long requesterID = postProccessor.FindUserIDByUser(users, username);
+		model.addAttribute("username", username);
+		Account sellerAccountInformation = apiProcessor.getAccountInformationWithId(requesterID, users);
+		model.addAttribute("requesterID", requesterID);
+		if (apiProcessor.isErrorOccurred()) {
+			model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
+			apiProcessor.setErrorOccurred(false);
+			return "Lending/errorPage";
+		}
+		if (apiProcessor.hasEnoughMoneyForSelling(sellerAccountInformation, articleID, articles)) {
+			model.addAttribute("requesterID", requesterID);
+			model.addAttribute("articleID", articleID);
 			return "Lending/lendingRequest";
 		}
 		return "Lending/povertyPage";
@@ -138,7 +158,12 @@ public class LendingController {
 		Optional<User> user = users.findUserByuserID(Long.parseLong(postBodyParas.get("requesterID")));
 		model.addAttribute("username", user.get().getUsername());
 		model.addAttribute("id", postBodyParas.get("requesterID"));
-		postProccessor.CreateNewLending(postBodyParas, articles, lendings, users);
+		if(postBodyParas.get("requestValue").equals("lending")){
+			postProccessor.CreateNewLending(postBodyParas, articles, lendings, users);
+		}
+		else{
+			postProccessor.SellArticle(postBodyParas, articles, users, apiProcessor);
+		}
 		if (apiProcessor.isErrorOccurred()) {
 			model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
 			apiProcessor.setErrorOccurred(false);

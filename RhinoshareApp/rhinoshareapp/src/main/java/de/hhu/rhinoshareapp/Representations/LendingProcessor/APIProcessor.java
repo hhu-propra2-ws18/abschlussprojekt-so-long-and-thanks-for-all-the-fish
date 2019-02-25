@@ -71,6 +71,16 @@ public class APIProcessor {
 		}
 	}
 
+	public boolean hasEnoughMoneyForSelling(Account lenderAccountInformation, long articleID, ArticleRepository articles) {
+		double amount = lenderAccountInformation.getAmount();
+		double sellingPrice = articles.findArticleByarticleID(articleID).get().getSellingPrice();
+		if (amount >= sellingPrice) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	public <T> T postCreateReservation(final Class<T> type, Account lendingAccount, Article article) {
 		final Mono<T> mono = WebClient
 				.create()
