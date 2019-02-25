@@ -92,8 +92,11 @@ public class LendingController {
     public String Overview(Model model, Principal p) {
         String username = p.getName();
         long id = postProccessor.FindUserIDByUser(users, username);
+        LendingRepresentation filledLendings = new LendingRepresentation(lendings, users, articles);
+        filledLendings.FillLendings(id);
         model.addAttribute("username", username);
         model.addAttribute("id", id);
+        model.addAttribute("warning", filledLendings.isHasWarning());
         RequestRepresentation filledRequests = new RequestRepresentation(users, articles, lendings, id);
         ReturnProcessRepresentation filledReturns = new ReturnProcessRepresentation(users, articles, id, lendings);
         if (apiProcessor.isErrorOccurred()) {

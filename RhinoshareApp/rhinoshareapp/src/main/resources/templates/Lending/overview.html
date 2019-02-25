@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>Overview</title>
 </head>
-<body>
+<body onload="myFunction()">
 <a th:href="@{/lendings/{username}(username = ${username})}" role="button">Lendings</a>
 <a th:href="@{/borrows/{username}(username = ${username})}" role="button">Borrows</a>
 <a th:href="@{/conflictPage/{username}(username = ${username})}" role="button">Conflicts</a>
@@ -62,7 +62,15 @@
         </div>
     </table>
 </div>
-
+<script th:inline="javascript">
+function myFunction() {
+  if(/*[[${warning}]]*/){
+     alert("You have a Lending that has to be returned!");
+  }else{
+    alert("alles tutti frutti");
+  }
+}
+</script>
 
 </body>
 </html>

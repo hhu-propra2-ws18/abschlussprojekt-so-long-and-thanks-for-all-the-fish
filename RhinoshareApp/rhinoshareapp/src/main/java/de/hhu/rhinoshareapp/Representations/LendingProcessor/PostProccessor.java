@@ -68,7 +68,7 @@ public class PostProccessor {
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    //TODO: reservierung konnte nicht angenommen werden
+                    return;
                 }
                 article.setRequestComment("");
                 article.setRequested(false);

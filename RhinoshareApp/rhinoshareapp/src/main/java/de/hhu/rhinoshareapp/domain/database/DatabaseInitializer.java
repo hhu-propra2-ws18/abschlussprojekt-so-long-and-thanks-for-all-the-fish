@@ -55,8 +55,8 @@ public class DatabaseInitializer implements ServletContextInitializer {
         Article testArticle1 = new Article("Rasenmäher", "funktioniert, kein Benzin, Schnitthöhe 1cm - 50 m", id1, 500, 25, true, null);
         Article testArticle2 = new Article("Geschirr", "nur ein bisschen zerbrochen, für 20 mann", id2, 250, 25, true, null);
         Article testArticle3 = new Article("Grillkohle", "schon verbrannt", id2, 25230, 88, false, null);
-        testArticle1.setOwner(user);
-        testArticle2.setOwner(user);
+        testArticle1.setOwner(otherUser);
+        testArticle2.setOwner(otherUser);
         testArticle3.setOwner(otherUser);
 
         users.save(user);
@@ -74,9 +74,10 @@ public class DatabaseInitializer implements ServletContextInitializer {
         Calendar date4 = Calendar.getInstance();
         date3.set(2019, 4, 12);
         date4.set(2019, 1, 12);
-        Lending testLending1 = new Lending(date4, date3, user, testArticle2);
+        Lending testLending1 = Lending.builder().startDate(date1).endDate(date2).lendingPerson(user).lendedArticle(testArticle2).isAccepted(true).isReturn(false).isConflict(false).build();
+        //Lending testLending1 = new Lending(date4, date3, user, testArticle2);
         Lending testLending2 = new Lending(date3, date4, user, testArticle1);
-        testLending2.setConflict(true);
+        //testLending2.setConflict(true);
         lending.save(testLending1);
         lending.save(testLending2);
     }
