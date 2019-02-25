@@ -54,7 +54,7 @@ public class ArticleController {
         return "Article/viewFromPerson";
     }
 
-    @GetMapping("/admin/{articleID}")
+    @GetMapping("/open/{articleID}")
     public String privateArticleView(Model model, @PathVariable long articleID){
         Article article = articleRepository.findById(articleID).get();
         model.addAttribute("article", article);

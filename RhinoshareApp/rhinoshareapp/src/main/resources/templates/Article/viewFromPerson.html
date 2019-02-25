@@ -13,7 +13,7 @@
     <div class="container">
         <h1 class="display-3">Übersicht</h1>
         <div class="row mb-2">
-                <div class="col-md-6"  th:each="article:${articles}">
+                <div class="col-md-6">
                     <table class="table table-hover">
                         <tr>
                             <td>Artikel:</td>
@@ -22,7 +22,7 @@
                         <!-- Hier if einfügen für default Bild-->
                         <tr th:each="image:${article.getImage()}">
                             <td>Artikelbild</td>
-                            <td> <img th:src="@{/image/{id} (id = ${image.getImageID()})}" width="200px" height=auto/></td>
+                            <td> <img th:src="@{/image/{id} (id = ${article.getImageID()})}" width="200px" height=auto/></td>
                         </tr>
                         <tr>
                             <td>Mietpreis:</td>

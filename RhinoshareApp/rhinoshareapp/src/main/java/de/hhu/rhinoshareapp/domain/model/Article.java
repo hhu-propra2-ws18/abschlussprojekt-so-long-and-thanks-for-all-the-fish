@@ -37,8 +37,8 @@ public class Article {
     @Transient
     MultipartFile file;
 
-    @OneToMany (fetch = FetchType.EAGER, cascade={CascadeType.ALL})
-    public List<Image> image = new ArrayList<>();
+    @OneToOne (fetch = FetchType.EAGER, cascade={CascadeType.ALL})
+    public Image image;
 
     boolean available;
 
@@ -62,6 +62,10 @@ public class Article {
     }
 
     public void saveImage() throws IOException {
-        this.image.add(new Image(file));
+        this.image = new Image(file);
     }
+
+    public long getImageID() {
+    	return this.image.getImageID();
+	}
 }
