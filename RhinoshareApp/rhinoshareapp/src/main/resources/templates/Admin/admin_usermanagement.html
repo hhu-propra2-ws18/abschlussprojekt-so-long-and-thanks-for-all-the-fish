@@ -10,7 +10,9 @@
 <img id="titleImageTest" src="/img/rhinoLogoBigAdmin.png" width="300" height="75">
 <ul class="navigationbar">
     <li class="navbaritem"><a href="/admin">Überblick</a></li>
-    <li class="navbaritem"><a class="active" href="/admin/usermanagement">Benutzerverwaltung</a></li>
+    <li class="navbaritem">
+        <a class="active" href="/admin/usermanagement">Benutzerverwaltung</a>
+    </li>
     <li class="navbaritem"><a href="/admin">Konfliktlösung</a></li>
     <li class="navbaritem"><a href="/admin">Contact</a></li>
     <li class="navbaritem"><a href="/">Hauptseite</a></li>
@@ -21,6 +23,11 @@
         <a href="/logout">Ausloggen</a>
     </li>
 </ul>
+<div class="buttonbar">
+    <a href="/admin/usermanagement/add">
+        <button>Neuen Benutzer anlegen</button>
+    </a>
+</div>
 <table id="useroverview">
     <th>ID</th>
     <th>Name</th>
@@ -50,5 +57,6 @@
         </tr>
     </th:block>
 </table>
+
 </body>
 </html>

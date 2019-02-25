@@ -130,9 +130,21 @@ public class AdminPageController {
     public String changeUserName(Model m, Principal p, String username, @PathVariable long id) {
         ActualUserChecker.checkActualUser(m, p, users);
         Optional<User> user = users.findUserByuserID(id);
-        User u = user.get();
-        u.setUsername(username);
-        users.save(u);
+
+        List<User> userList = users.findAll();
+        int counter = 0;
+        for (User userFromList : userList) {
+            if (userFromList.getUsername().equals(username)) {
+                counter++;
+            }
+        }
+        if (counter < 1) {
+            User u = user.get();
+            u.setUsername(username);
+            users.save(u);
+        }
+
+
         return "redirect:/admin/usermanagement/edit/" + id;
     }
 
@@ -157,13 +169,22 @@ public class AdminPageController {
     }
 
     //Eintrag löschen
+    //Ńur möglich, wenn keine Artikel ausgeliehen sind oder keine Artikel angeboten werden
 
     @GetMapping("/admin/usermanagement/delete/{id}")
     public String deleteUser(Model m, Principal p, @PathVariable long id) {
         ActualUserChecker.checkActualUser(m, p, users);
-
         users.deleteById(id);
         return "redirect:/admin/usermanagement/";
+    }
+
+    @GetMapping("/admin/usermanagement/add")
+    public String addUser(Model m, Principal p) {
+        ActualUserChecker.checkActualUser(m, p, users);
+        List<User> userList = users.findAll();
+        String idAsString = "" + (userList.size() + 1);
+        m.addAttribute("nextID", idAsString);
+        return "Admin/admin_createUser";
     }
 
 }
