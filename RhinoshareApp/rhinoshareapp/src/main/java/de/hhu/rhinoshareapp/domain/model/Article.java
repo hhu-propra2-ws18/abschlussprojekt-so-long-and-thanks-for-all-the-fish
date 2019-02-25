@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class Article {
     MultipartFile file;
 
     @OneToMany (fetch = FetchType.EAGER, cascade={CascadeType.ALL})
-    public List<Image> image;
+    public List<Image> image = new ArrayList<>();
 
     boolean available;
 
@@ -50,13 +51,14 @@ public class Article {
     @Lob
     String requestComment;
 
-    public Article(String name, String comment, int deposit, int rent, boolean available, MultipartFile file) {
+    public Article(String name, String comment, int deposit, int rent, boolean available, MultipartFile file) throws IOException {
         this.name = name;
         this.comment = comment;
         this.deposit = deposit;
         this.rent = rent;
         this.available = available;
         this.file = file;
+        this.saveImage();
     }
 
     public void saveImage() throws IOException {
