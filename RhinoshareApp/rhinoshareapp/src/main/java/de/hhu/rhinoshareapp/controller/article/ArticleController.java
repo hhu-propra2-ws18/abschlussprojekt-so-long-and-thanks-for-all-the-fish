@@ -44,6 +44,7 @@ public class ArticleController {
         User user = userRepository.findByUsername(p.getName()).get();
         List<Article> articles = articleRepository.findAllByOwner(user);
         model.addAttribute("articles", articles);
+        ActualUserChecker.checkActualUser(model, p, userRepository);
         return "Article/viewFromPerson";
     }
 
@@ -55,21 +56,23 @@ public class ArticleController {
         Article article = articleRepository.findById(articleID).get();
         model.addAttribute("user" , user);
         model.addAttribute("article", article);
+        ActualUserChecker.checkActualUser(model, p, userRepository);
         return "Article/articleView";
     }
 
 
     //Create
     @GetMapping("/new/")
-    public String newArticle(Model model){
+    public String newArticle(Model model, Principal p){
         Article article = new Article();
         model.addAttribute("article",article);
+        ActualUserChecker.checkActualUser(model, p, userRepository);
         return  "Article/newArticle";
     }
 
 
     @PostMapping("/new/")
-    public String saveArticle(@ModelAttribute("article") Article article, Principal p) throws IOException{
+    public String saveArticle(@ModelAttribute("article") Article article, Principal p, Model model) throws IOException{
         if(article.getFile() == null)
             article.image = null;
         else
@@ -85,6 +88,7 @@ public class ArticleController {
         Article article = articleRepository.findById(articleID).get();
         if (checkIfLoggedInIsOwner(p, article)) {
             model.addAttribute("article", article);
+            ActualUserChecker.checkActualUser(model, p, userRepository);
             return "Article/editArticle";
         }
         return "error/403";
@@ -115,6 +119,7 @@ public class ArticleController {
         }
         if (checkIfLoggedInIsOwner(p, article)) {
             model.addAttribute("article", article);
+            ActualUserChecker.checkActualUser(model, p, userRepository);
             return "Article/deleteArticle";
         }
         return "error/403";
@@ -132,9 +137,10 @@ public class ArticleController {
 
     //Search
     @GetMapping("/search")
-    public String searchForArticle(@RequestParam String query, Model model){
+    public String searchForArticle(@RequestParam String query, Model model, Principal p){
         model.addAttribute("articles", articleRepository.findAllByNameContainingOrCommentContainingAllIgnoreCase(query,query));
         model.addAttribute("query", query);
+        ActualUserChecker.checkActualUser(model, p, userRepository);
         return "Article/searchArticle";
     }
 
