@@ -70,7 +70,10 @@ public class ArticleController {
 
     @PostMapping("/new/")
     public String saveArticle(@ModelAttribute("article") Article article, Principal p) throws IOException{
-        article.saveImage();
+        if(article.getFile() == null)
+            article.image = null;
+        else
+           article.saveImage();
         article.setOwner(userRepository.findByUsername(p.getName()).get());
         articleRepository.save(article);
         return "redirect:/article/";
