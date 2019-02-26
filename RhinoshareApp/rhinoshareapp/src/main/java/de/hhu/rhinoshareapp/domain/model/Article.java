@@ -71,4 +71,16 @@ public class Article {
     public long getImageID() {
     	return this.image.getImageID();
 	}
+
+	public boolean imageIsEmpty(){
+        if(image == null)
+            return true;
+        return getFilebytes().length == 0;
+    }
+
+    public byte[] getFilebytes(){
+        return image.getFilebytes();
+    }
+
+
 }

@@ -1,44 +1,37 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-
+<html lang="en" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{/mainpage}"
+      xmlns:layout="http://www.w3.org/1999/xhtml" >
 <head>
-    <meta charset="UTF-8">
-    <title>Rhinoshare</title>
-    <link rel="stylesheet" type="text/css" href="/css/stylesheet.css">
-    <link rel="icon" href="/img/RhinoLogoSmall.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-</head>
+    </head>
 
 <body>
-<div class="container">
-
-    <h1 class="display-3">Suche nach <span th:text="|'${query}'|"></span></h1>
-    <div class="row mb-3">
-        <div class="col-md-6"  th:each="article:${articles}">
-            <table class="table table-hover">
-                <tr>
-                    <td>Artikel:</td>
-                    <td th:text="${article.getName()}"></td>
-                </tr>
-                <tr th:if="${article.image != null}">
-                    <td>Artikelbild</td>
-                    <td> <img th:src="@{/image/{id} (id = ${article.getImage().get(0).getImageID()})}" width="200px" height=auto/></td>
-                </tr>
-                <tr>
-                    <td>Mietpreis:</td>
-                    <td th:text="${article.getRent()} + '€'"></td>
-                </tr>
-                <tr th:if="${article.forSale == true}">
-                    <td>Verkaufspreis:</td>
-                    <td th:text="${article.getSellingPrice()} + '€'"></td>
-                </tr>
-                <tr>
-                    <td><a th:href="|/article/${article.articleID}|"><button class="btn btn-success" type="button">Zum Artikel</button></a></td>
-                </tr>
-            </table>
-        </div>
-    </div>
+    <div class="container" layout:fragment="content" style="margin-top: 50px">
+        <h1 class="display-5">Suche nach <span th:text="|'${query}'|"></span></h1>
+        <div class="row mb-3">
+            <div class="col-md-6"  th:each="article:${articles}">
+                <table class="table table-hover">
+                    <tr>
+                        <td>Artikel:</td>
+                        <td th:text="${article.getName()}"></td>
+                    </tr>
+                    <tr th:if="!${article.imageIsEmpty()}">
+                        <td>Artikelbild</td>
+                        <td> <img th:src="@{/image/{id} (id = ${article.getImage().get(0).getImageID()})}" width="200px" height=auto/></td>
+                    </tr>
+                    <tr>
+                        <td>Mietpreis:</td>
+                        <td th:text="${article.getRent()} + '€'"></td>
+                    </tr>
+                    <tr th:if="${article.forSale == true}">
+                        <td>Verkaufspreis:</td>
+                        <td th:text="${article.getSellingPrice()} + '€'"></td>
+                    </tr>
+                    <tr>
+                        <td><a th:href="|/article/${article.articleID}|"><button class="btn btn-success" type="button">Zum Artikel</button></a></td>
+                    </tr>
+                </table>
+            </div>
+      </div>
     <a th:href="|/article/|"><button class="btn btn-primary" type="button">Zurück zur Übersicht</button></a>
 </div>
 </body>

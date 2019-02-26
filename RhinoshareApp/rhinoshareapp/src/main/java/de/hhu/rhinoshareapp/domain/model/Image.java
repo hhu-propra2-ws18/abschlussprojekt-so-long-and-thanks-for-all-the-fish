@@ -29,4 +29,5 @@ public class Image {
         this.filebytes = file.getBytes();
         this.filename = file.getOriginalFilename();
     }
+
 }

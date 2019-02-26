@@ -26,8 +26,12 @@
             <li class="navbaritem" href th:if="${loggedIn == 'true'}">
                 <a href="/edit" th:text="${surname}">Benutzer</a>
             </li>
-            <li class="navbaritem"><input id="globalSearchField" type="text" placeholder="Suchen..."></li>
-            <li class="navbaritem"><a href="/">Suchen</a></li>
+            <form method="get" action="/article/search">
+                <li class="navbaritem">
+                    <input class="navbaritem" type="search" name="query" id="globalSearchField" placeholder="Wonach suchen sie?">
+                </li>
+                <li class="navbaritem"><a href="/">Suchen</a></li>
+            </form>
             <li style="float: right;" class="navbaritem" href th:if="${loggedIn == 'false'}">
                 <a href="/login">Einloggen</a>
             </li>

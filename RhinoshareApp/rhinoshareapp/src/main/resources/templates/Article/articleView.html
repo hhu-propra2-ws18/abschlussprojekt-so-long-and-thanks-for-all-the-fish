@@ -1,22 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{/mainpage}"
+      xmlns:layout="http://www.w3.org/1999/xhtml" >
 
-<head>
-    <meta charset="UTF-8">
-    <title>Rhinoshare</title>
-    <link rel="stylesheet" type="text/css" href="/css/stylesheet.css">
-    <link rel="icon" href="/img/RhinoLogoSmall.png">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-</head>
+<head></head>
 
 <body>
-    <div class="container">
+    <div class="container" layout:fragment="content" style="margin-top: 50px">
         <h1 th:text="${article.getName()}">SampleName</h1>
         <table>
             <!-- Hier if einfügen für default Bild-->
-            <tr th:if="${article.image != null}">
+            <tr th:if="!${article.imageIsEmpty()}">
                 <td>Artikelbild</td>
                 <td> <img th:src="@{/image/{id} (id = ${article.getImageID()})}" width=auto height="300px"/></td>
             </tr>
@@ -60,11 +53,11 @@
             <a th:href="|/article/edit/${article.getArticleID()}|"> <button class="btn btn-light" type="button">Artikel bearbeiten</button></a>
             <a th:href="|/article/delete/${article.getArticleID()}|"> <button class="btn btn-danger" type="button">Artikel löschen</button></a>
         </div>
-        <div th:if="${article.owner != user}" th:if="${article.available == true}">
-            <a th:href="|/lendingRequest/${article.articleID}}|"> <button class="btn btn-light" type="button">Artikel Ausleihen</button></a>
+        <div th:if="${article.owner != user} and ${article.available == true}">
+            <a th:href="|/lendingRequest/${article.articleID}|"> <button class="btn btn-light" type="button">Artikel Ausleihen</button></a>
         </div>
-        <div th:if="${article.owner != user}" th:if="${article.forSale == true}">
-            <a th:href="|/saleRequest/${article.articleID}}|"> <button class="btn btn-danger" type="button">Artikel kaufen</button></a>
+        <div th:if="${article.owner != user} and ${article.forSale == true}">
+            <a th:href="|/saleRequest/${article.articleID}|"> <button class="btn btn-danger" type="button">Artikel kaufen</button></a>
         </div>
         <div>
             <a th:href="|/article/|"> <button class="btn btn-warning" type="button">Zurück zur Übersicht</button></a>

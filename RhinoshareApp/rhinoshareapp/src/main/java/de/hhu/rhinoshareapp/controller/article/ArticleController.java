@@ -5,7 +5,9 @@ import de.hhu.rhinoshareapp.domain.model.User;
 import de.hhu.rhinoshareapp.domain.security.ActualUserChecker;
 import de.hhu.rhinoshareapp.domain.service.ArticleRepository;
 import de.hhu.rhinoshareapp.domain.service.ImageRepository;
+import de.hhu.rhinoshareapp.domain.service.LendingRepository;
 import de.hhu.rhinoshareapp.domain.service.UserRepository;
+import groovy.transform.AutoImplement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,13 +30,13 @@ public class ArticleController {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    LendingRepository lendingRepository;
+
     //View
     @GetMapping("/")
-    public String viewAll(Model model, Principal p){
-        ActualUserChecker.checkActualUser(model, p, userRepository);
-        Iterable<Article> articles= articleRepository.findAll();
-        model.addAttribute("articles", articles);
-        return "Article/viewAll";
+    public String redirectToMainpage(){
+        return "redirect:/";
     }
 
     @GetMapping("/view")
@@ -53,7 +55,7 @@ public class ArticleController {
         Article article = articleRepository.findById(articleID).get();
         model.addAttribute("user" , user);
         model.addAttribute("article", article);
-        return "articleView";
+        return "Article/articleView";
     }
 
 
@@ -68,7 +70,10 @@ public class ArticleController {
 
     @PostMapping("/new/")
     public String saveArticle(@ModelAttribute("article") Article article, Principal p) throws IOException{
-        article.saveImage();
+        if(article.getFile() == null)
+            article.image = null;
+        else
+           article.saveImage();
         article.setOwner(userRepository.findByUsername(p.getName()).get());
         articleRepository.save(article);
         return "redirect:/article/";
@@ -105,6 +110,9 @@ public class ArticleController {
     @GetMapping("/delete/{articleID}")
     public String deleteAArticle(@PathVariable long articleID, Model model, Principal p){
         Article article = articleRepository.findById(articleID).get();
+        if ((article.isAvailable()) == false){
+            return "error/lended";
+        }
         if (checkIfLoggedInIsOwner(p, article)) {
             model.addAttribute("article", article);
             return "Article/deleteArticle";
@@ -115,6 +123,7 @@ public class ArticleController {
 
     @PostMapping("/delete/{articleID}")
     public String deleteArticleFromDB(@PathVariable long articleID){
+
         Article article = articleRepository.findById(articleID).get();
         articleRepository.delete(article);
         return "redirect:/article/";
