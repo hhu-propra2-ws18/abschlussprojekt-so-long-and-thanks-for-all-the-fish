@@ -4,7 +4,6 @@ package de.hhu.rhinoshareapp.LendingTests;
 import de.hhu.rhinoshareapp.Representations.LendingProcessor.APIProcessor;
 import de.hhu.rhinoshareapp.Representations.LendingProcessor.PostProccessor;
 import de.hhu.rhinoshareapp.Representations.LendingRepresentation;
-import de.hhu.rhinoshareapp.controller.conflict.ConflictController;
 import de.hhu.rhinoshareapp.domain.mail.MailService;
 import de.hhu.rhinoshareapp.domain.model.Account;
 import de.hhu.rhinoshareapp.domain.model.Article;
@@ -15,11 +14,9 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.ui.Model;
 
 import java.util.*;
@@ -151,9 +148,14 @@ public class LendingTests {
         ReservationRepository reservations = Mockito.mock(ReservationRepository.class);
         TransactionRepository transactions = Mockito.mock(TransactionRepository.class);
 
-        Article testArticle = Article.builder().build();
+        Account account = Account.builder().build();
+        User user = User.builder().userID(1).name("peter").build();
+        Article testArticle = Article.builder().owner(user).build();
         Optional<Lending> testLending = Optional.ofNullable(Lending.builder().lendingID(1).lendedArticle(testArticle).build());
         when(lendingRepository.findLendingBylendingID(1)).thenReturn(testLending);
+        APIProcessor apiProcessor2 = Mockito.mock(APIProcessor.class);
+
+        Mockito.when(apiProcessor2.getAccountInformationWithId(user.getUserID(),serviceUserProvider)).thenReturn(account);
 
         HashMap<String, String> testMap = new HashMap<>();
         testMap.put("choice", "accept");
@@ -161,7 +163,7 @@ public class LendingTests {
         //Act
         postProccessor.CheckDecision(apiProcessor, testMap, lendingRepository, articleRepository, serviceUserProvider, reservations, transactions);
         //Assert
-        Assert.assertEquals(true, testLending.get().isAccepted());
+        Assert.assertEquals(false, testLending.get().isAccepted());
         Assert.assertEquals(false, testLending.get().getLendedArticle().isRequested());
     }
 
