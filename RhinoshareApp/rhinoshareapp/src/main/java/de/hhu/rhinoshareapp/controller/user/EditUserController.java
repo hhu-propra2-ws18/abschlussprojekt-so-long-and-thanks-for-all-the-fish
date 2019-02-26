@@ -34,6 +34,8 @@ public class EditUserController {
         User oldUser = userRepository.findByUsername(p.getName()).get();
         Address oldUserAddress = oldUser.getAddress();
         Address userAddress = user.getAddress();
+        if(!(user.getUsername()).equals(""))
+            oldUser.setUsername(user.getUsername());
         if (!(user.getSurname().equals(""))) {
             oldUser.setSurname(user.getSurname());
         }

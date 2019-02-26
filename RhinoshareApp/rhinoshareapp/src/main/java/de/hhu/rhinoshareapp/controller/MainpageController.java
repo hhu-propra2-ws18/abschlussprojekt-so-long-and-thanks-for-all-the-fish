@@ -15,18 +15,11 @@ import java.security.Principal;
 public class MainpageController {
 
     @Autowired
-    UserRepository users;
-    @Autowired
     UserRepository userRepository;
+
     @Autowired
     ArticleRepository articleRepository;
 
-/*    @GetMapping("/")
-    public String loadMainPage(Model m, Principal p) {
-        ActualUserChecker.checkActualUser(m, p, users);
-        return "mainpage";
-    }
-*/
     @GetMapping("/")
     public String viewAll(Model model, Principal p){
         ActualUserChecker.checkActualUser(model, p, userRepository);
