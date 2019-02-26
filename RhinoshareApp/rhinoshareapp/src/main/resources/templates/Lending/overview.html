@@ -62,6 +62,27 @@
             </form>
         </div>
     </table>
+
+</div>
+
+<div>
+    Deine abgelehnten Artikel
+    <table th:each="denie : ${denies}">
+        <div style="margin:0; margin-right:10px; border:2px solid #dfdfdf;
+        padding: 0em 1em 1em 1em; background-color:#FFFFFF;text-align:center">
+            <h3>Returner =</h3>
+            <div th:text="${denie.lendingPerson.name}">0</div>
+            <h3>Article =</h3>                                 <!-- href for the article -->
+            <div th:text="${denie.lendedArticle.name}">0</div>
+            <div th:text="${denie.warning}">0</div>
+
+            <form th:action="@{/{username}(username = ${username})}" method="post">
+                <input type="hidden" name="lendingID" th:value="${denie.lendingID}">
+                <button name="recognized" value="true" type="finish">submit</button>
+            </form>
+        </div>
+    </table>
+
 </div>
 <script th:inline="javascript">
 function myFunction() {

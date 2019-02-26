@@ -87,6 +87,7 @@ public class LendingController {
 		ReturnProcessRepresentation filledReturns = new ReturnProcessRepresentation(users, articles, id, lendings);
 		model.addAttribute("requests", filledRequests.FillRequest());
 		model.addAttribute("returns", filledReturns.FillReturns());
+		model.addAttribute("denies", filledRequests.FillDenies());
 		return "Lending/overview";
 	}
 
@@ -99,7 +100,7 @@ public class LendingController {
 		RequestRepresentation filledRequests = new RequestRepresentation(users, articles, lendings, id);
 		ReturnProcessRepresentation filledReturns = new ReturnProcessRepresentation(users, articles, id, lendings);
 		HashMap<String, String> postBodyParas = postProccessor.SplitString(postBody);
-		postProccessor.CheckDecision(apiProcessor, postBodyParas, lendings, articles, users, reservations, transactions);
+		postProccessor.ProccessPostRequest(apiProcessor, postBodyParas, lendings, articles, users, reservations, transactions);
 		if (apiProcessor.isErrorOccurred()) {
 			model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
 			apiProcessor.setErrorOccurred(false);
@@ -107,6 +108,7 @@ public class LendingController {
 		}
 		model.addAttribute("requests", filledRequests.FillRequest());
 		model.addAttribute("returns", filledReturns.FillReturns());
+		model.addAttribute("denies", filledRequests.FillDenies());
 		return "Lending/overview";
 	}
 

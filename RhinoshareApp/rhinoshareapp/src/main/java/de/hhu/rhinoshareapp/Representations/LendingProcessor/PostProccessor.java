@@ -53,69 +53,85 @@ public class PostProccessor {
 		lendings.save(newLending);
 	}
 
+	public void ProccessPostRequest(APIProcessor apiProcessor, HashMap<String, String> postBodyParas, LendingRepository lendings, ArticleRepository articles, UserRepository users, ReservationRepository reservations, TransactionRepository transactions){
+		if(postBodyParas.containsKey("choice")) {
+			ProccessRequest(apiProcessor, postBodyParas, lendings, articles, users, reservations);
+		}else if(postBodyParas.containsKey("choicereturn")) {
+			ProccessReturn(apiProcessor, postBodyParas, lendings, articles, users, reservations, transactions);
+		}else if(postBodyParas.containsKey("recognized")){
+			ProccessRecognized(lendings, postBodyParas);
+		}
+	}
 
-	public void CheckDecision(APIProcessor apiProcessor, HashMap<String, String> postBodyParas, LendingRepository lendings, ArticleRepository articles, UserRepository users, ReservationRepository reservations, TransactionRepository transactions) {
-		if (postBodyParas.containsKey("choice")) {
-			if (postBodyParas.get("choice").equals("accept")) {
-				//Deposit check and lock depositamount
+	private void ProccessRecognized(LendingRepository lendings, HashMap<String, String> postBodyParas) {
+		lendings.delete(lendings.findLendingBylendingID(Long.parseLong(postBodyParas.get("lendingID"))).get());
+	}
 
-				Lending lending = lendings.findLendingBylendingID(Long.parseLong(postBodyParas.get("lendingID"))).get();
-				Article article = lending.getLendedArticle();
-
-				try {
-					Account lendingAccount = apiProcessor.getAccountInformationWithId(lending.getLendingPerson().getUserID(), users);
-					if (apiProcessor.hasEnoughMoneyForDeposit(lendingAccount, article.getArticleID(), articles)) {
-						//make reservation
-						Reservation reservation = apiProcessor.postCreateReservation(Reservation.class, lendingAccount, article);
-						reservations.save(reservation);
-						lending.setProPayReservation(reservation);
-					}
-				} catch (Exception e) {
-					apiProcessor.setErrorOccurred(true);
-					apiProcessor.addErrorMessage("Propay is not reachable, try it again later");
-					e.printStackTrace();
-					return;
-				}
-				article.setRequestComment("");
-				article.setRequested(false);
-				articles.save(article);
-
-				lending.setAccepted(true);
-				lendings.save(lending);
-
-			} else {
+	private void ProccessReturn(APIProcessor apiProcessor, HashMap<String, String> postBodyParas, LendingRepository lendings, ArticleRepository articles, UserRepository users, ReservationRepository reservations, TransactionRepository transactions) {
+		Lending lending = lendings.findLendingBylendingID(Long.parseLong(postBodyParas.get("lendingID"))).get();
+		Article article = lending.getLendedArticle();
+		Account lendingAccount = apiProcessor.getAccountInformationWithId(lending.getLendingPerson().getUserID(), users);
+		double amount = CalculateLendingPrice(lending, article);
+		if (HasEnoughMoneyForRent(lendingAccount, article.getArticleID(), articles) && postBodyParas.get("choicereturn").equals("accept")) {
+			try {
+				apiProcessor.postTransfer(String.class, lendingAccount, article, amount);
+				Calendar timeStamp = Calendar.getInstance();
+				Transaction transaction = new Transaction(article.getOwner(), lending.getLendingPerson(), article, amount, timeStamp);
+				transactions.save(transaction);
+				apiProcessor.punishOrRealeseReservation(Account.class, lendingAccount, article, lending.getProPayReservation().getId(), "release");
 				CleanUpLending(postBodyParas, lendings, articles);
+				reservations.delete(lending.getProPayReservation());
+
+			} catch (Exception e) {
+				apiProcessor.setErrorOccurred(true);
+				apiProcessor.addErrorMessage("Propay is not reachable, try it again later");
+				e.printStackTrace();
+				return;
 			}
-		} else if (postBodyParas.containsKey("choicereturn")) {
+		} else {
+			Lending tmpLending = lendings.findLendingBylendingID(Long.parseLong(postBodyParas.get("lendingID"))).get();
+			tmpLending.setReturn(false);
+			tmpLending.setConflict(true);
+			lendings.save(tmpLending);
+			//apiProcessor.punishOrRealeseReservation(Account.class, lendingAccount, article, lending.getProPayReservation().getId(), "punish");
+			mailservice.sendConflict(tmpLending.getLendingID(), "Der Artikel wurde in einem nicht angebrachten Zustand zurückgegeben", tmpLending.getLendedArticle().getOwner().getUserID(), tmpLending.getLendingPerson().getUserID(), users.findUserByuserID(3).get());
+			//TODO: Admin muss richtig gefunden werden.
+		}
+	}
+
+	private void ProccessRequest(APIProcessor apiProcessor, HashMap<String, String> postBodyParas, LendingRepository lendings, ArticleRepository articles, UserRepository users, ReservationRepository reservations) {
+		if (postBodyParas.get("choice").equals("accept")) {
+			//Deposit check and lock depositamount
+
 			Lending lending = lendings.findLendingBylendingID(Long.parseLong(postBodyParas.get("lendingID"))).get();
 			Article article = lending.getLendedArticle();
-			Account lendingAccount = apiProcessor.getAccountInformationWithId(lending.getLendingPerson().getUserID(), users);
-			double amount = CalculateLendingPrice(lending, article);
-			if (HasEnoughMoneyForRent(lendingAccount, article.getArticleID(), articles) && postBodyParas.get("choicereturn").equals("accept")) {
-				try {
-					apiProcessor.postTransfer(String.class, lendingAccount, article, amount);
-					Calendar timeStamp = Calendar.getInstance();
-					Transaction transaction = new Transaction(article.getOwner(), lending.getLendingPerson(), article, amount, timeStamp);
-					transactions.save(transaction);
-					apiProcessor.punishOrRealeseReservation(Account.class, lendingAccount, article, lending.getProPayReservation().getId(), "release");
-					CleanUpLending(postBodyParas, lendings, articles);
-					reservations.delete(lending.getProPayReservation());
 
-				} catch (Exception e) {
-					apiProcessor.setErrorOccurred(true);
-					apiProcessor.addErrorMessage("Propay is not reachable, try it again later");
-					e.printStackTrace();
-					return;
+			try {
+				Account lendingAccount = apiProcessor.getAccountInformationWithId(lending.getLendingPerson().getUserID(), users);
+				if (apiProcessor.hasEnoughMoneyForDeposit(lendingAccount, article.getArticleID(), articles)) {
+					//make reservation
+					Reservation reservation = apiProcessor.postCreateReservation(Reservation.class, lendingAccount, article);
+					reservations.save(reservation);
+					lending.setProPayReservation(reservation);
 				}
-			} else {
-				Lending tmpLending = lendings.findLendingBylendingID(Long.parseLong(postBodyParas.get("lendingID"))).get();
-				tmpLending.setReturn(false);
-				tmpLending.setConflict(true);
-				lendings.save(tmpLending);
-				//apiProcessor.punishOrRealeseReservation(Account.class, lendingAccount, article, lending.getProPayReservation().getId(), "punish");
-				mailservice.sendConflict(tmpLending.getLendingID(), "Der Artikel wurde in einem nicht angebrachten Zustand zurückgegeben", tmpLending.getLendedArticle().getOwner().getUserID(), tmpLending.getLendingPerson().getUserID(), users.findUserByuserID(3).get());
-				//TODO: Admin muss richtig gefunden werden.
+			} catch (Exception e) {
+				apiProcessor.setErrorOccurred(true);
+				apiProcessor.addErrorMessage("Propay is not reachable, try it again later");
+				e.printStackTrace();
+				return;
 			}
+			article.setRequestComment("");
+			article.setRequested(false);
+			articles.save(article);
+
+			lending.setAccepted(true);
+			lendings.save(lending);
+
+		} else {
+			Lending lending = lendings.findLendingBylendingID(Long.parseLong(postBodyParas.get("lendingID"))).get();
+			Lending dummyLending = Lending.builder().lendingPerson(lending.getLendingPerson()).isDummy(true).lendedArticle(lending.getLendedArticle()).warning("Ihre Anfrage wurde abgelehnt").build();
+			lendings.save(dummyLending);
+			CleanUpLending(postBodyParas, lendings, articles);
 		}
 	}
 
