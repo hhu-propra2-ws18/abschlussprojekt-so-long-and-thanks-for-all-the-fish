@@ -123,9 +123,8 @@ public class LendingController {
 			return "Lending/errorPage";
 		}
 		if (apiProcessor.hasEnoughMoneyForDeposit(lenderAccountInformation, articleID, articles)) {
-			model.addAttribute("requesterID", requesterID);
 			model.addAttribute("articleID", articleID);
-			return "Lending/sellRequest";
+			return "Lending/lendingRequest";
 		}
 		return "Lending/povertyPage";
 	}
@@ -156,6 +155,7 @@ public class LendingController {
 		model.addAttribute("username", user.get().getUsername());
 		model.addAttribute("id", postBodyParas.get("requesterID"));
 		if(postBodyParas.get("requestValue").equals("lending")){
+			System.out.println("CREATENEWLENDING");
 			postProccessor.CreateNewLending(postBodyParas, articles, lendings, users);
 		}
 		else{

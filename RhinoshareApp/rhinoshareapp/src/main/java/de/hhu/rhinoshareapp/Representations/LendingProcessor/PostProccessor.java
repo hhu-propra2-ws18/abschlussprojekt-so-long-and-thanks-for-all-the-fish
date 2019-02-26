@@ -16,7 +16,9 @@ public class PostProccessor {
 	public HashMap<String, String> SplitString(String postBody) {
 		HashMap<String, String> postBodyParas = new HashMap<>();
 		String[] splittedPostBody = postBody.split("&");
+		System.out.println(postBody);
 		for (String para : splittedPostBody) {
+			System.out.println(para);
 			String[] splittedPara = para.split("=");
 			postBodyParas.put(splittedPara[0], splittedPara[1].replace("+", " "));
 		}
@@ -166,7 +168,10 @@ public class PostProccessor {
 			Optional<Article> article = articles.findArticleByarticleID(Long.parseLong(postBodyParas.get("articleID")));
 			apiProcessor.postTransfer(String.class, buyingAccount, article.get(), article.get().getSellingPrice());
 			Calendar timeStamp = Calendar.getInstance();
-			Transaction transaction = new Transaction(article.get().getOwner(), users.findUserByuserID(Long.parseLong(postBodyParas.get("requesterID"))).get(), article.get(), article.get().getSellingPrice(), timeStamp);
+			// Create Dummy Article for Transaction History
+			Article dummyArticle = Article.builder().name(article.get().getName()).sellingPrice(article.get().getSellingPrice()).build();
+			articles.save(dummyArticle);
+			Transaction transaction = new Transaction(article.get().getOwner(), users.findUserByuserID(Long.parseLong(postBodyParas.get("requesterID"))).get(), dummyArticle, dummyArticle.getSellingPrice(), timeStamp);
 			transactions.save(transaction);
 			articles.delete(article.get());
 		} catch (Exception e) {

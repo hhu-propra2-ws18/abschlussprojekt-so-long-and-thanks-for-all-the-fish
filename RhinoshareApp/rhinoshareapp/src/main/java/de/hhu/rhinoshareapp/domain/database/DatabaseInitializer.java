@@ -1,6 +1,7 @@
 package de.hhu.rhinoshareapp.domain.database;
 
 
+import de.hhu.rhinoshareapp.Representations.LendingProcessor.APIProcessor;
 import de.hhu.rhinoshareapp.domain.model.*;
 import de.hhu.rhinoshareapp.domain.service.ArticleRepository;
 import de.hhu.rhinoshareapp.domain.service.LendingRepository;
@@ -43,9 +44,12 @@ public class DatabaseInitializer implements ServletContextInitializer {
 		User root = new User("Pasquier", "Jacques", testadress, "root", "japas102@hhu.de", "$2a$08$MbCSKfkg1C9A6mx82wwVneBpUkyW1ZwhsEjorhqkMYrhRxLJDZ9yO", "ROLE_ADMIN");
 		User user = new User("Test", "Test", testadress, "user", "test102@hhu.de", "$2a$08$MbCSKfkg1C9A6mx82wwVneBpUkyW1ZwhsEjorhqkMYrhRxLJDZ9yO", "ROLE_USER");
 		User otherUser = new User("Test", "Test", testadress, "2", "jtest111@hhu.de", "$2a$08$MbCSKfkg1C9A6mx82wwVneBpUkyW1ZwhsEjorhqkMYrhRxLJDZ9yO", "ROLE_ADMIN");
+		User kratos = User.builder().role("ROLE_USER").name("Kratos").username("KnoppelKratos").email("kratos@web.de").password("$2a$08$MbCSKfkg1C9A6mx82wwVneBpUkyW1ZwhsEjorhqkMYrhRxLJDZ9yO").build();
+		APIProcessor apiProcessor = new APIProcessor();
+		apiProcessor.getAccountInformation(kratos.getUsername(), Account.class);
+		apiProcessor.getAccountInformation(user.getUsername(), Account.class);
 
-		users.saveAll(Arrays.asList(root, user, otherUser));
-
+		users.saveAll(Arrays.asList(root, user, otherUser, kratos));
 
 
 		long id1 = user.getUserID();
