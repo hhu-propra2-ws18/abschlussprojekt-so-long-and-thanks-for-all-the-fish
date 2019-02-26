@@ -43,9 +43,13 @@
             <td th:text="${user.score}">...</td>
             <td th:if="${user.role == 'ROLE_ADMIN'}">
                 <label class="red_marked">Admin</label>
+                <label class="green_marked">User</label>
             </td>
             <td th:if="${user.role == 'ROLE_USER'}">
                 <label class="green_marked">User</label>
+            </td>
+            <td th:if="${user.role == ''}">
+                <label class="yellow_marked">None</label>
             </td>
             <td>
                 <a th:href="|/admin/usermanagement/edit/${user.getUserID()}|">

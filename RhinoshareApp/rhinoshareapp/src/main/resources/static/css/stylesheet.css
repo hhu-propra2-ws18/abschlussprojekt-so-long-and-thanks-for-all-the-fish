@@ -446,6 +446,8 @@ th, td {
     border: 1px solid #41ae19;
     background-color: #41ae19;
     border-radius: 4px;
+    padding-left: 2px;
+    padding-right: 2px;
 }
 
 .red_marked {
@@ -453,6 +455,17 @@ th, td {
     border: 1px solid #bf3732;
     background-color: #bf3732;
     border-radius: 4px;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+.yellow_marked {
+    color: white;
+    border: 1px solid #bfa100;
+    background-color: #bfa100;
+    border-radius: 4px;
+    padding-left: 2px;
+    padding-right: 2px;
 }
 
 body {
