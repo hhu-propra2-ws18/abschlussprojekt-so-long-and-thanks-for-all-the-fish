@@ -62,20 +62,6 @@ public class DatabaseInitializer implements ServletContextInitializer {
 		articles.save(testArticle2);
 		articles.save(testArticle3);
 
-		Calendar date1 = Calendar.getInstance();
-		Calendar date2 = Calendar.getInstance();
-		date1.set(2019, 1, 12);
-		date2.set(2019, 1, 12);
-		Calendar date3 = Calendar.getInstance();
-		Calendar date4 = Calendar.getInstance();
-		date3.set(2019, 4, 12);
-		date4.set(2019, 1, 12);
-		Lending testLending1 = new Lending(date4, date3, user, testArticle2);
-		Lending testLending2 = new Lending(date3, date4, user, testArticle1);
-		testLending2.setConflict(true);
-		lending.save(testLending1);
-		lending.save(testLending2);
-
 		List<Article> all = articles.findAll();
 		for (Article article : all) {
 			System.out.println(article);

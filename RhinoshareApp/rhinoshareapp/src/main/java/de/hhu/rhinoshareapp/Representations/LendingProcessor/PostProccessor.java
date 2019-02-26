@@ -159,12 +159,15 @@ public class PostProccessor {
 		return byUsername.get().getUserID();
 	}
 
-	public void SellArticle(HashMap<String, String> postBodyParas, ArticleRepository articles, UserRepository users, APIProcessor apiProcessor) {
+	public void SellArticle(HashMap<String, String> postBodyParas, ArticleRepository articles, UserRepository users, APIProcessor apiProcessor, TransactionRepository transactions) {
 		try {
 			Optional<User> requester = users.findUserByuserID(Long.parseLong(postBodyParas.get("requesterID")));
 			Account buyingAccount = apiProcessor.getAccountInformationWithId(requester.get().getUserID(), users);
 			Optional<Article> article = articles.findArticleByarticleID(Long.parseLong(postBodyParas.get("articleID")));
 			apiProcessor.postTransfer(String.class, buyingAccount, article.get(), article.get().getSellingPrice());
+			Calendar timeStamp = Calendar.getInstance();
+			Transaction transaction = new Transaction(article.get().getOwner(), users.findUserByuserID(Long.parseLong(postBodyParas.get("requesterID"))).get(), article.get(), article.get().getSellingPrice(), timeStamp);
+			transactions.save(transaction);
 			articles.delete(article.get());
 		} catch (Exception e) {
 			apiProcessor.setErrorOccurred(true);

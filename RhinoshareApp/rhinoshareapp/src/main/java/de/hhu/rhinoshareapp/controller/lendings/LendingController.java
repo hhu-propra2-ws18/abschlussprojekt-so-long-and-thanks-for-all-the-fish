@@ -29,8 +29,6 @@ public class LendingController {
 	private PostProccessor postProccessor = new PostProccessor();
 	private APIProcessor apiProcessor = new APIProcessor();
 
-	//TODO: add History for lendings
-
 	@Autowired
 	public LendingController(LendingRepository lendings, UserRepository users, ArticleRepository articles, ReservationRepository reservations, TransactionRepository transactions) {
 		this.lendings = lendings;
@@ -161,7 +159,7 @@ public class LendingController {
 			postProccessor.CreateNewLending(postBodyParas, articles, lendings, users);
 		}
 		else{
-			postProccessor.SellArticle(postBodyParas, articles, users, apiProcessor);
+			postProccessor.SellArticle(postBodyParas, articles, users, apiProcessor, transactions);
 		}
 		if (apiProcessor.isErrorOccurred()) {
 			model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
