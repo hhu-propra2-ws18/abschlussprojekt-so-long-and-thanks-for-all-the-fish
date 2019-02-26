@@ -1,6 +1,6 @@
 @font-face {
     font-family: Geneva;
-    src: url("../fonts/Geneva.dfont");
+    src: url("../fonts/OpenSans-Regular.ttf");
 }
 
 /*Title*/
@@ -10,6 +10,11 @@
     display: block;
     margin-left: 6px;
     margin-bottom: 6px;
+}
+
+#titleImage_login {
+    display: block;
+    margin: 6px auto;
 }
 
 #loginform {
