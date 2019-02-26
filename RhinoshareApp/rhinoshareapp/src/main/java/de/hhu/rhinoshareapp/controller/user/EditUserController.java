@@ -64,6 +64,7 @@ public class EditUserController {
         }
         userRepository.save(oldUser);
         model.addAttribute(oldUser);
+        ActualUserChecker.checkActualUser(model, p, userRepository);
         return "/EditUser/profileOverview";
     }
 }
