@@ -1,6 +1,8 @@
 package de.hhu.rhinoshareapp.domain.database;
 
 
+import de.hhu.rhinoshareapp.chat.model.ChatMessage;
+import de.hhu.rhinoshareapp.chat.service.ChatMessageRepository;
 import de.hhu.rhinoshareapp.domain.model.Address;
 import de.hhu.rhinoshareapp.domain.model.Article;
 import de.hhu.rhinoshareapp.domain.model.Lending;
@@ -28,6 +30,12 @@ public class DatabaseInitializer implements ServletContextInitializer {
 
     @Autowired
     LendingRepository lending;
+
+    @Autowired
+    ChatMessageRepository chatMessageRepository;
+
+
+
 
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException { //hier wird die Datenbank gefüllt
@@ -59,9 +67,7 @@ public class DatabaseInitializer implements ServletContextInitializer {
         testArticle2.setOwner(user);
         testArticle3.setOwner(otherUser);
 
-        users.save(user);
-        users.save(user);
-        users.save(otherUser);
+
         articles.save(testArticle1);
         articles.save(testArticle2);
         articles.save(testArticle3);
@@ -79,5 +85,20 @@ public class DatabaseInitializer implements ServletContextInitializer {
         testLending2.setConflict(true);
         lending.save(testLending1);
         lending.save(testLending2);
+
+
+
+        ChatMessage nachricht = ChatMessage.builder().from(root).to(user).context("hi").toName("user").fromName("root").build();
+        ChatMessage nachricht2 = ChatMessage.builder().from(user).to(root).context("hi").toName("root").fromName("user").build();
+
+   //     chatMessageRepository.save(nachricht);
+        chatMessageRepository.save(nachricht2);
+
+        for (ChatMessage chatmessage:chatMessageRepository.findAll()) {
+            System.out.println(chatmessage.getFromName() + " from");
+            System.out.println(chatmessage.getToName() + " to");
+            System.out.println(chatmessage.getContext());
+        }
+
     }
 }
