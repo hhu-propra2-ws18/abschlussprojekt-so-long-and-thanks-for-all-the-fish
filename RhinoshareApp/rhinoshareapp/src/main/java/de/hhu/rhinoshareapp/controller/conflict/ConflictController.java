@@ -37,7 +37,7 @@ public class ConflictController {
         this.lendRepo = lendingRepository;
     }
 
-    public void setMailService(MailService mailService){
+    public void setMailService(MailService mailService) {
         this.mailService = mailService;
     }
 
@@ -59,22 +59,22 @@ public class ConflictController {
     @PostMapping("/openConflict")
     public String openConflictpost(Model model, @RequestParam(value = "action") String button, @RequestParam long lendingID,
                                    @RequestParam String description) {
-        try{
-        if (button.equals("open")) {
-            if (!(description.equals(""))) {
-                Optional<Lending> lendList = lendRepo.findLendingBylendingID(lendingID);
-                Lending l = lendList.get();
-                l.setConflict(true);
-                lendRepo.save(l);
-                User owner = l.getLendedArticle().getOwner();
-                Optional<User> serviceUser = userRepo.findUserByuserID(3);
-                User admin = serviceUser.get();
-                send(lendingID, description, (owner.getUserID()), (l.getLendingPerson().getUserID()), admin);
-            } else {
-                return "redirect:/openConflict";
+        try {
+            if (button.equals("open")) {
+                if (!(description.equals(""))) {
+                    Optional<Lending> lendList = lendRepo.findLendingBylendingID(lendingID);
+                    Lending l = lendList.get();
+                    l.setConflict(true);
+                    lendRepo.save(l);
+                    User owner = l.getLendedArticle().getOwner();
+                    Optional<User> serviceUser = userRepo.findUserByuserID(3);
+                    User admin = serviceUser.get();
+                    send(lendingID, description, (owner.getUserID()), (l.getLendingPerson().getUserID()), admin);
+                } else {
+                    return "redirect:/openConflict";
+                }
             }
-        }
-        }catch(Exception e){
+        } catch (Exception e) {
             model.addAttribute("error", "Something went wrong. Probably you entered a wrong lending id.");
             return "/conflict/conflictUserOpen";
         }
@@ -85,15 +85,15 @@ public class ConflictController {
 
     @GetMapping("/admin/conflicthandling")
     public String conflictOverview(Model model, Principal p) {
-            ActualUserChecker.checkActualUser(model, p, userRepo);
-            List<Lending> lendings = lendRepo.findAllByIsConflict(true);
-            model.addAttribute("lendings", lendings);
+        ActualUserChecker.checkActualUser(model, p, userRepo);
+        List<Lending> lendings = lendRepo.findAllByIsConflict(true);
+        model.addAttribute("lendings", lendings);
 
         return "Admin/admin_conflicthandling";
     }
 
     @PostMapping("/admin/conflicthandling")
-    public String postConflictOverview(Model model, @RequestParam long lendingID, @RequestParam(value = "action") String button) {
+    public String postConflictOverview(@RequestParam long lendingID, @RequestParam(value = "action") String button) {
         if (button.equals("show")) {
             return "redirect:/showcase/" + lendingID;
         }
@@ -118,7 +118,7 @@ public class ConflictController {
     }
 
     @PostMapping("admin/conflicthandling/showcase/{id}")
-    public String conflictSolved(Model model, @RequestParam(value = "action") String button, @PathVariable long id) {
+    public String conflictSolved(@RequestParam(value = "action") String button, @PathVariable long id) {
         Optional<Lending> lendlist = lendRepo.findLendingBylendingID(id);
         Lending l = lendlist.get();
         if (button.equals("winBorrower")) {
