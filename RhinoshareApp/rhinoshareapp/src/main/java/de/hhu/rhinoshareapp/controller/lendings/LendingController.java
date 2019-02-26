@@ -145,9 +145,8 @@ public class LendingController {
 			return "Lending/errorPage";
 		}
 		if (apiProcessor.hasEnoughMoneyForSelling(sellerAccountInformation, articleID, articles)) {
-			model.addAttribute("requesterID", requesterID);
 			model.addAttribute("articleID", articleID);
-			return "Lending/lendingRequest";
+			return "Lending/sellRequest";
 		}
 		return "Lending/povertyPage";
 	}
