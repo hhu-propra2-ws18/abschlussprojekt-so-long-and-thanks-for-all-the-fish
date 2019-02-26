@@ -50,6 +50,7 @@ public class DatabaseInitializer implements ServletContextInitializer {
 		long id1 = user.getUserID();
 		long id2 = otherUser.getUserID();
 
+
 		Article testArticle1 = Article.builder().name("Rasenmäher").comment("funktioniert, kein Benzin, Schnitthöhe 1cm - 50m").deposit(500).rent(25).available(true).owner(user).build();
 		Article testArticle2 = Article.builder().name("Geschirr").comment("nur ein bisschen zerbrochen, für 20 mann").deposit(250).rent(25).available(true).owner(user).build();
 		Article testArticle3 = Article.builder().name("Grillkohle").comment("schon verbrannt").deposit(25230).rent(88).available(false).owner(otherUser).build();

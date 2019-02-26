@@ -14,7 +14,7 @@
                         <td>Artikel:</td>
                         <td th:text="${article.getName()}"></td>
                     </tr>
-                    <tr th:if="${article.image != null}">
+                    <tr th:if="!${article.imageIsEmpty()}">
                         <td>Artikelbild</td>
                         <td> <img th:src="@{/image/{id} (id = ${article.getImage().get(0).getImageID()})}" width="200px" height=auto/></td>
                     </tr>
