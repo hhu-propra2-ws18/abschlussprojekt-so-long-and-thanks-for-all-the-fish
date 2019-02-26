@@ -98,8 +98,10 @@ public class ArticleController {
     @PostMapping("/edit/{articleID}")
     public String editArticlePostMapping(@ModelAttribute("article") Article article, @PathVariable long articleID){
         Article oldArticle = articleRepository.findById(articleID).get();
-        oldArticle.setName(article.getName());
-        oldArticle.setComment(article.getComment());
+        if (!article.getName().equals(""))
+            oldArticle.setName(article.getName());
+        if (!article.getComment().equals(""))
+            oldArticle.setComment(article.getComment());
         oldArticle.setRent(article.getRent());
         oldArticle.setDeposit(article.getDeposit());
         oldArticle.setSellingPrice(article.getSellingPrice());
