@@ -83,24 +83,24 @@ public class ConflictController {
     }
 
 
-    @GetMapping("/conflictOverview")
+    @GetMapping("/admin/conflicthandling")
     public String conflictOverview(Model model, Principal p) {
             ActualUserChecker.checkActualUser(model, p, userRepo);
             List<Lending> lendings = lendRepo.findAllByIsConflict(true);
             model.addAttribute("lendings", lendings);
 
-        return "/conflict/conflict-admin-overview";
+        return "Admin/admin_conflicthandling";
     }
 
-    @PostMapping("/conflictOverview")
+    @PostMapping("/admin/conflicthandling")
     public String postConflictOverview(Model model, @RequestParam long lendingID, @RequestParam(value = "action") String button) {
         if (button.equals("show")) {
             return "redirect:/showcase/" + lendingID;
         }
-        return "redirect:/conflictOverview";
+        return "redirect:/admin/conflicthandling";
     }
 
-    @GetMapping("/showcase/{id}")
+    @GetMapping("admin/conflicthandling/showcase/{id}")
     public String getShowCase(Model model, @PathVariable long id, Principal p) {
         ActualUserChecker.checkActualUser(model, p, userRepo);
         try {
@@ -114,10 +114,10 @@ public class ConflictController {
             return "redirect:/conflictOverview";
         }
 
-        return "/conflict/conflict-admin-case";
+        return "/admin/admin_conflicthandlingdetails";
     }
 
-    @PostMapping("/showcase/{id}")
+    @PostMapping("admin/conflicthandling/showcase/{id}")
     public String conflictSolved(Model model, @RequestParam(value = "action") String button, @PathVariable long id) {
         Optional<Lending> lendlist = lendRepo.findLendingBylendingID(id);
         Lending l = lendlist.get();
@@ -130,6 +130,6 @@ public class ConflictController {
             lendRepo.save(l);
             return "redirect:/ownerWin";
         }
-        return "redirect:/conflictOverview";
+        return "redirect:/admin/conflicthandling";
     }
 }

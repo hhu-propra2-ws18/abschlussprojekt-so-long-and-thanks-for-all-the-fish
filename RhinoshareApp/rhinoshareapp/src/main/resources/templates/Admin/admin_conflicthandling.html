@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Konfliktlösung - Rhinoshare</title>
+    <link rel="stylesheet" type="text/css" href="/css/stylesheet.css">
+    <link rel="icon" href="/img/RhinoLogoSmall.png">
+</head>
+<body>
+<img id="titleImageTest" src="/img/rhinoLogoBigAdmin.png" width="300" height="75">
+<ul class="navigationbar">
+    <li class="navbaritem"><a href="/admin">Überblick</a></li>
+    <li class="navbaritem">
+        <a href="/admin/usermanagement">Benutzerverwaltung</a>
+    </li>
+    <li class="navbaritem"><a href="/admin/articlemanagement">Artikelverwaltung</a></li>
+    <li class="navbaritem"><a href="/admin/lendingmanagement">Ausleihen</a></li>
+    <li class="navbaritem"><a class="active" href="/admin/conflicthandling">Konfliktlösung</a></li>
+    <li class="navbaritem"><a href="/">Hauptseite</a></li>
+    <li style="float: right" class="navbaritem">
+        <a href="/logout">Ausloggen</a>
+    </li>
+</ul>
+<div class="container">
+    <table id="useroverview">
+        <th>LendingID</th>
+        <th>Artikel</th>
+        <th>Besitzer</th>
+        <th>Verliehen an</th>
+        <th>Aktion</th>
+        <th:block th:each="lending: ${lendings}">
+
+            <tr>
+                <td th:text="${lending.lendingID}"/>
+                <td th:text="${lending.lendedArticle.name}"/>
+                <td th:text="${lending.lendingPerson.username}"/>
+                <td th:text="${lending.lendedArticle.owner.username}"/>
+                <td>
+                    <form method="post" th:action="|/admin/conflicthandling/showcase/${lending.lendingID}|">
+                        <button type="submit" name="action" value="winBorrower" class="button_std_red">
+                            Lösen zugunsten des Ausleihers
+                        </button>
+                        <button type="submit" name="action" value="winOwner" class="button_std_green">
+                            Lösen zugunsten des Besitzers
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        </th:block>
+    </table>
+
+</div>
+</body>
+</html>
