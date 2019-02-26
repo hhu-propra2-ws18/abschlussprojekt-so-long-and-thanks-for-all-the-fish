@@ -35,6 +35,7 @@
                         <a href="/edit">Konto bearbeiten</a>
                         <a href="/article/view">Meine Artikel</a>
                         <a href="#">Meine Ausleihen</a>
+                        <a th:if="${role == 'ROLE_ADMIN'}" href="/admin">Administration</a>
                     </div>
                 </div>
             </li>
