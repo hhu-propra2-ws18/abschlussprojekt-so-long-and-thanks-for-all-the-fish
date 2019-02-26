@@ -28,12 +28,12 @@
                     <td th:text="${article.getSellingPrice()} + '€'"></td>
                 </tr>
                 <tr>
-                    <td><a th:href="|/article/${article.articleID}|"><button class="btn btn-success" type="button">Zum Artikel</button></a></td>
+                    <td><a th:href="|/article/${article.articleID}|"><button class="button_std_white" type="button">Zum Artikel</button></a></td>
                 </tr>
             </table>
         </div>
     </div>
-    <a th:href="|/article/new/|"><button class="btn btn-primary" type="button">Neuen Artikel anlegen</button></a>
+    <a th:href="|/article/new/|"><button class="button_std" type="button">Neuen Artikel anlegen</button></a>
 </div>
 </body>
 
