@@ -99,7 +99,7 @@ public class PostProccessor {
 					CleanUpLending(postBodyParas, lendings, articles);
 					reservations.delete(lending.getProPayReservation());
 
-				}catch (Exception e) {
+				} catch (Exception e) {
 					apiProcessor.setErrorOccurred(true);
 					apiProcessor.addErrorMessage("Propay is not reachable, try it again later");
 					e.printStackTrace();
@@ -157,5 +157,23 @@ public class PostProccessor {
 	public long FindUserIDByUser(UserRepository users, String username) {
 		Optional<User> byUsername = users.findByUsername(username);
 		return byUsername.get().getUserID();
+	}
+
+	public void SellArticle(HashMap<String, String> postBodyParas, ArticleRepository articles, UserRepository users, APIProcessor apiProcessor, TransactionRepository transactions) {
+		try {
+			Optional<User> requester = users.findUserByuserID(Long.parseLong(postBodyParas.get("requesterID")));
+			Account buyingAccount = apiProcessor.getAccountInformationWithId(requester.get().getUserID(), users);
+			Optional<Article> article = articles.findArticleByarticleID(Long.parseLong(postBodyParas.get("articleID")));
+			apiProcessor.postTransfer(String.class, buyingAccount, article.get(), article.get().getSellingPrice());
+			Calendar timeStamp = Calendar.getInstance();
+			Transaction transaction = new Transaction(article.get().getOwner(), users.findUserByuserID(Long.parseLong(postBodyParas.get("requesterID"))).get(), article.get(), article.get().getSellingPrice(), timeStamp);
+			transactions.save(transaction);
+			articles.delete(article.get());
+		} catch (Exception e) {
+			apiProcessor.setErrorOccurred(true);
+			apiProcessor.addErrorMessage("Propay is not reachable, try it again later");
+			e.printStackTrace();
+			return;
+		}
 	}
 }

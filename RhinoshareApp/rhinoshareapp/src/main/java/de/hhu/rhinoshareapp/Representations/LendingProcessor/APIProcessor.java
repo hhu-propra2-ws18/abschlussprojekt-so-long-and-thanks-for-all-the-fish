@@ -34,7 +34,7 @@ public class APIProcessor {
 			return null;
 		}
 		try {
-			return getAccountInformation(user.get().getName(), Account.class);
+			return getAccountInformation(user.get().getUsername(), Account.class);
 		} catch (Exception e) {
 			errorOccurred = true;
 			errorMessage.put("reason", "Propay is not reachable, try it again later");
@@ -65,6 +65,16 @@ public class APIProcessor {
 		double amount = lenderAccountInformation.getAmount();
 		double deposit = articles.findArticleByarticleID(articleID).get().getDeposit();
 		if (amount >= deposit) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public boolean hasEnoughMoneyForSelling(Account lenderAccountInformation, long articleID, ArticleRepository articles) {
+		double amount = lenderAccountInformation.getAmount();
+		double sellingPrice = articles.findArticleByarticleID(articleID).get().getSellingPrice();
+		if (amount >= sellingPrice) {
 			return true;
 		} else {
 			return false;
