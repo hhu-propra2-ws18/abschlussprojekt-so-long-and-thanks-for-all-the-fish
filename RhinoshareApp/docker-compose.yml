@@ -6,11 +6,10 @@ services:
       dockerfile: ./Dockerfile
     command: ["./wait-for-it.sh", "database:5432", "--", "java", "-jar", "app.jar"]
     ports:
-      - "80:80"
+      - "8080:8080"
     depends_on:
       - database
-    networks:
-      - web
+
 
   database:
     image: postgres
@@ -20,15 +19,3 @@ services:
       - POSTGRES_USER=rhinoshare
     volumes:
       - ./data:/var/lib/postgresql/data
-    networks:
-      - web
-
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8080:5555
-
-networks:
-  web:
-    name: web

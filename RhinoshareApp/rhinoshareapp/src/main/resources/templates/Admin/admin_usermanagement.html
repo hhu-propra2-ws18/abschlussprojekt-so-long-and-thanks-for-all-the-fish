@@ -15,7 +15,7 @@
     </li>
     <li class="navbaritem"><a href="/admin/articlemanagement">Artikelverwaltung</a></li>
     <li class="navbaritem"><a href="/admin/lendingmanagement">Ausleihen</a></li>
-    <li class="navbaritem"><a href="/admin">Konfliktlösung</a></li>
+    <li class="navbaritem"><a href="/admin/conflicthandling">Konfliktlösung</a></li>
     <li class="navbaritem"><a href="/">Hauptseite</a></li>
     <li style="float: right" class="navbaritem">
         <a href="/logout">Ausloggen</a>
@@ -41,7 +41,12 @@
             <td th:text="${user.username}">...</td>
             <td th:text="${user.email}">...</td>
             <td th:text="${user.score}">...</td>
-            <td th:text="${user.role}">...</td>
+            <td th:if="${user.role == 'ROLE_ADMIN'}">
+                <label class="red_marked">Admin</label>
+            </td>
+            <td th:if="${user.role == 'ROLE_USER'}">
+                <label class="green_marked">User</label>
+            </td>
             <td>
                 <a th:href="|/admin/usermanagement/edit/${user.getUserID()}|">
                     <button class="button_std_white">Bearbeiten</button>
