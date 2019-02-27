@@ -104,4 +104,10 @@ public class ArticleControllerTest {
         assertEquals("redirect:/article/1", controller.editArticlePostMapping(article, 1));
         assertEquals("redirect:/article/", controller.deleteArticleFromDB(1));
     }
+
+    @Test
+    public void isPictureEmpty(){
+        Article article = new Article("Motorsäge", "wie neu", 250, 25, true, null);
+        assertEquals(true,article.imageIsEmpty());
+    }
 }
