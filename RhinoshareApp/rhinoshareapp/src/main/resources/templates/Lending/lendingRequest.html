@@ -6,13 +6,13 @@
     <link rel="icon" href="/img/RhinoLogoSmall.png">    <meta charset="UTF-8">
     <title>Formular</title>
 </head>
-<body>
+<body onload="calculateDateBorders()">
 <form th:action="@{/inquiry}" method="post">
     <label>
         from :
-        <input type="date" name="startDate">
+        <input oninput="calculateDateBorders()" type="date" name="startDate" id="startDateID">
         till :
-        <input type="date" name="endDate">
+        <input type="date" name="endDate" id="endDateID">
         why do you think you should get it :
         <input type="text" name="requestComment">
         <input type="hidden" name="requesterID" th:value="${requesterID}">
@@ -21,6 +21,26 @@
     </label>
     <button type="submit">submit</button>
 </form>
+
+<script th:inline="javascript">
+    function calculateDateBorders(){
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1; //January is 0!
+        var yyyy = today.getFullYear();
+        if(dd<10){
+            dd='0'+dd
+        }
+        if(mm<10){
+            mm='0'+mm
+        }
+
+        today = yyyy+'-'+mm+'-'+dd;
+        document.getElementById("startDateID").setAttribute("min", today);
+        var choosenStartDate = document.getElementById("startDateID").value;
+        document.getElementById("endDateID").setAttribute("min", choosenStartDate);
+    }
+</script>
 
 </body>
 </html>
