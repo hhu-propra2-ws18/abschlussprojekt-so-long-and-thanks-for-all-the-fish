@@ -18,25 +18,23 @@ public class ChatMessage {
     @GeneratedValue
     long messageID;
 
-    @OneToOne
+  /*  @OneToOne
     private User from;
 
 
     @OneToOne
     private User to;
-
+*/
     private String fromName;
 
     private String toName;
 
     private String context;
 
-    public ChatMessage(User from, User to, String context) {
-        this.from = from;
-        this.to = to;
+    public ChatMessage(String from, String to, String context) {
         this.context = context;
-        this.fromName = from.getUsername();
-        this.toName = to.getUsername();
+        this.fromName = from;
+        this.toName = to;
     }
 
 

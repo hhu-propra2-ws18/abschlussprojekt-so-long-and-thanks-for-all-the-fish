@@ -3,12 +3,16 @@ package de.hhu.rhinoshareapp.chat.chatController;
 import de.hhu.rhinoshareapp.chat.filter.FilterMessages;
 import de.hhu.rhinoshareapp.chat.model.ChatMessage;
 import de.hhu.rhinoshareapp.chat.service.ChatMessageRepository;
+import de.hhu.rhinoshareapp.domain.model.User;
 import de.hhu.rhinoshareapp.domain.security.ActualUserChecker;
 import de.hhu.rhinoshareapp.domain.service.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
 import java.util.List;
@@ -38,11 +42,19 @@ public class chatController {
     }
 
     @GetMapping("/newchat")
-    public String newChat(Model model) {
+    public String newChat(Model model, Principal p) {
         ChatMessage chatMessage = new ChatMessage();
-        model.addAttribute("chatmessage", chatMessage);
+        ActualUserChecker.checkActualUser(model, p, userRepository);
+        model.addAttribute("chatMessage", chatMessage);
         return "/Chat/chat_newChat";
     }
 
+    @PostMapping("/newchat")
+    public String sendChat(@ModelAttribute ChatMessage chatMessage, Principal p) {
+        //ChatMessage chatMessage = new ChatMessage(p.getName(), to, context);
+        chatMessage.setFromName(p.getName());
+        chatMessageRepository.save(chatMessage);
+        return "redirect:/chat";
+    }
 
 }

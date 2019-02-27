@@ -34,19 +34,15 @@
 </ul>
 <div class="container">
     <h1>Neue Chatnachricht</h1>
-    <form method="post" th:object="${Chatmessage}" enctype="multipart/form-data" action="">
+    <form method="post" th:object="${chatMessage}" enctype="multipart/form-data">
         <table>
             <tr>
-                <th scope="row">Von</th>
-                <td> <Input type="text" th:field="*{name}"/>  </td>
-            </tr>
-            <tr>
                 <th scope="row">An</th>
-                <td> <Input type="text" th:field="*{comment}"/> </td>
+                <td> <Input type="text" th:field="*{toName}"/> </td>
             </tr>
             <tr>
                 <th scope="row">Nachricht</th>
-                <td> <Input type="text" th:field="*{deposit}"/>  </td>
+                <td> <Input type="text" th:field="*{context}"/>  </td>
             </tr>
             <td><button type="submit" class="btn btn-primary">Nachricht versenden</button></td>
             <td><a th:href="|/chat/|"><button class="btn btn-warning" type="button">Abbrechen</button></a></td>
