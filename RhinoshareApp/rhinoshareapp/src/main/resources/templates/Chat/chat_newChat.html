@@ -32,36 +32,27 @@
         <a href="/logout">Ausloggen</a>
     </li>
 </ul>
-
-
-
-<table>
-    <th>Von</th>
-    <th>Gesendet an</th>
-    <th>Nachricht</th>
-    <th:block th:each="message : ${listFrom}">
-        <tr>
-            <td th:text="${message.fromName}">...</td>
-            <td th:text="${message.toName}">...</td>
-            <td th:text="${message.context}">...</td>
-        </tr>
-
-    </th:block>
-</table>
-
-<table>
-    <th>Von</th>
-    <th>An</th>
-    <th>Nachricht</th>
-    <th:block th:each="message : ${listTo}">
-        <tr>
-            <td th:text="${message.fromName}">...</td>
-            <td th:text="${message.toName}">...</td>
-            <td th:text="${message.context}">...</td>
-        </tr>
-
-    </th:block>
-</table>
+<div class="container">
+    <h1>Neue Chatnachricht</h1>
+    <form method="post" th:object="${Chatmessage}" enctype="multipart/form-data" action="">
+        <table>
+            <tr>
+                <th scope="row">Von</th>
+                <td> <Input type="text" th:field="*{name}"/>  </td>
+            </tr>
+            <tr>
+                <th scope="row">An</th>
+                <td> <Input type="text" th:field="*{comment}"/> </td>
+            </tr>
+            <tr>
+                <th scope="row">Nachricht</th>
+                <td> <Input type="text" th:field="*{deposit}"/>  </td>
+            </tr>
+            <td><button type="submit" class="btn btn-primary">Nachricht versenden</button></td>
+            <td><a th:href="|/chat/|"><button class="btn btn-warning" type="button">Abbrechen</button></a></td>
+        </table>
+    </form>
+</div>
 
 </body>
 </html>

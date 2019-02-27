@@ -88,10 +88,10 @@ public class DatabaseInitializer implements ServletContextInitializer {
 
 
 
-        ChatMessage nachricht = ChatMessage.builder().from(root).to(user).context("hi").toName("user").fromName("root").build();
-        ChatMessage nachricht2 = ChatMessage.builder().from(user).to(root).context("hi").toName("root").fromName("user").build();
+        ChatMessage nachricht = ChatMessage.builder().from(root).to(user).context("hi User, ich bin Root!").toName("user").fromName("root").build();
+        ChatMessage nachricht2 = ChatMessage.builder().from(user).to(root).context("hi Root, ich bin User!").toName("root").fromName("user").build();
 
-   //     chatMessageRepository.save(nachricht);
+        chatMessageRepository.save(nachricht);
         chatMessageRepository.save(nachricht2);
 
         for (ChatMessage chatmessage:chatMessageRepository.findAll()) {

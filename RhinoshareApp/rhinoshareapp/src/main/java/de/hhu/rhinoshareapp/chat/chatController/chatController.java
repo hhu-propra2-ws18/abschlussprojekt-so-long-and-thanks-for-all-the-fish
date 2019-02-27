@@ -11,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -29,13 +28,20 @@ public class chatController {
     @GetMapping("/chat")
     public String chatOverview(Model model, Principal p) {
             List<ChatMessage> listFrom = filter.filterFrom(p.getName(), chatMessageRepository); //liste für gesendende Nachrichen
-            List<ChatMessage> listTo = filter.filterTo(p.getName(), chatMessageRepository);
+            List<ChatMessage> listTo = filter.filterTo(p.getName(), chatMessageRepository); //liste für empfangene Nachrichten
             model.addAttribute("listFrom", listFrom);
             model.addAttribute("listTo", listTo );
 
         ActualUserChecker.checkActualUser(model, p, userRepository);
 
         return "/Chat/chat_overview";
+    }
+
+    @GetMapping("/newchat")
+    public String newChat(Model model) {
+        ChatMessage chatMessage = new ChatMessage();
+        model.addAttribute("chatmessage", chatMessage);
+        return "/Chat/chat_newChat";
     }
 
 
