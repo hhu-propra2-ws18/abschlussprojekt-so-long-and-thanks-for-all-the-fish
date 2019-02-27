@@ -1,6 +1,7 @@
 package de.hhu.rhinoshareapp.controller.conflict;
 
 
+import de.hhu.rhinoshareapp.Representations.LendingProcessor.PostProccessor;
 import de.hhu.rhinoshareapp.domain.mail.MailService;
 import de.hhu.rhinoshareapp.domain.model.Lending;
 import de.hhu.rhinoshareapp.domain.model.User;
@@ -14,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.Optional;
 
 @Controller
@@ -36,15 +38,16 @@ public class ConflictController {
         }
     }
 
-    @GetMapping("/openConflict")
-    public String openConflict(Model model, Principal p) {
+    @GetMapping("/openConflict/{lendingID}")
+    public String openConflict(Model model, Principal p, @PathVariable final long lendingID) {
+        model.addAttribute("id", lendingID);
         ActualUserChecker.checkActualUser(model, p, userRepo);
         model.addAttribute("error", " ");
         return "/conflict/conflictUserOpen";
     }
 
-    @PostMapping("/openConflict")
-    public String openConflictpost(Model model, @RequestParam(value = "action") String button, @RequestParam long lendingID,
+    @PostMapping("/openConflict/{lendingID}")
+    public String openConflictpost(Model model, @RequestParam(value = "action") String button, @PathVariable long lendingID,
                                    @RequestParam String description) {
         try {
             if (button.equals("open")) {
@@ -62,12 +65,13 @@ public class ConflictController {
                 }
             }
         } catch (Exception e) {
-            model.addAttribute("error", "Something went wrong. Probably you entered a wrong lending id.");
+            model.addAttribute("error", "Something went wrong.");
             return "/conflict/conflictUserOpen";
         }
         return "redirect:/";
 
     }
+
     @PostMapping("/admin/{id}")
     public String conflictSolved(@RequestParam(value = "action") String button, @PathVariable long id) {
         Lending lending = lendingRepository.findLendingBylendingID(id).get();
