@@ -53,9 +53,11 @@ public class LendingRepresentation {
         List<Lending> lendingList = new ArrayList<>();
         for (Article article : articles) {
             Optional<Lending> conflictLending = lendings.findLendingBylendedArticle(article);
-            if(conflictLending.get().isConflict()){
-                conflictLending.get().setWarning("Your Article in this Lending is currently investigated");
-                lendingList.add(conflictLending.get());
+            if(conflictLending.isPresent()) {
+                if (conflictLending.get().isConflict()) {
+                    conflictLending.get().setWarning("Your Article in this Lending is currently investigated");
+                    lendingList.add(conflictLending.get());
+                }
             }
         }
         return lendingList;
