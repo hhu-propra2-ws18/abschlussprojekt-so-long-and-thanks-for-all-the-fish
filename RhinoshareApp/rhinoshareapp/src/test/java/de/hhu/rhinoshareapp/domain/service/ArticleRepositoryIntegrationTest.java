@@ -68,4 +68,6 @@ public class ArticleRepositoryIntegrationTest {
 		assertThat(found).isEqualTo(chainsaw);
 	}
 
+
+
 }
