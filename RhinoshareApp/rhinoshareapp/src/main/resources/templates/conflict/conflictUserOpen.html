@@ -46,7 +46,7 @@
             <p th:text="${error} + ''"/>
             <p></p>
             <label> Lending ID</label>
-            <input th:name="${id}" class="form-control" type="number" min="0" readonly>
+            <input th:name="lendingID" class="form-control" type="number" th:placeholder="${id}" readonly>
         </div>
         <div class="form-group">
             <label>Problem:</label>

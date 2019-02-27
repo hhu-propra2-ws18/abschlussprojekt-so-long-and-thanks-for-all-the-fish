@@ -38,18 +38,16 @@ public class ConflictController {
         }
     }
 
-    @GetMapping("/openConflict")
-    public String openConflict(Model model, Principal p, @RequestBody String postBody) {
-        PostProccessor postProccessor = new PostProccessor();
-        HashMap<String, String> postBodyParas = postProccessor.SplitString(postBody);
-        model.addAttribute("id",postBodyParas.get("lendingID"));
+    @GetMapping("/openConflict/{lendingID}")
+    public String openConflict(Model model, Principal p, @PathVariable final long lendingID) {
+        model.addAttribute("id", lendingID);
         ActualUserChecker.checkActualUser(model, p, userRepo);
         model.addAttribute("error", " ");
         return "/conflict/conflictUserOpen";
     }
 
-    @PostMapping("/openConflict")
-    public String openConflictpost(Model model, @RequestParam(value = "action") String button, @RequestParam long lendingID,
+    @PostMapping("/openConflict/{lendingID}")
+    public String openConflictpost(Model model, @RequestParam(value = "action") String button, @PathVariable long lendingID,
                                    @RequestParam String description) {
         try {
             if (button.equals("open")) {
@@ -67,12 +65,13 @@ public class ConflictController {
                 }
             }
         } catch (Exception e) {
-            model.addAttribute("error", "Something went wrong. Probably you entered a wrong lending id.");
+            model.addAttribute("error", "Something went wrong.");
             return "/conflict/conflictUserOpen";
         }
         return "redirect:/";
 
     }
+
     @PostMapping("/admin/{id}")
     public String conflictSolved(@RequestParam(value = "action") String button, @PathVariable long id) {
         Lending lending = lendingRepository.findLendingBylendingID(id).get();
