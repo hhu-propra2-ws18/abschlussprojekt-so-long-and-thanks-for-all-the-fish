@@ -68,7 +68,7 @@ public class ArticleController {
     public String newArticle(Model model, Principal p){
         Article article = new Article();
         model.addAttribute("article",article);
-        model.addAttribute("articleActive","active");
+        model.addAttribute("newActive","active");
         ActualUserChecker.checkActualUser(model, p, userRepository);
         return  "Article/newArticle";
     }

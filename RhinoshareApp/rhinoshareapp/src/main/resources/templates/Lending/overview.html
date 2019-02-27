@@ -9,11 +9,11 @@
     <body onload="generateAlertPopup()">
         <div class="container" layout:fragment="content" style="margin-top: 50px">
 
-            <a th:href=|lendings| role="button">Ausleihen</a>
-            <a th:href=|borrows| role="button">Angebotene Artikel</a>
-            <a th:href=|conflictPage| role="button">Konflikte</a>
-            <a th:href=|transaction| role="button">Transaktionen</a>
-            <a th:href=|proPay| role="button">ProPay Account</a>
+            <a th:href="|/overview/lendings|" role="button">Ausleihen</a>
+            <a th:href="|/overview/borrows|" role="button">Angebotene Artikel</a>
+            <a th:href="|/overview/conflictPage|" role="button">Konflikte</a>
+            <a th:href="|/overview/transaction|" role="button">Transaktionen</a>
+            <a th:href="|/overview/proPay|" role="button">ProPay Account</a>
             <div>
                 Deine Anfragen:
                 <table th:each="request : ${requests}">
@@ -29,7 +29,7 @@
                         <div th:text="${request.formattedStartDate}">0</div>
                         <h3>Enddatum: </h3>
                         <div th:text="${request.formattedEndDate}">0</div>
-                        <form th:action=|overview| method="post">
+                        <form th:action="|/overview/|" method="post">
                             <fieldset>
                                 <input type="hidden" name="lendingID" th:value="${request.lendingID}">
                                 <input type="checkbox" id="yes" name="choice" value="accept">
@@ -52,7 +52,7 @@
                         <div th:text="${return.lendingPerson.name}">0</div>
                         <h3>Artikel: </h3>                                 <!-- href for the article -->
                         <div th:text="${return.lendedArticle.name}">0</div>
-                        <form th:action=|overview method="post">
+                        <form th:action="|/overview/|" method="post">
                             <fieldset>
                                 <input type="hidden" name="lendingID" th:value="${return.lendingID}">
                                 <input type="checkbox" id="yes2" name="choicereturn" value="accept">
@@ -78,7 +78,7 @@
                         <div th:text="${denie.lendedArticle.name}">0</div>
                         <div th:text="${denie.warning}">0</div>
 
-                        <form th:action=|overview| method="post">
+                        <form th:action="|/overview/|" method="post">
                             <input type="hidden" name="lendingID" th:value="${denie.lendingID}">
                             <button name="recognized" value="true" type="finish">submit</button>
                         </form>

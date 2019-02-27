@@ -10,12 +10,14 @@
     </head>
 
     <body>
-        <img id="titleImage" src="/img/rhinoLogoBig_share.png" width="300" height="75">
+        <img id="titleImage" src="/img/rhinoLogoSmall_share.png">
 
         <ol class="navigationbar">
             <li class="navbaritem" th:classappend="${mainActive}"><a href="/">Rhino-Übersicht</a></li>
             <li class="navbaritem" th:classappend="${articleActive}"><a href="/article/">Artikel</a></li>
             <li class="navbaritem" th:classappend="${lendingActive}"><a href="/overview/">Ausleihen</a></li>
+            <li class="navbaritem" th:classappend="${newActive}"><a href="/article/new/">Artikel Anbieten</a></li>
+
             <li style="float: right;" class="navbaritem" th:classappend="${userActive}" href th:if="${loggedIn == 'false'}">
                 <a href="/login">Einloggen</a>
             </li>

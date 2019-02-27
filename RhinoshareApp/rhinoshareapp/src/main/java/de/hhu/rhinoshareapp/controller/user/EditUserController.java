@@ -37,6 +37,15 @@ public class EditUserController {
         Address userAddress = user.getAddress();
         if(!(user.getUsername()).equals(""))
             oldUser.setUsername(user.getUsername());
+        oldUser = setEditedAttributesInUser(user, oldUser, oldUserAddress, userAddress);
+        userRepository.save(oldUser);
+        model.addAttribute(oldUser);
+        model.addAttribute("userActive","active");
+        ActualUserChecker.checkActualUser(model, p, userRepository);
+        return "/EditUser/profileOverview";
+    }
+
+    static User setEditedAttributesInUser(User user, User oldUser, Address oldUserAddress, Address userAddress) {
         if (!(user.getSurname().equals(""))) {
             oldUser.setSurname(user.getSurname());
         }
@@ -63,10 +72,6 @@ public class EditUserController {
                 oldUserAddress.setPostCode(userAddress.getPostCode());
             }
         }
-        userRepository.save(oldUser);
-        model.addAttribute(oldUser);
-        model.addAttribute("userActive","active");
-        ActualUserChecker.checkActualUser(model, p, userRepository);
-        return "/EditUser/profileOverview";
+        return oldUser;
     }
 }

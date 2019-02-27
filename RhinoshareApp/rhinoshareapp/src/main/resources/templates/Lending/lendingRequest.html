@@ -8,7 +8,7 @@
 
     <body onload="calculateDateBorders()">
         <div class="container" layout:fragment="content" style="margin-top: 50px">
-            <form th:action="@{/inquiry}" method="post">
+            <form th:action="@{/overview/inquiry}" method="post">
                 <label>
                     Von:
                     <input oninput="calculateDateBorders()" type="date" name="startDate" id="startDateID">
