@@ -82,5 +82,7 @@ public class Article {
         return image.getFilebytes();
     }
 
-
+    public boolean isActive(){
+        return this.owner != null;
+    }
 }
