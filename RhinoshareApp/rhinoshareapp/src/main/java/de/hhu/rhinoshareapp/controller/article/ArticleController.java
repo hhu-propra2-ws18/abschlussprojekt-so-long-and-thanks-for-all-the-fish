@@ -39,6 +39,7 @@ public class ArticleController {
         return "redirect:/";
     }
 
+
     @GetMapping("/view")
     public String viewMyArticles(Model model, Principal p){
         User user = userRepository.findByUsername(p.getName()).get();
@@ -48,7 +49,6 @@ public class ArticleController {
         ActualUserChecker.checkActualUser(model, p, userRepository);
         return "Article/viewFromPerson";
     }
-
 
 
     @GetMapping("/{articleID}")

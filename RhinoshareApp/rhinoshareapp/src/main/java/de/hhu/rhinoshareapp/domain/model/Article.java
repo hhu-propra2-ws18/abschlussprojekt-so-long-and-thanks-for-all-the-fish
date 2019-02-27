@@ -86,5 +86,8 @@ public class Article {
         return this.owner.getAddress().getCity();
     }
 
+    public boolean isActive(){
+        return this.owner != null;
+    }
 
 }

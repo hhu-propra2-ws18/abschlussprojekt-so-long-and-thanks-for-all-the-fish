@@ -14,7 +14,9 @@
 
         <ol class="navigationbar">
             <li class="navbaritem" th:classappend="${mainActive}"><a href="/">Rhino-Übersicht</a></li>
-            <li class="navbaritem" th:classappend="${articleActive}"><a href="/article/new/">Inserieren</a></li>
+
+            <li class="navbaritem" th:classappend="${articleActive}"><a href="/article/">Artikel</a></li>
+            <li class="navbaritem" th:classappend="${lendingActive}"><a href="/overview/">Ausleihen</a></li>
 
             <li style="float: right;" class="navbaritem" th:classappend="${userActive}" href th:if="${loggedIn == 'false'}">
                 <a href="/login">Einloggen</a>
@@ -31,7 +33,10 @@
                     <div class="dropdown-content">
                         <a href="/edit">Konto bearbeiten</a>
                         <a href="/article/view">Meine Artikel</a>
-                        <a href="#">Meine Ausleihen</a>
+                        <a href="/overview/lendings">Meine Ausleihen</a>
+                        <a href="/overview/borrows">Meine Verleihen</a>
+                        <a href="/overview/transaction">Meine Transaktionen</a>
+                        <a href="/overview/proPay">ProPay Konto</a>
                         <a th:if="${role == 'ROLE_ADMIN'}" href="/admin">Administration</a>
                     </div>
                 </div>

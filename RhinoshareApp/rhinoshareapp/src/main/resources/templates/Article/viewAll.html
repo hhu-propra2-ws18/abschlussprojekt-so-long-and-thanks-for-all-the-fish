@@ -11,7 +11,7 @@
 <div class="container" layout:fragment="content" style="margin-top: 50px">
     <div class="row mb-2">
         <div class="col-md-6"  th:each="article:${articles}">
-            <table class="table table-hover">
+            <table class="table table-hover"  th:if="${article.isActive()}">
                 <tr>
                     <td>Artikel:</td>
                     <td th:text="${article.getName()}"></td>
