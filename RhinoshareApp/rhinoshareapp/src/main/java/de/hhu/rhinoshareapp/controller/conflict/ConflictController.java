@@ -1,12 +1,16 @@
 package de.hhu.rhinoshareapp.controller.conflict;
 
 
+import de.hhu.rhinoshareapp.Representations.LendingProcessor.APIProcessor;
 import de.hhu.rhinoshareapp.Representations.LendingProcessor.PostProccessor;
+import de.hhu.rhinoshareapp.controller.lendings.LendingController;
 import de.hhu.rhinoshareapp.domain.mail.MailService;
 import de.hhu.rhinoshareapp.domain.model.Lending;
 import de.hhu.rhinoshareapp.domain.model.User;
 import de.hhu.rhinoshareapp.domain.security.ActualUserChecker;
+import de.hhu.rhinoshareapp.domain.service.ArticleRepository;
 import de.hhu.rhinoshareapp.domain.service.LendingRepository;
+import de.hhu.rhinoshareapp.domain.service.ReservationRepository;
 import de.hhu.rhinoshareapp.domain.service.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
@@ -29,6 +33,15 @@ public class ConflictController {
 
     @Autowired
     UserRepository userRepo;
+
+    @Autowired
+    ArticleRepository articleRepository;
+
+    @Autowired
+    ReservationRepository reservationRepository;
+
+    APIProcessor apiProcessor = new APIProcessor();
+
 
     public void send(long lendId, String conflictMessage, long ownerId, long lenderId, User admin) {
         try {
@@ -78,12 +91,24 @@ public class ConflictController {
         if (button.equals("winBorrower")) {
             lending.setConflict(false);
             lendingRepository.save(lending);
-            return "redirect:/borrowerWin";
+            //--
+            HashMap<String, String> postBodyParas = new HashMap<>();
+            postBodyParas.put("lendingID", String.valueOf(lending.getLendingID()));
+            postBodyParas.put("decision", "false");
+            apiProcessor.PunishOrReleaseConflictingLending(postBodyParas, lendingRepository, userRepo, articleRepository, reservationRepository);
+            //--
+            return "redirect:/admin";
         } else if (button.equals("winOwner")) {
             lending.setConflict(false);
             lendingRepository.save(lending);
-            return "redirect:/ownerWin";
+            //--
+            HashMap<String, String> postBodyParas = new HashMap<>();
+            postBodyParas.put("lendingID", String.valueOf(lending.getLendingID()));
+            postBodyParas.put("decision", "true");
+            apiProcessor.PunishOrReleaseConflictingLending(postBodyParas, lendingRepository, userRepo, articleRepository, reservationRepository);
+            //--
+            return "redirect:/admin";
         }
-        return "redirect:/admin/conflicthandling";
+        return "redirect:/admin";
     }
 }
