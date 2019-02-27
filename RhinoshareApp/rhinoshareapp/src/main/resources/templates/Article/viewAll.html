@@ -7,6 +7,7 @@
 </head>
 
 <body>
+<!--
 <div class="container" layout:fragment="content" style="margin-top: 50px">
     <div class="row mb-2">
         <div class="col-md-6"  th:each="article:${articles}">
@@ -35,6 +36,28 @@
     </div>
     <a th:href="|/article/new/|"><button class="button_std" type="button">Neuen Artikel anlegen</button></a>
 </div>
+-->
+<div class="container" layout:fragment="content" style="margin-top: 20px">
+    <div class="grid-container">
+        <div class="grid-item" th:each="article:${articles}">
+            <div class="item-grid-article">
+                <div class="article-picture" th:if="!${article.imageIsEmpty()}">
+                    <img th:src="@{/image/{id} (id = ${article.getImageID()})}">
+                </div>
+                <div class="article-picture" th:if="${article.imageIsEmpty()}">
+                    <img src="/img/placeholder_picture.png">
+                </div>
+                <div class="article-name" th:text="${article.getName()}" >...</div>
+                <div class="article-lending-price" th:text="${article.getRent()} + '€'">...</div>
+                <div class="article-price" th:text="${article.getSellingPrice()} + '€'">...</div>
+                <a class="details-button-article" th:href="|/article/${article.articleID}|"><button class="button_std_white" type="button">Details</button></a>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
 </body>
 
 </html>
