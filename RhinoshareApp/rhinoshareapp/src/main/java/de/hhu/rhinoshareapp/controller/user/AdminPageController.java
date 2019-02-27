@@ -72,32 +72,7 @@ public class AdminPageController {
         User oldUser = userRepository.findByUsername(p.getName()).get();
         Address oldUserAddress = oldUser.getAddress();
         Address userAddress = user.getAddress();
-        if (!(user.getSurname().equals(""))) {
-            oldUser.setSurname(user.getSurname());
-        }
-        if (!(user.getName().equals(""))) {
-            oldUser.setName(user.getName());
-        }
-        if (!(user.getEmail().equals(""))) {
-            oldUser.setEmail(user.getEmail());
-        }
-        if (userAddress != null) {
-            if (!(userAddress.getStreet().equals(""))) {
-                oldUserAddress.setStreet(userAddress.getStreet());
-            }
-            if (!(userAddress.getStreet().equals(""))) {
-                oldUserAddress.setCity(userAddress.getCity());
-            }
-            if (!(userAddress.getCountry().equals(""))) {
-                oldUserAddress.setCountry(userAddress.getCountry());
-            }
-            if (!(userAddress.getHouseNumber().equals(""))) {
-                oldUserAddress.setHouseNumber(userAddress.getHouseNumber());
-            }
-            if (!(userAddress.getPostCode().equals(""))) {
-                oldUserAddress.setPostCode(userAddress.getPostCode());
-            }
-        }
+        oldUser = EditUserController.setEditedAttributesInUser(user, oldUser, oldUserAddress, userAddress);
         userRepository.save(oldUser);
         model.addAttribute(oldUser);
         model.addAttribute("userActive","active");
