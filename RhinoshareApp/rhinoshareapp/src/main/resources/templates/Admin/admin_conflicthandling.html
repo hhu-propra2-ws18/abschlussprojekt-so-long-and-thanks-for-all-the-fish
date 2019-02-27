@@ -21,7 +21,7 @@
                         <td th:text="${lending.lendingPerson.username}"/>
                         <td th:text="${lending.lendedArticle.owner.username}"/>
                         <td>
-                            <form method="post" th:action="|/admin/conflicthandling/showcase/${lending.lendingID}|">
+                            <form method="post" th:action="|/admin/${lending.lendingID}|">
                                 <button type="submit" name="action" value="winBorrower" class="button_std_red">
                                     Lösen zugunsten des Ausleihers
                                 </button>
