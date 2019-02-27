@@ -3,7 +3,6 @@ package de.hhu.rhinoshareapp.chat.chatController;
 import de.hhu.rhinoshareapp.chat.filter.FilterMessages;
 import de.hhu.rhinoshareapp.chat.model.ChatMessage;
 import de.hhu.rhinoshareapp.chat.service.ChatMessageRepository;
-import de.hhu.rhinoshareapp.domain.model.User;
 import de.hhu.rhinoshareapp.domain.security.ActualUserChecker;
 import de.hhu.rhinoshareapp.domain.service.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
 import java.util.List;
@@ -51,9 +50,24 @@ public class chatController {
 
     @PostMapping("/newchat")
     public String sendChat(@ModelAttribute ChatMessage chatMessage, Principal p) {
-        //ChatMessage chatMessage = new ChatMessage(p.getName(), to, context);
         chatMessage.setFromName(p.getName());
         chatMessageRepository.save(chatMessage);
+        return "redirect:/chat";
+    }
+
+    @GetMapping("/deletechat/{ID}")
+    public String deleteChat(@PathVariable long ID, Model model) {
+        ChatMessage chatMessage = chatMessageRepository.findById(ID);
+        model.addAttribute("chatMessage", chatMessage);
+
+        return "/Chat/chat_deleteChat";
+    }
+
+    @PostMapping("/deletechat/{ID}")
+    public String deleteChatFromDb(@PathVariable long ID) {
+        ChatMessage chatMessage = chatMessageRepository.findById(ID);
+        chatMessageRepository.delete(chatMessage);
+
         return "redirect:/chat";
     }
 

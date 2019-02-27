@@ -18,13 +18,6 @@ public class ChatMessage {
     @GeneratedValue
     long messageID;
 
-  /*  @OneToOne
-    private User from;
-
-
-    @OneToOne
-    private User to;
-*/
     private String fromName;
 
     private String toName;
