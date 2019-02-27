@@ -82,5 +82,9 @@ public class Article {
         return image.getFilebytes();
     }
 
+    public String getCity() {
+        return this.owner.getAddress().getCity();
+    }
+
 
 }

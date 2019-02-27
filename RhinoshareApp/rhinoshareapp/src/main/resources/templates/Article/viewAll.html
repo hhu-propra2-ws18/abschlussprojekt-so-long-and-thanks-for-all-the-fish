@@ -48,9 +48,9 @@
                     <img src="/img/placeholder_picture.png">
                 </div>
                 <div class="article-name" th:text="${article.getName()}" >...</div>
+                <div class="article-location" th:text="${article.getCity()}" >...</div>
                 <div class="article-lending-price" th:text="${article.getRent()} + '€'">...</div>
-                <div class="article-price" th:text="${article.getSellingPrice()} + '€'">...</div>
-                <a class="details-button-article" th:href="|/article/${article.articleID}|"><button class="button_std_white" type="button">Details</button></a>
+                <a class="details-button-article" th:href="|/article/${article.articleID}|"><i class="fas fa-info-circle"></i></a>
             </div>
 
         </div>

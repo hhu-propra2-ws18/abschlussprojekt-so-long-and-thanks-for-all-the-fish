@@ -579,6 +579,12 @@ body {
 
 }
 
+.contentFragment .grid-container .grid-item .article-location {
+
+    font-size: 14px;
+
+}
+
 
 .article-picture {
     grid-area: picture;
@@ -595,15 +601,23 @@ body {
     grid-area: price-buy;
 }
 
+.article-location {
+    grid-area: location;
+}
+
 .details-button-article {
     grid-area: button;
+}
+
+.button_details {
+
 }
 
 .item-grid-article {
     display: grid;
     grid-template-areas: 'picture picture picture'
                          'name name price-lending'
-                         'button button price-buy';
+                         'location location button';
     background-color: rgba(255, 255, 255, 0);
     width: 100%;
     height: 100%;
