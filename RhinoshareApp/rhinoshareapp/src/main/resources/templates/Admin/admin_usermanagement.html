@@ -1,67 +1,55 @@
 <!DOCTYPE html>
-<html lang="de" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Benutzerverwaltung - Rhinoshare</title>
-    <link rel="stylesheet" type="text/css" href="/css/stylesheet.css">
-    <link rel="icon" href="/img/RhinoLogoSmall.png">
-</head>
-<body>
-<img id="titleImageTest" src="/img/rhinoLogoBigAdmin.png" width="300" height="75">
-<ul class="navigationbar">
-    <li class="navbaritem"><a href="/admin">Überblick</a></li>
-    <li class="navbaritem">
-        <a class="active" href="/admin/usermanagement">Benutzerverwaltung</a>
-    </li>
-    <li class="navbaritem"><a href="/admin/articlemanagement">Artikelverwaltung</a></li>
-    <li class="navbaritem"><a href="/admin/lendingmanagement">Ausleihen</a></li>
-    <li class="navbaritem"><a href="/admin/conflicthandling">Konfliktlösung</a></li>
-    <li class="navbaritem"><a href="/">Hauptseite</a></li>
-    <li style="float: right" class="navbaritem">
-        <a href="/logout">Ausloggen</a>
-    </li>
-</ul>
-<div>
-    <a href="/admin/usermanagement/add"><button class="button_std">Neuer Benutzer</button></a>
-</div>
-<table id="useroverview">
-    <th>ID</th>
-    <th>Name</th>
-    <th>Vorname</th>
-    <th>RhinoID</th>
-    <th>Email</th>
-    <th>Score</th>
-    <th>Berechtigungen</th>
-    <th>Aktion</th>
-    <th:block th:each="user : ${userlist}">
-        <tr>
-            <td th:text="${user.userID}">...</td>
-            <td th:text="${user.name}">...</td>
-            <td th:text="${user.surname}">...</td>
-            <td th:text="${user.username}">...</td>
-            <td th:text="${user.email}">...</td>
-            <td th:text="${user.score}">...</td>
-            <td th:if="${user.role == 'ROLE_ADMIN'}">
-                <label class="red_marked">Admin</label>
-                <label class="green_marked">User</label>
-            </td>
-            <td th:if="${user.role == 'ROLE_USER'}">
-                <label class="green_marked">User</label>
-            </td>
-            <td th:if="${user.role == ''}">
-                <label class="yellow_marked">None</label>
-            </td>
-            <td>
-                <a th:href="|/admin/usermanagement/edit/${user.getUserID()}|">
-                    <button class="button_std_white">Bearbeiten</button>
-                </a>
-                <a th:href="|/admin/usermanagement/delete/${user.getUserID()}|">
-                    <button class="button_std">Löschen</button>
-                </a>
-            </td>
-        </tr>
-    </th:block>
-</table>
+<html lang="de" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{Admin/admin_overview}"
+      xmlns:layout="http://www.w3.org/1999/xhtml">
 
-</body>
+    <head>
+        <title>Benutzerverwaltung - Rhinoshare</title>
+    </head>
+
+    <body>
+        <div class="container" layout:fragment="content">
+            <div>
+                <a href="/admin/usermanagement/add"><button class="button_std">Neuer Benutzer</button></a>
+            </div>
+            <table id="useroverview">
+                <th>ID</th>
+                <th>Name</th>
+                <th>Vorname</th>
+                <th>RhinoID</th>
+                <th>Email</th>
+                <th>Score</th>
+                <th>Berechtigungen</th>
+                <th>Aktion</th>
+                <th:block th:each="user : ${userlist}">
+                    <tr>
+                        <td th:text="${user.userID}">...</td>
+                        <td th:text="${user.name}">...</td>
+                        <td th:text="${user.surname}">...</td>
+                        <td th:text="${user.username}">...</td>
+                        <td th:text="${user.email}">...</td>
+                        <td th:text="${user.score}">...</td>
+                        <td th:if="${user.role == 'ROLE_ADMIN'}">
+                            <label class="red_marked">Admin</label>
+                            <label class="green_marked">User</label>
+                        </td>
+                        <td th:if="${user.role == 'ROLE_USER'}">
+                            <label class="green_marked">User</label>
+                        </td>
+                        <td th:if="${user.role == ''}">
+                            <label class="yellow_marked">None</label>
+                        </td>
+                        <td>
+                            <a th:href="|/admin/usermanagement/edit/${user.getUserID()}|">
+                                <button class="button_std_white">Bearbeiten</button>
+                            </a>
+                            <a th:href="|/admin/usermanagement/delete/${user.getUserID()}|">
+                                <button class="button_std">Löschen</button>
+                            </a>
+                        </td>
+                    </tr>
+                </th:block>
+            </table>
+        </div>
+    </body>
+
 </html>

@@ -44,6 +44,7 @@ public class ArticleController {
         User user = userRepository.findByUsername(p.getName()).get();
         List<Article> articles = articleRepository.findAllByOwner(user);
         model.addAttribute("articles", articles);
+        model.addAttribute("articleActive","active");
         ActualUserChecker.checkActualUser(model, p, userRepository);
         return "Article/viewFromPerson";
     }
@@ -56,6 +57,7 @@ public class ArticleController {
         Article article = articleRepository.findById(articleID).get();
         model.addAttribute("user" , user);
         model.addAttribute("article", article);
+        model.addAttribute("articleActive","active");
         ActualUserChecker.checkActualUser(model, p, userRepository);
         return "Article/articleView";
     }
@@ -66,6 +68,7 @@ public class ArticleController {
     public String newArticle(Model model, Principal p){
         Article article = new Article();
         model.addAttribute("article",article);
+        model.addAttribute("articleActive","active");
         ActualUserChecker.checkActualUser(model, p, userRepository);
         return  "Article/newArticle";
     }
@@ -88,6 +91,7 @@ public class ArticleController {
         Article article = articleRepository.findById(articleID).get();
         if (checkIfLoggedInIsOwner(p, article)) {
             model.addAttribute("article", article);
+            model.addAttribute("articleActive","active");
             ActualUserChecker.checkActualUser(model, p, userRepository);
             return "Article/editArticle";
         }
@@ -121,6 +125,7 @@ public class ArticleController {
         }
         if (checkIfLoggedInIsOwner(p, article)) {
             model.addAttribute("article", article);
+            model.addAttribute("articleActive","active");
             ActualUserChecker.checkActualUser(model, p, userRepository);
             return "Article/deleteArticle";
         }

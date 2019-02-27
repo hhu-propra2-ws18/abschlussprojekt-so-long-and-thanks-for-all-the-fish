@@ -11,10 +11,7 @@ import de.hhu.rhinoshareapp.domain.service.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
@@ -22,7 +19,6 @@ import java.util.Optional;
 
 @Controller
 public class AdminPageController {
-
 
     @Autowired
     UserRepository userRepository;
@@ -33,9 +29,22 @@ public class AdminPageController {
     @Autowired
     LendingRepository lendingRepository;
 
+    //Conflictmanagement
     @GetMapping("/admin")
-    public String loadAdminPage() {
-        return "Admin/admin_overview";
+    public String conflictOverview(Model model, Principal p) {
+        List<Lending> lendingList = lendingRepository.findAllByIsConflict(true);
+        model.addAttribute("lendings", lendingList);
+        model.addAttribute("mainActive","active");
+        ActualUserChecker.checkActualUser(model, p, userRepository);
+        return "Admin/admin_conflicthandling";
+    }
+
+    @PostMapping("/admin")
+    public String postConflictOverview(@RequestParam long lendingID, @RequestParam(value = "action") String button) {
+        if (button.equals("show")) {
+            return "redirect:/showcase/" + lendingID;
+        }
+        return "redirect:/admin/conflicthandling";
     }
 
     //Usermanagement
@@ -43,6 +52,7 @@ public class AdminPageController {
     public String loadUserManagement(Model model) {
         List<User> userlist = userRepository.findAll();
         model.addAttribute("userlist", userlist);
+        model.addAttribute("userActive","active");
         return "Admin/admin_usermanagement";
     }
 
@@ -52,6 +62,7 @@ public class AdminPageController {
         List<Article> allArticles = articleRepository.findAllByOwner(user);
         model.addAttribute("user", user);
         model.addAttribute("articles", allArticles);
+        model.addAttribute("userActive","active");
         return "Admin/admin_userEdit";
     }
 
@@ -61,38 +72,14 @@ public class AdminPageController {
         User oldUser = userRepository.findByUsername(p.getName()).get();
         Address oldUserAddress = oldUser.getAddress();
         Address userAddress = user.getAddress();
-        if (!(user.getSurname().equals(""))) {
-            oldUser.setSurname(user.getSurname());
-        }
-        if (!(user.getName().equals(""))) {
-            oldUser.setName(user.getName());
-        }
-        if (!(user.getEmail().equals(""))) {
-            oldUser.setEmail(user.getEmail());
-        }
-        if (userAddress != null) {
-            if (!(userAddress.getStreet().equals(""))) {
-                oldUserAddress.setStreet(userAddress.getStreet());
-            }
-            if (!(userAddress.getStreet().equals(""))) {
-                oldUserAddress.setCity(userAddress.getCity());
-            }
-            if (!(userAddress.getCountry().equals(""))) {
-                oldUserAddress.setCountry(userAddress.getCountry());
-            }
-            if (!(userAddress.getHouseNumber().equals(""))) {
-                oldUserAddress.setHouseNumber(userAddress.getHouseNumber());
-            }
-            if (!(userAddress.getPostCode().equals(""))) {
-                oldUserAddress.setPostCode(userAddress.getPostCode());
-            }
-        }
+        oldUser = EditUserController.setEditedAttributesInUser(user, oldUser, oldUserAddress, userAddress);
         userRepository.save(oldUser);
         model.addAttribute(oldUser);
+        model.addAttribute("userActive","active");
         return "Admin/admin_userEdit";
     }
 
-    //Eintrag löschen
+    //User löschen
     @GetMapping("/admin/usermanagement/delete/{id}")
     public String deleteUser(Model model, Principal p, @PathVariable long id) {
         ActualUserChecker.checkActualUser(model, p, userRepository);
@@ -100,11 +87,13 @@ public class AdminPageController {
         return "redirect:/admin/usermanagement/";
     }
 
+    //User erstellen
     @GetMapping("/admin/usermanagement/add")
     public String addUser(Model model) {
         List<User> userList = userRepository.findAll();
         String idAsString = "" + (userList.size() + 1);
         model.addAttribute("nextID", idAsString);
+        model.addAttribute("userActive","active");
         return "Admin/admin_createUser";
     }
 
@@ -113,27 +102,30 @@ public class AdminPageController {
     public String loadArticleManagement(Model model) {
         List<Article> allArticles = articleRepository.findAll();
         model.addAttribute("articles", allArticles);
+        model.addAttribute("articleActive","active");
         return "Admin/admin_articlemanagement";
     }
 
     @GetMapping("/admin/articlemanagement/delete/{id}")
-    public String deleteArticle(@PathVariable long id) {
+    public String deleteArticle(@PathVariable long id, Model model) {
         articleRepository.delete(articleRepository.findById(id).get());
+        model.addAttribute("articleActive","active");
         return "redirect:/admin/articlemanagement/";
     }
 
     //Ausleihmanagement
     @GetMapping("/admin/lendingmanagement")
-    public String loadLendingManagement(Model m) {
+    public String loadLendingManagement(Model model) {
         List<Lending> allLendings = lendingRepository.findAll();
-        m.addAttribute("lendings", allLendings);
+        model.addAttribute("lendings", allLendings);
+        model.addAttribute("lendingActive","active");
         return "Admin/admin_lendingmanagement";
     }
 
     @GetMapping("/admin/lendingmanagement/delete/{id}")
-    public String deleteLending(@PathVariable long id) {
+    public String deleteLending(@PathVariable long id, Model model) {
         lendingRepository.delete(lendingRepository.findLendingBylendingID(id).get());
+        model.addAttribute("lendingActive","active");
         return "redirect:/admin/lendingmanagement/";
     }
-
 }
