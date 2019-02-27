@@ -29,7 +29,7 @@
                         <div th:text="${request.formattedStartDate}">0</div>
                         <h3>Enddatum: </h3>
                         <div th:text="${request.formattedEndDate}">0</div>
-                        <form th:action=|overview| method="post">
+                        <form th:action=|| method="post">
                             <fieldset>
                                 <input type="hidden" name="lendingID" th:value="${request.lendingID}">
                                 <input type="checkbox" id="yes" name="choice" value="accept">
@@ -78,7 +78,7 @@
                         <div th:text="${denie.lendedArticle.name}">0</div>
                         <div th:text="${denie.warning}">0</div>
 
-                        <form th:action=|overview| method="post">
+                        <form th:action=|| method="post">
                             <input type="hidden" name="lendingID" th:value="${denie.lendingID}">
                             <button name="recognized" value="true" type="finish">submit</button>
                         </form>
