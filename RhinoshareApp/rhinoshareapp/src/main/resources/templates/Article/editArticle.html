@@ -2,52 +2,53 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{/mainpage}"
       xmlns:layout="http://www.w3.org/1999/xhtml" >
 
-<head>
+    <head>
+        <title>Artikel bearbeiten - Rhinoshare</title>
     </head>
 
-<body>
-    <div class="container" layout:fragment="content" style="margin-top: 50px">
-        <h1>Artikel bearbeiten</h1>
-        <form method="post" th:object="${article}" action="#">
-            <table>
-                <tr>
-                    <th scope="row">Name</th>
-                    <td> <Input type="text" th:placeholder="${article.getName()}" th:field="*{name}"/></td>
-                </tr>
-                <tr>
-                    <th scope="row">Beschreibung</th>
-                    <td> <Input type="text" th:placeholder="${article.getComment()}" th:field="*{comment}"/> </td>
-                </tr>
-                <tr>
-                    <th scope="row">Kaution</th>
-                    <td> <Input type="number" th:placeholder="${article.getDeposit()}" th:field="*{deposit}"/>  </td>
-                </tr>
-                <tr>
-                    <th scope="row">Mietpreis</th>
-                    <td> <Input type="number" th:placeholder="${article.getRent()}" th:field="*{rent}"/> </td>
-                </tr>
-                <tr>
-                    <th scope="row">Optional: Verkaufspreis</th>
-                    <td> <Input type="number" th:placeholder="${article.getSellingPrice()}" th:field="*{sellingPrice}"/> </td>
-                </tr>
-                <tr th:if="${article.forSale == true}">
-                    <th scope="row">Verkaufspreis</th>
-                    <td> <Input type="number" th:placeholder="${article.getSellingPrice()}" th:field="*{sellingPrice}"/> </td>
-                </tr>
-                <tr>
-                    <th scope="row">Verfügbar?</th>
-                    <td> <Input type="checkbox" th:checked="${article.isAvailable()}" th:field="*{available}"/> </td>
-                </tr>
-                <tr>
-                    <th scope="row">Zum Verkauf?</th>
-                    <td> <Input type="checkbox" th:checked="${article.isForSale()}" th:field="*{forSale}"/> </td>
-                </tr>
-                <th scope="row"></th>
-                <td><button type="submit" class="btn btn-primary">Aktuallisieren</button></td>
-                <td><a th:href="|/article/|" > <button class="btn btn-warning" type="button">Abbrechen</button></a></td>
-            </table>
-        </form>
-    </div>
-</body>
+    <body>
+        <div class="container" layout:fragment="content" style="margin-top: 50px">
+            <h1>Artikel bearbeiten</h1>
+            <form method="post" th:object="${article}" action="#">
+                <table>
+                    <tr>
+                        <th scope="row">Name</th>
+                        <td> <Input type="text" th:placeholder="${article.getName()}" th:field="*{name}"/></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Beschreibung</th>
+                        <td> <Input type="text" th:placeholder="${article.getComment()}" th:field="*{comment}"/> </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Kaution</th>
+                        <td> <Input type="number" th:placeholder="${article.getDeposit()}" th:field="*{deposit}"/>  </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Mietpreis</th>
+                        <td> <Input type="number" th:placeholder="${article.getRent()}" th:field="*{rent}"/> </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Optional: Verkaufspreis</th>
+                        <td> <Input type="number" th:placeholder="${article.getSellingPrice()}" th:field="*{sellingPrice}"/> </td>
+                    </tr>
+                    <tr th:if="${article.forSale == true}">
+                        <th scope="row">Verkaufspreis</th>
+                        <td> <Input type="number" th:placeholder="${article.getSellingPrice()}" th:field="*{sellingPrice}"/> </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Verfügbar?</th>
+                        <td> <Input type="checkbox" th:checked="${article.isAvailable()}" th:field="*{available}"/> </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Zum Verkauf?</th>
+                        <td> <Input type="checkbox" th:checked="${article.isForSale()}" th:field="*{forSale}"/> </td>
+                    </tr>
+                    <th scope="row"></th>
+                    <td><button type="submit" class="btn btn-primary">Aktuallisieren</button></td>
+                    <td><a th:href="|/article/|" > <button class="btn btn-warning" type="button">Abbrechen</button></a></td>
+                </table>
+            </form>
+        </div>
+    </body>
 
 </html>

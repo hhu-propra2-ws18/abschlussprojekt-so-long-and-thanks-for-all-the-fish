@@ -2,30 +2,29 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{/mainpage}"
       xmlns:layout="http://www.w3.org/1999/xhtml" >
 
-<head>
+    <head>
+        <title>Meine Artikel - Rhinoshare</title>
+    </head>
 
-</head>
-
-<body>
-<div class="container" layout:fragment="content" style="margin-top: 20px">
-        <h1 class="display-3">Übersicht</h1>
-    <div class="grid-container">
-        <a th:href="|/article/${article.articleID}|" class="grid-item" th:each="article:${articles}">
-            <div class="item-grid-article">
-                <div class="article-picture" th:if="!${article.imageIsEmpty()}">
-                    <img th:src="@{/image/{id} (id = ${article.getImageID()})}">
-                </div>
-                <div class="article-picture" th:if="${article.imageIsEmpty()}">
-                    <img src="/img/placeholder_picture.png">
-                </div>
-                <div class="article-name" th:text="${article.getName()}" >...</div>
-                <div class="article-location" th:text="${article.getCity()}" >...</div>
-                <div class="article-lending-price" th:text="${article.getRent()} + '€'">...</div>
+    <body>
+        <div class="container" layout:fragment="content" style="margin-top: 20px">
+            <h1 class="display-3">Übersicht</h1>
+            <div class="grid-container">
+                <a th:href="|/article/${article.articleID}|" class="grid-item" th:each="article:${articles}">
+                    <div class="item-grid-article">
+                        <div class="article-picture" th:if="!${article.imageIsEmpty()}">
+                            <img th:src="@{/image/{id} (id = ${article.getImageID()})}">
+                        </div>
+                        <div class="article-picture" th:if="${article.imageIsEmpty()}">
+                            <img src="/img/placeholder_picture.png">
+                        </div>
+                        <div class="article-name" th:text="${article.getName()}" >...</div>
+                        <div class="article-location" th:text="${article.getCity()}" >...</div>
+                        <div class="article-lending-price" th:text="${article.getRent()} + '€'">...</div>
+                    </div>
+                </a>
             </div>
-
-        </a>
-    </div>
-</div>
-</body>
+        </div>
+    </body>
 
 </html>
