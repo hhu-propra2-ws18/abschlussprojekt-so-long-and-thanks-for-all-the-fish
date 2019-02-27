@@ -10,7 +10,7 @@
         <table>
             <!-- Hier if einfügen für default Bild-->
             <tr th:if="!${article.imageIsEmpty()}">
-                <td>Artikelbild</td>
+                <td></td>
                 <td> <img th:src="@{/image/{id} (id = ${article.getImageID()})}" width=auto height="300px"/></td>
             </tr>
             <tr>
@@ -50,17 +50,17 @@
         </table>
         <br>
         <div th:if="${article.owner == user}">
-            <a th:href="|/article/edit/${article.getArticleID()}|"> <button class="btn btn-light" type="button">Artikel bearbeiten</button></a>
-            <a th:href="|/article/delete/${article.getArticleID()}|"> <button class="btn btn-danger" type="button">Artikel löschen</button></a>
+            <a th:href="|/article/edit/${article.getArticleID()}|"> <button class="button_std_white" type="button">Artikel bearbeiten</button></a>
+            <a th:href="|/article/delete/${article.getArticleID()}|"> <button class="button_std_red" type="button">Artikel löschen</button></a>
         </div>
         <div th:if="${article.owner != user} and ${article.available == true}">
-            <a th:href="|/lendingRequest/${article.articleID}|"> <button class="btn btn-light" type="button">Artikel Ausleihen</button></a>
+            <a th:href="|/lendingRequest/${article.articleID}|"> <button class="button_std" type="button">Artikel Ausleihen</button></a>
         </div>
         <div th:if="${article.owner != user} and ${article.forSale == true}">
-            <a th:href="|/saleRequest/${article.articleID}|"> <button class="btn btn-danger" type="button">Artikel kaufen</button></a>
+            <a th:href="|/saleRequest/${article.articleID}|"> <button class="button_std_red" type="button">Artikel kaufen</button></a>
         </div>
         <div>
-            <a th:href="|/article/|"> <button class="btn btn-warning" type="button">Zurück zur Übersicht</button></a>
+            <a th:href="|/article/|"> <button class="button_std_white" type="button">Zurück zur Übersicht</button></a>
         </div>
     </div>
 </body>

@@ -16,7 +16,7 @@
                     </tr>
                     <tr th:if="!${article.imageIsEmpty()}">
                         <td>Artikelbild</td>
-                        <td> <img th:src="@{/image/{id} (id = ${article.getImage().get(0).getImageID()})}" width="200px" height=auto/></td>
+                        <td> <img th:src="@{/image/{id} (id = ${article.getImage()})}" width="200px" height=auto/></td>
                     </tr>
                     <tr>
                         <td>Mietpreis:</td>
