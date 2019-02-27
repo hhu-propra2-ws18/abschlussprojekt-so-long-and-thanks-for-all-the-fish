@@ -134,7 +134,7 @@ public class ConflictApplicationTests {
         Mockito.when(lendingRepo.findLendingBylendingID(8)).thenReturn(oLending2);
 
         p = Mockito.mock(Principal.class);
-        Mockito.when(p.getName()).thenReturn("root");
+        Mockito.when(p.getName()).thenReturn("jeff");
 
 
     }
@@ -167,6 +167,11 @@ public class ConflictApplicationTests {
         assertEquals("redirect:/admin/conflicthandling", controller.conflictSolved("", 7));
     }
 
+    @Test
+    public void testOpenConflict(){
+
+        assertEquals("/conflict/conflictUserOpen",controller.openConflict(m,p));
+    }
 }
 
 

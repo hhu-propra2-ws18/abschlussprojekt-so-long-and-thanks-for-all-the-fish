@@ -90,33 +90,6 @@ public class ArticleControllerTest {
 
     }
 
-    @Ignore
-    @Test
-    public void whenMappingEdit_thenSetNewValuesButKeepOldValuesAsSpecified() throws Exception {
-        //Arrange
-        Article chainsaw = new Article("Motorsäge", "wie neu", 250, 25, true, null);
-        Article betterChainsaw = new Article("Besser Motorsäge", "besser", 300, 30, false, null);
-        Optional<Article> optionalArticle = Optional.of(chainsaw);
-        Mockito.when(articleRepo.findById((long) 3)).thenReturn(optionalArticle);
-
-        //Act
-        mvc.perform(post("/article/edit/3")
-                .param("name", betterChainsaw.getName())
-                .param("comment", betterChainsaw.getComment())
-                .param("deposit", "250")
-                .param("rent", "25")
-        )
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/article/3"))
-                .andExpect(redirectedUrl("/article/3"));
-
-        //Assert
-        assertEquals(chainsaw.getName(), betterChainsaw.getName());
-        assertEquals(chainsaw.getComment(), betterChainsaw.getComment());
-        assertEquals(chainsaw.getDeposit(), betterChainsaw.getDeposit());
-        assertEquals(chainsaw.getRent(), betterChainsaw.getRent());
-    }
-
     @Test
     public void openConflictTest() {
         Article article = new Article("Motorsäge", "wie neu", 250, 25, true, null);
