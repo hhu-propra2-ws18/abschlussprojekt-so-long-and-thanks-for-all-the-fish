@@ -43,7 +43,7 @@ public class ConflictController {
 
     public void send(long lendId, String conflictMessage, long ownerId, long lenderId, User admin) {
         try {
-            mailService.sendConflict(lendId, conflictMessage, ownerId, lenderId, admin);
+            mailService.sendConflict(lendId, conflictMessage, ownerId, lenderId);
         } catch (MailException e) {
             //catch error
         }

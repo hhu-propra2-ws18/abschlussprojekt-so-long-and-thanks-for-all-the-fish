@@ -111,7 +111,7 @@ public class PostProccessor {
 				tmpLending.setConflict(true);
 				lendings.save(tmpLending);
 				//apiProcessor.punishOrRealeseReservation(Account.class, lendingAccount, article, lending.getProPayReservation().getId(), "punish");
-				mailservice.sendConflict(tmpLending.getLendingID(), "Der Artikel wurde in einem nicht angebrachten Zustand zurückgegeben", tmpLending.getLendedArticle().getOwner().getUserID(), tmpLending.getLendingPerson().getUserID(), users.findUserByuserID(3).get());
+				mailservice.sendConflict(tmpLending.getLendingID(), "Der Artikel wurde in einem nicht angebrachten Zustand zurückgegeben", tmpLending.getLendedArticle().getOwner().getUserID(), tmpLending.getLendingPerson().getUserID());
 				//TODO: Admin muss richtig gefunden werden.
 			}
 		}
