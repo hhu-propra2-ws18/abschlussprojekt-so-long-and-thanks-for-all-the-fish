@@ -57,7 +57,7 @@ public class ArticleController {
         Article article = articleRepository.findById(articleID).get();
         model.addAttribute("user" , user);
         model.addAttribute("article", article);
-        model.addAttribute("articleActive","active")
+        model.addAttribute("articleActive","active");
         ActualUserChecker.checkActualUser(model, p, userRepository);
         return "Article/articleView";
     }
