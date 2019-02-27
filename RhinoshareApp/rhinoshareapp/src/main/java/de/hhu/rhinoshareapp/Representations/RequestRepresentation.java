@@ -34,4 +34,8 @@ public class RequestRepresentation {
         this.lendings = lendings;
         this.borrowID = borrowID;
     }
+
+    public List<Lending> FillDenies() {
+       return lendings.findAllLendingBylendingPersonAndIsDummy(users.findUserByuserID(borrowID).get(), true);
+    }
 }

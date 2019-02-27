@@ -14,6 +14,7 @@ public class ActualUserChecker {
             Optional<User> u = users.findByUsername(p.getName());
             User user = u.get();
             m.addAttribute("surname", user.getSurname());
+            m.addAttribute("role", user.getRole());
             m.addAttribute("loggedIn", "true");
         }
         else {

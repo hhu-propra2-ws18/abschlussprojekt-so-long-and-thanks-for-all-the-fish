@@ -1,16 +1,18 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{/mainpage}"
+      xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
-    <link rel="stylesheet" type="text/css" href="/css/stylesheet.css">
-    <link rel="icon" href="/img/RhinoLogoSmall.png">    <meta charset="UTF-8">
     <title>Error</title>
 </head>
 <body>
-<h>Your action failed</h>
-<div>
-    Reason =
-   <div th:text="${error}">0</div>
-    <a th:href="@{/{username}(username = ${username})}" role="button">overview</a>
+<div class="container" layout:fragment="content" style="margin-top: 50px">
+    <h>Your action failed</h>
+    <div>
+        Reason =
+        <div th:text="${error}">0</div>
+        <a th:href="@{/{username}(username = ${username})}" role="button">overview</a>
+    </div>
 </div>
+
 </body>
 </html>

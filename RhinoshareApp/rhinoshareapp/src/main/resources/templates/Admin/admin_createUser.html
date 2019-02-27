@@ -1,103 +1,92 @@
 <!DOCTYPE html>
-<html lang="de" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Neuen Benutzer anlegen - Rhinoshare</title>
-    <link rel="stylesheet" type="text/css" href="/css/stylesheet.css">
-    <link rel="icon" href="/img/RhinoLogoSmall.png">
-</head>
-<body>
-<img id="titleImageTest" src="/img/rhinoLogoBigAdmin.png" width="300" height="75">
-<ul class="navigationbar">
-    <li class="navbaritem"><a href="/admin">Überblick</a></li>
-    <li class="navbaritem">
-        <a class="active" href="/admin/usermanagement">Benutzerverwaltung</a>
-    </li>
-    <li class="navbaritem"><a href="/admin/articlemanagement">Artikelverwaltung</a></li>
-    <li class="navbaritem"><a href="/admin/lendingmanagement">Ausleihen</a></li>
-    <li class="navbaritem"><a href="/admin/conflicthandling">Konfliktlösung</a></li>
-    <li class="navbaritem"><a href="/">Hauptseite</a></li>
-    <li style="float: right" class="navbaritem">
-        <a href="/logout">Ausloggen</a>
-    </li>
-</ul>
-<form method="post" action="/admin/newaccount">
-    <button class="button_std" type="submit">Hinzufügen</button>
-    <a href="/admin/usermanagement">
-        <button class="button_std_white">Zurück</button>
-    </a>
-    <table id="useroverview">
-        <tr>
-            <th>ID</th>
-            <th th:text="${nextID}">Platzhalter</th>
-        </tr>
-        <tr>
-            <td>Vorname</td>
-            <td>
-                <input class="loginTextfield" name="surname" type="text">
-            </td>
-        </tr>
-        <tr>
-            <td>Nachname</td>
-            <td>
-                <input class="loginTextfield" name="name" type="text">
-            </td>
-        </tr>
-        <tr>
-            <td>Straße</td>
-            <td>
-                <input class="loginTextfield" name="street" type="text">
-            </td>
-        </tr>
-        <tr>
-            <td>Hausnummer</td>
-            <td>
-                <input class="loginTextfield" name="housenumber" type="text">
-            </td>
-        </tr>
-        <tr>
-            <td>Postleitzahl</td>
-            <td>
-                <input class="loginTextfield" name="postcode" type="text">
-            </td>
-        </tr>
-        <tr>
-            <td>Wohnort</td>
-            <td>
-                <input class="loginTextfield" name="city" type="text">
-            </td>
-        </tr>
-        <tr>
-            <td>Land</td>
-            <td>
-                <input class="loginTextfield" name="country" type="text">
-            </td>
-        </tr>
-        <tr>
-            <td>RhinoID</td>
-            <td>
-                <input class="loginTextfield" name="username" type="text">
-            </td>
-        </tr>
-        <tr>
-            <td>E-Mail-Adresse</td>
-            <td>
-                <input class="loginTextfield" name="email" type="email">
-            </td>
-        </tr>
-        <tr>
-            <td>Passwort</td>
-            <td>
-                <input class="loginTextfield" name="password" type="text">
-            </td>
-        </tr>
-        <tr>
-            <td>Berechtigungen</td>
-            <td>
-                <input class="loginTextfield" name="role" type="text">
-            </td>
-        </tr>
-    </table>
-</form>
-</body>
+<html lang="de" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{Admin/admin_overview}"
+      xmlns:layout="http://www.w3.org/1999/xhtml">
+
+    <head>
+        <title>Neuen Benutzer anlegen - Rhinoshare</title>
+    </head>
+
+    <body>
+        <div class="container" layout:fragment="content">
+            <form method="post" action="/admin/newaccount">
+                <button class="button_std" type="submit">Hinzufügen</button>
+                <a href="/admin/usermanagement">
+                    <button class="button_std_white">Zurück</button>
+                </a>
+                <table id="useroverview">
+                    <tr>
+                        <th>ID</th>
+                        <th th:text="${nextID}">Platzhalter</th>
+                    </tr>
+                    <tr>
+                        <td>Vorname</td>
+                        <td>
+                            <input class="loginTextfield" name="surname" type="text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Nachname</td>
+                        <td>
+                            <input class="loginTextfield" name="name" type="text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Straße</td>
+                        <td>
+                            <input class="loginTextfield" name="street" type="text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Hausnummer</td>
+                        <td>
+                            <input class="loginTextfield" name="housenumber" type="text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Postleitzahl</td>
+                        <td>
+                            <input class="loginTextfield" name="postcode" type="text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Wohnort</td>
+                        <td>
+                            <input class="loginTextfield" name="city" type="text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Land</td>
+                        <td>
+                            <input class="loginTextfield" name="country" type="text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>RhinoID</td>
+                        <td>
+                            <input class="loginTextfield" name="username" type="text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>E-Mail-Adresse</td>
+                        <td>
+                            <input class="loginTextfield" name="email" type="email">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Passwort</td>
+                        <td>
+                            <input class="loginTextfield" name="password" type="text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Berechtigungen</td>
+                        <td>
+                            <input class="loginTextfield" name="role" type="text">
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </body>
+
 </html>

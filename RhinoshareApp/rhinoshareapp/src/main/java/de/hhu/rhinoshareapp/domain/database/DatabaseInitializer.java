@@ -41,13 +41,17 @@ public class DatabaseInitializer implements ServletContextInitializer {
 				.country("Germany")
 				.build();
 
-		User root = new User("Pasquier", "Jacques", testadress, "root", "japas102@hhu.de", "$2a$08$MbCSKfkg1C9A6mx82wwVneBpUkyW1ZwhsEjorhqkMYrhRxLJDZ9yO", "ROLE_ADMIN");
-		User user = new User("Test", "Test", testadress, "user", "test102@hhu.de", "$2a$08$MbCSKfkg1C9A6mx82wwVneBpUkyW1ZwhsEjorhqkMYrhRxLJDZ9yO", "ROLE_USER");
-		User otherUser = new User("Test", "Test", testadress, "2", "jtest111@hhu.de", "$2a$08$MbCSKfkg1C9A6mx82wwVneBpUkyW1ZwhsEjorhqkMYrhRxLJDZ9yO", "ROLE_ADMIN");
-		User kratos = User.builder().role("ROLE_USER").name("Kratos").username("KnoppelKratos").email("kratos@web.de").password("$2a$08$MbCSKfkg1C9A6mx82wwVneBpUkyW1ZwhsEjorhqkMYrhRxLJDZ9yO").build();
+		User root = new User("Pasquier", "Jacques", testadress, "root", "rhinoshareconflict@gmail.com", "$2a$08$MbCSKfkg1C9A6mx82wwVneBpUkyW1ZwhsEjorhqkMYrhRxLJDZ9yO", "ROLE_ADMIN");
+		User user = new User("Test", "Test", testadress, "user", "rhinoshareconflict@gmail.com", "$2a$08$MbCSKfkg1C9A6mx82wwVneBpUkyW1ZwhsEjorhqkMYrhRxLJDZ9yO", "ROLE_USER");
+		User otherUser = new User("Test", "Test", testadress, "2", "rhinoshareconflict@gmail.com", "$2a$08$MbCSKfkg1C9A6mx82wwVneBpUkyW1ZwhsEjorhqkMYrhRxLJDZ9yO", "ROLE_ADMIN");
+		User kratos = User.builder().role("ROLE_USER").name("Kratos").username("KnoppelKratos").email("rhinoshareconflict@gmail.com").password("$2a$08$MbCSKfkg1C9A6mx82wwVneBpUkyW1ZwhsEjorhqkMYrhRxLJDZ9yO").build();
 		APIProcessor apiProcessor = new APIProcessor();
-		apiProcessor.getAccountInformation(kratos.getUsername(), Account.class);
-		apiProcessor.getAccountInformation(user.getUsername(), Account.class);
+		try {
+			apiProcessor.getAccountInformation(kratos.getUsername(), Account.class);
+			apiProcessor.getAccountInformation(user.getUsername(), Account.class);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		users.saveAll(Arrays.asList(root, user, otherUser, kratos));
 

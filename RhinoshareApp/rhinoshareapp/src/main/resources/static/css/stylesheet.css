@@ -1,14 +1,20 @@
 @font-face {
     font-family: Geneva;
-    src: url("../fonts/Geneva.dfont");
+    src: url("../fonts/OpenSans-Regular.ttf");
 }
 
 /*Title*/
 
 #titleImage {
+    margin-top: 6px;
     display: block;
-    margin-left: auto;
-    margin-right: auto;
+    margin-left: 6px;
+    margin-bottom: 6px;
+}
+
+#titleImage_login {
+    display: block;
+    margin: 6px auto;
 }
 
 #loginform {
@@ -136,7 +142,7 @@
     transition-duration: 0.4s;
 }
 
-.button_std {
+.button_std, .contentFragment .button_std {
     font-family: Geneva;
     background-color: #1092ed;
     border: none;
@@ -154,7 +160,7 @@
     transition-duration: 0.4s;
 }
 
-.button_std_white {
+.button_std_white, .contentFragment .button_std_white {
     font-family: Geneva;
     background-color: #cdcdcd;
     border: none;
@@ -209,6 +215,14 @@
 }
 
 .button:hover, .button_std:hover, .button_std_white:hover {
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+.contentFragment .button_std:hover, .contentFragment .button_std:hover {
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+.contentFragment .button_std_white:hover, .contentFragment .button_std_white:hover {
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
 }
 
@@ -295,7 +309,8 @@ th, td {
 
     list-style-type: none;
     border-radius: 7px;
-    margin: 0;
+    margin-left: 6px;
+    margin-right: 6px;
     padding: 0;
     overflow: hidden;
     background-color: #e0e0e0;
@@ -303,6 +318,32 @@ th, td {
 
 .navbaritem {
     float: left;
+}
+
+
+.searchbar {
+    float: right;
+    padding: 6px;
+    border: none;
+    width: 300px;
+    height: 37px;
+    margin-top: 6px;
+    font-size: 17px;
+    border-bottom-left-radius: 7px;
+    border-top-left-radius: 7px;
+}
+
+#searchbutton {
+    margin-top: 6px;
+    margin-right: 10px;
+    height: 37px;
+    border-style: none;
+    border-bottom-right-radius: 7px;
+    border-top-right-radius: 7px;
+}
+
+#searchbutton:hover {
+    background: #0b7dda;
 }
 
 .navbaritem a {
@@ -405,6 +446,8 @@ th, td {
     border: 1px solid #41ae19;
     background-color: #41ae19;
     border-radius: 4px;
+    padding-left: 2px;
+    padding-right: 2px;
 }
 
 .red_marked {
@@ -412,4 +455,113 @@ th, td {
     border: 1px solid #bf3732;
     background-color: #bf3732;
     border-radius: 4px;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+.yellow_marked {
+    color: white;
+    border: 1px solid #bfa100;
+    background-color: #bfa100;
+    border-radius: 4px;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+body {
+    font-family: Geneva;
+}
+
+.navbar {
+    overflow: hidden;
+    background-color: #333;
+}
+
+.navbar a {
+    float: left;
+    font-size: 16px;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.dropdown {
+    float: left;
+    overflow: hidden;
+}
+
+.dropdown .dropbtn {
+    border: none;
+    outline: none;
+    color: white;
+    padding: 14px 16px;
+    background-color: inherit;
+    font-family: inherit;
+    margin: 0;
+}
+
+.navbar a:hover, .dropdown:hover .dropbtn {
+    background-color: rgba(16, 146, 237, 0.51);
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    border-radius: 7px;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    float: none;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/*Content in fragments*/
+
+.contentFragment .container {
+    margin: auto;
+    width: 60%;
+    padding: 10px;
+}
+
+.contentFragment table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.contentFragment th, .contentFragment td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.contentFragment tr:hover {background-color:#f5f5f5;}
+
+.contentFragment input[type=text], .contentFragment input[type=number], select {
+    font-family: Geneva;
+    font-size: 18px;
+    width: 90%;
+    padding: 6px 10px;
+    margin-left: 20px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    height: 40px;
 }
