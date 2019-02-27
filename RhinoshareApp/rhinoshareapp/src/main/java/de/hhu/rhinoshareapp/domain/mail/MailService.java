@@ -27,18 +27,14 @@ public class MailService {
     UserRepository userRepo;
 
     public void sendConflict(long lendingId, String conflictMessage, long ownerId, long lenderId) throws MailException {
-        //sendEmail
         List<User> admins = userRepo.findByRole("ROLE_ADMIN");
-        SimpleMailMessage mail = new SimpleMailMessage();
         for(int i=0; i<admins.size();i++){
+            SimpleMailMessage mail = new SimpleMailMessage();
             mail.setTo(admins.get(i).getEmail());
-            System.out.println(admins.get(i).getEmail());
             mail.setFrom("rhinoshareconflict@gmail.com");
             mail.setSubject("Conflict" + lendingId);
             mail.setText("LendingId: " + lendingId + "\nConflict message: " + conflictMessage + "\n" + "\nOwnerID:" + ownerId + "\nlenderID:" + lenderId + "");
+            javaMailSender.send(mail);
         }
-
-
-        javaMailSender.send(mail);
     }
 }

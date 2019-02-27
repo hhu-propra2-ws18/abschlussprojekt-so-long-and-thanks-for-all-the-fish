@@ -87,6 +87,7 @@ public class LendingController {
 		ReturnProcessRepresentation filledReturns = new ReturnProcessRepresentation(users, articles, id, lendings);
 		model.addAttribute("requests", filledRequests.FillRequest());
 		model.addAttribute("returns", filledReturns.FillReturns());
+		model.addAttribute("denies", filledRequests.FillDenies());
 		return "Lending/overview";
 	}
 
@@ -99,7 +100,7 @@ public class LendingController {
 		RequestRepresentation filledRequests = new RequestRepresentation(users, articles, lendings, id);
 		ReturnProcessRepresentation filledReturns = new ReturnProcessRepresentation(users, articles, id, lendings);
 		HashMap<String, String> postBodyParas = postProccessor.SplitString(postBody);
-		postProccessor.CheckDecision(apiProcessor, postBodyParas, lendings, articles, users, reservations, transactions);
+		postProccessor.ProccessPostRequest(apiProcessor, postBodyParas, lendings, articles, users, reservations, transactions);
 		if (apiProcessor.isErrorOccurred()) {
 			model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
 			apiProcessor.setErrorOccurred(false);
@@ -107,6 +108,7 @@ public class LendingController {
 		}
 		model.addAttribute("requests", filledRequests.FillRequest());
 		model.addAttribute("returns", filledReturns.FillReturns());
+		model.addAttribute("denies", filledRequests.FillDenies());
 		return "Lending/overview";
 	}
 
@@ -123,9 +125,8 @@ public class LendingController {
 			return "Lending/errorPage";
 		}
 		if (apiProcessor.hasEnoughMoneyForDeposit(lenderAccountInformation, articleID, articles)) {
-			model.addAttribute("requesterID", requesterID);
 			model.addAttribute("articleID", articleID);
-			return "Lending/sellRequest";
+			return "Lending/lendingRequest";
 		}
 		return "Lending/povertyPage";
 	}
@@ -156,6 +157,7 @@ public class LendingController {
 		model.addAttribute("username", user.get().getUsername());
 		model.addAttribute("id", postBodyParas.get("requesterID"));
 		if(postBodyParas.get("requestValue").equals("lending")){
+			System.out.println("CREATENEWLENDING");
 			postProccessor.CreateNewLending(postBodyParas, articles, lendings, users);
 		}
 		else{

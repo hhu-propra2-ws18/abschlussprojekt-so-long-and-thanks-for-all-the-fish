@@ -1,77 +1,97 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{/mainpage}"
+      xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
-    <link rel="stylesheet" type="text/css" href="/css/stylesheet.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel="icon" href="/img/RhinoLogoSmall.png">    <meta charset="UTF-8">
     <title>Overview</title>
 </head>
 <body onload="myFunction()">
-<a th:href="@{/lendings/{username}(username = ${username})}" role="button">Lendings</a>
-<a th:href="@{/borrows/{username}(username = ${username})}" role="button">Borrows</a>
-<a th:href="@{/conflictPage/{username}(username = ${username})}" role="button">Conflicts</a>
-<a th:href="@{/transaction/{username}(username = ${username})}" role="button">Transactions</a>
-<a th:href="@{/proPay/{username}(username = ${username})}" role="button">ProPay Account</a>
-<div>
-    Your article requests
-    <table th:each="request : ${requests}">
-        <div style="margin:0; margin-right:10px; border:2px solid #dfdfdf;
-        padding: 0em 1em 1em 1em; background-color:#FFFFFF;text-align:center">
-            <h3>Requester =</h3>
-            <div th:text="${request.lendingPerson.name}">0</div>
-            <h3>Article =</h3>                                 <!-- href for the article -->
-            <div th:text="${request.lendedArticle.name}">0</div>
-            <h3>Reason to lend it to this person =</h3>
-            <div th:text="${request.lendedArticle.requestComment}">0</div>
-            <h3>Startdate =</h3>
-            <div th:text="${request.formattedStartDate}">0</div>
-            <h3>Enddate =</h3>
-            <div th:text="${request.formattedEndDate}">0</div>
-            <form th:action="@{/{username}(username = ${username})}" method="post">
-                <fieldset>
-                    <input type="hidden" name="lendingID" th:value="${request.lendingID}">
-                    <input type="checkbox" id="yes" name="choice" value="accept">
-                    <label for="yes"> accept</label>
-                    <input type="checkbox" id="no" name="choice" value="decline">
-                    <label for="no">decline</label>
-                </fieldset>
-                <button type="finish">submit</button>
-            </form>
-        </div>
-    </table>
-</div>
+<div class="container" layout:fragment="content" style="margin-top: 50px">
 
-<div>
-    Your article returns
-    <table th:each="return : ${returns}">
-        <div style="margin:0; margin-right:10px; border:2px solid #dfdfdf;
+    <a th:href="@{/lendings/{username}(username = ${username})}" role="button">Lendings</a>
+    <a th:href="@{/borrows/{username}(username = ${username})}" role="button">Borrows</a>
+    <a th:href="@{/conflictPage/{username}(username = ${username})}" role="button">Conflicts</a>
+    <a th:href="@{/transaction/{username}(username = ${username})}" role="button">Transactions</a>
+    <a th:href="@{/proPay/{username}(username = ${username})}" role="button">ProPay Account</a>
+    <div>
+        Your article requests
+        <table th:each="request : ${requests}">
+            <div style="margin:0; margin-right:10px; border:2px solid #dfdfdf;
         padding: 0em 1em 1em 1em; background-color:#FFFFFF;text-align:center">
-            <h3>Returner =</h3>
-            <div th:text="${return.lendingPerson.name}">0</div>
-            <h3>Article =</h3>                                 <!-- href for the article -->
-            <div th:text="${return.lendedArticle.name}">0</div>
-            <form th:action="@{/{username}(username = ${username})}" method="post">
-                <fieldset>
-                    <input type="hidden" name="lendingID" th:value="${return.lendingID}">
-                    <input type="checkbox" id="yes2" name="choicereturn" value="accept">
-                    <label for="yes2"> accept</label>
-                    <input type="checkbox" id="no2" name="choicereturn" value="decline">
-                    <label for="no2">decline</label>
-                </fieldset>
-                <button type="finish">submit</button>
-            </form>
-        </div>
-    </table>
+                <h3>Requester =</h3>
+                <div th:text="${request.lendingPerson.name}">0</div>
+                <h3>Article =</h3>                                 <!-- href for the article -->
+                <div th:text="${request.lendedArticle.name}">0</div>
+                <h3>Reason to lend it to this person =</h3>
+                <div th:text="${request.lendedArticle.requestComment}">0</div>
+                <h3>Startdate =</h3>
+                <div th:text="${request.formattedStartDate}">0</div>
+                <h3>Enddate =</h3>
+                <div th:text="${request.formattedEndDate}">0</div>
+                <form th:action="@{/{username}(username = ${username})}" method="post">
+                    <fieldset>
+                        <input type="hidden" name="lendingID" th:value="${request.lendingID}">
+                        <input type="checkbox" id="yes" name="choice" value="accept">
+                        <label for="yes"> accept</label>
+                        <input type="checkbox" id="no" name="choice" value="decline">
+                        <label for="no">decline</label>
+                    </fieldset>
+                    <button type="finish">submit</button>
+                </form>
+            </div>
+        </table>
+    </div>
+
+    <div>
+        Your article returns
+        <table th:each="return : ${returns}">
+            <div style="margin:0; margin-right:10px; border:2px solid #dfdfdf;
+        padding: 0em 1em 1em 1em; background-color:#FFFFFF;text-align:center">
+                <h3>Returner =</h3>
+                <div th:text="${return.lendingPerson.name}">0</div>
+                <h3>Article =</h3>                                 <!-- href for the article -->
+                <div th:text="${return.lendedArticle.name}">0</div>
+                <form th:action="@{/{username}(username = ${username})}" method="post">
+                    <fieldset>
+                        <input type="hidden" name="lendingID" th:value="${return.lendingID}">
+                        <input type="checkbox" id="yes2" name="choicereturn" value="accept">
+                        <label for="yes2"> accept</label>
+                        <input type="checkbox" id="no2" name="choicereturn" value="decline">
+                        <label for="no2">decline</label>
+                    </fieldset>
+                    <button type="finish">submit</button>
+                </form>
+            </div>
+        </table>
+
+    </div>
+
+    <div>
+        Deine abgelehnten Artikel
+        <table th:each="denie : ${denies}">
+            <div style="margin:0; margin-right:10px; border:2px solid #dfdfdf;
+        padding: 0em 1em 1em 1em; background-color:#FFFFFF;text-align:center">
+                <h3>Returner =</h3>
+                <div th:text="${denie.lendingPerson.name}">0</div>
+                <h3>Article =</h3>                                 <!-- href for the article -->
+                <div th:text="${denie.lendedArticle.name}">0</div>
+                <div th:text="${denie.warning}">0</div>
+
+                <form th:action="@{/{username}(username = ${username})}" method="post">
+                    <input type="hidden" name="lendingID" th:value="${denie.lendingID}">
+                    <button name="recognized" value="true" type="finish">submit</button>
+                </form>
+            </div>
+        </table>
+
+    </div>
+    <script th:inline="javascript">
+        function myFunction() {
+            if (/*[[${warning}]]*/) {
+                alert("You have a Lending that has to be returned!");
+            }
+        }
+    </script>
 </div>
-<script th:inline="javascript">
-function myFunction() {
-  if(/*[[${warning}]]*/){
-     alert("You have a Lending that has to be returned!");
-  }else{
-    alert("alles tutti frutti");
-  }
-}
-</script>
 
 </body>
 </html>

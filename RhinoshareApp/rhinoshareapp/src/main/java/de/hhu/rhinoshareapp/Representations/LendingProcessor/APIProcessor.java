@@ -89,7 +89,7 @@ public class APIProcessor {
 						builder.scheme("http")
 								.host("localhost")
 								.port("8888")
-								.pathSegment("reservation", "reserve", lendingAccount.getAccount(), article.getOwner().getName())
+								.pathSegment("reservation", "reserve", lendingAccount.getAccount(), article.getOwner().getUsername())
 								// for trailing slash
 								.path("/")
 								.queryParam("amount", String.valueOf(article.getDeposit()))
@@ -108,7 +108,7 @@ public class APIProcessor {
 						builder.scheme("http")
 								.host("localhost")
 								.port("8888")
-								.pathSegment("account", lendingAccount.getAccount(), "transfer", article.getOwner().getName())
+								.pathSegment("account", lendingAccount.getAccount(), "transfer", article.getOwner().getUsername())
 								// for trailing slash
 								.path("/")
 								.queryParam("amount", amount)
