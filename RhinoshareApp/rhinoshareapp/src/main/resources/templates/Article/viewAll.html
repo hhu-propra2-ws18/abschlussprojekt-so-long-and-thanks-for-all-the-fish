@@ -2,61 +2,28 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{/mainpage}"
       xmlns:layout="http://www.w3.org/1999/xhtml" >
 
-<head>
-    <title>Ausleihen - Rhinoshare </title>
-</head>
+    <head>
+        <title>Ausleihen - Rhinoshare </title>
+    </head>
 
-<body>
-<!--
-<div class="container" layout:fragment="content" style="margin-top: 50px">
-    <div class="row mb-2">
-        <div class="col-md-6"  th:each="article:${articles}">
-            <table class="table table-hover"  th:if="${article.isActive()}">
-                <tr>
-                    <td>Artikel:</td>
-                    <td th:text="${article.getName()}"></td>
-                </tr>
-                <tr th:if="!${article.imageIsEmpty()}">
-                    <td>Artikelbild</td>
-                    <td> <img th:src="@{/image/{id} (id = ${article.getImageID()})}" width="200px" height=auto/></td>
-                </tr>
-                <tr>
-                    <td>Mietpreis:</td>
-                    <td th:text="${article.getRent()} + '€'"></td>
-                </tr>
-                <tr th:if="${article.forSale == true}">
-                    <td>Verkaufspreis:</td>
-                    <td th:text="${article.getSellingPrice()} + '€'"></td>
-                </tr>
-                <tr>
-                    <td><a th:href="|/article/${article.articleID}|"><button class="button_std_white" type="button">Zum Artikel</button></a></td>
-                </tr>
-            </table>
-        </div>
-    </div>
-    <a th:href="|/article/new/|"><button class="button_std" type="button">Neuen Artikel anlegen</button></a>
-</div>
--->
-<div class="container" layout:fragment="content" style="margin-top: 20px">
-    <div class="grid-container">
-        <a th:href="|/article/${article.articleID}|" class="grid-item" th:each="article:${articles}">
-            <div class="item-grid-article">
-                <div class="article-picture" th:if="!${article.imageIsEmpty()}">
-                    <img th:src="@{/image/{id} (id = ${article.getImageID()})}">
-                </div>
-                <div class="article-picture" th:if="${article.imageIsEmpty()}">
-                    <img src="/img/placeholder_picture.png">
-                </div>
-                <div class="article-name" th:text="${article.getName()}" >...</div>
-                <div class="article-location" th:text="${article.getCity()}" >...</div>
-                <div class="article-lending-price" th:text="${article.getRent()} + '€'">...</div>
+    <body>
+        <div class="container" layout:fragment="content" style="margin-top: 20px">
+            <div class="grid-container">
+                <a th:href="|/article/${article.articleID}|" class="grid-item" th:each="article:${articles}">
+                    <div class="item-grid-article">
+                        <div class="article-picture" th:if="!${article.imageIsEmpty()}">
+                            <img th:src="@{/image/{id} (id = ${article.getImageID()})}">
+                        </div>
+                        <div class="article-picture" th:if="${article.imageIsEmpty()}">
+                            <img src="/img/placeholder_picture.png">
+                        </div>
+                        <div class="article-name" th:text="${article.getName()}" >...</div>
+                        <div class="article-location" th:text="${article.getCity()}" >...</div>
+                        <div class="article-lending-price" th:text="${article.getRent()} + '€'">...</div>
+                    </div>
+                </a>
             </div>
-
-        </a>
-    </div>
-
-</div>
-
-</body>
+        </div>
+    </body>
 
 </html>

@@ -83,7 +83,7 @@ public class LendingController {
 		return "Lending/overviewLendings";
 	}
 
-	@PostMapping("/overview/lendings")
+	@PostMapping("/lendings")
 	public String LendingPageNew(Model model, Principal p, @RequestBody String postBody) {
 		long lendID = postProccessor.FindUserIDByUser(userRepository, p.getName());
 		HashMap<String, String> postBodyParas = postProccessor.SplitString(postBody);
@@ -141,7 +141,7 @@ public class LendingController {
 		return "Lending/povertyPage";
 	}
 
-	@PostMapping("/overview/inquiry")
+	@PostMapping("/inquiry")
 	public String inquiry(Model model, @RequestBody String postBody) {
 		HashMap<String, String> postBodyParas = postProccessor.SplitString(postBody);
 		Optional<User> user = userRepository.findUserByuserID(Long.parseLong(postBodyParas.get("requesterID")));
@@ -179,7 +179,7 @@ public class LendingController {
 		return "Lending/proPayOverview";
 	}
 
-	@PostMapping("/overview/proPay")
+	@PostMapping("/proPay")
 	public String SetProPayOverview(Model model, Principal p, @RequestBody String postBody) {
 		long id = postProccessor.FindUserIDByUser(userRepository, p.getName());
 		HashMap<String, String> postBodyParas = postProccessor.SplitString(postBody);
@@ -201,7 +201,7 @@ public class LendingController {
 		return "Lending/proPayOverview";
 	}
 
-	@PostMapping("/overview/releaseConflictingLending") //TODO: get resolve from conflict
+	@PostMapping("/releaseConflictingLending") //TODO: get resolve from conflict
 	public String ReleaseConflictingLending(@RequestBody String postBody) {
 		HashMap<String, String> postBodyParas = postProccessor.SplitString(postBody);
 		apiProcessor.PunishOrReleaseConflictingLending(postBodyParas, lendingRepository, userRepository, articleRepository, reservationRepository);
