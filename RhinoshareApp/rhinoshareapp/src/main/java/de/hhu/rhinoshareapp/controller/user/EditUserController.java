@@ -25,6 +25,7 @@ public class EditUserController {
     public String loadEditPage(Model model, Principal p) {
         User user = userRepository.findByUsername(p.getName()).get();
         model.addAttribute("user", user);
+        model.addAttribute("userActive","active");
         ActualUserChecker.checkActualUser(model, p, userRepository);
         return "/EditUser/profileOverview";
     }
@@ -64,6 +65,7 @@ public class EditUserController {
         }
         userRepository.save(oldUser);
         model.addAttribute(oldUser);
+        model.addAttribute("userActive","active");
         ActualUserChecker.checkActualUser(model, p, userRepository);
         return "/EditUser/profileOverview";
     }

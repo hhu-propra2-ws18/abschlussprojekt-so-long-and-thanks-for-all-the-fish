@@ -29,18 +29,6 @@ public class ConflictController {
     @Autowired
     UserRepository userRepo;
 
-    public void setUserRepository(UserRepository userRepository) {
-        this.userRepo = userRepository;
-    }
-
-    public void setLendingRepository(LendingRepository lendingRepository) {
-        this.lendRepo = lendingRepository;
-    }
-
-    public void setMailService(MailService mailService) {
-        this.mailService = mailService;
-    }
-
     public void send(long lendId, String conflictMessage, long ownerId, long lenderId, User admin) {
         try {
             mailService.sendConflict(lendId, conflictMessage, ownerId, lenderId, admin);
@@ -80,56 +68,5 @@ public class ConflictController {
         }
         return "redirect:/";
 
-    }
-
-
-    @GetMapping("/admin/conflicthandling")
-    public String conflictOverview(Model model, Principal p) {
-        ActualUserChecker.checkActualUser(model, p, userRepo);
-        List<Lending> lendings = lendRepo.findAllByIsConflict(true);
-        model.addAttribute("lendings", lendings);
-
-        return "Admin/admin_conflicthandling";
-    }
-
-    @PostMapping("/admin/conflicthandling")
-    public String postConflictOverview(@RequestParam long lendingID, @RequestParam(value = "action") String button) {
-        if (button.equals("show")) {
-            return "redirect:/showcase/" + lendingID;
-        }
-        return "redirect:/admin/conflicthandling";
-    }
-
-    @GetMapping("admin/conflicthandling/showcase/{id}")
-    public String getShowCase(Model model, @PathVariable long id, Principal p) {
-        ActualUserChecker.checkActualUser(model, p, userRepo);
-        try {
-            Optional<Lending> lendlist = lendRepo.findLendingBylendingID(id);
-            Lending l = lendlist.get();
-            model.addAttribute("owningPerson", l.getLendedArticle().getOwner().getUsername());
-            model.addAttribute("borrowwPerson", l.getLendingPerson().getUsername());
-            model.addAttribute("lendingID", l.getLendingID());
-            model.addAttribute("articleName", l.getLendedArticle().getName());
-        } catch (Exception e) {
-            return "redirect:/conflictOverview";
-        }
-
-        return "/admin/admin_conflicthandlingdetails";
-    }
-
-    @PostMapping("admin/conflicthandling/showcase/{id}")
-    public String conflictSolved(@RequestParam(value = "action") String button, @PathVariable long id) {
-        Optional<Lending> lendlist = lendRepo.findLendingBylendingID(id);
-        Lending l = lendlist.get();
-        if (button.equals("winBorrower")) {
-            l.setConflict(false);
-            lendRepo.save(l);
-            return "redirect:/borrowerWin";
-        } else if (button.equals("winOwner")) {
-            l.setConflict(false);
-            lendRepo.save(l);
-            return "redirect:/ownerWin";
-        }
-        return "redirect:/admin/conflicthandling";
     }
 }
