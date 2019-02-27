@@ -9,7 +9,7 @@
     <body>
         <div class="container" layout:fragment="content" style="margin-top: 50px">
             <dr>
-                <a th:href=|"/"| role="button">Zur Übersicht</a>
+                <a th:href=|overview| role="button">Zur Übersicht</a>
             </dr>
             <p> Sie bieten zur Ausleihe an: </p>
             <table th:each="article : ${articles}">

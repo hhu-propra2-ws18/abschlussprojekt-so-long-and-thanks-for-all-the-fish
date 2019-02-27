@@ -9,7 +9,7 @@
     <body>
         <div class="container" layout:fragment="content" style="margin-top: 50px">
             <dr>
-                <a th:href=|"/"| role="button">Zur Übersicht</a>
+                <a th:href=|overview| role="button">Zur Übersicht</a>
             </dr>
             <p>Deine ausgeliehen Artikel: </p>
             <table th:each="lending : ${lendings}">
@@ -27,7 +27,7 @@
                     <div th:text="${lending.lendedArticle.rent}">0</div>
                     <h3>Info: </h3>
                     <div th:text="${lending.warning}">0</div>
-                    <form th:action=|"/lendings"| method="post">
+                    <form th:action=|lendings| method="post">
                         <input type="hidden" name="lendingID" th:value="${lending.lendingID}">
                         <input type="hidden" name="articleID" th:value="${lending.lendedArticle.articleID}">
                         <button type="finish">Artikel zurückgeben</button>
