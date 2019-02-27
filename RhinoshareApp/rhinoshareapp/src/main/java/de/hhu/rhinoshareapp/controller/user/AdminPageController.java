@@ -47,21 +47,6 @@ public class AdminPageController {
         return "redirect:/admin/conflicthandling";
     }
 
-    @PostMapping("/admin/{id}")
-    public String conflictSolved(@RequestParam(value = "action") String button, @PathVariable long id) {
-        Lending lending = lendingRepository.findLendingBylendingID(id).get();
-        if (button.equals("winBorrower")) {
-            lending.setConflict(false);
-            lendingRepository.save(lending);
-            return "redirect:/borrowerWin";
-        } else if (button.equals("winOwner")) {
-            lending.setConflict(false);
-            lendingRepository.save(lending);
-            return "redirect:/ownerWin";
-        }
-        return "redirect:/admin/conflicthandling";
-    }
-
     //Usermanagement
     @GetMapping("/admin/usermanagement")
     public String loadUserManagement(Model model) {

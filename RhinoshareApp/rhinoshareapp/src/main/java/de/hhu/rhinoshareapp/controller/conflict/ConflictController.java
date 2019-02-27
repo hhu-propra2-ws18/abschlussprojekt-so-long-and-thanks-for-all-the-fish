@@ -14,7 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -24,7 +23,7 @@ public class ConflictController {
     private MailService mailService;
 
     @Autowired
-    LendingRepository lendRepo;
+    LendingRepository lendingRepository;
 
     @Autowired
     UserRepository userRepo;
@@ -50,10 +49,10 @@ public class ConflictController {
         try {
             if (button.equals("open")) {
                 if (!(description.equals(""))) {
-                    Optional<Lending> lendList = lendRepo.findLendingBylendingID(lendingID);
+                    Optional<Lending> lendList = lendingRepository.findLendingBylendingID(lendingID);
                     Lending l = lendList.get();
                     l.setConflict(true);
-                    lendRepo.save(l);
+                    lendingRepository.save(l);
                     User owner = l.getLendedArticle().getOwner();
                     Optional<User> serviceUser = userRepo.findUserByuserID(3);
                     User admin = serviceUser.get();
@@ -68,5 +67,20 @@ public class ConflictController {
         }
         return "redirect:/";
 
+    }
+
+    @PostMapping("/admin/{id}")
+    public String conflictSolved(@RequestParam(value = "action") String button, @PathVariable long id) {
+        Lending lending = lendingRepository.findLendingBylendingID(id).get();
+        if (button.equals("winBorrower")) {
+            lending.setConflict(false);
+            lendingRepository.save(lending);
+            return "redirect:/borrowerWin";
+        } else if (button.equals("winOwner")) {
+            lending.setConflict(false);
+            lendingRepository.save(lending);
+            return "redirect:/ownerWin";
+        }
+        return "redirect:/admin/conflicthandling";
     }
 }
