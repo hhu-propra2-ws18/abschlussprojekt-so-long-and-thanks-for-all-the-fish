@@ -1,22 +1,23 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{/mainpage}"
+      xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
-    <link rel="stylesheet" type="text/css" href="/css/stylesheet.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel="icon" href="/img/RhinoLogoSmall.png">    <meta charset="UTF-8">
     <title>Formular</title>
 </head>
 <body>
-<form th:action="@{/inquiry}" method="post">
-    <label>
-        why do you think you should get it :
-        <input type="text" name="requestComment">
-        <input type="hidden" name="requesterID" th:value="${requesterID}">
-        <input type="hidden" name="articleID" th:value="${articleID}">
-        <input type="hidden" name="requestValue" value="selling">
-    </label>
-    <button type="submit">submit</button>
-</form>
+<div class="container" layout:fragment="content" style="margin-top: 50px">
+
+    <form th:action="@{/inquiry}" method="post">
+        <label>
+            why do you think you should get it :
+            <input type="text" name="requestComment">
+            <input type="hidden" name="requesterID" th:value="${requesterID}">
+            <input type="hidden" name="articleID" th:value="${articleID}">
+            <input type="hidden" name="requestValue" value="selling">
+        </label>
+        <button type="submit">submit</button>
+    </form>
+</div>
 
 </body>
 </html>

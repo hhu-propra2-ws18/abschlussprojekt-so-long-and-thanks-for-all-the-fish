@@ -42,6 +42,8 @@ public class Lending {
 
     boolean isConflict;
 
+    boolean isDummy;
+
     String warning;
 
     @OneToOne
