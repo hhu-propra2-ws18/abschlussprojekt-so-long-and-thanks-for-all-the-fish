@@ -1,37 +1,40 @@
 <!DOCTYPE html >
 <html lang="en" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{/mainpage}"
       xmlns:layout="http://www.w3.org/1999/xhtml">
-<head>
-    <title>Ausgeliehene Geräte</title>
-</head>
-<body>
-<div class="container" layout:fragment="content" style="margin-top: 50px">
-    <dr>
-        <a th:href="@{/{username}(username = ${username})}" role="button">overview</a>
-    </dr>
-    <p>Sie haben ausgeliehen !</p>
-    <table th:each="lending : ${lendings}">
-        <div style="margin:0; margin-right:10px; border:2px solid #dfdfdf;
-        padding: 0em 1em 1em 1em; background-color:#FFFFFF;text-align:center">
-            <h3>Articlename =</h3>
-            <div th:text="${lending.lendedArticle.name}">0</div>
-            <h3>comment =</h3>
-            <div th:text="${lending.lendedArticle.comment}">0</div>
-            <h3>Person you are borrowing from =</h3>
-            <div th:text="${lending.lendedArticle.owner.name}">0</div>
-            <h3>Deposit =</h3>
-            <div th:text="${lending.lendedArticle.deposit}">0</div>
-            <h3>Rent =</h3>
-            <div th:text="${lending.lendedArticle.rent}">0</div>
-            <h3>Info =</h3>
-            <div th:text="${lending.warning}">0</div>
-            <form th:action="@{/lendings/{username}(username = ${username})}" method="post">
-                <input type="hidden" name="lendingID" th:value="${lending.lendingID}">
-                <input type="hidden" name="articleID" th:value="${lending.lendedArticle.articleID}">
-                <button type="finish">Return</button>
-            </form>
+
+    <head>
+        <title>Ausgeliehene Artikel</title>
+    </head>
+
+    <body>
+        <div class="container" layout:fragment="content" style="margin-top: 50px">
+            <dr>
+                <a th:href=|"/"| role="button">Zur Übersicht</a>
+            </dr>
+            <p>Deine ausgeliehen Artikel: </p>
+            <table th:each="lending : ${lendings}">
+                <div style="margin:0; margin-right:10px; border:2px solid #dfdfdf;
+                padding: 0em 1em 1em 1em; background-color:#FFFFFF;text-align:center">
+                    <h3>Artikel: </h3>
+                    <div th:text="${lending.lendedArticle.name}">0</div>
+                    <h3>Beschreibung: </h3>
+                    <div th:text="${lending.lendedArticle.comment}">0</div>
+                    <h3>Besitzer: </h3>
+                    <div th:text="${lending.lendedArticle.owner.name}">0</div>
+                    <h3>Kaution: </h3>
+                    <div th:text="${lending.lendedArticle.deposit}">0</div>
+                    <h3>Mietkosten: </h3>
+                    <div th:text="${lending.lendedArticle.rent}">0</div>
+                    <h3>Info: </h3>
+                    <div th:text="${lending.warning}">0</div>
+                    <form th:action=|"/lendings"| method="post">
+                        <input type="hidden" name="lendingID" th:value="${lending.lendingID}">
+                        <input type="hidden" name="articleID" th:value="${lending.lendedArticle.articleID}">
+                        <button type="finish">Artikel zurückgeben</button>
+                    </form>
+                </div>
+            </table>
         </div>
-    </table>
-</div>
-</body>
+    </body>
+
 </html>

@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{/mainpage}"
       xmlns:layout="http://www.w3.org/1999/xhtml">
-<head>
-    <title>Error</title>
-</head>
-<body>
-<div class="container" layout:fragment="content" style="margin-top: 50px">
-    <h>Your action failed</h>
-    <div>
-        Reason =
-        <div th:text="${error}">0</div>
-        <a th:href="@{/{username}(username = ${username})}" role="button">overview</a>
-    </div>
-</div>
+    <head>
+        <title>Propay Error</title>
+    </head>
 
-</body>
+    <body>
+        <div class="container" layout:fragment="content" style="margin-top: 50px">
+            <h>Da ist etwas fehlgeschlagen.</h>
+            <div>
+                Grund:
+                <div th:text="${error}">0</div>
+                <a th:href=|"/"| role="button">Zur Übersicht</a>
+            </div>
+        </div>
+    </body>
+
 </html>

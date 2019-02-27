@@ -15,10 +15,11 @@ import java.security.Principal;
 public class MainpageController {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    ArticleRepository articleRepository;
+    private ArticleRepository articleRepository;
+
 
     @GetMapping("/")
     public String viewAll(Model model, Principal p){

@@ -1,45 +1,47 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{/mainpage}"
       xmlns:layout="http://www.w3.org/1999/xhtml">
-<head>
-    <title>Transactions</title>
-</head>
-<body>
-<div class="container" layout:fragment="content" style="margin-top: 50px">
 
-    fincancial expenses
-    <table th:each="giving : ${givings}">
-        <div style="margin:0; margin-right:10px; border:2px solid #dfdfdf;
-        padding: 0em 1em 1em 1em; background-color:#FFFFFF;text-align:center">
-            <h3>To User =</h3>
-            <div th:text="${giving.reciever.name}">0</div>
-            <h3>Amount =</h3>
-            <div th:text="${giving.amount}">0</div>
-            <h3>Article =</h3>
-            <div th:text="${giving.article.name}">0</div>
-            <h3>Date =</h3>
-            <div th:text="${giving.formattedTransactionDate}">0</div>
+    <head>
+        <title>Transaktionen</title>
+    </head>
 
+    <body>
+        <div class="container" layout:fragment="content" style="margin-top: 50px">
+
+            Ausgaben:
+            <table th:each="giving : ${givings}">
+                <div style="margin:0; margin-right:10px; border:2px solid #dfdfdf;
+                padding: 0em 1em 1em 1em; background-color:#FFFFFF;text-align:center">
+                    <h3>Empfänger: </h3>
+                    <div th:text="${giving.reciever.name}">0</div>
+                    <h3>Betrag: </h3>
+                    <div th:text="${giving.amount}">0</div>
+                    <h3>Artikel: </h3>
+                    <div th:text="${giving.article.name}">0</div>
+                    <h3>Datum: </h3>
+                    <div th:text="${giving.formattedTransactionDate}">0</div>
+
+                </div>
+            </table>
+            Einnahmen:
+            <table th:each="recieve : ${recieves}">
+                <div style="margin:0; margin-right:10px; border:2px solid #dfdfdf;
+                padding: 0em 1em 1em 1em; background-color:#FFFFFF;text-align:center">
+                    <h3>Sender: </h3>
+                    <div th:text="${recieve.giver.name}">0</div>
+                    <h3>Menge: </h3>
+                    <div th:text="${recieve.amount}">0</div>
+                    <h3>Artikel: </h3>
+                    <div th:text="${recieve.article.name}">0</div>
+                    <h3>Datum: </h3>
+                    <div th:text="${recieve.formattedTransactionDate}">0</div>
+                </div>
+            </table>
+            <dr>
+                <a th:href=|"/"| role="button">Zur Übersicht</a>
+            </dr>
         </div>
-    </table>
-    financial income
-    <table th:each="recieve : ${recieves}">
-        <div style="margin:0; margin-right:10px; border:2px solid #dfdfdf;
-        padding: 0em 1em 1em 1em; background-color:#FFFFFF;text-align:center">
-            <h3>From User =</h3>
-            <div th:text="${recieve.giver.name}">0</div>
-            <h3>Amount =</h3>
-            <div th:text="${recieve.amount}">0</div>
-            <h3>Article =</h3>
-            <div th:text="${recieve.article.name}">0</div>
-            <h3>Date =</h3>
-            <div th:text="${recieve.formattedTransactionDate}">0</div>
-        </div>
-    </table>
-    <dr>
-        <a th:href="@{/{username}(username = ${username})}" role="button">overview</a>
-    </dr>
-</div>
+    </body>
 
-</body>
 </html>

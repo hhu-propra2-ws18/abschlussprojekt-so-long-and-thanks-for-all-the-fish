@@ -19,88 +19,48 @@ import java.util.HashMap;
 import java.util.Optional;
 
 @Controller
+@RequestMapping("/overview")
 public class LendingController {
 
-	private LendingRepository lendings;
-	private UserRepository users;
-	private ArticleRepository articles;
-	private ReservationRepository reservations;
-	private TransactionRepository transactions;
+	@Autowired
+	private LendingRepository lendingRepository;
+	@Autowired
+	private UserRepository userRepository;
+	@Autowired
+	private ArticleRepository articleRepository;
+	@Autowired
+	private ReservationRepository reservationRepository;
+	@Autowired
+	private TransactionRepository transactionRepository;
+
 	private PostProccessor postProccessor = new PostProccessor();
+
 	private APIProcessor apiProcessor = new APIProcessor();
 
-	@Autowired
-	public LendingController(LendingRepository lendings, UserRepository users, ArticleRepository articles, ReservationRepository reservations, TransactionRepository transactions) {
-		this.lendings = lendings;
-		this.articles = articles;
-		this.users = users;
-		this.reservations = reservations;
-		this.transactions = transactions;
-
-	}
-
-	@GetMapping("/lendings/{username}")
-	public String LendingPage(Model model, Principal p) {
-		String username = p.getName();
-		long lendID = postProccessor.FindUserIDByUser(users, username);
-		model.addAttribute("username", username);
-		model.addAttribute("id", lendID);
-		LendingRepresentation filledLendings = new LendingRepresentation(lendings, users, articles);
-		model.addAttribute("lendings", filledLendings.FillLendings(lendID));
-		return "Lending/overviewLendings";
-	}
-
-	@PostMapping("/lendings/{username}")
-	public String LendingPageNew(Model model, Principal p, @RequestBody String postBody) { //TODO: return procces erzeugen
-		String username = p.getName();
-		long lendID = postProccessor.FindUserIDByUser(users, username);
-		model.addAttribute("username", username);
-		model.addAttribute("id", lendID);
-		HashMap<String, String> postBodyParas = postProccessor.SplitString(postBody);
-		postProccessor.initializeNewReturn(postBodyParas, lendings);
-		LendingRepresentation filledLendings = new LendingRepresentation(lendings, users, articles);
-		model.addAttribute("lendings", filledLendings.FillLendings(lendID));
-		return "Lending/overviewLendings";
-	}
-
-	@GetMapping("/borrows/{username}")
-	public String BorrowPage(Model model, Principal p) {
-		String username = p.getName();
-		long borrowID = postProccessor.FindUserIDByUser(users, username);
-		model.addAttribute("username", username);
-		model.addAttribute("id", borrowID);
-		LendingRepresentation filledArticles = new LendingRepresentation(lendings, users, articles);
-		model.addAttribute("articles", filledArticles.FillBorrows(borrowID));
-		return "Lending/overviewBorrows";
-	}
-
-	@GetMapping("/{username}")
+	@GetMapping("/")
 	public String Overview(Model model, Principal p) {
-		String username = p.getName();
-		long id = postProccessor.FindUserIDByUser(users, username);
-		LendingRepresentation filledLendings = new LendingRepresentation(lendings, users, articles);
+		long id = postProccessor.FindUserIDByUser(userRepository, p.getName());
+		LendingRepresentation filledLendings = new LendingRepresentation(lendingRepository, userRepository, articleRepository);
 		filledLendings.FillLendings(id);
-		model.addAttribute("username", username);
 		model.addAttribute("id", id);
 		model.addAttribute("warning", filledLendings.isHasWarning());
-		RequestRepresentation filledRequests = new RequestRepresentation(users, articles, lendings, id);
-		ReturnProcessRepresentation filledReturns = new ReturnProcessRepresentation(users, articles, id, lendings);
+		RequestRepresentation filledRequests = new RequestRepresentation(userRepository, articleRepository, lendingRepository, id);
+		ReturnProcessRepresentation filledReturns = new ReturnProcessRepresentation(userRepository, articleRepository, id, lendingRepository);
 		model.addAttribute("requests", filledRequests.FillRequest());
 		model.addAttribute("returns", filledReturns.FillReturns());
 		model.addAttribute("denies", filledRequests.FillDenies());
+		model.addAttribute("lendingActive","active");
 		return "Lending/overview";
 	}
 
-	@PostMapping("/{username}")
+	@PostMapping("/")
 	public String PostOverview(Model model, Principal p, @RequestBody String postBody) {
-		String username = p.getName();
-		long id = postProccessor.FindUserIDByUser(users, username);
-		model.addAttribute("username", username);
-		model.addAttribute("id", id);
-		RequestRepresentation filledRequests = new RequestRepresentation(users, articles, lendings, id);
-		ReturnProcessRepresentation filledReturns = new ReturnProcessRepresentation(users, articles, id, lendings);
+		long id = postProccessor.FindUserIDByUser(userRepository, p.getName());
+		RequestRepresentation filledRequests = new RequestRepresentation(userRepository, articleRepository, lendingRepository, id);
+		ReturnProcessRepresentation filledReturns = new ReturnProcessRepresentation(userRepository, articleRepository, id, lendingRepository);
 		HashMap<String, String> postBodyParas = postProccessor.SplitString(postBody);
-		postProccessor.ProccessPostRequest(apiProcessor, postBodyParas, lendings, articles, users, reservations, transactions);
+		postProccessor.ProccessPostRequest(apiProcessor, postBodyParas, lendingRepository, articleRepository, userRepository, reservationRepository, transactionRepository);
+		model.addAttribute("id", id);
 		if (apiProcessor.isErrorOccurred()) {
 			model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
 			apiProcessor.setErrorOccurred(false);
@@ -110,21 +70,53 @@ public class LendingController {
 		model.addAttribute("returns", filledReturns.FillReturns());
 		model.addAttribute("denies", filledRequests.FillDenies());
 		return "Lending/overview";
+	}
+
+	@GetMapping("/lendings")
+	public String LendingPage(Model model, Principal p) {
+		long lendID = postProccessor.FindUserIDByUser(userRepository, p.getName());
+		LendingRepresentation filledLendings = new LendingRepresentation(lendingRepository, userRepository, articleRepository);
+		model.addAttribute("id", lendID);
+		model.addAttribute("lendings", filledLendings.FillLendings(lendID));
+		model.addAttribute("lendingActive","active");
+
+		return "Lending/overviewLendings";
+	}
+
+	@PostMapping("/lendings")
+	public String LendingPageNew(Model model, Principal p, @RequestBody String postBody) {
+		long lendID = postProccessor.FindUserIDByUser(userRepository, p.getName());
+		HashMap<String, String> postBodyParas = postProccessor.SplitString(postBody);
+		postProccessor.initializeNewReturn(postBodyParas, lendingRepository);
+		LendingRepresentation filledLendings = new LendingRepresentation(lendingRepository, userRepository, articleRepository);
+		model.addAttribute("id", lendID);
+		model.addAttribute("lendings", filledLendings.FillLendings(lendID));
+		return "Lending/overviewLendings";
+	}
+
+	@GetMapping("/borrows")
+	public String BorrowPage(Model model, Principal p) {
+		long borrowID = postProccessor.FindUserIDByUser(userRepository, p.getName());
+		model.addAttribute("id", borrowID);
+		LendingRepresentation filledArticles = new LendingRepresentation(lendingRepository, userRepository, articleRepository);
+		model.addAttribute("articles", filledArticles.FillBorrows(borrowID));
+		model.addAttribute("lendingActive","active");
+		return "Lending/overviewBorrows";
 	}
 
 	@GetMapping("/lendingRequest/{articleID}")
 	public String LendingRequest(Model model, Principal p, @PathVariable("articleID") long articleID) {
-		String username = p.getName();
-		long requesterID = postProccessor.FindUserIDByUser(users, username);
-		model.addAttribute("username", username);
-		Account lenderAccountInformation = apiProcessor.getAccountInformationWithId(requesterID, users);
+		long requesterID = postProccessor.FindUserIDByUser(userRepository, p.getName());
+		Account lenderAccountInformation = apiProcessor.getAccountInformationWithId(requesterID, userRepository);
 		model.addAttribute("requesterID", requesterID);
+		model.addAttribute("lendingActive","active");
+
 		if (apiProcessor.isErrorOccurred()) {
 			model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
 			apiProcessor.setErrorOccurred(false);
 			return "Lending/errorPage";
 		}
-		if (apiProcessor.hasEnoughMoneyForDeposit(lenderAccountInformation, articleID, articles)) {
+		if (apiProcessor.hasEnoughMoneyForDeposit(lenderAccountInformation, articleID, articleRepository)) {
 			model.addAttribute("articleID", articleID);
 			return "Lending/lendingRequest";
 		}
@@ -133,17 +125,16 @@ public class LendingController {
 
 	@GetMapping("/saleRequest/{articleID}")
 	public String SellingRequest(Model model, Principal p, @PathVariable("articleID") long articleID) {
-		String username = p.getName();
-		long requesterID = postProccessor.FindUserIDByUser(users, username);
-		model.addAttribute("username", username);
-		Account sellerAccountInformation = apiProcessor.getAccountInformationWithId(requesterID, users);
+		long requesterID = postProccessor.FindUserIDByUser(userRepository, p.getName());
+		Account sellerAccountInformation = apiProcessor.getAccountInformationWithId(requesterID, userRepository);
 		model.addAttribute("requesterID", requesterID);
+		model.addAttribute("lendingActive","active");
 		if (apiProcessor.isErrorOccurred()) {
 			model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
 			apiProcessor.setErrorOccurred(false);
 			return "Lending/errorPage";
 		}
-		if (apiProcessor.hasEnoughMoneyForSelling(sellerAccountInformation, articleID, articles)) {
+		if (apiProcessor.hasEnoughMoneyForSelling(sellerAccountInformation, articleID, articleRepository)) {
 			model.addAttribute("articleID", articleID);
 			return "Lending/sellRequest";
 		}
@@ -153,15 +144,15 @@ public class LendingController {
 	@PostMapping("/inquiry")
 	public String inquiry(Model model, @RequestBody String postBody) {
 		HashMap<String, String> postBodyParas = postProccessor.SplitString(postBody);
-		Optional<User> user = users.findUserByuserID(Long.parseLong(postBodyParas.get("requesterID")));
+		Optional<User> user = userRepository.findUserByuserID(Long.parseLong(postBodyParas.get("requesterID")));
 		model.addAttribute("username", user.get().getUsername());
 		model.addAttribute("id", postBodyParas.get("requesterID"));
 		if(postBodyParas.get("requestValue").equals("lending")){
 			System.out.println("CREATENEWLENDING");
-			postProccessor.CreateNewLending(postBodyParas, articles, lendings, users);
+			postProccessor.CreateNewLending(postBodyParas, articleRepository, lendingRepository, userRepository);
 		}
 		else{
-			postProccessor.SellArticle(postBodyParas, articles, users, apiProcessor, transactions);
+			postProccessor.SellArticle(postBodyParas, articleRepository, userRepository, apiProcessor, transactionRepository);
 		}
 		if (apiProcessor.isErrorOccurred()) {
 			model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
@@ -171,14 +162,13 @@ public class LendingController {
 		return "Lending/inquiry";
 	}
 
-	//
-	@GetMapping("/proPay/{username}")
+	//ProPay
+	@GetMapping("/proPay")
 	public String GetProPayOverview(Model model, Principal p) {
-		String username = p.getName();
-		long id = postProccessor.FindUserIDByUser(users, username);
-		model.addAttribute("username", username);
+		long id = postProccessor.FindUserIDByUser(userRepository, p.getName());
 		model.addAttribute("id", id);
-		Account account = apiProcessor.getAccountInformationWithId(id, users);
+		Account account = apiProcessor.getAccountInformationWithId(id, userRepository);
+		model.addAttribute("lendingActive","active");
 		if (apiProcessor.isErrorOccurred()) {
 			System.out.println("ich geh rein !");
 			model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
@@ -189,15 +179,13 @@ public class LendingController {
 		return "Lending/proPayOverview";
 	}
 
-	@PostMapping("/proPay/{username}")
+	@PostMapping("/proPay")
 	public String SetProPayOverview(Model model, Principal p, @RequestBody String postBody) {
-		String username = p.getName();
-		long id = postProccessor.FindUserIDByUser(users, username);
+		long id = postProccessor.FindUserIDByUser(userRepository, p.getName());
 		HashMap<String, String> postBodyParas = postProccessor.SplitString(postBody);
-		model.addAttribute("username", username);
 		model.addAttribute("id", id);
 		try {
-			Account account = apiProcessor.getAccountInformationWithId(id, users);
+			Account account = apiProcessor.getAccountInformationWithId(id, userRepository);
 			account = apiProcessor.postMoney(Account.class, account, Double.parseDouble(postBodyParas.get("amount")));
 			model.addAttribute("account", account);
 		} catch (Exception e) {
@@ -216,31 +204,29 @@ public class LendingController {
 	@PostMapping("/releaseConflictingLending") //TODO: get resolve from conflict
 	public String ReleaseConflictingLending(@RequestBody String postBody) {
 		HashMap<String, String> postBodyParas = postProccessor.SplitString(postBody);
-		apiProcessor.PunishOrReleaseConflictingLending(postBodyParas, lendings, users, articles, reservations);
+		apiProcessor.PunishOrReleaseConflictingLending(postBodyParas, lendingRepository, userRepository, articleRepository, reservationRepository);
 		return "Lending/overview";
 	}
 
-	@GetMapping("/conflictPage/{username}")
+	@GetMapping("/conflictPage")
 	public String ReleaseConflictingLending(Model model, Principal p) {
-		String username = p.getName();
-		long id = postProccessor.FindUserIDByUser(users, username);
-		LendingRepresentation filledConflicts = new LendingRepresentation(lendings, users, articles);
+		long id = postProccessor.FindUserIDByUser(userRepository, p.getName());
+		LendingRepresentation filledConflicts = new LendingRepresentation(lendingRepository, userRepository, articleRepository);
 		model.addAttribute("id", id);
-		model.addAttribute("username", username);
 		model.addAttribute("conflicts", filledConflicts.FillConflicts(id));
 		model.addAttribute("yourConflicts", filledConflicts.FillConflictsOwner(id));
+		model.addAttribute("lendingActive","active");
 		return "Lending/conflictPage";
 	}
 
-	@GetMapping("/transaction/{username}")
+	@GetMapping("/transaction")
 	public String ShowTransactions(Model model, Principal p) {
-		String username = p.getName();
-		long id = postProccessor.FindUserIDByUser(users, username);
-		TransactionRepresentation transactionRepresentation = new TransactionRepresentation(transactions, users);
+		long id = postProccessor.FindUserIDByUser(userRepository, p.getName());
+		TransactionRepresentation transactionRepresentation = new TransactionRepresentation(transactionRepository, userRepository);
 		model.addAttribute("id", id);
-		model.addAttribute("username", username);
 		model.addAttribute("givings", transactionRepresentation.FillGivings(id));
 		model.addAttribute("recieves", transactionRepresentation.FillRecieves(id));
+		model.addAttribute("lendingActive","active");
 		return "Lending/transactionsPage";
 	}
 }

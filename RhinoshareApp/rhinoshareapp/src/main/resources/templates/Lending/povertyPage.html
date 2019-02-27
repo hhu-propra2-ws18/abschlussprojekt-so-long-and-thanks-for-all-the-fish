@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{/mainpage}"
       xmlns:layout="http://www.w3.org/1999/xhtml">
-<head>
-    <title>Inquiry</title>
-</head>
-<body>
-<div class="container" layout:fragment="content" style="margin-top: 50px">
-    <h>Sorry, that you live in POVERTY you beggar</h>
-    <dr>
-        <a th:href="@{/{username}(username = ${username})}" role="button">overview</a>
-    </dr>
-</div>
 
-</body>
+    <head>
+        <title>Anfrage</title>
+    </head>
+
+    <body>
+        <div class="container" layout:fragment="content" style="margin-top: 50px">
+            <h>Sorry, that you live in POVERTY you beggar</h>
+            <dr>
+                <a th:href=|"/"| role="button">Zur Übersicht</a>
+            </dr>
+        </div>
+    </body>
+
 </html>

@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{/mainpage}"
       xmlns:layout="http://www.w3.org/1999/xhtml">
-<head>
-    <title>Inquiry</title>
-</head>
-<body>
-<div class="container" layout:fragment="content" style="margin-top: 50px">
 
-    <h>Your request is being processed</h>
-    <dr>
-        <a th:href="@{/{username}(username = ${username})}" role="button">overview</a>
-    </dr>
-</div>
+    <head>
+        <title>Anfrage</title>
+    </head>
 
-</body>
+    <body>
+        <div class="container" layout:fragment="content" style="margin-top: 50px">
+
+            <h>Ihre Anfrage wird bearbeitet...</h>
+            <dr>
+                <a th:href=|"/"| role="button">Zur Übersicht</a>
+            </dr>
+        </div>
+    </body>
+
 </html>
