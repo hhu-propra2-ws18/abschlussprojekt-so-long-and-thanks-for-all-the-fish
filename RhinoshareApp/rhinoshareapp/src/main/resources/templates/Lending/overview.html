@@ -9,11 +9,11 @@
     <body onload="generateAlertPopup()">
         <div class="container" layout:fragment="content" style="margin-top: 50px">
 
-            <a th:href="|/lendings|" role="button">Ausleihen</a>
-            <a th:href="|/borrows|" role="button">Angebotene Artikel</a>
-            <a th:href="|/conflictPage|" role="button">Konflikte</a>
-            <a th:href="|/transaction|" role="button">Transaktionen</a>
-            <a th:href="|/proPay|" role="button">ProPay Account</a>
+            <a th:href="|/overview/lendings|" role="button">Ausleihen</a>
+            <a th:href="|/overview/borrows|" role="button">Angebotene Artikel</a>
+            <a th:href="|/overview/conflictPage|" role="button">Konflikte</a>
+            <a th:href="|/overview/transaction|" role="button">Transaktionen</a>
+            <a th:href="|/overview/proPay|" role="button">ProPay Account</a>
             <div>
                 Deine Anfragen:
                 <table th:each="request : ${requests}">
