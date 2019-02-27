@@ -39,7 +39,7 @@
 -->
 <div class="container" layout:fragment="content" style="margin-top: 20px">
     <div class="grid-container">
-        <div class="grid-item" th:each="article:${articles}">
+        <a th:href="|/article/${article.articleID}|" class="grid-item" th:each="article:${articles}">
             <div class="item-grid-article">
                 <div class="article-picture" th:if="!${article.imageIsEmpty()}">
                     <img th:src="@{/image/{id} (id = ${article.getImageID()})}">
@@ -50,10 +50,9 @@
                 <div class="article-name" th:text="${article.getName()}" >...</div>
                 <div class="article-location" th:text="${article.getCity()}" >...</div>
                 <div class="article-lending-price" th:text="${article.getRent()} + '€'">...</div>
-                <a class="details-button-article" th:href="|/article/${article.articleID}|"><i class="fas fa-info-circle"></i></a>
             </div>
 
-        </div>
+        </a>
     </div>
 
 </div>
