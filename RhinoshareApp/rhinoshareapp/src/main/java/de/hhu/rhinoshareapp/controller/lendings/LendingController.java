@@ -8,6 +8,7 @@ import de.hhu.rhinoshareapp.Representations.ReturnProcessRepresentation;
 import de.hhu.rhinoshareapp.Representations.TransactionRepresentation;
 import de.hhu.rhinoshareapp.domain.model.Account;
 import de.hhu.rhinoshareapp.domain.model.User;
+import de.hhu.rhinoshareapp.domain.security.ActualUserChecker;
 import de.hhu.rhinoshareapp.domain.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -50,6 +51,7 @@ public class LendingController {
 		model.addAttribute("returns", filledReturns.FillReturns());
 		model.addAttribute("denies", filledRequests.FillDenies());
 		model.addAttribute("lendingActive","active");
+		ActualUserChecker.checkActualUser(model, p, userRepository);
 		return "Lending/overview";
 	}
 
@@ -79,7 +81,7 @@ public class LendingController {
 		model.addAttribute("id", lendID);
 		model.addAttribute("lendings", filledLendings.FillLendings(lendID));
 		model.addAttribute("lendingActive","active");
-
+		ActualUserChecker.checkActualUser(model, p, userRepository);
 		return "Lending/overviewLendings";
 	}
 
@@ -101,6 +103,7 @@ public class LendingController {
 		LendingRepresentation filledArticles = new LendingRepresentation(lendingRepository, userRepository, articleRepository);
 		model.addAttribute("articles", filledArticles.FillBorrows(borrowID));
 		model.addAttribute("lendingActive","active");
+		ActualUserChecker.checkActualUser(model, p, userRepository);
 		return "Lending/overviewBorrows";
 	}
 
@@ -114,12 +117,15 @@ public class LendingController {
 		if (apiProcessor.isErrorOccurred()) {
 			model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
 			apiProcessor.setErrorOccurred(false);
+			ActualUserChecker.checkActualUser(model, p, userRepository);
 			return "Lending/errorPage";
 		}
 		if (apiProcessor.hasEnoughMoneyForDeposit(lenderAccountInformation, articleID, articleRepository)) {
 			model.addAttribute("articleID", articleID);
+			ActualUserChecker.checkActualUser(model, p, userRepository);
 			return "Lending/lendingRequest";
 		}
+		ActualUserChecker.checkActualUser(model, p, userRepository);
 		return "Lending/povertyPage";
 	}
 
@@ -132,12 +138,15 @@ public class LendingController {
 		if (apiProcessor.isErrorOccurred()) {
 			model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
 			apiProcessor.setErrorOccurred(false);
+			ActualUserChecker.checkActualUser(model, p, userRepository);
 			return "Lending/errorPage";
 		}
 		if (apiProcessor.hasEnoughMoneyForSelling(sellerAccountInformation, articleID, articleRepository)) {
 			model.addAttribute("articleID", articleID);
+			ActualUserChecker.checkActualUser(model, p, userRepository);
 			return "Lending/sellRequest";
 		}
+		ActualUserChecker.checkActualUser(model, p, userRepository);
 		return "Lending/povertyPage";
 	}
 
@@ -173,9 +182,11 @@ public class LendingController {
 			System.out.println("ich geh rein !");
 			model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
 			apiProcessor.setErrorOccurred(false);
+			ActualUserChecker.checkActualUser(model, p, userRepository);
 			return "Lending/errorPage";
 		}
 		model.addAttribute("account", account);
+		ActualUserChecker.checkActualUser(model, p, userRepository);
 		return "Lending/proPayOverview";
 	}
 
@@ -216,6 +227,7 @@ public class LendingController {
 		model.addAttribute("conflicts", filledConflicts.FillConflicts(id));
 		model.addAttribute("yourConflicts", filledConflicts.FillConflictsOwner(id));
 		model.addAttribute("lendingActive","active");
+		ActualUserChecker.checkActualUser(model, p, userRepository);
 		return "Lending/conflictPage";
 	}
 
@@ -227,6 +239,7 @@ public class LendingController {
 		model.addAttribute("givings", transactionRepresentation.FillGivings(id));
 		model.addAttribute("recieves", transactionRepresentation.FillRecieves(id));
 		model.addAttribute("lendingActive","active");
+		ActualUserChecker.checkActualUser(model, p, userRepository);
 		return "Lending/transactionsPage";
 	}
 }
