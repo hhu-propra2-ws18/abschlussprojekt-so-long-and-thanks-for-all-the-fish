@@ -32,6 +32,10 @@
                         <input type="hidden" name="articleID" th:value="${lending.lendedArticle.articleID}">
                         <button type="finish">Artikel zurückgeben</button>
                     </form>
+                    <form th:action=|openConflict| method="post">
+                        <input type="hidden" name="lendingID" th:value="${lending.lendingID}">
+                        <button type="finish">Konflikt erzeugen</button>
+                    </form>
                 </div>
             </table>
         </div>

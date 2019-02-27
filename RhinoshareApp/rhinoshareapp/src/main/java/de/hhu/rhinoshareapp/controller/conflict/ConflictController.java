@@ -1,6 +1,7 @@
 package de.hhu.rhinoshareapp.controller.conflict;
 
 
+import de.hhu.rhinoshareapp.Representations.LendingProcessor.PostProccessor;
 import de.hhu.rhinoshareapp.domain.mail.MailService;
 import de.hhu.rhinoshareapp.domain.model.Lending;
 import de.hhu.rhinoshareapp.domain.model.User;
@@ -14,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.Optional;
 
 @Controller
@@ -37,7 +39,10 @@ public class ConflictController {
     }
 
     @GetMapping("/openConflict")
-    public String openConflict(Model model, Principal p) {
+    public String openConflict(Model model, Principal p, @RequestBody String postBody) {
+        PostProccessor postProccessor = new PostProccessor();
+        HashMap<String, String> postBodyParas = postProccessor.SplitString(postBody);
+        model.addAttribute("id",postBodyParas.get("lendingID"));
         ActualUserChecker.checkActualUser(model, p, userRepo);
         model.addAttribute("error", " ");
         return "/conflict/conflictUserOpen";
