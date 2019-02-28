@@ -18,4 +18,5 @@ public interface LendingRepository extends CrudRepository<Lending, Long> {
     List<Lending> findAllLendingBylendingPersonAndIsDummy(User user, boolean isDummy);
     List<Lending> findAllByIsConflict(boolean conflict);
     List<Lending> findAll();
+    Optional<Lending> findBylendedArticleAndIsRequestedForSale(Article article, boolean isRequestedForSale);
 }

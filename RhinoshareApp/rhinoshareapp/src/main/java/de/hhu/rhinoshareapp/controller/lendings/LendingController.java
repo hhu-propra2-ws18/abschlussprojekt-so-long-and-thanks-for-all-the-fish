@@ -7,6 +7,8 @@ import de.hhu.rhinoshareapp.Representations.RequestRepresentation;
 import de.hhu.rhinoshareapp.Representations.ReturnProcessRepresentation;
 import de.hhu.rhinoshareapp.Representations.TransactionRepresentation;
 import de.hhu.rhinoshareapp.domain.model.Account;
+import de.hhu.rhinoshareapp.domain.model.Article;
+import de.hhu.rhinoshareapp.domain.model.Lending;
 import de.hhu.rhinoshareapp.domain.model.User;
 import de.hhu.rhinoshareapp.domain.security.ActualUserChecker;
 import de.hhu.rhinoshareapp.domain.service.*;
@@ -50,6 +52,7 @@ public class LendingController {
         model.addAttribute("requests", filledRequests.FillRequest());
         model.addAttribute("returns", filledReturns.FillReturns());
         model.addAttribute("denies", filledRequests.FillDenies());
+        model.addAttribute("sales", filledRequests.fillSaleRequests());
         model.addAttribute("lendingActive", "active");
         ActualUserChecker.checkActualUser(model, p, userRepository);
         return "Lending/overview";
@@ -71,6 +74,7 @@ public class LendingController {
         model.addAttribute("requests", filledRequests.FillRequest());
         model.addAttribute("returns", filledReturns.FillReturns());
         model.addAttribute("denies", filledRequests.FillDenies());
+        model.addAttribute("sales", filledRequests.fillSaleRequests());
         return "Lending/overview";
     }
 
@@ -160,7 +164,8 @@ public class LendingController {
             System.out.println("CREATENEWLENDING");
             postProccessor.CreateNewLending(postBodyParas, articleRepository, lendingRepository, userRepository);
         } else {
-            postProccessor.SellArticle(postBodyParas, articleRepository, userRepository, apiProcessor, transactionRepository);
+            postProccessor.createNewDummyLending(postBodyParas, lendingRepository, userRepository, articleRepository);
+            //postProccessor.SellArticle(postBodyParas, articleRepository, userRepository, apiProcessor, transactionRepository);
         }
         if (apiProcessor.isErrorOccurred()) {
             model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
@@ -169,6 +174,7 @@ public class LendingController {
         }
         return "redirect:/overview";
     }
+
 
     //ProPay
     @GetMapping("/proPay")

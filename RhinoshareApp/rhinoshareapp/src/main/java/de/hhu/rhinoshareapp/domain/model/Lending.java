@@ -44,6 +44,8 @@ public class Lending {
 
     boolean isDummy;
 
+    boolean isRequestedForSale;
+
     String warning;
 
     @OneToOne

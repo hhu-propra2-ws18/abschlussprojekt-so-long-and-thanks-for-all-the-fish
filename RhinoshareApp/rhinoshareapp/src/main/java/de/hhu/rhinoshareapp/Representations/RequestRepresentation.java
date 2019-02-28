@@ -38,4 +38,14 @@ public class RequestRepresentation {
     public List<Lending> FillDenies() {
        return lendings.findAllLendingBylendingPersonAndIsDummy(users.findUserByuserID(borrowID).get(), true);
     }
+
+    public List<Lending> fillSaleRequests(){
+        List<Lending> saleRequests = new ArrayList<>();
+        Optional<User> user = users.findUserByuserID(borrowID);
+        List<Article> articles = this.articles.findAllByOwner(user.get());
+        for (Article article : articles) {
+            saleRequests.add(lendings.findBylendedArticleAndIsRequestedForSale(article, true).get());
+        }
+        return saleRequests;
+    }
 }

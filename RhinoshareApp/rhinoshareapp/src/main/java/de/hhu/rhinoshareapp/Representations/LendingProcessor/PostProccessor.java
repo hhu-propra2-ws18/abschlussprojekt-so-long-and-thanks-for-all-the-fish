@@ -60,6 +60,8 @@ public class PostProccessor {
             ProccessReturn(apiProcessor, postBodyParas, lendings, articles, users, reservations, transactions);
         }else if(postBodyParas.containsKey("recognized")){
             ProccessRecognized(lendings, postBodyParas);
+        }else if(postBodyParas.containsKey("sold")){
+            SellArticle(postBodyParas, articles,users,apiProcessor,transactions, lendings);
         }
     }
 
@@ -176,24 +178,42 @@ public class PostProccessor {
         return byUsername.get().getUserID();
     }
 
-    public void SellArticle(HashMap<String, String> postBodyParas, ArticleRepository articles, UserRepository users, APIProcessor apiProcessor, TransactionRepository transactions) {
-        try {
-            Optional<User> requester = users.findUserByuserID(Long.parseLong(postBodyParas.get("requesterID")));
-            Account buyingAccount = apiProcessor.getAccountInformationWithId(requester.get().getUserID(), users);
+    public void SellArticle(HashMap<String, String> postBodyParas, ArticleRepository articles, UserRepository users, APIProcessor apiProcessor, TransactionRepository transactions, LendingRepository lendings) {
+        if(postBodyParas.get("sold").equals("accept")) {
+            try {
+                Optional<User> requester = users.findUserByuserID(Long.parseLong(postBodyParas.get("requesterID")));
+                Account buyingAccount = apiProcessor.getAccountInformationWithId(requester.get().getUserID(), users);
+                Optional<Article> article = articles.findArticleByarticleID(Long.parseLong(postBodyParas.get("articleID")));
+                Optional<Lending> lending = lendings.findLendingBylendedArticle(article.get());
+                lendings.delete(lending.get());
+                apiProcessor.postTransfer(String.class, buyingAccount, article.get(), article.get().getSellingPrice());
+                Calendar timeStamp = Calendar.getInstance();
+                // Create Dummy Article for Transaction History
+                Article dummyArticle = Article.builder().name(article.get().getName()).sellingPrice(article.get().getSellingPrice()).build();
+                articles.save(dummyArticle);
+                Transaction transaction = new Transaction(article.get().getOwner(), users.findUserByuserID(Long.parseLong(postBodyParas.get("requesterID"))).get(), dummyArticle, dummyArticle.getSellingPrice(), timeStamp);
+                transactions.save(transaction);
+                articles.delete(article.get());
+            } catch (Exception e) {
+                apiProcessor.setErrorOccurred(true);
+                apiProcessor.addErrorMessage("Propay is not reachable, try it again later");
+                e.printStackTrace();
+                return;
+            }
+        }else{
             Optional<Article> article = articles.findArticleByarticleID(Long.parseLong(postBodyParas.get("articleID")));
-            apiProcessor.postTransfer(String.class, buyingAccount, article.get(), article.get().getSellingPrice());
-            Calendar timeStamp = Calendar.getInstance();
-            // Create Dummy Article for Transaction History
-            Article dummyArticle = Article.builder().name(article.get().getName()).sellingPrice(article.get().getSellingPrice()).build();
-            articles.save(dummyArticle);
-            Transaction transaction = new Transaction(article.get().getOwner(), users.findUserByuserID(Long.parseLong(postBodyParas.get("requesterID"))).get(), dummyArticle, dummyArticle.getSellingPrice(), timeStamp);
-            transactions.save(transaction);
-            articles.delete(article.get());
-        } catch (Exception e) {
-            apiProcessor.setErrorOccurred(true);
-            apiProcessor.addErrorMessage("Propay is not reachable, try it again later");
-            e.printStackTrace();
-            return;
+            Optional<Lending> lending = lendings.findLendingBylendedArticle(article.get());
+            lending.get().setDummy(true);
+            lending.get().setWarning("Ihre Kaufanfrage wurde abgelehnt");
+            lendings.save(lending.get());
         }
+    }
+
+    public void createNewDummyLending(HashMap<String, String> postBodyParas, LendingRepository lendingRepository, UserRepository userRepository, ArticleRepository articleRepository) {
+        String articleID = postBodyParas.get("articleID");
+        Optional<Article> article = articleRepository.findArticleByarticleID(Long.parseLong(articleID));
+        Optional<User> optionalUser = userRepository.findUserByuserID(Long.parseLong(postBodyParas.get("requesterID")));
+        Lending lending = Lending.builder().lendingPerson(optionalUser.get()).lendedArticle(article.get()).isRequestedForSale(true).warning(postBodyParas.get("requestComment")).build();
+        lendingRepository.save(lending);
     }
 }
