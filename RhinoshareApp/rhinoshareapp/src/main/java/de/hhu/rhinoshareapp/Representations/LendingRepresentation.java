@@ -23,7 +23,7 @@ public class LendingRepresentation {
     // Returns a list of of lendings for a User given by his id, that are Accepted and not returned
     public List<Lending> fillLendings(long userID) {
         User user = users.findUserByuserID(userID).get();
-        List<Lending> lendingList = lendings.findAllBylendingPersonAndIsAcceptedAndIsReturnAndIsConflict(user, true, false, false);
+        List<Lending> lendingList = lendings.findAllBylendingPersonAndIsAcceptedAndIsReturnAndIsConflictAndIsRequestedForSale(user, true, false, false, false);
         for (Lending lending : lendingList) {
             Calendar endDate = lending.getEndDate();
             Calendar currentDate = Calendar.getInstance();
@@ -41,7 +41,7 @@ public class LendingRepresentation {
     }
     public List<Lending> fillConflicts(long userID) {
         User user = users.findUserByuserID(userID).get();
-        List<Lending> lendingList = lendings.findAllBylendingPersonAndIsAcceptedAndIsReturnAndIsConflict(user, true, false, true);
+        List<Lending> lendingList = lendings.findAllBylendingPersonAndIsAcceptedAndIsReturnAndIsConflictAndIsRequestedForSale(user, true, false, true, false);
         for (Lending lending : lendingList) {
             lending.setWarning("The article you lended is currently investigated");
         }

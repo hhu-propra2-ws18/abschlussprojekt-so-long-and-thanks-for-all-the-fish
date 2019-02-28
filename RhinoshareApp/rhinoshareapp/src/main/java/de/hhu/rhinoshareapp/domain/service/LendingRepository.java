@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public interface LendingRepository extends CrudRepository<Lending, Long> {
 
-    List<Lending> findAllBylendingPersonAndIsAcceptedAndIsReturnAndIsConflict(User user, boolean accepted, boolean isReturn, boolean isConflict);
+    List<Lending> findAllBylendingPersonAndIsAcceptedAndIsReturnAndIsConflictAndIsRequestedForSale(User user, boolean accepted, boolean isReturn, boolean isConflict, boolean isRequestedForSale);
     Optional<Lending> findLendingBylendedArticle(Article article);
     Optional<Lending> findLendingBylendedArticleAndIsReturn(Article article, boolean isReturn);
     Optional<Lending> findLendingBylendingID(long id);

@@ -202,7 +202,11 @@ public class PostProccessor {
             }
         }else{
             Optional<Article> article = articles.findArticleByarticleID(Long.parseLong(postBodyParas.get("articleID")));
+            article.get().setForSale(true);
+            article.get().setAvailable(true);
+            articles.save(article.get());
             Optional<Lending> lending = lendings.findLendingBylendedArticle(article.get());
+            lending.get().setRequestedForSale(false);
             lending.get().setDummy(true);
             lending.get().setWarning("Ihre Kaufanfrage wurde abgelehnt");
             lendings.save(lending.get());
@@ -213,7 +217,12 @@ public class PostProccessor {
         String articleID = postBodyParas.get("articleID");
         Optional<Article> article = articleRepository.findArticleByarticleID(Long.parseLong(articleID));
         Optional<User> optionalUser = userRepository.findUserByuserID(Long.parseLong(postBodyParas.get("requesterID")));
-        Lending lending = Lending.builder().lendingPerson(optionalUser.get()).lendedArticle(article.get()).isRequestedForSale(true).warning(postBodyParas.get("requestComment")).build();
+        //Lending lending = Lending.builder().lendingPerson(optionalUser.get()).lendedArticle(article.get()).isRequestedForSale(true).warning(postBodyParas.get("requestComment")).build();
+        Lending lending = new Lending();
+        lending.setWarning(postBodyParas.get("requestComment"));
+        lending.setLendedArticle(article.get());
+        lending.setRequestedForSale(true);
+        lending.setLendingPerson(optionalUser.get());
         lendingRepository.save(lending);
     }
 }

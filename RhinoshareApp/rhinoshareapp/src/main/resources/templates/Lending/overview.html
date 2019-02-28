@@ -54,7 +54,7 @@
                         <div th:text="${return.lendedArticle.name}">0</div>
                         <form th:action="|/overview/|" method="post">
                             <fieldset>
-                                <input type="hidden" name="lendingID" th:value="${return.lendingID}">
+                                <input type="hidden" name="lendingID" th:value="${return.articleID}">
                                 <input type="checkbox" id="yes2" name="choicereturn" value="accept">
                                 <label for="yes2"> Annehmen</label>
                                 <input type="checkbox" id="no2" name="choicereturn" value="decline">
@@ -98,11 +98,12 @@
                         <h3>Preis: </h3>
                         <div th:text="${sale.lendedArticle.sellingPrice}">0</div>
                         <h3>Warum sollst du den Artikel verkaufen: </h3>
-                        <div th:text="${sale.warning}">0</div>
 
                         <form th:action="|/overview/|" method="post">
                             <fieldset>
-                                <input type="hidden" name="lendingID" th:value="${return.lendingID}">
+                                <input type="hidden" name="lendingID" th:value="${sale.lendingID}">
+                                <input type="hidden" name="requesterID" th:value="${sale.lendingPerson.userID}">
+                                <input type="hidden" name="articleID" th:value="${sale.lendedArticle.articleID}">
                                 <input type="checkbox" id="yes3" name="sold" value="accept">
                                 <label for="yes3"> Annehmen</label>
                                 <input type="checkbox" id="no3" name="sold" value="decline">

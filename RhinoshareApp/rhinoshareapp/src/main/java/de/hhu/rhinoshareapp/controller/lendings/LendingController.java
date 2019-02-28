@@ -165,6 +165,10 @@ public class LendingController {
             postProccessor.createNewLending(postBodyParas, articleRepository, lendingRepository, userRepository);
         } else {
             postProccessor.createNewDummyLending(postBodyParas, lendingRepository, userRepository, articleRepository);
+            Optional<Article> article = articleRepository.findArticleByarticleID(Long.parseLong(postBodyParas.get("articleID")));
+            article.get().setForSale(false);
+            article.get().setAvailable(false);
+            articleRepository.save(article.get());
             //postProccessor.SellArticle(postBodyParas, articleRepository, userRepository, apiProcessor, transactionRepository);
         }
         if (apiProcessor.isErrorOccurred()) {
