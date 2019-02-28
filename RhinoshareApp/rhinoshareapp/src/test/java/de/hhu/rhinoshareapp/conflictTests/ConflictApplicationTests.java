@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-/*@RunWith(SpringRunner.class)
+@RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
 @WebAppConfiguration
 @WebMvcTest
@@ -91,7 +91,7 @@ public class ConflictApplicationTests {
         lendingRepo.save(testLending1);
         lendingRepo.save(testLending2);
 
-       /*Optional<ServiceUser> sUser1= (Optional<ServiceUser>) testUser1;
+       Optional<ServiceUser> sUser1= (Optional<ServiceUser>) testUser1;
 
         Mockito.when(userRepo.findByUsername("jeff"))
                 .thenReturn(testUser1);
@@ -113,9 +113,9 @@ public class ConflictApplicationTests {
         controller.setMailService(mailService);
         m = Mockito.mock(Model.class);
 
-    } */
+    }
 
-  /*  @Test
+    @Test
     public void contexLoads() throws Exception {
         assertNotEquals(null, controller);
     }
@@ -157,5 +157,5 @@ public class ConflictApplicationTests {
 
 
 }
-*/
+
 
