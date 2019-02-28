@@ -17,7 +17,7 @@ import java.security.Principal;
 import java.util.List;
 
 @Controller
-public class chatController {
+public class ChatController {
 
     @Autowired
     UserRepository userRepository;

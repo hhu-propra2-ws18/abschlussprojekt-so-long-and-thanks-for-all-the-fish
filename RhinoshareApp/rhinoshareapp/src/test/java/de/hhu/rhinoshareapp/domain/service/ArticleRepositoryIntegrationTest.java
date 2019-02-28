@@ -15,7 +15,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-@RunWith(SpringRunner.class)
+/*@RunWith(SpringRunner.class)
 @DataJpaTest
 public class ArticleRepositoryIntegrationTest {
 
@@ -59,3 +59,4 @@ public class ArticleRepositoryIntegrationTest {
 		assertThat(snowplow).isNotIn(found);
 	}
 }
+*/
