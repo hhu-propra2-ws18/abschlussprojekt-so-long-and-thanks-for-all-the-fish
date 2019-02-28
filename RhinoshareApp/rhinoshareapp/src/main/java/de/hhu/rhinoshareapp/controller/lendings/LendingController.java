@@ -2,7 +2,7 @@ package de.hhu.rhinoshareapp.controller.lendings;
 
 import de.hhu.rhinoshareapp.Representations.LendingProcessor.APIProcessor;
 import de.hhu.rhinoshareapp.Representations.LendingProcessor.PostProccessor;
-import de.hhu.rhinoshareapp.Representations.lendingRepresentation;
+import de.hhu.rhinoshareapp.Representations.LendingRepresentation;
 import de.hhu.rhinoshareapp.Representations.RequestRepresentation;
 import de.hhu.rhinoshareapp.Representations.ReturnProcessRepresentation;
 import de.hhu.rhinoshareapp.Representations.TransactionRepresentation;
@@ -41,15 +41,15 @@ public class LendingController {
     @GetMapping("/")
     public String overview(Model model, Principal p) {
         long id = postProccessor.findUserIDByUser(userRepository, p.getName());
-        lendingRepresentation filledLendings = new lendingRepresentation(lendingRepository, userRepository, articleRepository);
+        LendingRepresentation filledLendings = new LendingRepresentation(lendingRepository, userRepository, articleRepository);
         filledLendings.fillLendings(id);
         model.addAttribute("id", id);
         model.addAttribute("warning", filledLendings.isHasWarning());
         RequestRepresentation filledRequests = new RequestRepresentation(userRepository, articleRepository, lendingRepository, id);
         ReturnProcessRepresentation filledReturns = new ReturnProcessRepresentation(userRepository, articleRepository, id, lendingRepository);
-        model.addAttribute("requests", filledRequests.FillRequest());
-        model.addAttribute("returns", filledReturns.FillReturns());
-        model.addAttribute("denies", filledRequests.FillDenies());
+        model.addAttribute("requests", filledRequests.fillRequest());
+        model.addAttribute("returns", filledReturns.fillReturns());
+        model.addAttribute("denies", filledRequests.fillDenies());
         model.addAttribute("lendingActive", "active");
         ActualUserChecker.checkActualUser(model, p, userRepository);
         return "Lending/overview";
@@ -68,16 +68,16 @@ public class LendingController {
             apiProcessor.setErrorOccurred(false);
             return "Lending/errorPage";
         }
-        model.addAttribute("requests", filledRequests.FillRequest());
-        model.addAttribute("returns", filledReturns.FillReturns());
-        model.addAttribute("denies", filledRequests.FillDenies());
+        model.addAttribute("requests", filledRequests.fillRequest());
+        model.addAttribute("returns", filledReturns.fillReturns());
+        model.addAttribute("denies", filledRequests.fillDenies());
         return "Lending/overview";
     }
 
     @GetMapping("/lendings")
     public String lendingPage(Model model, Principal p) {
         long lendID = postProccessor.findUserIDByUser(userRepository, p.getName());
-        lendingRepresentation filledLendings = new lendingRepresentation(lendingRepository, userRepository, articleRepository);
+        LendingRepresentation filledLendings = new LendingRepresentation(lendingRepository, userRepository, articleRepository);
         model.addAttribute("id", lendID);
         model.addAttribute("lendings", filledLendings.fillLendings(lendID));
         model.addAttribute("lendingActive", "active");
@@ -90,7 +90,7 @@ public class LendingController {
         long lendID = postProccessor.findUserIDByUser(userRepository, p.getName());
         HashMap<String, String> postBodyParas = postProccessor.splitString(postBody);
         postProccessor.initializeNewReturn(postBodyParas, lendingRepository);
-        lendingRepresentation filledLendings = new lendingRepresentation(lendingRepository, userRepository, articleRepository);
+        LendingRepresentation filledLendings = new LendingRepresentation(lendingRepository, userRepository, articleRepository);
         model.addAttribute("id", lendID);
         model.addAttribute("lendings", filledLendings.fillLendings(lendID));
         return "Lending/overviewLendings";
@@ -100,7 +100,7 @@ public class LendingController {
     public String borrowPage(Model model, Principal p) {
         long borrowID = postProccessor.findUserIDByUser(userRepository, p.getName());
         model.addAttribute("id", borrowID);
-        lendingRepresentation filledArticles = new lendingRepresentation(lendingRepository, userRepository, articleRepository);
+        LendingRepresentation filledArticles = new LendingRepresentation(lendingRepository, userRepository, articleRepository);
         model.addAttribute("articles", filledArticles.fillBorrows(borrowID));
         model.addAttribute("lendingActive", "active");
         ActualUserChecker.checkActualUser(model, p, userRepository);
@@ -221,7 +221,7 @@ public class LendingController {
     @GetMapping("/conflictPage")
     public String releaseConflictingLending(Model model, Principal p) {
         long id = postProccessor.findUserIDByUser(userRepository, p.getName());
-        lendingRepresentation filledConflicts = new lendingRepresentation(lendingRepository, userRepository, articleRepository);
+        LendingRepresentation filledConflicts = new LendingRepresentation(lendingRepository, userRepository, articleRepository);
         model.addAttribute("id", id);
         model.addAttribute("conflicts", filledConflicts.fillConflicts(id));
         model.addAttribute("yourConflicts", filledConflicts.fillConflictsOwner(id));
@@ -235,8 +235,8 @@ public class LendingController {
         long id = postProccessor.findUserIDByUser(userRepository, p.getName());
         TransactionRepresentation transactionRepresentation = new TransactionRepresentation(transactionRepository, userRepository);
         model.addAttribute("id", id);
-        model.addAttribute("givings", transactionRepresentation.FillGivings(id));
-        model.addAttribute("recieves", transactionRepresentation.FillRecieves(id));
+        model.addAttribute("givings", transactionRepresentation.fillGivings(id));
+        model.addAttribute("recieves", transactionRepresentation.fillRecieves(id));
         model.addAttribute("lendingActive", "active");
         ActualUserChecker.checkActualUser(model, p, userRepository);
         return "Lending/transactionsPage";

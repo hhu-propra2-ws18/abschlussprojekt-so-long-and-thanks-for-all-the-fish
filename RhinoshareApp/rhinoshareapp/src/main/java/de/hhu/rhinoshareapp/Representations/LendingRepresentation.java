@@ -13,7 +13,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
-public class lendingRepresentation {
+public class LendingRepresentation {
 
     private LendingRepository lendings;
     private UserRepository users;
@@ -69,7 +69,7 @@ public class lendingRepresentation {
         return articles.findAllByOwner(user);
     }
     @Autowired
-    public lendingRepresentation(LendingRepository lendings, UserRepository users, ArticleRepository articles) {
+    public LendingRepresentation(LendingRepository lendings, UserRepository users, ArticleRepository articles) {
         this.lendings = lendings;
         this.users = users;
         this.articles = articles;

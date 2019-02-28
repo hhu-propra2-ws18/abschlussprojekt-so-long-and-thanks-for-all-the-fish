@@ -22,7 +22,7 @@ public class ReturnProcessRepresentation {
         this.userID = userID;
         this.lendings = lendings;
     }
-    public List<Lending> FillReturns(){
+    public List<Lending> fillReturns(){
         List<Lending> filledReturns = new ArrayList<>();
         List<Article> articles = this.articles.findAllByOwner(users.findUserByuserID(userID).get());
         for (Article article : articles) {

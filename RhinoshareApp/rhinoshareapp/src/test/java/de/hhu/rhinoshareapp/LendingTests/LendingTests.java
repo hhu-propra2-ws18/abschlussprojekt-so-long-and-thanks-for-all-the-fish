@@ -3,7 +3,7 @@ package de.hhu.rhinoshareapp.LendingTests;
 
 import de.hhu.rhinoshareapp.Representations.LendingProcessor.APIProcessor;
 import de.hhu.rhinoshareapp.Representations.LendingProcessor.PostProccessor;
-import de.hhu.rhinoshareapp.Representations.lendingRepresentation;
+import de.hhu.rhinoshareapp.Representations.LendingRepresentation;
 import de.hhu.rhinoshareapp.domain.mail.MailService;
 import de.hhu.rhinoshareapp.domain.model.Account;
 import de.hhu.rhinoshareapp.domain.model.Article;
@@ -74,7 +74,7 @@ public class LendingTests {
         when(lendingRepository.findAllBylendingPersonAndIsAcceptedAndIsReturnAndIsConflict(testUser.get(), true, false, false)).thenReturn(testLendingList);
 
         //Act
-        lendingRepresentation lendingRepresentation = new lendingRepresentation(lendingRepository, serviceUserProvider, articleRepository);
+        LendingRepresentation lendingRepresentation = new LendingRepresentation(lendingRepository, serviceUserProvider, articleRepository);
         List<Lending> resultLendings = lendingRepresentation.fillLendings(1);
         Lending resultLending = resultLendings.get(0);
 
@@ -106,7 +106,7 @@ public class LendingTests {
         long expectedDays = Math.round((double) time / (24. * 60. * 60. * 1000.));
 
         //Act
-        lendingRepresentation lendingRepresentation = new lendingRepresentation(lendingRepository, serviceUserProvider, articleRepository);
+        LendingRepresentation lendingRepresentation = new LendingRepresentation(lendingRepository, serviceUserProvider, articleRepository);
         List<Lending> resultLendings = lendingRepresentation.fillLendings(1);
         Lending resultLending = resultLendings.get(0);
 

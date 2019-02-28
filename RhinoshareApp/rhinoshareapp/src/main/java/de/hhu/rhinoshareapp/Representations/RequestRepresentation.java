@@ -17,7 +17,7 @@ public class RequestRepresentation {
     private LendingRepository lendings;
     long borrowID;
 
-   public List<Lending> FillRequest(){
+   public List<Lending> fillRequest(){
        //suche alle artikel wo die request flag gesetzt ist
        Optional<User> user = users.findUserByuserID(borrowID);
        List<Lending> filledLendings = new ArrayList<>();
@@ -35,7 +35,7 @@ public class RequestRepresentation {
         this.borrowID = borrowID;
     }
 
-    public List<Lending> FillDenies() {
+    public List<Lending> fillDenies() {
        return lendings.findAllLendingBylendingPersonAndIsDummy(users.findUserByuserID(borrowID).get(), true);
     }
 }
