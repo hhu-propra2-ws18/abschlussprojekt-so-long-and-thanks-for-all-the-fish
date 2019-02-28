@@ -30,14 +30,14 @@ public class APIProcessor {
 		Optional<User> user = users.findUserByuserID(userID);
 		if (!user.isPresent()) {
 			errorOccurred = true;
-			errorMessage.put("reason", "User not found");
+			errorMessage.put("reason", "User nicht gefunden");
 			return null;
 		}
 		try {
 			return getAccountInformation(user.get().getUsername(), Account.class);
 		} catch (Exception e) {
 			errorOccurred = true;
-			errorMessage.put("reason", "Propay is not reachable, try it again later");
+			errorMessage.put("reason", "Propay ist nicht erreichbar, bitte probieren Sie es zu einem anderen Zeitpunkt");
 			e.printStackTrace();
 		}
 		return null;
@@ -57,7 +57,7 @@ public class APIProcessor {
 								.build())
 				.accept(MediaType.APPLICATION_JSON_UTF8)
 				.exchange()
-				.flatMap(clientResponse -> ErrorHandling(type, clientResponse));
+				.flatMap(clientResponse -> errorHandling(type, clientResponse));
 		return mono.block();
 	}
 
@@ -96,7 +96,7 @@ public class APIProcessor {
 								.build())
 				.accept(MediaType.APPLICATION_JSON_UTF8)
 				.exchange()
-				.flatMap(clientResponse -> ErrorHandling(type, clientResponse));
+				.flatMap(clientResponse -> errorHandling(type, clientResponse));
 		return mono.block();
 	}
 
@@ -115,7 +115,7 @@ public class APIProcessor {
 								.build())
 				.accept(MediaType.APPLICATION_JSON_UTF8)
 				.exchange()
-				.flatMap(clientResponse -> ErrorHandling(type, clientResponse));
+				.flatMap(clientResponse -> errorHandling(type, clientResponse));
 		return mono.block();
 	}
 
@@ -134,7 +134,7 @@ public class APIProcessor {
 								.build())
 				.accept(MediaType.APPLICATION_JSON_UTF8)
 				.exchange()
-				.flatMap(clientResponse -> ErrorHandling(type, clientResponse));
+				.flatMap(clientResponse -> errorHandling(type, clientResponse));
 		return mono.block();
 	}
 
@@ -153,11 +153,11 @@ public class APIProcessor {
 								.build())
 				.accept(MediaType.APPLICATION_JSON_UTF8)
 				.exchange()
-				.flatMap(clientResponse -> ErrorHandling(type, clientResponse));
+				.flatMap(clientResponse -> errorHandling(type, clientResponse));
 		return mono.block();
 	}
 
-	public void PunishOrReleaseConflictingLending(HashMap<String, String> postBodyParas, LendingRepository lendings, UserRepository users, ArticleRepository articles, ReservationRepository reservations) {
+	public void punishOrReleaseConflictingLending(HashMap<String, String> postBodyParas, LendingRepository lendings, UserRepository users, ArticleRepository articles, ReservationRepository reservations) {
 		String lendingID = postBodyParas.get("lendingID");
 		String decision = postBodyParas.get("decision");
 		Lending conflictingLending = lendings.findLendingBylendingID(Long.parseLong(lendingID)).get();
@@ -179,11 +179,11 @@ public class APIProcessor {
 
 		// Delete Lending and Reservation
 		PostProccessor postProccessor = new PostProccessor();
-		postProccessor.CleanUpLending(postBodyParas, lendings, articles);
+		postProccessor.cleanUpLending(postBodyParas, lendings, articles);
 		reservations.delete(conflictingLending.getProPayReservation());
 	}
 
-	private <T> Mono<? extends T> ErrorHandling(Class<T> type, ClientResponse clientResponse) {
+	private <T> Mono<? extends T> errorHandling(Class<T> type, ClientResponse clientResponse) {
 		errorOccurred = false;
 		if (clientResponse.statusCode().is5xxServerError() || clientResponse.statusCode().is4xxClientError() || clientResponse.statusCode().is3xxRedirection()) {
 			clientResponse.body((clientHttpResponse, context) -> {
@@ -196,7 +196,6 @@ public class APIProcessor {
 				return clientHttpResponse.getBody();
 			});
 		} else {
-			System.out.println(clientResponse.statusCode());
 			return clientResponse.bodyToMono(type);
 		}
 		return clientResponse.bodyToMono(type);

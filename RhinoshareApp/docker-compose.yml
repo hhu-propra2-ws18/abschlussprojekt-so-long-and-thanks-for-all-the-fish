@@ -1,18 +1,32 @@
 version: "3.5"
 services:
+
   rhinoshareapp:
     build:
       context: ./rhinoshareapp
       dockerfile: ./Dockerfile
-    command: ["./wait-for-it.sh", "database:5432", "--", "java", "-jar", "app.jar"]
     ports:
       - "8080:8080"
+    command: ["./wait-for-it.sh", "database:5432", "propay:8888", "--", "java", "-jar", "app.jar"]
     depends_on:
       - database
 
 
+  propay:
+    image: propra/propay
+    ports:
+      - "8888:8888"
+    # Optional
+    volumes:
+      - ./data:/code/data
+    depends_on:
+      - database
+      - rhinoshareapp
+
   database:
     image: postgres
+    ports:
+      - "5432:5432"
     environment:
       - POSTGRES_PASSWORD=rhinoshare_default
       - POSTGRES_DB=database

@@ -2,8 +2,6 @@ package de.hhu.rhinoshareapp.controller.conflict;
 
 
 import de.hhu.rhinoshareapp.Representations.LendingProcessor.APIProcessor;
-import de.hhu.rhinoshareapp.Representations.LendingProcessor.PostProccessor;
-import de.hhu.rhinoshareapp.controller.lendings.LendingController;
 import de.hhu.rhinoshareapp.domain.mail.MailService;
 import de.hhu.rhinoshareapp.domain.model.Lending;
 import de.hhu.rhinoshareapp.domain.model.User;
@@ -96,7 +94,7 @@ public class ConflictController {
             HashMap<String, String> postBodyParas = new HashMap<>();
             postBodyParas.put("lendingID", String.valueOf(lending.getLendingID()));
             postBodyParas.put("decision", "false");
-            apiProcessor.PunishOrReleaseConflictingLending(postBodyParas, lendingRepository, userRepo, articleRepository, reservationRepository);
+            apiProcessor.punishOrReleaseConflictingLending(postBodyParas, lendingRepository, userRepo, articleRepository, reservationRepository);
             //--
             return "redirect:/admin";
 
@@ -107,7 +105,7 @@ public class ConflictController {
             HashMap<String, String> postBodyParas = new HashMap<>();
             postBodyParas.put("lendingID", String.valueOf(lending.getLendingID()));
             postBodyParas.put("decision", "true");
-            apiProcessor.PunishOrReleaseConflictingLending(postBodyParas, lendingRepository, userRepo, articleRepository, reservationRepository);
+            apiProcessor.punishOrReleaseConflictingLending(postBodyParas, lendingRepository, userRepo, articleRepository, reservationRepository);
             //--
             return "redirect:/admin";
         }

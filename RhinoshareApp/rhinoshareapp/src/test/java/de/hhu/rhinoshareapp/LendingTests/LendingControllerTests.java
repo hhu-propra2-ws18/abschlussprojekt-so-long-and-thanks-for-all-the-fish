@@ -1,14 +1,13 @@
-package de.hhu.rhinoshareapp.conflictTests;
-
+package de.hhu.rhinoshareapp.LendingTests;
 
 import de.hhu.rhinoshareapp.Representations.LendingProcessor.APIProcessor;
-import de.hhu.rhinoshareapp.controller.MainpageController;
+import de.hhu.rhinoshareapp.Representations.LendingProcessor.PostProccessor;
 import de.hhu.rhinoshareapp.controller.conflict.ConflictController;
+import de.hhu.rhinoshareapp.controller.lendings.LendingController;
 import de.hhu.rhinoshareapp.domain.mail.MailService;
 import de.hhu.rhinoshareapp.domain.model.Article;
 import de.hhu.rhinoshareapp.domain.model.Lending;
 import de.hhu.rhinoshareapp.domain.model.User;
-
 import de.hhu.rhinoshareapp.domain.service.*;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -32,21 +31,14 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
 @WebAppConfiguration
 @WebMvcTest
-public class ConflictApplicationTests {
+public class LendingControllerTests {
     @Autowired
-    ConflictController controller;
-
-    @Autowired
-    MainpageController cm;
+    LendingController controller;
 
     @Autowired
     MockMvc mvc;
@@ -75,19 +67,17 @@ public class ConflictApplicationTests {
     @MockBean
     TransactionRepository transRepo;
 
-    @MockBean
-    ChatMessageRepository chatMessageRepository;
-
     @Mock
     Principal p;
 
     @MockBean
-    APIProcessor api;
+    PostProccessor postProccessor;
 
+    @MockBean
+    APIProcessor apiProcessor;
 
     @Before
     public void setUp() {
-
         User testUser1 = new User("Jeff", "Nosbusch", null, "jeff", "jeff@mail.com", "1234", "user");
         User testUser2 = new User("George", "Pi", null, "george", "george@mail.com", "1234", "user");
         User testUser3 = new User("Franz", "Hoff", null, "franz", "franz@mail.com", "1234", "user");
@@ -122,7 +112,6 @@ public class ConflictApplicationTests {
         lendingRepo.save(testLending1);
         lendingRepo.save(testLending2);
 
-
         Optional<User> oUser1 = Optional.of(testUser1);
         Optional<User> oUser2 = Optional.of(testUser2);
         Optional<User> oUser3 = Optional.of(testUser3);
@@ -149,41 +138,16 @@ public class ConflictApplicationTests {
         p = Mockito.mock(Principal.class);
         Mockito.when(p.getName()).thenReturn("jeff");
 
+        Mockito.when(postProccessor.findUserIDByUser(userRepo,"jeff")).thenReturn((long)1);
 
 
-    }
-
-    @Test
-    public void contexLoads() throws Exception {
-        assertNotEquals(null, controller);
-    }
-
-    @Test
-    public void openConflictTest() {
-        assertEquals("redirect:/openConflict", controller.openConflictpost(m, "open", 7, ""));
-        assertEquals("redirect:/", controller.openConflictpost(m, "notOpen", 7, ""));
-        assertEquals("redirect:/", controller.openConflictpost(m, "open", 7, "testkgzgjkg"));
     }
 
     @Ignore
     @Test
-    public void testPostMappingConflictSolved() {
-
-        assertEquals("redirect:/borrowerWin", controller.conflictSolved("winBorrower", 7));
-        assertEquals("redirect:/ownerWin", controller.conflictSolved("winOwner", 7));
-        assertEquals("redirect:/admin/conflicthandling", controller.conflictSolved("", 7));
+    public void testOverview(){
+        assertEquals("Lending/overview",controller.overview(m, p));
     }
 
-    @Test
-    public void testMainpage() {
-        assertEquals("Article/viewAll", cm.viewAll(m, p));
-    }
-
-    @Test
-    public void testmain() {
-        assertEquals("/conflict/conflictUserOpen",controller.openConflict(m,p,1));
-    }
 
 }
-
-

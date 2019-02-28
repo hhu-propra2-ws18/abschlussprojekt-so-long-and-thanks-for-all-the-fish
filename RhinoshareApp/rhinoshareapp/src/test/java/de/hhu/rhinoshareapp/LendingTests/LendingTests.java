@@ -71,11 +71,11 @@ public class LendingTests {
         Lending testLending = Lending.builder().lendingPerson(testUser.get()).endDate(endDate).build();
         List<Lending> testLendingList = new ArrayList<>();
         testLendingList.add(testLending);
-        when(lendingRepository.findAllBylendingPersonAndIsAcceptedAndIsReturnAndIsConflict(testUser.get(), true, false, false)).thenReturn(testLendingList);
+        when(lendingRepository.findAllBylendingPersonAndIsAcceptedAndIsReturnAndIsConflictAndIsRequestedForSale(testUser.get(), true, false, false, false)).thenReturn(testLendingList);
 
         //Act
         LendingRepresentation lendingRepresentation = new LendingRepresentation(lendingRepository, serviceUserProvider, articleRepository);
-        List<Lending> resultLendings = lendingRepresentation.FillLendings(1);
+        List<Lending> resultLendings = lendingRepresentation.fillLendings(1);
         Lending resultLending = resultLendings.get(0);
 
         //Assert
@@ -99,7 +99,7 @@ public class LendingTests {
         Lending testLending = Lending.builder().lendingPerson(testUser.get()).endDate(endDate).build();
         List<Lending> testLendingList = new ArrayList<>();
         testLendingList.add(testLending);
-        when(lendingRepository.findAllBylendingPersonAndIsAcceptedAndIsReturnAndIsConflict(testUser.get(), true, false, false)).thenReturn(testLendingList);
+        when(lendingRepository.findAllBylendingPersonAndIsAcceptedAndIsReturnAndIsConflictAndIsRequestedForSale(testUser.get(), true, false, false,false)).thenReturn(testLendingList);
 
         Calendar currentDate = Calendar.getInstance();
         long time = endDate.getTime().getTime() - currentDate.getTime().getTime();
@@ -107,7 +107,7 @@ public class LendingTests {
 
         //Act
         LendingRepresentation lendingRepresentation = new LendingRepresentation(lendingRepository, serviceUserProvider, articleRepository);
-        List<Lending> resultLendings = lendingRepresentation.FillLendings(1);
+        List<Lending> resultLendings = lendingRepresentation.fillLendings(1);
         Lending resultLending = resultLendings.get(0);
 
         //Assert
@@ -122,7 +122,7 @@ public class LendingTests {
         expectedPostBody.put("Para1", "Hallo");
         expectedPostBody.put("Para2", "Welt");
         //Act
-        HashMap<String, String> resultPostBody = postProccessor.SplitString(testString);
+        HashMap<String, String> resultPostBody = postProccessor.splitString(testString);
         //Assert
         Assert.assertEquals(expectedPostBody, resultPostBody);
     }
@@ -134,7 +134,7 @@ public class LendingTests {
         HashMap<String, String> expectedPostBody = new HashMap<>();
         expectedPostBody.put("Para", "Hallo Welt");
         //Act
-        HashMap<String, String> resultPostBody = postProccessor.SplitString(testString);
+        HashMap<String, String> resultPostBody = postProccessor.splitString(testString);
         //Assert
         Assert.assertEquals(expectedPostBody, resultPostBody);
     }
@@ -161,7 +161,7 @@ public class LendingTests {
         testMap.put("choice", "accept");
         testMap.put("lendingID", "1");
         //Act
-        postProccessor.ProccessPostRequest(apiProcessor, testMap, lendingRepository, articleRepository, serviceUserProvider, reservations, transactions);
+        postProccessor.proccessPostRequest(apiProcessor, testMap, lendingRepository, articleRepository, serviceUserProvider, reservations, transactions);
         //Assert
         Assert.assertEquals(false, testLending.get().isAccepted());
         Assert.assertEquals(false, testLending.get().getLendedArticle().isRequested());
@@ -204,7 +204,7 @@ public class LendingTests {
         Lending lending = Lending.builder().startDate(startDate).build();
 
         //Act
-        double calculateLendingPrice = postProccessor.CalculateLendingPrice(lending, article);
+        double calculateLendingPrice = postProccessor.calculateLendingPrice(lending, article);
         //Assert
         Assert.assertEquals(40, calculateLendingPrice, 0.001);
     }
@@ -218,7 +218,7 @@ public class LendingTests {
         Lending lending = Lending.builder().startDate(startDate).build();
 
         //Act
-        double calculateLendingPrice = postProccessor.CalculateLendingPrice(lending, article);
+        double calculateLendingPrice = postProccessor.calculateLendingPrice(lending, article);
         //Assert
         Assert.assertEquals(25, calculateLendingPrice, 0.001);
     }
@@ -232,7 +232,7 @@ public class LendingTests {
         Lending lending = Lending.builder().startDate(startDate).build();
 
         //Act
-        double calculateLendingPrice = postProccessor.CalculateLendingPrice(lending, article);
+        double calculateLendingPrice = postProccessor.calculateLendingPrice(lending, article);
         //Assert
         Assert.assertEquals(120, calculateLendingPrice, 0.001);
     }

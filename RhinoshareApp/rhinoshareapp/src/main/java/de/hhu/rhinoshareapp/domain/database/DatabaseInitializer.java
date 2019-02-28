@@ -1,8 +1,11 @@
 package de.hhu.rhinoshareapp.domain.database;
 
 
+
 import de.hhu.rhinoshareapp.Representations.LendingProcessor.APIProcessor;
 import de.hhu.rhinoshareapp.domain.model.*;
+import de.hhu.rhinoshareapp.domain.model.ChatMessage;
+import de.hhu.rhinoshareapp.domain.service.ChatMessageRepository;
 import de.hhu.rhinoshareapp.domain.service.ArticleRepository;
 import de.hhu.rhinoshareapp.domain.service.LendingRepository;
 import de.hhu.rhinoshareapp.domain.service.UserRepository;
@@ -12,13 +15,12 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import java.io.IOException;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 
 @Component
 public class DatabaseInitializer implements ServletContextInitializer {
+
 
 	@Autowired
 	UserRepository users;
@@ -28,6 +30,9 @@ public class DatabaseInitializer implements ServletContextInitializer {
 
 	@Autowired
 	LendingRepository lending;
+
+	@Autowired
+	ChatMessageRepository chatMessageRepository;
 
 	@Override
 	public void onStartup(ServletContext servletContext) throws ServletException { //hier wird die Datenbank gefüllt
@@ -44,20 +49,17 @@ public class DatabaseInitializer implements ServletContextInitializer {
 		User root = new User("Pasquier", "Jacques", testadress, "root", "rhinoshareconflict@gmail.com", "$2a$08$MbCSKfkg1C9A6mx82wwVneBpUkyW1ZwhsEjorhqkMYrhRxLJDZ9yO", "ROLE_ADMIN");
 		User user = new User("Test", "Test", testadress, "user", "rhinoshareconflict@gmail.com", "$2a$08$MbCSKfkg1C9A6mx82wwVneBpUkyW1ZwhsEjorhqkMYrhRxLJDZ9yO", "ROLE_USER");
 		User otherUser = new User("Test", "Test", testadress, "2", "rhinoshareconflict@gmail.com", "$2a$08$MbCSKfkg1C9A6mx82wwVneBpUkyW1ZwhsEjorhqkMYrhRxLJDZ9yO", "ROLE_ADMIN");
-		User kratos = User.builder().role("ROLE_USER").name("Kratos").username("KnoppelKratos").email("rhinoshareconflict@gmail.com").password("$2a$08$MbCSKfkg1C9A6mx82wwVneBpUkyW1ZwhsEjorhqkMYrhRxLJDZ9yO").address(testadress).build();
-		APIProcessor apiProcessor = new APIProcessor();
+		User kratos = User.builder().role("ROLE_USER").name("Kratos").username("KnoppelKratos").email("rhinoshareconflict@gmail.com").password("$2a$08$MbCSKfkg1C9A6mx82wwVneBpUkyW1ZwhsEjorhqkMYrhRxLJDZ9yO").build();
+		/*APIProcessor apiProcessor = new APIProcessor();
 		try {
 			apiProcessor.getAccountInformation(kratos.getUsername(), Account.class);
 			apiProcessor.getAccountInformation(user.getUsername(), Account.class);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+*/
 		users.saveAll(Arrays.asList(root, user, otherUser, kratos));
 
-
-		long id1 = user.getUserID();
-		long id2 = otherUser.getUserID();
 
 		Article testArticle1 = Article.builder().name("Rasenmäher").comment("funktioniert, kein Benzin, Schnitthöhe 1cm - 50m").deposit(500).rent(25).available(true).owner(user).build();
 		Article testArticle2 = Article.builder().name("Geschirr").comment("nur ein bisschen zerbrochen, für 20 mann").deposit(250).rent(25).available(true).owner(user).build();
@@ -75,5 +77,18 @@ public class DatabaseInitializer implements ServletContextInitializer {
 		for (Article article : all) {
 			System.out.println(article);
 		}
+    
+     ChatMessage nachricht = ChatMessage.builder().fromName("root").toName("user").context("hi User, ich bin Root!").toName("user").fromName("root").build();
+        ChatMessage nachricht2 = ChatMessage.builder().fromName("user").toName("root").context("hi Root, ich bin User!").toName("root").fromName("user").build();
+
+        chatMessageRepository.save(nachricht);
+        chatMessageRepository.save(nachricht2);
+
+        for (ChatMessage chatmessage:chatMessageRepository.findAll()) {
+            System.out.println(chatmessage.getFromName() + " from");
+            System.out.println(chatmessage.getToName() + " to");
+            System.out.println(chatmessage.getContext());
+        }
+
 	}
 }

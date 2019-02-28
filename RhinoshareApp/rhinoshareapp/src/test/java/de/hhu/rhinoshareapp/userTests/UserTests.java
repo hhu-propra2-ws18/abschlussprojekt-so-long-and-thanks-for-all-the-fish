@@ -1,14 +1,16 @@
-package de.hhu.rhinoshareapp.conflictTests;
+package de.hhu.rhinoshareapp.userTests;
 
 
 import de.hhu.rhinoshareapp.Representations.LendingProcessor.APIProcessor;
 import de.hhu.rhinoshareapp.controller.MainpageController;
 import de.hhu.rhinoshareapp.controller.conflict.ConflictController;
+import de.hhu.rhinoshareapp.controller.user.AdminPageController;
+import de.hhu.rhinoshareapp.controller.user.CreateUserController;
+import de.hhu.rhinoshareapp.controller.user.EditUserController;
 import de.hhu.rhinoshareapp.domain.mail.MailService;
 import de.hhu.rhinoshareapp.domain.model.Article;
 import de.hhu.rhinoshareapp.domain.model.Lending;
 import de.hhu.rhinoshareapp.domain.model.User;
-
 import de.hhu.rhinoshareapp.domain.service.*;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -32,18 +34,21 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
 @WebAppConfiguration
 @WebMvcTest
-public class ConflictApplicationTests {
+public class UserTests {
     @Autowired
-    ConflictController controller;
+    AdminPageController controller;
+
+    @Autowired
+    CreateUserController cController;
+
+    @Autowired
+    EditUserController editUsercontroller;
 
     @Autowired
     MainpageController cm;
@@ -74,9 +79,6 @@ public class ConflictApplicationTests {
 
     @MockBean
     TransactionRepository transRepo;
-
-    @MockBean
-    ChatMessageRepository chatMessageRepository;
 
     @Mock
     Principal p;
@@ -122,12 +124,12 @@ public class ConflictApplicationTests {
         lendingRepo.save(testLending1);
         lendingRepo.save(testLending2);
 
-
         Optional<User> oUser1 = Optional.of(testUser1);
         Optional<User> oUser2 = Optional.of(testUser2);
         Optional<User> oUser3 = Optional.of(testUser3);
         Optional<Lending> oLending1 = Optional.of(testLending1);
         Optional<Lending> oLending2 = Optional.of(testLending2);
+        Optional<Article> oArticle = Optional.of(testArticle1);
 
         List<Optional<Lending>> alconflic = new ArrayList<>();
         alconflic.add(oLending1);
@@ -145,45 +147,48 @@ public class ConflictApplicationTests {
         Mockito.when(lendingRepo.findLendingBylendingID(7)).thenReturn(oLending1);
         Mockito.when(lendingRepo.save(testLending1)).thenReturn(testLending1);
         Mockito.when(lendingRepo.findLendingBylendingID(8)).thenReturn(oLending2);
+        Mockito.when(articleRepo.findById((long) 1)).thenReturn(oArticle);
 
         p = Mockito.mock(Principal.class);
         Mockito.when(p.getName()).thenReturn("jeff");
+    }
 
 
+    @Test
+    public void testAdmin() {
+        assertEquals("Admin/admin_conflicthandling", controller.conflictOverview(m, p));
+        assertEquals("redirect:/showcase/1", controller.postConflictOverview(1, "show"));
+        assertEquals("redirect:/admin/conflicthandling", controller.postConflictOverview(1, "login"));
+        assertEquals("Admin/admin_usermanagement", controller.loadUserManagement(m));
+        assertEquals("Admin/admin_userEdit", controller.loadEditForm(1, m));
+        assertEquals("Admin/admin_userEdit", controller.profileOverview(userRepo.findUserByuserID(1).get(), m, p));
+        assertEquals("redirect:/admin/usermanagement/", controller.deleteUser(m, p, 1));
+        assertEquals("Admin/admin_createUser", controller.addUser(m));
+        assertEquals("Admin/admin_articlemanagement", controller.loadArticleManagement(m));
+        assertEquals("redirect:/admin/articlemanagement/", controller.deleteArticle(1, m));
+        assertEquals("Admin/admin_lendingmanagement", controller.loadLendingManagement(m));
+        // assertEquals("Admin/admin_lendingmanagement",controller.deleteLending(1, m));
 
     }
 
     @Test
-    public void contexLoads() throws Exception {
-        assertNotEquals(null, controller);
+    public void testUser() {
+        Model model = Mockito.mock(Model.class);
+        Principal p = Mockito.mock(Principal.class);
+        assertEquals("redirect:/login", cController.saveNewUser(model,p,"fritz", "Funkel", "fritzi",
+                "Strasse", "22", "40532", "Usebgeren", "DE",
+                "test@gmail.com", "123456"));
+        assertEquals("redirect:/admin/usermanagement", cController.saveNewUserAsAdmin("fritz", "Funkel", "fritzi",
+                "Strasse", "22", "40532", "Usebgeren", "DE",
+                "test@gmail.com", "123456", "ROLE_ADMIN "));
+        assertEquals("error/usernameExists", cController.validateUsername("fritz"));
     }
 
     @Test
-    public void openConflictTest() {
-        assertEquals("redirect:/openConflict", controller.openConflictpost(m, "open", 7, ""));
-        assertEquals("redirect:/", controller.openConflictpost(m, "notOpen", 7, ""));
-        assertEquals("redirect:/", controller.openConflictpost(m, "open", 7, "testkgzgjkg"));
+    public void testEditUser() {
+        assertEquals("/EditUser/profileOverview",editUsercontroller.loadEditPage(m,p));
+        assertEquals("/EditUser/profileOverview",editUsercontroller.profileOverview(userRepo.findUserByuserID(1).get(),m,p));
     }
 
-    @Ignore
-    @Test
-    public void testPostMappingConflictSolved() {
-
-        assertEquals("redirect:/borrowerWin", controller.conflictSolved("winBorrower", 7));
-        assertEquals("redirect:/ownerWin", controller.conflictSolved("winOwner", 7));
-        assertEquals("redirect:/admin/conflicthandling", controller.conflictSolved("", 7));
-    }
-
-    @Test
-    public void testMainpage() {
-        assertEquals("Article/viewAll", cm.viewAll(m, p));
-    }
-
-    @Test
-    public void testmain() {
-        assertEquals("/conflict/conflictUserOpen",controller.openConflict(m,p,1));
-    }
 
 }
-
-

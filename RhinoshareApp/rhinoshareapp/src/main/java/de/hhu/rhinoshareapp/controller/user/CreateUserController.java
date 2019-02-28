@@ -1,13 +1,18 @@
 package de.hhu.rhinoshareapp.controller.user;
 
+import de.hhu.rhinoshareapp.Representations.LendingProcessor.APIProcessor;
+import de.hhu.rhinoshareapp.domain.model.Account;
 import de.hhu.rhinoshareapp.domain.model.Address;
 import de.hhu.rhinoshareapp.domain.model.User;
+import de.hhu.rhinoshareapp.domain.security.ActualUserChecker;
 import de.hhu.rhinoshareapp.domain.service.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.security.Principal;
 import java.util.Optional;
 
 @Controller
@@ -17,7 +22,7 @@ public class CreateUserController {
     public UserRepository userRepository;
 
     @PostMapping("/newaccount")
-    public String saveNewUser(String name, String surname, String username,
+    public String saveNewUser(Model model, Principal p, String name, String surname, String username,
                               String street, String housenumber, String postcode, String city, String country,
                               String email, String password) {
 
@@ -25,11 +30,17 @@ public class CreateUserController {
         String password_encrypted = encryptPassword(password);
         Address newUserAddress = buildAddress(street, housenumber, postcode, city, country);
         User newUser = new User(name, surname, newUserAddress, username, email, password_encrypted, "ROLE_USER");
-
         userRepository.save(newUser);
+        APIProcessor apiProcessor = new APIProcessor();
+        apiProcessor.getAccountInformationWithId(newUser.getUserID(), userRepository);
         System.out.println("User    : " + username);
         System.out.println("Password: " + password_encrypted);
-
+        if (apiProcessor.isErrorOccurred()) {
+            model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
+            apiProcessor.setErrorOccurred(false);
+            ActualUserChecker.checkActualUser(model, p, userRepository);
+            return "Lending/errorPage";
+        }
         return "redirect:/login";
     }
 

@@ -8,7 +8,6 @@ import de.hhu.rhinoshareapp.domain.service.ArticleRepository;
 import de.hhu.rhinoshareapp.domain.service.ImageRepository;
 import de.hhu.rhinoshareapp.domain.service.LendingRepository;
 import de.hhu.rhinoshareapp.domain.service.UserRepository;
-import groovy.transform.AutoImplement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -95,7 +94,7 @@ public class ArticleController {
     @GetMapping("/edit/{articleID}")
     public String editArticle(Model model, @PathVariable long articleID, Principal p){
         Article article = articleRepository.findById(articleID).get();
-        if (checkIfLoggedInIsOwner(p, article) || checkIfArticleIsBeingLended(article).isPresent()) {
+        if (checkIfLoggedInIsOwner(p, article) && checkIfArticleIsBeingLended(article)) {
             model.addAttribute("article", article);
             model.addAttribute("articleActive","active");
             ActualUserChecker.checkActualUser(model, p, userRepository);
@@ -163,8 +162,8 @@ public class ArticleController {
         return (article.getOwner() == user);
     }
 
-    public Optional<Lending> checkIfArticleIsBeingLended(Article article) {
+    public boolean checkIfArticleIsBeingLended(Article article) {
         Optional<Lending> lending = lendingRepository.findLendingBylendedArticle(article);
-        return lending;
+        return  lending.isPresent();
     }
 }

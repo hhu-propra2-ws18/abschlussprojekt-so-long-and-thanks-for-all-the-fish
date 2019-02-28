@@ -21,9 +21,9 @@ public class LendingRepresentation {
     private boolean hasWarning = false;
 
     // Returns a list of of lendings for a User given by his id, that are Accepted and not returned
-    public List<Lending> FillLendings(long userID) {
+    public List<Lending> fillLendings(long userID) {
         User user = users.findUserByuserID(userID).get();
-        List<Lending> lendingList = lendings.findAllBylendingPersonAndIsAcceptedAndIsReturnAndIsConflict(user, true, false, false);
+        List<Lending> lendingList = lendings.findAllBylendingPersonAndIsAcceptedAndIsReturnAndIsConflictAndIsRequestedForSale(user, true, false, false, false);
         for (Lending lending : lendingList) {
             Calendar endDate = lending.getEndDate();
             Calendar currentDate = Calendar.getInstance();
@@ -39,15 +39,15 @@ public class LendingRepresentation {
 
         return lendingList;
     }
-    public List<Lending> FillConflicts(long userID) {
+    public List<Lending> fillConflicts(long userID) {
         User user = users.findUserByuserID(userID).get();
-        List<Lending> lendingList = lendings.findAllBylendingPersonAndIsAcceptedAndIsReturnAndIsConflict(user, true, false, true);
+        List<Lending> lendingList = lendings.findAllBylendingPersonAndIsAcceptedAndIsReturnAndIsConflictAndIsRequestedForSale(user, true, false, true, false);
         for (Lending lending : lendingList) {
             lending.setWarning("The article you lended is currently investigated");
         }
         return lendingList;
     }
-    public List<Lending> FillConflictsOwner(long userID) {
+    public List<Lending> fillConflictsOwner(long userID) {
         User user = users.findUserByuserID(userID).get();
         List<Article> articles = this.articles.findAllByOwner(user);
         List<Lending> lendingList = new ArrayList<>();
@@ -55,7 +55,7 @@ public class LendingRepresentation {
             Optional<Lending> conflictLending = lendings.findLendingBylendedArticle(article);
             if(conflictLending.isPresent()) {
                 if (conflictLending.get().isConflict()) {
-                    conflictLending.get().setWarning("Your Article in this Lending is currently investigated");
+                    conflictLending.get().setWarning("Der Atrikel in dieser Ausleihe ist zurzeit bei der Konfliktstelle");
                     lendingList.add(conflictLending.get());
                 }
             }
@@ -64,7 +64,7 @@ public class LendingRepresentation {
     }
 
     // Returns a list of all borrowed articles for a User given by his id
-    public List<Article> FillBorrows(long borrowPersonID){
+    public List<Article> fillBorrows(long borrowPersonID){
         User user = users.findUserByuserID(borrowPersonID).get();
         return articles.findAllByOwner(user);
     }

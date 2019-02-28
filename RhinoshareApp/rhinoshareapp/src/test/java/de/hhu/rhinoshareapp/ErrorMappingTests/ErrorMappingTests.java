@@ -1,6 +1,7 @@
 package de.hhu.rhinoshareapp.ErrorMappingTests;
 
 import de.hhu.rhinoshareapp.controller.ErrorMappingController;
+import de.hhu.rhinoshareapp.controller.LoginPageController;
 import de.hhu.rhinoshareapp.domain.mail.MailService;
 import de.hhu.rhinoshareapp.domain.service.*;
 import org.junit.Test;
@@ -31,6 +32,9 @@ public class ErrorMappingTests {
     ErrorMappingController controller;
 
     @Autowired
+    LoginPageController c2;
+
+    @Autowired
     MockMvc mvc;
 
     @MockBean
@@ -38,6 +42,9 @@ public class ErrorMappingTests {
 
     @MockBean
     LendingRepository lendingRepo;
+
+    @MockBean
+    ChatMessageRepository chatMessageRepository;
 
     @MockBean
     UserRepository userRepo;
@@ -77,5 +84,10 @@ public class ErrorMappingTests {
         assertEquals("/error", controller.getErrorPath());
     }
 
+    @Test
+    public  void testLogin(){
+        assertEquals("loginpage",c2.loadPage());
+        assertEquals("createuser",c2.loadNewAccountPage());
+    }
 
 }

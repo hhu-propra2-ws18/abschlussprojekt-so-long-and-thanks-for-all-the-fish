@@ -46,6 +46,8 @@ public class Lending {
 
     boolean isDummy;
 
+    boolean isRequestedForSale;
+
     String warning;
 
     @OneToOne
@@ -57,7 +59,7 @@ public class Lending {
         this.lendingPerson = lendingPerson;
         this.lendedArticle = lendedArticle;
     }
-    public void FillFormattedDates(){
+    public void fillFormattedDates(){
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         formattedEndDate = dateFormat.format(endDate.getTime());
         formattedStartDate = dateFormat.format(startDate.getTime());

@@ -68,6 +68,9 @@
             <div>
                 <a th:href="|/article/|"> <button class="button_std_white" type="button">Zurück zur Übersicht</button></a>
             </div>
+            <div th:if="${article.owner != user}">
+                <a th:href="|/newchat/${article.getOwner().getUserID()}|"> <button class="button_std_white" type="button">Nachricht an den Besitzer</button></a>
+            </div>
         </div>
     </body>
 
