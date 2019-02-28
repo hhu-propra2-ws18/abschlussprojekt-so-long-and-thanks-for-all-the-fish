@@ -8,32 +8,48 @@
 
     <body>
         <div class="container" layout:fragment="content" style="margin-top: 50px">
-            <dr>
-                <a th:href="|/|" role="button">Zur Übersicht</a>
-            </dr>
+
             <p>Deine ausgeliehen Artikel: </p>
             <table th:each="lending : ${lendings}">
-                <div style="margin:0; margin-right:10px; border:2px solid #dfdfdf;
-                padding: 0em 1em 1em 1em; background-color:#FFFFFF;text-align:center">
-                    <h3>Artikel: </h3>
-                    <div th:text="${lending.lendedArticle.name}">0</div>
-                    <h3>Beschreibung: </h3>
-                    <div th:text="${lending.lendedArticle.comment}">0</div>
-                    <h3>Besitzer: </h3>
-                    <div th:text="${lending.lendedArticle.owner.name}">0</div>
-                    <h3>Kaution: </h3>
-                    <div th:text="${lending.lendedArticle.deposit}">0</div>
-                    <h3>Mietkosten: </h3>
-                    <div th:text="${lending.lendedArticle.rent}">0</div>
-                    <h3>Info: </h3>
-                    <div th:text="${lending.warning}">0</div>
-                    <form th:action=|lendings| method="post">
-                        <input type="hidden" name="lendingID" th:value="${lending.lendingID}">
-                        <input type="hidden" name="articleID" th:value="${lending.lendedArticle.articleID}">
-                        <button type="finish">Artikel zurückgeben</button>
-                    </form>
-                    <a th:href="|/openConflict/${lending.lendingID}|" role="button">Konflikt erzeugen</a>
-                </div>
+                <table>
+                    <tr>
+                        <th>Artikel</th>
+                        <td th:text="${lending.lendedArticle.name}">...</td>
+                    </tr>
+                    <tr>
+                        <th>Beschreibung</th>
+                        <td th:text="${lending.lendedArticle.comment}">...</td>
+                    </tr>
+                    <tr>
+                        <th>Besitzer</th>
+                        <td th:text="${lending.lendedArticle.owner.name}">...</td>
+                    </tr>
+                    <tr>
+                        <th>Kaution</th>
+                        <td th:text="${lending.lendedArticle.deposit}">...</td>
+                    </tr>
+                    <tr>
+                        <th>Mietkosten</th>
+                        <td th:text="${lending.lendedArticle.rent}">...</td>
+                    </tr>
+                    <tr>
+                        <th>Anmerkungen</th>
+                        <td th:text="${lending.warning}">...</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <form th:action=|lendings| method="post">
+                                <input type="hidden" name="lendingID" th:value="${lending.lendingID}">
+                                <input type="hidden" name="articleID" th:value="${lending.lendedArticle.articleID}">
+                                <button type="finish" class="button_std">Zurückgeben</button>
+                            </form>
+                            <a th:href="|/openConflict/${lending.lendingID}|" role="button">
+                                <button class="button_std_red">Konflikt erzeugen</button>
+                            </a>
+                        </td>
+                    </tr>
+                </table>
             </table>
         </div>
     </body>
