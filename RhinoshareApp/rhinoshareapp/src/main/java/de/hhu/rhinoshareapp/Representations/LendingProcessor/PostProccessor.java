@@ -13,7 +13,7 @@ public class PostProccessor {
     @Autowired
     private MailService mailservice;
 
-    public HashMap<String, String> SplitString(String postBody) {
+    public HashMap<String, String> splitString(String postBody) {
         HashMap<String, String> postBodyParas = new HashMap<>();
         String[] splittedPostBody = postBody.split("&");
         System.out.println(postBody);
@@ -25,7 +25,7 @@ public class PostProccessor {
         return postBodyParas;
     }
 
-    public void CreateNewLending(HashMap<String, String> postBodyParas, ArticleRepository articles, LendingRepository lendings, UserRepository users) {
+    public void createNewLending(HashMap<String, String> postBodyParas, ArticleRepository articles, LendingRepository lendings, UserRepository users) {
         //set timeperiod information
         Calendar startDate = Calendar.getInstance();
         String[] datePieces = postBodyParas.get("startDate").split("-");
@@ -49,39 +49,39 @@ public class PostProccessor {
         newLending.setLendedArticle(lendedArticle);
         newLending.setEndDate(endDate);
         newLending.setStartDate(startDate);
-        newLending.FillFormattedDates();
+        newLending.fillFormattedDates();
         lendings.save(newLending);
     }
 
-    public void ProccessPostRequest(APIProcessor apiProcessor, HashMap<String, String> postBodyParas, LendingRepository lendings, ArticleRepository articles, UserRepository users, ReservationRepository reservations, TransactionRepository transactions){
+    public void proccessPostRequest(APIProcessor apiProcessor, HashMap<String, String> postBodyParas, LendingRepository lendings, ArticleRepository articles, UserRepository users, ReservationRepository reservations, TransactionRepository transactions){
         if(postBodyParas.containsKey("choice")) {
-            ProccessRequest(apiProcessor, postBodyParas, lendings, articles, users, reservations);
+            proccessRequest(apiProcessor, postBodyParas, lendings, articles, users, reservations);
         }else if(postBodyParas.containsKey("choicereturn")) {
-            ProccessReturn(apiProcessor, postBodyParas, lendings, articles, users, reservations, transactions);
+            proccessReturn(apiProcessor, postBodyParas, lendings, articles, users, reservations, transactions);
         }else if(postBodyParas.containsKey("recognized")){
-            ProccessRecognized(lendings, postBodyParas);
+            proccessRecognized(lendings, postBodyParas);
         }else if(postBodyParas.containsKey("sold")){
             SellArticle(postBodyParas, articles,users,apiProcessor,transactions, lendings);
         }
     }
 
-    private void ProccessRecognized(LendingRepository lendings, HashMap<String, String> postBodyParas) {
+    private void proccessRecognized(LendingRepository lendings, HashMap<String, String> postBodyParas) {
         lendings.delete(lendings.findLendingBylendingID(Long.parseLong(postBodyParas.get("lendingID"))).get());
     }
 
-    private void ProccessReturn(APIProcessor apiProcessor, HashMap<String, String> postBodyParas, LendingRepository lendings, ArticleRepository articles, UserRepository users, ReservationRepository reservations, TransactionRepository transactions) {
+    private void proccessReturn(APIProcessor apiProcessor, HashMap<String, String> postBodyParas, LendingRepository lendings, ArticleRepository articles, UserRepository users, ReservationRepository reservations, TransactionRepository transactions) {
         Lending lending = lendings.findLendingBylendingID(Long.parseLong(postBodyParas.get("lendingID"))).get();
         Article article = lending.getLendedArticle();
         Account lendingAccount = apiProcessor.getAccountInformationWithId(lending.getLendingPerson().getUserID(), users);
-        double amount = CalculateLendingPrice(lending, article);
-        if (HasEnoughMoneyForRent(lendingAccount, article.getArticleID(), articles) && postBodyParas.get("choicereturn").equals("accept")) {
+        double amount = calculateLendingPrice(lending, article);
+        if (hasEnoughMoneyForRent(lendingAccount, article.getArticleID(), articles) && postBodyParas.get("choicereturn").equals("accept")) {
             try {
                 apiProcessor.postTransfer(String.class, lendingAccount, article, amount);
                 Calendar timeStamp = Calendar.getInstance();
                 Transaction transaction = new Transaction(article.getOwner(), lending.getLendingPerson(), article, amount, timeStamp);
                 transactions.save(transaction);
                 apiProcessor.punishOrRealeseReservation(Account.class, lendingAccount, article, lending.getProPayReservation().getId(), "release");
-                CleanUpLending(postBodyParas, lendings, articles);
+                cleanUpLending(postBodyParas, lendings, articles);
                 reservations.delete(lending.getProPayReservation());
 
             } catch (Exception e) {
@@ -100,7 +100,7 @@ public class PostProccessor {
         }
     }
 
-    private void ProccessRequest(APIProcessor apiProcessor, HashMap<String, String> postBodyParas, LendingRepository lendings, ArticleRepository articles, UserRepository users, ReservationRepository reservations) {
+    private void proccessRequest(APIProcessor apiProcessor, HashMap<String, String> postBodyParas, LendingRepository lendings, ArticleRepository articles, UserRepository users, ReservationRepository reservations) {
         if (postBodyParas.get("choice").equals("accept")) {
             //Deposit check and lock depositamount
 
@@ -132,11 +132,11 @@ public class PostProccessor {
             Lending lending = lendings.findLendingBylendingID(Long.parseLong(postBodyParas.get("lendingID"))).get();
             Lending dummyLending = Lending.builder().lendingPerson(lending.getLendingPerson()).isDummy(true).lendedArticle(lending.getLendedArticle()).warning("Ihre Anfrage wurde abgelehnt").build();
             lendings.save(dummyLending);
-            CleanUpLending(postBodyParas, lendings, articles);
+            cleanUpLending(postBodyParas, lendings, articles);
         }
     }
 
-    public boolean HasEnoughMoneyForRent(Account lenderAccountInformation, long articleID, ArticleRepository articles) {
+    public boolean hasEnoughMoneyForRent(Account lenderAccountInformation, long articleID, ArticleRepository articles) {
         double amount = lenderAccountInformation.getAmount();
         double deposit = articles.findArticleByarticleID(articleID).get().getRent();
         if (amount >= deposit) {
@@ -146,7 +146,7 @@ public class PostProccessor {
         }
     }
 
-    public void CleanUpLending(HashMap<String, String> postBodyParas, LendingRepository lendings, ArticleRepository articles) {
+    public void cleanUpLending(HashMap<String, String> postBodyParas, LendingRepository lendings, ArticleRepository articles) {
         Lending lending = lendings.findLendingBylendingID(Long.parseLong(postBodyParas.get("lendingID"))).get();
         Article article = lending.getLendedArticle();
         //remove request out off article
@@ -165,7 +165,7 @@ public class PostProccessor {
         lendings.save(lending);
     }
 
-    public double CalculateLendingPrice(Lending lending, Article article) {
+    public double calculateLendingPrice(Lending lending, Article article) {
         Calendar currentDate = Calendar.getInstance();
         Calendar startDate = lending.getStartDate();
         long time = currentDate.getTime().getTime() - startDate.getTime().getTime();
@@ -173,7 +173,7 @@ public class PostProccessor {
         return (days + 1) * article.getRent();
     }
 
-    public long FindUserIDByUser(UserRepository users, String username) {
+    public long findUserIDByUser(UserRepository users, String username) {
         Optional<User> byUsername = users.findByUsername(username);
         return byUsername.get().getUserID();
     }

@@ -113,5 +113,12 @@ wieder verfügbar wird und auf '/overviewBorrows/{id}' kann sich die eingeloggte
  Das Mapping läuft Analog zum Ausleihprozess. Die einzige Änderung ist, dass wir das Artikel dann erst kopieren mit den 
  wichtigen Attributen, dann wird das original aus der Datenbank gelöscht. Die Kope ohne persönliche Daten behalten wir als Inaktiv
  für unsere Lending / Verkaufshistorie.
+ 
+### Chat
+Der Chat ist erreichbar über "/chat". Dann öffnet sich eine Seite mit einen Nachrichtenverlauf von gesendeten- und emfangenen Nachrichten. Diese Übersicht ist für jeden Nutzer anders, da der Chat ein eins-zu-eins Chat ist. 
+
+Die Nachrichten die angezeigt werden, werden durch eine Filtermethode gefiltert (FROM, TO) die durch die Nachrichtendatanbank streamt. Auf der Übersichtsseite hat der Nutzer die Möglichkeit auf Nachrichten zu antworten oder zu löschen. Beide Möglichkeiten leiten auf je eine eigene Webseite ("/deletechat/{ID}", "/answerchat/{ID}"), welche dann die betreffende Nachricht finden die beantwortet, oder gelöscht, werden soll. Falls eine Nachricht gelöscht wird, wird jedoch die Nachricht für beide Benutzer gelöscht, da die Nachrichten sich eine Datenbank teilen. Beim beantworten der Nachricht wird automatisch der Sender und Empfänger festgelegt sodass der Benutzer nur noch den Inhalt der Nachricht schreiben muss. 
+
+Tests wurden geschrieben für die Filtermethode die diverse Beziehungen von den Chatnachrichten testet (zb: onetoone, onetotwo, etc..). 
 
 

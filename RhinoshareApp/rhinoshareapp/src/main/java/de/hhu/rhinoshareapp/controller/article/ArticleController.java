@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/article")
@@ -159,7 +160,7 @@ public class ArticleController {
     }
 
     public boolean checkIfArticleIsBeingLended(Article article) {
-        Lending lending = lendingRepository.findLendingBylendedArticle(article).get();
-        return lending.equals(null);
+        Optional<Lending> lending = lendingRepository.findLendingBylendedArticle(article);
+        return  lending.isPresent();
     }
 }

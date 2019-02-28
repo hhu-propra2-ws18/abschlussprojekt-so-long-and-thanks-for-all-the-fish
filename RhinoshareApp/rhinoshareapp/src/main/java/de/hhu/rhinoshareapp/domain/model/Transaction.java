@@ -45,7 +45,7 @@ public class Transaction {
         this.transactionDate = transactionDate;
     }
 
-    public void FillFormattedDates() {
+    public void fillFormattedDates() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         formattedTransactionDate = dateFormat.format(transactionDate.getTime());
     }
