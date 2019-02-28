@@ -80,7 +80,7 @@ public class LendingController {
         LendingRepresentation filledLendings = new LendingRepresentation(lendingRepository, userRepository, articleRepository);
         model.addAttribute("id", lendID);
         model.addAttribute("lendings", filledLendings.FillLendings(lendID));
-        model.addAttribute("lendingActive", "active");
+        model.addAttribute("userActive", "active");
         ActualUserChecker.checkActualUser(model, p, userRepository);
         return "Lending/overviewLendings";
     }
@@ -102,7 +102,7 @@ public class LendingController {
         model.addAttribute("id", borrowID);
         LendingRepresentation filledArticles = new LendingRepresentation(lendingRepository, userRepository, articleRepository);
         model.addAttribute("articles", filledArticles.FillBorrows(borrowID));
-        model.addAttribute("lendingActive", "active");
+        model.addAttribute("userActive", "active");
         ActualUserChecker.checkActualUser(model, p, userRepository);
         return "Lending/overviewBorrows";
     }
@@ -178,7 +178,6 @@ public class LendingController {
         long id = postProccessor.FindUserIDByUser(userRepository, p.getName());
         model.addAttribute("id", id);
         Account account = apiProcessor.getAccountInformationWithId(id, userRepository);
-        model.addAttribute("lendingActive", "active");
         if (apiProcessor.isErrorOccurred()) {
             System.out.println("ich geh rein !");
             model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
@@ -187,6 +186,7 @@ public class LendingController {
             return "Lending/errorPage";
         }
         model.addAttribute("account", account);
+        model.addAttribute("userActive", "active");
         ActualUserChecker.checkActualUser(model, p, userRepository);
         return "Lending/proPayOverview";
     }
@@ -242,7 +242,7 @@ public class LendingController {
         model.addAttribute("id", id);
         model.addAttribute("givings", transactionRepresentation.FillGivings(id));
         model.addAttribute("recieves", transactionRepresentation.FillRecieves(id));
-        model.addAttribute("lendingActive", "active");
+        model.addAttribute("userActive", "active");
         ActualUserChecker.checkActualUser(model, p, userRepository);
         return "Lending/transactionsPage";
     }

@@ -47,7 +47,7 @@ public class ArticleController {
         User user = userRepository.findByUsername(p.getName()).get();
         List<Article> articles = articleRepository.findAllByOwner(user);
         model.addAttribute("articles", articles);
-        model.addAttribute("articleActive","active");
+        model.addAttribute("userActive","active");
         ActualUserChecker.checkActualUser(model, p, userRepository);
         return "Article/viewFromPerson";
     }
