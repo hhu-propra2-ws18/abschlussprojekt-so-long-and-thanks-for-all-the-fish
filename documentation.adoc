@@ -26,6 +26,7 @@ laufen, auf die alle drei Systeme Zugriff haben und die die Daten speichert.
 
 ## Dokumentation
 ### Artikel
+
 Wir haben uns vorgestellt, dass die Anwendung `Article` die Artikel als Entitäten
 in die Datenbank einfügt. Ein einzelner Artikel enthält die Variablen `articleID`,
 `name`, `comment`, `PersonID`, `deposit`, `rent`, `available`, um die geforderten
@@ -41,9 +42,7 @@ Zudem können Artikel bearbeitet werden. Dabei können lediglich die Attribute
 `name`, `comment`, `deposit`, `rent` und `available` geändert werden, der Rest wird
 vom alten Artikel automatisch übernommen.
 Als erweiterte Features wurden dann noch ein paar Grundlagen implementiert, unter
-anderem das Editieren von Artikeln sowie das Löschen. Zurzeit läuft dies noch ohne
-ein Permissions-System, da dies erst mit Springboot-Security in einem späteren
-Schritt hinzugefügt wird.
+anderem das Editieren von Artikeln sowie das Löschen.
 
 Desweiteren haben wir uns einem anspruchsvolleren Feature gewidmet: dem hinzufügen
 von Bildern. Diese werden beim Erstellen dem Artikel hochgeladen und können weder
@@ -59,11 +58,14 @@ und nach dem Vorkommen des Queries in den Namen und Beschreibungen der Artikel s
 Alle auf diese Weise gefundenen Artikel werden dann auf einer Übersichtsseite ausgegeben.
 Die von uns implementierte Suche ist zudem Case-insensitive.
 
-Zuletzt wurden Tests geschrieben, die einige Funktionen des Repositories und des
-Controllers testen. So haben wir das Editieren von Artikeln und das Suchen nach
-diesen getestet. Desweiteren haben wir einen Test zur `findById`-Funktion geschrieben
-und einen weiteren zur `findByPersonId`-Funktion, wobei letztere alle Artikel einer
-einzelnen Person zurückgeben soll.
+Die Artikel sind so erstellt, dass der User, dem die Items gehören, die Möglichkeit hat
+den Artikel zu löschen oder zu bearbeiten. Durch die Änderungen der Aufhabe hat er da auch 
+die Möglichkeit den Kaufpreis und die Kauffunktion zu aktivieren (Was er optional auch beim Erstellen des
+Artikels machen kann). Ein User, dem ein Item nicht gehört, kann dieses statt dessen Miet (Sofern es verfügbar ist)
+oder Kaufen, wenn dies Freigeschaltet ist. 
+
+In der Artikelübersicht sieht man das Artikelbild oder ein Standartbild, sowie ein Preis und ein Standort (Als Ort).
+Durch einen Klick auf den Artikel kommt man auf die oben erwähnte spezifische Website für das Artikel.
 
 
 ### User
