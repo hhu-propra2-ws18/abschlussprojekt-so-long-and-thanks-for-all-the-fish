@@ -1,5 +1,6 @@
 package de.hhu.rhinoshareapp.domain.model;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,6 +15,8 @@ import java.io.IOException;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@SuppressFBWarnings // Bilder waren Optional und haben da schon viel Zeit rein investiert. Hier gab es denselben Fehler wie bei Account.
+                    // Die Spotbugs fehler können deswegen umgangen werden
 public class Image {
 
     @Id

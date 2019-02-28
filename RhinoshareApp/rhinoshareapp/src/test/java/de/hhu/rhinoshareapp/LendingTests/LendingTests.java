@@ -4,7 +4,6 @@ package de.hhu.rhinoshareapp.LendingTests;
 import de.hhu.rhinoshareapp.Representations.LendingProcessor.APIProcessor;
 import de.hhu.rhinoshareapp.Representations.LendingProcessor.PostProccessor;
 import de.hhu.rhinoshareapp.Representations.LendingRepresentation;
-import de.hhu.rhinoshareapp.domain.mail.MailService;
 import de.hhu.rhinoshareapp.domain.model.Account;
 import de.hhu.rhinoshareapp.domain.model.Article;
 import de.hhu.rhinoshareapp.domain.model.Lending;
@@ -15,9 +14,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.ui.Model;
 
 import java.util.*;
 
@@ -26,31 +23,6 @@ import static org.mockito.Mockito.when;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class LendingTests {
-
-
-    @MockBean
-    Model m;
-
-    @MockBean
-    LendingRepository lendingRepo;
-
-    @MockBean
-    UserRepository userRepo;
-
-    @MockBean
-    ArticleRepository articleRepo;
-
-    @MockBean
-    ImageRepository imageRepo;
-
-    @MockBean
-    MailService mailService;
-
-    @MockBean
-    ReservationRepository reserveRepo;
-
-    @MockBean
-    TransactionRepository transRepo;
 
     PostProccessor postProccessor = new PostProccessor();
     APIProcessor apiProcessor = new APIProcessor();
@@ -62,7 +34,6 @@ public class LendingTests {
         LendingRepository lendingRepository = Mockito.mock(LendingRepository.class);
         ArticleRepository articleRepository = Mockito.mock(ArticleRepository.class);
 
-        User user = User.builder().build();
         Optional<User> testUser = Optional.ofNullable(User.builder().userID(1).name("testUser").build());
         when(serviceUserProvider.findUserByuserID(1)).thenReturn(testUser);
 

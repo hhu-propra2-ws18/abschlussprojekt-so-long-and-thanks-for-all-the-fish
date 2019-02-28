@@ -167,7 +167,7 @@ public class LendingController {
             article.get().setForSale(false);
             article.get().setAvailable(false);
             articleRepository.save(article.get());
-            //postProccessor.SellArticle(postBodyParas, articleRepository, userRepository, apiProcessor, transactionRepository);
+            //postProccessor.sellArticle(postBodyParas, articleRepository, userRepository, apiProcessor, transactionRepository);
         }
         if (apiProcessor.isErrorOccurred()) {
             model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
