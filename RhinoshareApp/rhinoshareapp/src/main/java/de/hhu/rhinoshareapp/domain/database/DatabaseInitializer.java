@@ -33,6 +33,9 @@ public class DatabaseInitializer implements ServletContextInitializer {
 	@Autowired
 	LendingRepository lending;
 
+	@Autowired
+	ChatMessageRepository chatMessageRepository;
+
 	@Override
 	public void onStartup(ServletContext servletContext) throws ServletException { //hier wird die Datenbank gefüllt
 		System.out.println("Populating the database");
