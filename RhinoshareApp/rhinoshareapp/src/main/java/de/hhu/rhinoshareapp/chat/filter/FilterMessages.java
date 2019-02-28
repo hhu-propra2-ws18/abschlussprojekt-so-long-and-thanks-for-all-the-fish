@@ -5,27 +5,22 @@ import de.hhu.rhinoshareapp.chat.service.ChatMessageRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class FilterMessages {
 
     public List<ChatMessage> filterFrom(String name, ChatMessageRepository chatMessageRepository) {
-        List<ChatMessage> filteredMessagesFrom = new ArrayList<>();
-        for (ChatMessage chatMessage:chatMessageRepository.findAll()) {
-            if(chatMessage.getFromName().equals(name)) {
-                filteredMessagesFrom.add(chatMessage);
-            }
-        }
+        List<ChatMessage> filteredMessagesFrom = chatMessageRepository.findAll().stream()
+                .filter(chatMessage -> chatMessage.getFromName().equals(name)).collect(Collectors.toList());
+
         return filteredMessagesFrom;
     }
 
     public List<ChatMessage> filterTo(String name, ChatMessageRepository chatMessageRepository) {
-        List<ChatMessage> filteredMessagesTo = new ArrayList<>();
-        for (ChatMessage chatMessage:chatMessageRepository.findAll()) {
-            if(chatMessage.getToName().equals(name)) {
-                filteredMessagesTo.add(chatMessage);
-            }
-        }
+        List<ChatMessage> filteredMessagesTo = chatMessageRepository.findAll()
+                .stream().filter(chatMessage -> chatMessage.getToName().equals(name)).collect(Collectors.toList());
+
         return filteredMessagesTo;
     }
 }
