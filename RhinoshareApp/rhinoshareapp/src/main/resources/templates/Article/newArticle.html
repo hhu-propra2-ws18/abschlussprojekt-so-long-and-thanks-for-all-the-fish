@@ -44,9 +44,12 @@
                         <th scope="row">Zum Verkauf?</th>
                         <td> <Input class="checkmark" type="checkbox" th:field="*{forSale}"/> </td>
                     </tr>
-                    <th scope="row"></th>
-                    <td><button type="submit" class="button_std">Neuen Artikel anlegen</button></td>
-                    <td><a th:href="|/article/|"><button class="button_std_white" type="button">Abbrechen</button></a></td>
+
+                    <td></td>
+                    <td>
+                        <a th:href="|/article/|"><button class="button_std_white" type="button">Abbrechen</button></a>
+                        <button type="submit" class="button_std">Neuen Artikel anlegen</button>
+                    </td>
                 </table>
             </form>
         </div>

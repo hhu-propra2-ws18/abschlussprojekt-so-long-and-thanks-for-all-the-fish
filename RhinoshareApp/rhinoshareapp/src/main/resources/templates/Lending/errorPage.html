@@ -7,11 +7,13 @@
 
     <body>
         <div class="container" layout:fragment="content" style="margin-top: 50px">
-            <h>Da ist etwas fehlgeschlagen.</h>
-            <div>
+            <h1>Da ist etwas schief gelaufen...</h1>
+            <div class="messagebox_error">
                 Grund:
                 <div th:text="${error}">0</div>
-                <a th:href="|/|" role="button">Zur Übersicht</a>
+                <a th:href="|/|" role="button">
+                    <button class="button_std_white">Zurück</button>
+                </a>
             </div>
         </div>
     </body>
