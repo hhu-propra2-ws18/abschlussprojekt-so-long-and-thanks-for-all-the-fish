@@ -151,7 +151,7 @@ public class LendingController {
     }
 
     @PostMapping("/inquiry")
-    public String inquiry(Model model, @RequestBody String postBody) {
+    public String inquiry(Model model, @RequestBody String postBody, Principal p) {
         HashMap<String, String> postBodyParas = postProccessor.SplitString(postBody);
         Optional<User> user = userRepository.findUserByuserID(Long.parseLong(postBodyParas.get("requesterID")));
         model.addAttribute("username", user.get().getUsername());
@@ -165,8 +165,10 @@ public class LendingController {
         if (apiProcessor.isErrorOccurred()) {
             model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
             apiProcessor.setErrorOccurred(false);
+            ActualUserChecker.checkActualUser(model, p, userRepository);
             return "Lending/errorPage";
         }
+        ActualUserChecker.checkActualUser(model, p, userRepository);
         return "Lending/inquiry";
     }
 
@@ -200,14 +202,17 @@ public class LendingController {
             model.addAttribute("account", account);
         } catch (Exception e) {
             model.addAttribute("error", "Propay is not reachable, try it again later");
+            ActualUserChecker.checkActualUser(model, p, userRepository);
             return "Lending/errorPage";
         }
 
         if (apiProcessor.isErrorOccurred()) {
             model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
             apiProcessor.setErrorOccurred(false);
+            ActualUserChecker.checkActualUser(model, p, userRepository);
             return "Lending/errorPage";
         }
+        ActualUserChecker.checkActualUser(model, p, userRepository);
         return "Lending/proPayOverview";
     }
 

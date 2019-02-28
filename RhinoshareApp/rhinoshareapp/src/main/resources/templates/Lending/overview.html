@@ -9,7 +9,8 @@
     <body onload="generateAlertPopup()">
         <div class="container" layout:fragment="content" style="margin-top: 50px">
             <div th:if="${requests.size() < 1 && returns.size() < 1 && denies.size() < 1}">
-                <h1>Keine Artikel in der Übersicht</h1>
+                <h1>Keine Aufgaben in der Übersicht</h1>
+                <a th:href="|/article/|"> <button class="button_std_white" type="button">Zur Artikelübersicht</button></a>
             </div>
             <div th:if="${requests.size() > 0}">
                 Deine Anfragen:

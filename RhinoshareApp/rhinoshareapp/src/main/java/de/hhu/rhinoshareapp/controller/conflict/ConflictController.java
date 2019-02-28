@@ -99,6 +99,7 @@ public class ConflictController {
             apiProcessor.PunishOrReleaseConflictingLending(postBodyParas, lendingRepository, userRepo, articleRepository, reservationRepository);
             //--
             return "redirect:/admin";
+
         } else if (button.equals("winOwner")) {
             lending.setConflict(false);
             lendingRepository.save(lending);
