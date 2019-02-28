@@ -10,6 +10,7 @@ services:
     command: ["./wait-for-it.sh", "database:5432", "propay:8888", "--", "java", "-jar", "app.jar"]
     depends_on:
       - database
+      - propay
 
 
   propay:
@@ -21,12 +22,9 @@ services:
       - ./data:/code/data
     depends_on:
       - database
-      - rhinoshareapp
 
   database:
     image: postgres
-    ports:
-      - "5432:5432"
     environment:
       - POSTGRES_PASSWORD=rhinoshare_default
       - POSTGRES_DB=database

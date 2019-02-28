@@ -15,16 +15,22 @@
             </a>
             <div class="grid-container">
                 <a th:href="|/article/${article.articleID}|" class="grid-item" th:each="article:${articles}">
-                    <div class="item-grid-article">
+                    <div class="card">
                         <div class="article-picture" th:if="!${article.imageIsEmpty()}">
-                            <img th:src="@{/image/{id} (id = ${article.getImageID()})}">
+                            <img th:src="@{/image/{id} (id = ${article.getImageID()})}" alt="Avatar" style="height: 180px">
                         </div>
                         <div class="article-picture" th:if="${article.imageIsEmpty()}">
-                            <img src="/img/placeholder_picture.png">
+                            <img src="/img/placeholder_picture.png" alt="Avatar" style="height: 180px">
                         </div>
-                        <div class="article-name" th:text="${article.getName()}" >...</div>
-                        <div class="article-location" th:text="${article.getCity()}" >...</div>
-                        <div class="article-lending-price" th:text="${article.getRent()} + '€'">...</div>
+                        <div style="width: 176px; padding-left: 2px; padding-right: 2px">
+                            <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><b class="articlename" th:text="${article.getName()}">...</b></div>
+                            <p class="article-lending-price">
+                                <label th:if="${article.getRent() > 0}" class="green_marked" th:text="${article.getRent()} + '€'">...</label>
+                                <label th:if="${article.getSellingPrice() > 0}" class="yellow_marked" th:text="${article.getSellingPrice()} + '€'">...</label>
+                                <br>
+                                <label style="line-height: 1.5;" th:text="${article.getCity()}" >...</label>
+                            </p>
+                        </div>
                     </div>
                 </a>
             </div>

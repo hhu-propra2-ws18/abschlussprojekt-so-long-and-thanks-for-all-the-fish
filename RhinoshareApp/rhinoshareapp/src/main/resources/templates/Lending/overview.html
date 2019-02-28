@@ -111,7 +111,7 @@
                     </table>
                 </table>
             </div>
-            <div>
+            <div th:if="${sales.size() > 0}">
                 Anfragen auf deine Artikel:
                 <table th:each="sale : ${sales}">
                     <div style="margin:0; margin-right:10px; border:2px solid #dfdfdf;

@@ -9,68 +9,71 @@
     <body>
         <div class="container" layout:fragment="content" style="margin-top: 50px">
             <h1 th:text="${article.getName()}">SampleName</h1>
-            <table>
-                <!-- Hier if einfügen für default Bild-->
-                <tr th:if="!${article.imageIsEmpty()}">
-                    <td></td>
-                    <td> <img th:src="@{/image/{id} (id = ${article.getImageID()})}" width=auto height="300px"/></td>
-                </tr>
-                <tr>
-                    <td>Beschreibung:</td>
-                    <td th:text="${article.getComment()}">SampleComment</td>
-                </tr>
-                <tr>
-                    <td>Person</td>
-                    <td th:text="${article.getOwner().getUsername()}">SamplePerson</td>
-                </tr>
-                <tr>
-                    <td>Kaution</td>
-                    <td th:text="${article.getDeposit()}+'€'">SampleDeposit</td>
-                </tr>
-                <tr>
-                    <td>Mietpreis</td>
-                    <td th:text="${article.getRent()} +'€'">SampleRent</td>
-                </tr>
-                <tr th:if="${article.forSale == true}">
-                    <td>Verkaufspreis:</td>
-                    <td th:text="${article.getSellingPrice()} + '€'">SamplePrice</td>
-                </tr>
-                <tr>
-                    <td>Verfügbarkeit</td>
-                    <td th:switch="${article.isAvailable()}">
-                        <span th:case="true"><i class="fa fa-check-circle-o" aria-hidden="true"></i></span>
-                        <span th:case="false"><i class="fa fa-times-circle-o" aria-hidden="true"></i></span>
-                    </td>
-                </tr>
-                <tr th:if="${endDate != null}">
-                    <td>Verliehen bis</td>
-                    <td th:text="${endDate}">SampleDate</td>
-                </tr>
-                <tr>
-                    <td>Zum Verkauf</td>
-                    <td th:switch="${article.isForSale()}">
-                        <span th:case="true"><i class="fa fa-check-circle-o" aria-hidden="true"></i></span>
-                        <span th:case="false"><i class="fa fa-times-circle-o" aria-hidden="true"></i></span>
-                    </td>
-                </tr>
-            </table>
+            <div class="detail-container">
+                <div class="item1">
+                    <img th:src="@{/image/{id} (id = ${article.getImageID()})}" width=auto height="300px"/>
+                </div>
+                <div class="item2">
+                    <h4>Beschreibung</h4>
+                    <p class="description" th:text="${article.getComment()}">...</p>
+                    <table>
+                        <tr>
+                            <td>Besitzer</td>
+                            <td th:text="${article.getOwner().getUsername()}">SamplePerson</td>
+                        </tr>
+                        <tr>
+                            <td>Kaution</td>
+                            <td th:text="${article.getDeposit()}+'€'">SampleDeposit</td>
+                        </tr>
+                        <tr>
+                            <td>Mietpreis</td>
+                            <td th:text="${article.getRent()} +'€'">SampleRent</td>
+                        </tr>
+                        <tr th:if="${article.forSale == true}">
+                            <td>Verkaufspreis:</td>
+                            <td th:text="${article.getSellingPrice()} + '€'">SamplePrice</td>
+                        </tr>
+                        <tr>
+                            <td>Verfügbarkeit</td>
+                            <td th:switch="${article.isAvailable()}">
+                                <span th:case="true"><i class="fa fa-check-circle-o" aria-hidden="true"></i></span>
+                                <span th:case="false"><i class="fa fa-times-circle-o" aria-hidden="true"></i></span>
+                            </td>
+                        </tr>
+                        <tr th:if="${endDate != null}">
+                            <td>Verliehen bis</td>
+                            <td th:text="${endDate}">SampleDate</td>
+                        </tr>
+                        <tr>
+                            <td>Zum Verkauf</td>
+                            <td th:switch="${article.isForSale()}">
+                                <span th:case="true"><i class="fa fa-check-circle-o" aria-hidden="true"></i></span>
+                                <span th:case="false"><i class="fa fa-times-circle-o" aria-hidden="true"></i></span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
             <br>
-            <div th:if="${article.owner == user}">
-                <a th:href="|/article/edit/${article.getArticleID()}|"> <button class="button_std_white" type="button">Artikel bearbeiten</button></a>
-                <a th:href="|/article/delete/${article.getArticleID()}|"> <button class="button_std_red" type="button">Artikel löschen</button></a>
+            <div class="button-container">
+                <div class="item3" th:if="${article.owner == user}">
+                    <a th:href="|/article/edit/${article.getArticleID()}|"> <button class="button_std_white" type="button">Artikel bearbeiten</button></a>
+                    <a th:href="|/article/delete/${article.getArticleID()}|"> <button class="button_std_red" type="button">Artikel löschen</button></a>
+                </div>
+                <div class="item3" th:if="${article.owner != user} and ${article.available == true}">
+                    <a th:href="|/overview/lendingRequest/${article.articleID}|"> <button class="button_std" type="button">Artikel Ausleihen</button></a>
+                </div>
+                <div class="item3" th:if="${article.owner != user} and ${article.forSale == true} and ${article.available == true}">
+                    <a th:href="|/overview/saleRequest/${article.articleID}|"> <button class="button_std_red" type="button">Artikel kaufen</button></a>
+                </div>
+                <div class="item3">
+                    <a th:href="|/article/|"> <button class="button_std_white" type="button">Zurück zur Übersicht</button></a>
+                </div>
+                <div class="item3" th:if="${article.owner != user}">
+                    <a th:href="|/newchat/${article.getOwner().getUserID()}|"> <button class="button_std_white" type="button">Nachricht an den Besitzer</button></a>
+                </div>
             </div>
-            <div th:if="${article.owner != user} and ${article.available == true}">
-                <a th:href="|/overview/lendingRequest/${article.articleID}|"> <button class="button_std" type="button">Artikel Ausleihen</button></a>
-            </div>
-            <div th:if="${article.owner != user} and ${article.forSale == true} and ${article.available == true}">
-                <a th:href="|/overview/saleRequest/${article.articleID}|"> <button class="button_std_red" type="button">Artikel kaufen</button></a>
-            </div>
-            <div>
-                <a th:href="|/article/|"> <button class="button_std_white" type="button">Zurück zur Übersicht</button></a>
-            </div>
-            <div th:if="${article.owner != user}">
-                <a th:href="|/newchat/${article.getOwner().getUserID()}|"> <button class="button_std_white" type="button">Nachricht an den Besitzer</button></a>
-            </div>
+
         </div>
     </body>
 

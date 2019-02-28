@@ -327,6 +327,7 @@ th, td {
     padding: 0;
     overflow: hidden;
     background-color: #e0e0e0;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
 
 .navbaritem {
@@ -517,7 +518,7 @@ body {
 
 .contentFragment .container {
     margin: auto;
-    width: 75%;
+    width: 85%;
 }
 
 .contentFragment table {
@@ -546,12 +547,6 @@ body {
     height: 40px;
 }
 
-.article-picture img {
-    max-width: 130px;
-    max-height: 90px;
-    grid-area: picture;
-}
-
 .grid-container {
     display: grid;
     grid-template-columns: auto auto auto auto auto;
@@ -559,90 +554,7 @@ body {
     padding: 10px;
     width: 100%;
 }
-.grid-item {
-    background-color: white;
-    border: 1px solid rgba(0, 0, 0, 0.8);
-    border-radius: 7px;
-    width: 210px;
-    height: 250px;
-    font-size: 12px;
-    font-weight: normal;
-    text-align: left;
-    padding-bottom: 2px;
-    margin-top: 20px;
-}
 
-.grid-item:hover {
-    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
-    background-color: rgb(226, 226, 226);
-    transition-duration: 200ms;
-}
-
-.contentFragment .grid-container .grid-item .article-name {
-    font-size: 18px;
-}
-
-.contentFragment .grid-container .grid-item .article-lending-price {
-
-    font-size: 20px;
-}
-
-.contentFragment .grid-container .grid-item .article-price {
-
-    font-size: 25px;
-
-}
-
-.contentFragment .grid-container .grid-item .article-location {
-
-    font-size: 18px;
-
-}
-
-
-.article-picture {
-    grid-area: picture;
-}
-.article-name {
-    grid-area: name;
-}
-
-.article-lending-price {
-    grid-area: price-lending;
-}
-
-.article-price {
-    grid-area: price-buy;
-}
-
-.article-location {
-    grid-area: location;
-}
-
-.details-button-article {
-    grid-area: button;
-}
-
-.button_details {
-
-}
-
-.item-grid-article {
-    display: grid;
-    grid-template-areas: 'picture picture picture'
-                         'name name name'
-                         'location location price-lending';
-    background-color: rgba(255, 255, 255, 0);
-    width: 100%;
-    height: 100%;
-}
-
-.item-grid-article > div {
-    background-color: rgba(255, 255, 255, 0);
-    text-align: center;
-    padding: 20px 0;
-    font-size: 30px;
-}
 
 .contentFragment a:link {
     text-decoration: none;
@@ -670,4 +582,78 @@ body {
     border-radius: 7px;
     padding: 2px;
     margin-top: 5px;
+}
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    margin-top: 20px;
+    line-height: 1.5;
+    border: 1px solid rgba(0, 0, 0, 0.8);
+    border-radius: 7px;
+    width: 180px;
+    height: 280px;
+    padding-bottom: 1px;
+}
+
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.card-container {
+    padding: 2px 16px;
+}
+
+.articlename{
+    white-space: nowrap;
+    overflow: hidden;
+    width: 180px;
+    text-overflow: ellipsis;
+    line-height: 1.5;
+}
+
+.article-picture {
+    overflow: hidden;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+}
+
+/*detail view*/
+
+.item1 {
+    grid-area: picture;
+}
+
+.item2 {
+    grid-area: details;
+}
+
+.item2 p {
+    font-size: 16px;
+}
+
+.item2 table {
+    margin-left: 2px;
+}
+
+
+.detail-container {
+    display: grid;
+    grid-template-areas:
+            'picture details'
+            'buttons details';
+    grid-gap: 10px;
+    padding: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.8);
+    border-radius: 7px;
+}
+
+.detail-container > div {
+    text-align: left;
+    padding: 20px 0;
+    font-size: 30px;
+}
+
+.button-container {
+    width: 500px;
 }
