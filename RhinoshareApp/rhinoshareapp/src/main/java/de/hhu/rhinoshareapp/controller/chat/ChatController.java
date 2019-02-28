@@ -31,13 +31,12 @@ public class ChatController {
 
     @GetMapping("/chat")
     public String chatOverview(Model model, Principal p) {
-            List<ChatMessage> listFrom = filter.filterFrom(p.getName(), chatMessageRepository); //liste für gesendende Nachrichen
-            List<ChatMessage> listTo = filter.filterTo(p.getName(), chatMessageRepository); //liste für empfangene Nachrichten
-            model.addAttribute("listFrom", listFrom);
-            model.addAttribute("listTo", listTo );
-
+        List<ChatMessage> listFrom = filter.filterFrom(p.getName(), chatMessageRepository); //liste für gesendende Nachrichen
+        List<ChatMessage> listTo = filter.filterTo(p.getName(), chatMessageRepository); //liste für empfangene Nachrichten
+        model.addAttribute("chatActive","active");
+        model.addAttribute("listFrom", listFrom);
+        model.addAttribute("listTo", listTo );
         ActualUserChecker.checkActualUser(model, p, userRepository);
-
         return "/Chat/chat_overview";
     }
 
@@ -46,6 +45,7 @@ public class ChatController {
         ChatMessage chatMessage = new ChatMessage();
         User recipient = userRepository.findUserByuserID(ID).get();
         ActualUserChecker.checkActualUser(model, p, userRepository);
+        model.addAttribute("chatActive","active");
         model.addAttribute("recipient", recipient);
         model.addAttribute("chatMessage", chatMessage);
         return "/Chat/chat_newChat";
@@ -63,8 +63,8 @@ public class ChatController {
     public String deleteChat(@PathVariable long ID, Model model, Principal p) {
         ChatMessage chatMessage = chatMessageRepository.findById(ID);
         ActualUserChecker.checkActualUser(model, p, userRepository);
+        model.addAttribute("chatActive","active");
         model.addAttribute("chatMessage", chatMessage);
-
         return "/Chat/chat_deleteChat";
     }
 
@@ -80,6 +80,7 @@ public class ChatController {
     public String answerChat(@PathVariable long ID, Model model, Principal p) {
         ChatMessage chatMessage = chatMessageRepository.findById(ID);
         ActualUserChecker.checkActualUser(model, p, userRepository);
+        model.addAttribute("chatActive","active");
         model.addAttribute("chatMessage", chatMessage);
         return "/Chat/chat_answer";
     }
