@@ -32,45 +32,29 @@
         <a href="/logout">Ausloggen</a>
     </li>
 </ul>
-
-
-
-<table>
-    <th>Von</th>
-    <th>Gesendet an</th>
-    <th>Nachricht</th>
-    <th:block th:each="message : ${listFrom}">
-        <tr>
-            <td th:text="${message.fromName}">...</td>
-            <td th:text="${message.toName}">...</td>
-            <td th:text="${message.context}">...</td>
-            <td>
-                <a th:href="|/deletechat/${message.getMessageID()}|"> <button class="btn btn-danger" type="button">Nachricht löschen</button></a>
-            </td>
-        </tr>
-
-    </th:block>
-</table>
-
-<table>
-    <th>Von</th>
-    <th>An</th>
-    <th>Nachricht</th>
-    <th:block th:each="message : ${listTo}">
-        <tr>
-            <td th:text="${message.fromName}">...</td>
-            <td th:text="${message.toName}">...</td>
-            <td th:text="${message.context}">...</td>
-            <td>
-                <a th:href="|/answerchat/${message.getMessageID()}|"> <button class="btn btn-danger" type="button">Nachricht antworten</button></a>
-            </td>
-            <td>
-                <a th:href="|/deletechat/${message.getMessageID()}|"> <button class="btn btn-danger" type="button">Nachricht löschen</button></a>
-            </td>
-        </tr>
-
-    </th:block>
-</table>
+<div class="container">
+    <h1>Neue Chatnachricht</h1>
+    <form method="post" th:object="${chatMessage}" enctype="multipart/form-data">
+        <table>
+            <th>Von</th>
+            <th>Gesendet an</th>
+            <th>Nachricht</th>
+            <tr>
+                <td th:text="${chatMessage.fromName}">...</td>
+                <td th:text="${chatMessage.toName}">...</td>
+                <td th:text="${chatMessage.context}">...</td>
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <th scope="row">Nachricht</th>
+                <td> <Input type="text" th:field="*{context}"/>  </td>
+            </tr>
+            <td><button type="submit" class="btn btn-primary">Nachricht versenden</button></td>
+            <td><a th:href="|/chat/|"><button class="btn btn-warning" type="button">Abbrechen</button></a></td>
+        </table>
+    </form>
+</div>
 
 </body>
 </html>

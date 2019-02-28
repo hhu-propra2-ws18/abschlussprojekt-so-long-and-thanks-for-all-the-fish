@@ -56,8 +56,9 @@ public class ChatController {
     }
 
     @GetMapping("/deletechat/{ID}")
-    public String deleteChat(@PathVariable long ID, Model model) {
+    public String deleteChat(@PathVariable long ID, Model model, Principal p) {
         ChatMessage chatMessage = chatMessageRepository.findById(ID);
+        ActualUserChecker.checkActualUser(model, p, userRepository);
         model.addAttribute("chatMessage", chatMessage);
 
         return "/Chat/chat_deleteChat";
@@ -67,6 +68,24 @@ public class ChatController {
     public String deleteChatFromDb(@PathVariable long ID) {
         ChatMessage chatMessage = chatMessageRepository.findById(ID);
         chatMessageRepository.delete(chatMessage);
+
+        return "redirect:/chat";
+    }
+
+    @GetMapping("/answerchat/{ID}")
+    public String answerChat(@PathVariable long ID, Model model, Principal p) {
+        ChatMessage chatMessage = chatMessageRepository.findById(ID);
+        ActualUserChecker.checkActualUser(model, p, userRepository);
+        model.addAttribute("chatMessage", chatMessage);
+        return "/Chat/chat_answer";
+    }
+
+    @PostMapping("/answerchat/{ID}")
+    public String answerChatAndSend(@PathVariable long ID, @ModelAttribute ChatMessage answer, Principal p) {
+        ChatMessage chatMessage = chatMessageRepository.findById(ID);
+        answer.setFromName(p.getName());
+        answer.setToName(chatMessage.getFromName());
+        chatMessageRepository.save(answer);
 
         return "redirect:/chat";
     }
