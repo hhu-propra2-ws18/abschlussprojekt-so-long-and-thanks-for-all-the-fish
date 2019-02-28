@@ -173,7 +173,9 @@ public class UserTests {
 
     @Test
     public void testUser() {
-        assertEquals("redirect:/login", cController.saveNewUser("fritz", "Funkel", "fritzi",
+        Model model = Mockito.mock(Model.class);
+        Principal p = Mockito.mock(Principal.class);
+        assertEquals("redirect:/login", cController.saveNewUser(model,p,"fritz", "Funkel", "fritzi",
                 "Strasse", "22", "40532", "Usebgeren", "DE",
                 "test@gmail.com", "123456"));
         assertEquals("redirect:/admin/usermanagement", cController.saveNewUserAsAdmin("fritz", "Funkel", "fritzi",

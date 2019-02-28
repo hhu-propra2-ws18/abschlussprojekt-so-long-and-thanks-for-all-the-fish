@@ -55,7 +55,7 @@ public class LendingRepresentation {
             Optional<Lending> conflictLending = lendings.findLendingBylendedArticle(article);
             if(conflictLending.isPresent()) {
                 if (conflictLending.get().isConflict()) {
-                    conflictLending.get().setWarning("Your Article in this Lending is currently investigated");
+                    conflictLending.get().setWarning("Der Atrikel in dieser Ausleihe ist zurzeit bei der Konfliktstelle");
                     lendingList.add(conflictLending.get());
                 }
             }

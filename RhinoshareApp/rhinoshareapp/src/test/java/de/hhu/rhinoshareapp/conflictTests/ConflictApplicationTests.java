@@ -75,6 +75,9 @@ public class ConflictApplicationTests {
     @MockBean
     TransactionRepository transRepo;
 
+    @MockBean
+    ChatMessageRepository chatMessageRepository;
+
     @Mock
     Principal p;
 
