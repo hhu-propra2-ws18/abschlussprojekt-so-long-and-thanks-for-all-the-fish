@@ -1,8 +1,11 @@
 package de.hhu.rhinoshareapp.domain.database;
 
 
+
 import de.hhu.rhinoshareapp.Representations.LendingProcessor.APIProcessor;
 import de.hhu.rhinoshareapp.domain.model.*;
+import de.hhu.rhinoshareapp.domain.model.ChatMessage;
+import de.hhu.rhinoshareapp.domain.service.ChatMessageRepository;
 import de.hhu.rhinoshareapp.domain.service.ArticleRepository;
 import de.hhu.rhinoshareapp.domain.service.LendingRepository;
 import de.hhu.rhinoshareapp.domain.service.UserRepository;
@@ -12,13 +15,12 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import java.io.IOException;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 
 @Component
 public class DatabaseInitializer implements ServletContextInitializer {
+
 
 	@Autowired
 	UserRepository users;
@@ -28,6 +30,9 @@ public class DatabaseInitializer implements ServletContextInitializer {
 
 	@Autowired
 	LendingRepository lending;
+
+	@Autowired
+	ChatMessageRepository chatMessageRepository;
 
 	@Override
 	public void onStartup(ServletContext servletContext) throws ServletException { //hier wird die Datenbank gefüllt
@@ -72,5 +77,18 @@ public class DatabaseInitializer implements ServletContextInitializer {
 		for (Article article : all) {
 			System.out.println(article);
 		}
+    
+     ChatMessage nachricht = ChatMessage.builder().fromName("root").toName("user").context("hi User, ich bin Root!").toName("user").fromName("root").build();
+        ChatMessage nachricht2 = ChatMessage.builder().fromName("user").toName("root").context("hi Root, ich bin User!").toName("root").fromName("user").build();
+
+        chatMessageRepository.save(nachricht);
+        chatMessageRepository.save(nachricht2);
+
+        for (ChatMessage chatmessage:chatMessageRepository.findAll()) {
+            System.out.println(chatmessage.getFromName() + " from");
+            System.out.println(chatmessage.getToName() + " to");
+            System.out.println(chatmessage.getContext());
+        }
+
 	}
 }
