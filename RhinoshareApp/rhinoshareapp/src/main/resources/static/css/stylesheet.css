@@ -650,3 +650,10 @@ body {
     text-decoration: none;
     color: black;
 }
+
+.request_overview {
+    background-color: #f8f8f8;
+    border: 1px solid rgba(0, 0, 0, 0.8);
+    border-radius: 7px;
+    padding: 2px;
+}
