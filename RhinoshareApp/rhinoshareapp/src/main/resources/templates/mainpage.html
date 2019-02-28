@@ -13,21 +13,21 @@
         <img id="titleImage" src="/img/rhinoLogoSmall_share.png">
 
         <ol class="navigationbar">
-            <li class="navbaritem" th:classappend="${mainActive}"><a href="/">Rhino-Übersicht</a></li>
+            <li class="navbaritem"><a href="/">Rhino-Übersicht</a></li>
             <li class="navbaritem" th:classappend="${articleActive}"><a href="/article/">Artikel</a></li>
             <li class="navbaritem" th:classappend="${lendingActive}"><a href="/overview/">Ausleihen</a></li>
             <li class="navbaritem" th:classappend="${newActive}"><a href="/article/new/">Artikel Anbieten</a></li>
 
-            <li style="float: right;" class="navbaritem" th:classappend="${userActive}" href th:if="${loggedIn == 'false'}">
+            <li style="float: right;" class="navbaritem" href th:if="${loggedIn == 'false'}">
                 <a href="/login">Einloggen</a>
             </li>
-            <li style="float: right" class="navbaritem" th:classappend="${userActive}" href th:if="${loggedIn == 'true'}">
+            <li style="float: right" class="navbaritem" href th:if="${loggedIn == 'true'}">
                 <a href="/logout">Ausloggen</a>
             </li>
-            <li style="float: right" class="navbaritem" th:classappend="${userActive}" href th:if="${loggedIn == 'false'}">
+            <li style="float: right" class="navbaritem" href th:if="${loggedIn == 'false'}">
                 <a href="/newaccount">Registrieren</a>
             </li>
-            <li style="float: right" class="navbaritem"  th:classappend="${userActive}"href th:if="${loggedIn == 'true'}">
+            <li style="float: right" class="navbaritem" href th:if="${loggedIn == 'true'}">
                 <div class="dropdown">
                     <a href="/edit" th:text="${surname}" class="dropbtn">Benutzer</a>
                     <div class="dropdown-content">

@@ -1,6 +1,7 @@
 package de.hhu.rhinoshareapp.controller.article;
 
 import de.hhu.rhinoshareapp.domain.model.Article;
+import de.hhu.rhinoshareapp.domain.model.Lending;
 import de.hhu.rhinoshareapp.domain.model.User;
 import de.hhu.rhinoshareapp.domain.security.ActualUserChecker;
 import de.hhu.rhinoshareapp.domain.service.ArticleRepository;
@@ -89,7 +90,7 @@ public class ArticleController {
     @GetMapping("/edit/{articleID}")
     public String editArticle(Model model, @PathVariable long articleID, Principal p){
         Article article = articleRepository.findById(articleID).get();
-        if (checkIfLoggedInIsOwner(p, article)) {
+        if (checkIfLoggedInIsOwner(p, article) || checkIfArticleIsBeingLended(article)) {
             model.addAttribute("article", article);
             model.addAttribute("articleActive","active");
             ActualUserChecker.checkActualUser(model, p, userRepository);
@@ -155,5 +156,10 @@ public class ArticleController {
     public boolean checkIfLoggedInIsOwner(Principal p, Article article) {
         User user = userRepository.findByUsername(p.getName()).get();
         return (article.getOwner() == user);
+    }
+
+    public boolean checkIfArticleIsBeingLended(Article article) {
+        Lending lending = lendingRepository.findLendingBylendedArticle(article).get();
+        return lending.equals(null);
     }
 }

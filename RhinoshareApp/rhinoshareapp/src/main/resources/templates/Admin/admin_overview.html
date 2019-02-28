@@ -4,7 +4,6 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Administration - Rhinoshare</title>
         <link rel="stylesheet" type="text/css" href="/css/stylesheet.css">
         <link rel="icon" href="/img/RhinoLogoSmall.png">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -13,10 +12,10 @@
     <body>
         <img id="titleImageTest" src="/img/rhinoLogoSmallAdmin.png">
         <ul class="navigationbar">
-            <li class="navbaritem" th:classappend="${mainActive}"><a href="/admin">Überblick</a></li>
+            <li class="navbaritem" th:classappend="${mainActive}"><a href="/admin">Konfliklösung</a></li>
             <li class="navbaritem" th:classappend="${userActive}"><a href="/admin/usermanagement">Benutzerverwaltung</a></li>
             <li class="navbaritem" th:classappend="${articleActive}"><a href="/admin/articlemanagement">Artikelverwaltung</a></li>
-            <li class="navbaritem" th:classappend="${lendingActive}"><a href="/admin/lendingmanagement">Ausleihen</a></li>
+            <li class="navbaritem" th:classappend="${lendingActive}"><a href="/admin/lendingmanagement">Ausleihverwaltung</a></li>
             <li style="float: right" class="navbaritem"><a href="/logout">Ausloggen</a></li>
             <li style="float: right" class="navbaritem"><a href="/">Zur Hauptseite</a></li>
         </ul>

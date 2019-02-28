@@ -2,53 +2,54 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{/mainpage}"
       xmlns:layout="http://www.w3.org/1999/xhtml" >
 
-<head>
-</head>
+    <head>
+        <title>Artikel anlegen - Rhinoshare</title>
+    </head>
 
-<body>
-    <div class="container" layout:fragment="content" style="margin-top: 20px">
-    <h1>Neuen Artikel anlegen</h1>
-    <form method="post" th:object="${article}" enctype="multipart/form-data" action="">
-        <table>
-            <tr>
-                <th scope="row">Name</th>
-                <td> <Input type="text" th:field="*{name}"/>  </td>
-            </tr>
-            <tr>
-                <th scope="row">Beschreibung</th>
-                <td> <Input type="text" th:field="*{comment}"/> </td>
-            </tr>
-            <tr>
-                <th scope="row">Kaution</th>
-                <td> <Input type="number" th:field="*{deposit}"/>  </td>
-            </tr>
-            <tr>
-                <th scope="row">Mietpreis</th>
-                <td> <Input type="number" th:field="*{rent}"/> </td>
-            </tr>
-            <tr>
-                <th scope="row">Optional: Verkaufspreis</th>
-                <td> <Input type="number" th:field="*{sellingPrice}"/> </td>
-            </tr>
-            <tr>
-                <th scope="row">Bild zum hochladen auswählen:</th>
-                <td>
-                    <Input th:field="*{file}" type="file"/> </td>
-            </tr>
-            <tr>
-                <th scope="row">Verfügbar?</th>
-                <td> <Input class="checkmark" type="checkbox" th:field="*{available}"/> </td>
-            </tr>
-            <tr>
-                <th scope="row">Zum Verkauf?</th>
-                <td> <Input class="checkmark" type="checkbox" th:field="*{forSale}"/> </td>
-            </tr>
-            <th scope="row"></th>
-            <td><button type="submit" class="button_std">Neuen Artikel anlegen</button></td>
-            <td><a th:href="|/article/|"><button class="button_std_white" type="button">Abbrechen</button></a></td>
-        </table>
-    </form>
-</div>
-</body>
+    <body>
+        <div class="container" layout:fragment="content" style="margin-top: 20px">
+            <h1>Neuen Artikel anlegen</h1>
+            <form method="post" th:object="${article}" enctype="multipart/form-data" action="">
+                <table>
+                    <tr>
+                        <th scope="row">Name</th>
+                        <td> <Input type="text" th:field="*{name}"/>  </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Beschreibung</th>
+                        <td> <Input type="text" th:field="*{comment}"/> </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Kaution</th>
+                        <td> <Input type="number" th:field="*{deposit}"/>  </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Mietpreis</th>
+                        <td> <Input type="number" th:field="*{rent}"/> </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Optional: Verkaufspreis</th>
+                        <td> <Input type="number" th:field="*{sellingPrice}"/> </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Bild zum hochladen auswählen:</th>
+                        <td>
+                            <Input th:field="*{file}" type="file"/> </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Verfügbar?</th>
+                        <td> <Input class="checkmark" type="checkbox" th:field="*{available}"/> </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Zum Verkauf?</th>
+                        <td> <Input class="checkmark" type="checkbox" th:field="*{forSale}"/> </td>
+                    </tr>
+                    <th scope="row"></th>
+                    <td><button type="submit" class="button_std">Neuen Artikel anlegen</button></td>
+                    <td><a th:href="|/article/|"><button class="button_std_white" type="button">Abbrechen</button></a></td>
+                </table>
+            </form>
+        </div>
+    </body>
 
 </html>

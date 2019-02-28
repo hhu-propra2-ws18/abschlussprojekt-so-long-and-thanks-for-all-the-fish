@@ -155,7 +155,7 @@ public class LendingTests {
         when(lendingRepository.findLendingBylendingID(1)).thenReturn(testLending);
         APIProcessor apiProcessor2 = Mockito.mock(APIProcessor.class);
 
-        Mockito.when(apiProcessor2.getAccountInformationWithId(user.getUserID(),serviceUserProvider)).thenReturn(account);
+        Mockito.when(apiProcessor2.getAccountInformationWithId(user.getUserID(), serviceUserProvider)).thenReturn(account);
 
         HashMap<String, String> testMap = new HashMap<>();
         testMap.put("choice", "accept");
@@ -235,5 +235,11 @@ public class LendingTests {
         double calculateLendingPrice = postProccessor.CalculateLendingPrice(lending, article);
         //Assert
         Assert.assertEquals(120, calculateLendingPrice, 0.001);
+    }
+
+    @Test
+    public void overViewTest() {
+
+
     }
 }

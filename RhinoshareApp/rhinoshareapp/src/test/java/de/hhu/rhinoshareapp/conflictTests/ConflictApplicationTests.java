@@ -134,6 +134,7 @@ public class ConflictApplicationTests {
         Mockito.when(lendingRepo.findLendingBylendingID(8)).thenReturn(oLending2);
 
         p = Mockito.mock(Principal.class);
+        Mockito.when(p.getName()).thenReturn("jeff");
 
 
     }
@@ -166,13 +167,11 @@ public class ConflictApplicationTests {
         assertEquals("redirect:/admin/conflicthandling", controller.conflictSolved("", 7));
     }
 
-    /*public void postConflictOverviewTest() {
-        assertEquals("redirect:/admin/conflicthandling", controller.postConflictOverview(1, "back"));
-        assertEquals("redirect:/showcase/1", controller.postConflictOverview(1, "show"));
-        assertEquals("redirect:/admin/conflicthandling", controller.postConflictOverview(1, "no"));
-    }
-*/
+    @Test
+    public void testOpenConflict(){
 
+        assertEquals("/conflict/conflictUserOpen",controller.openConflict(m,p));
+    }
 }
 
 
