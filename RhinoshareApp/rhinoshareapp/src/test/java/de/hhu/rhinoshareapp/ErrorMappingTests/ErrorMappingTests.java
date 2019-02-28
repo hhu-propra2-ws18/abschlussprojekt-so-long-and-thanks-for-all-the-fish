@@ -44,6 +44,9 @@ public class ErrorMappingTests {
     LendingRepository lendingRepo;
 
     @MockBean
+    ChatMessageRepository chatMessageRepository;
+
+    @MockBean
     UserRepository userRepo;
 
     @MockBean

@@ -71,7 +71,7 @@ public class LendingTests {
         Lending testLending = Lending.builder().lendingPerson(testUser.get()).endDate(endDate).build();
         List<Lending> testLendingList = new ArrayList<>();
         testLendingList.add(testLending);
-        when(lendingRepository.findAllBylendingPersonAndIsAcceptedAndIsReturnAndIsConflict(testUser.get(), true, false, false)).thenReturn(testLendingList);
+        when(lendingRepository.findAllBylendingPersonAndIsAcceptedAndIsReturnAndIsConflictAndIsRequestedForSale(testUser.get(), true, false, false, false)).thenReturn(testLendingList);
 
         //Act
         LendingRepresentation lendingRepresentation = new LendingRepresentation(lendingRepository, serviceUserProvider, articleRepository);
@@ -99,7 +99,7 @@ public class LendingTests {
         Lending testLending = Lending.builder().lendingPerson(testUser.get()).endDate(endDate).build();
         List<Lending> testLendingList = new ArrayList<>();
         testLendingList.add(testLending);
-        when(lendingRepository.findAllBylendingPersonAndIsAcceptedAndIsReturnAndIsConflict(testUser.get(), true, false, false)).thenReturn(testLendingList);
+        when(lendingRepository.findAllBylendingPersonAndIsAcceptedAndIsReturnAndIsConflictAndIsRequestedForSale(testUser.get(), true, false, false,false)).thenReturn(testLendingList);
 
         Calendar currentDate = Calendar.getInstance();
         long time = endDate.getTime().getTime() - currentDate.getTime().getTime();
