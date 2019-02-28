@@ -90,7 +90,7 @@ public class ArticleController {
     @GetMapping("/edit/{articleID}")
     public String editArticle(Model model, @PathVariable long articleID, Principal p){
         Article article = articleRepository.findById(articleID).get();
-        if (checkIfLoggedInIsOwner(p, article) || checkIfArticleIsBeingLended(article)) {
+        if (checkIfLoggedInIsOwner(p, article) && checkIfArticleIsBeingLended(article)) {
             model.addAttribute("article", article);
             model.addAttribute("articleActive","active");
             ActualUserChecker.checkActualUser(model, p, userRepository);
