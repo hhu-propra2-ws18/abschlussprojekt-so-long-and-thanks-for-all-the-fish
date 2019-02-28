@@ -10,16 +10,14 @@ import java.util.stream.Collectors;
 public class FilterMessages {
 
     public List<ChatMessage> filterFrom(String name, ChatMessageRepository chatMessageRepository) {
-        List<ChatMessage> filteredMessagesFrom = chatMessageRepository.findAll().stream()
+        return chatMessageRepository.findAll().stream()
                 .filter(chatMessage -> chatMessage.getFromName().equals(name)).collect(Collectors.toList());
 
-        return filteredMessagesFrom;
     }
 
     public List<ChatMessage> filterTo(String name, ChatMessageRepository chatMessageRepository) {
-        List<ChatMessage> filteredMessagesTo = chatMessageRepository.findAll()
-                .stream().filter(chatMessage -> chatMessage.getToName().equals(name)).collect(Collectors.toList());
+        return chatMessageRepository.findAll().stream()
+                .filter(chatMessage -> chatMessage.getToName().equals(name)).collect(Collectors.toList());
 
-        return filteredMessagesTo;
     }
 }

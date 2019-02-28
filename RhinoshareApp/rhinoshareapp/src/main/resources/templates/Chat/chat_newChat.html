@@ -38,7 +38,7 @@
         <table>
             <tr>
                 <th scope="row">An</th>
-                <td> <Input type="text" th:field="*{toName}"/> </td>
+                <td th:text="${recipient.getUsername()}">Username</td>
             </tr>
             <tr>
                 <th scope="row">Nachricht</th>

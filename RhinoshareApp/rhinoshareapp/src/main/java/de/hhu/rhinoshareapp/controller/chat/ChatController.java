@@ -45,16 +45,16 @@ public class ChatController {
     public String newChat(@PathVariable long ID, Model model, Principal p) {
         ChatMessage chatMessage = new ChatMessage();
         User recipient = userRepository.findUserByuserID(ID).get();
+        chatMessage.setToName(recipient.getUsername());
         ActualUserChecker.checkActualUser(model, p, userRepository);
-        model.addAttribute("chatMessage", chatMessage);
         model.addAttribute("recipient", recipient);
+        model.addAttribute("chatMessage", chatMessage);
         return "/Chat/chat_newChat";
     }
 
     @PostMapping("/newchat/{ID}")
-    public String sendChat(@ModelAttribute ChatMessage chatMessage, @ModelAttribute User recipient, Principal p) {
+    public String sendChat(@ModelAttribute ChatMessage chatMessage, Principal p) {
         chatMessage.setFromName(p.getName());
-        chatMessage.setToName(recipient.getUsername());
         chatMessageRepository.save(chatMessage);
         return "redirect:/chat";
     }
