@@ -2,6 +2,7 @@ package de.hhu.rhinoshareapp.controller.chat;
 
 import de.hhu.rhinoshareapp.domain.filter.FilterMessages;
 import de.hhu.rhinoshareapp.domain.model.ChatMessage;
+import de.hhu.rhinoshareapp.domain.model.User;
 import de.hhu.rhinoshareapp.domain.service.ChatMessageRepository;
 import de.hhu.rhinoshareapp.domain.security.ActualUserChecker;
 import de.hhu.rhinoshareapp.domain.service.UserRepository;
@@ -40,17 +41,20 @@ public class ChatController {
         return "/Chat/chat_overview";
     }
 
-    @GetMapping("/newchat")
-    public String newChat(Model model, Principal p) {
+    @GetMapping("/newchat/{ID}")
+    public String newChat(@PathVariable long ID, Model model, Principal p) {
         ChatMessage chatMessage = new ChatMessage();
+        User recipient = userRepository.findUserByuserID(ID).get();
         ActualUserChecker.checkActualUser(model, p, userRepository);
         model.addAttribute("chatMessage", chatMessage);
+        model.addAttribute("recipient", recipient);
         return "/Chat/chat_newChat";
     }
 
-    @PostMapping("/newchat")
-    public String sendChat(@ModelAttribute ChatMessage chatMessage, Principal p) {
+    @PostMapping("/newchat/{ID}")
+    public String sendChat(@ModelAttribute ChatMessage chatMessage, @ModelAttribute User recipient, Principal p) {
         chatMessage.setFromName(p.getName());
+        chatMessage.setToName(recipient.getUsername());
         chatMessageRepository.save(chatMessage);
         return "redirect:/chat";
     }
