@@ -15,5 +15,7 @@ public interface LendingRepository extends CrudRepository<Lending, Long> {
     Optional<Lending> findLendingBylendedArticle(Article article);
     Optional<Lending> findLendingBylendedArticleAndIsReturn(Article article, boolean isReturn);
     Optional<Lending> findLendingBylendingID(long id);
+    List<Lending> findAllLendingBylendingPersonAndIsDummy(User user, boolean isDummy);
     List<Lending> findAllByIsConflict(boolean conflict);
+    List<Lending> findAll();
 }

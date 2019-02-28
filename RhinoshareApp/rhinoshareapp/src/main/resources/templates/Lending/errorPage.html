@@ -1,15 +1,19 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <meta charset="UTF-8">
-    <title>Error</title>
-</head>
-<body>
-<h>Your action failed</h>
-<dr>
-   <div Reason : th:text="${error}">0</div>
-<a th:href="@{/{id}(id = ${id})}" role="button">overview</a>
-</dr>
-</body>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{/mainpage}"
+      xmlns:layout="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Propay Error - Rhinoshare</title>
+    </head>
+
+    <body>
+        <div class="container" layout:fragment="content" style="margin-top: 50px">
+            <h>Da ist etwas fehlgeschlagen.</h>
+            <div>
+                Grund:
+                <div th:text="${error}">0</div>
+                <a th:href="|/|" role="button">Zur Übersicht</a>
+            </div>
+        </div>
+    </body>
+
 </html>

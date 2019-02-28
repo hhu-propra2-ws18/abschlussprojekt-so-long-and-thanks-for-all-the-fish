@@ -26,6 +26,7 @@ laufen, auf die alle drei Systeme Zugriff haben und die die Daten speichert.
 
 ## Dokumentation
 ### Artikel
+
 Wir haben uns vorgestellt, dass die Anwendung `Article` die Artikel als Entitäten
 in die Datenbank einfügt. Ein einzelner Artikel enthält die Variablen `articleID`,
 `name`, `comment`, `PersonID`, `deposit`, `rent`, `available`, um die geforderten
@@ -41,9 +42,7 @@ Zudem können Artikel bearbeitet werden. Dabei können lediglich die Attribute
 `name`, `comment`, `deposit`, `rent` und `available` geändert werden, der Rest wird
 vom alten Artikel automatisch übernommen.
 Als erweiterte Features wurden dann noch ein paar Grundlagen implementiert, unter
-anderem das Editieren von Artikeln sowie das Löschen. Zurzeit läuft dies noch ohne
-ein Permissions-System, da dies erst mit Springboot-Security in einem späteren
-Schritt hinzugefügt wird.
+anderem das Editieren von Artikeln sowie das Löschen.
 
 Desweiteren haben wir uns einem anspruchsvolleren Feature gewidmet: dem hinzufügen
 von Bildern. Diese werden beim Erstellen dem Artikel hochgeladen und können weder
@@ -59,11 +58,14 @@ und nach dem Vorkommen des Queries in den Namen und Beschreibungen der Artikel s
 Alle auf diese Weise gefundenen Artikel werden dann auf einer Übersichtsseite ausgegeben.
 Die von uns implementierte Suche ist zudem Case-insensitive.
 
-Zuletzt wurden Tests geschrieben, die einige Funktionen des Repositories und des
-Controllers testen. So haben wir das Editieren von Artikeln und das Suchen nach
-diesen getestet. Desweiteren haben wir einen Test zur `findById`-Funktion geschrieben
-und einen weiteren zur `findByPersonId`-Funktion, wobei letztere alle Artikel einer
-einzelnen Person zurückgeben soll.
+Die Artikel sind so erstellt, dass der User, dem die Items gehören, die Möglichkeit hat
+den Artikel zu löschen oder zu bearbeiten. Durch die Änderungen der Aufhabe hat er da auch 
+die Möglichkeit den Kaufpreis und die Kauffunktion zu aktivieren (Was er optional auch beim Erstellen des
+Artikels machen kann). Ein User, dem ein Item nicht gehört, kann dieses statt dessen Miet (Sofern es verfügbar ist)
+oder Kaufen, wenn dies Freigeschaltet ist. 
+
+In der Artikelübersicht sieht man das Artikelbild oder ein Standartbild, sowie ein Preis und ein Standort (Als Ort).
+Durch einen Klick auf den Artikel kommt man auf die oben erwähnte spezifische Website für das Artikel.
 
 
 ### User
@@ -99,4 +101,24 @@ hier wird eine Warnung ausgegeben falls die jetzige Zeit weiter ist als das 'end
 hier kann die Person auch auf 'return' drücken, damit der ausgeliehene Artikel
 wieder verfügbar wird und auf '/overviewBorrows/{id}' kann sich die eingeloggte
  Person Ihre angebotenen Artikel anschauen.
+
+ ### Änderungen vom Marketing
+ Durch die Änderungen durch die Marketingabteilung war nicht allzuviel zutun. Wir haben dem Artikel
+ zwei Attribute hinzugefügt. Einen Boolean, der angibt ob das Produkt zum Verkauf ist, sowie aber auch
+ ein Kaufpreis. Dieser ist Standartmäßig auf 0, was aber nicht relevant ist, da der Preis auch nicht angezeigt wird,
+ wenn der Artikel als Nicht-verkaufbar eingestellt wird.
+ Des weiteren haben wir die Edit Funktion der Artikel so abgeändert, dass man jetzt im Nachhinein den Verkaufshaken noch
+ einsetzen kann, sowie auch den Preis ändern darf.
+ Dazu kam dann ein Button für verkaufsbereite Artikel, der ein extra Lending Mapping aufruft für den Verkauf.
+ Das Mapping läuft Analog zum Ausleihprozess. Die einzige Änderung ist, dass wir das Artikel dann erst kopieren mit den 
+ wichtigen Attributen, dann wird das original aus der Datenbank gelöscht. Die Kope ohne persönliche Daten behalten wir als Inaktiv
+ für unsere Lending / Verkaufshistorie.
+ 
+### Chat
+Der Chat ist erreichbar über "/chat". Dann öffnet sich eine Seite mit einen Nachrichtenverlauf von gesendeten- und emfangenen Nachrichten. Diese Übersicht ist für jeden Nutzer anders, da der Chat ein eins-zu-eins Chat ist. 
+
+Die Nachrichten die angezeigt werden, werden durch eine Filtermethode gefiltert (FROM, TO) die durch die Nachrichtendatanbank streamt. Auf der Übersichtsseite hat der Nutzer die Möglichkeit auf Nachrichten zu antworten oder zu löschen. Beide Möglichkeiten leiten auf je eine eigene Webseite ("/deletechat/{ID}", "/answerchat/{ID}"), welche dann die betreffende Nachricht finden die beantwortet, oder gelöscht, werden soll. Falls eine Nachricht gelöscht wird, wird jedoch die Nachricht für beide Benutzer gelöscht, da die Nachrichten sich eine Datenbank teilen. Beim beantworten der Nachricht wird automatisch der Sender und Empfänger festgelegt sodass der Benutzer nur noch den Inhalt der Nachricht schreiben muss. 
+
+Tests wurden geschrieben für die Filtermethode die diverse Beziehungen von den Chatnachrichten testet (zb: onetoone, onetotwo, etc..). 
+
 

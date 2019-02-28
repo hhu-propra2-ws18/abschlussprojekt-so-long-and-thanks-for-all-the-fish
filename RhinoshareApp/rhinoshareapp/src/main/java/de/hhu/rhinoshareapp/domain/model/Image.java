@@ -1,5 +1,7 @@
 package de.hhu.rhinoshareapp.domain.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
@@ -9,7 +11,9 @@ import java.io.IOException;
 
 @Data
 @Entity
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class Image {
 
     @Id
@@ -25,4 +29,5 @@ public class Image {
         this.filebytes = file.getBytes();
         this.filename = file.getOriginalFilename();
     }
+
 }

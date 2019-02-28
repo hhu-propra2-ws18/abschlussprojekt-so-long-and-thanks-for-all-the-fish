@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{/mainpage}"
+      xmlns:layout="http://www.w3.org/1999/xhtml">
+
+    <head>
+        <title>Profil bearbeiten - Rhinoshare</title>
+    </head>
+
+    <body>
+        <div class="container" layout:fragment="content">
+            <h1 class="title">Konto bearbeiten</h1>
+            <p class="information">Hier kannst du deine hinterlegten Informationen ändern. Du siehst
+                                im Folgenden nochmal alle Details, die aktuell bei uns hinterlegt sind.</p>
+            <form method="post" style="text-align: center;">
+                <table class="tg">
+                    <tr>
+                        <td class="tg-lap0">Username:</td>
+                        <td class="tg-lap0"><input th:name="username" type="text" th:placeholder="${user.username}" readonly/></td>
+                    </tr>
+                    <tr>
+                        <td class="tg-lap0">Surname:</td>
+                        <td class="tg-lap0"><input th:name="name" type="text" th:placeholder="${user.name}"/></td>
+                    </tr>
+                    <tr>
+                        <td class="tg-lap0">Name:</td>
+                        <td class="tg-lap0"><input th:name="surname" type="text" th:placeholder="${user.surname}"/></td>
+                    </tr>
+                    <tr>
+                        <td class="tg-lap0">E-Mail:</td>
+                        <td class="tg-lap0"><input th:name="email" type="email" th:placeholder="${user.email}"/></td>
+                    </tr>
+                    <tr>
+                        <td class="tg-lap0">Street:</td>
+                        <td class="tg-lap0"><input th:name="street" type="text" th:placeholder="${user.address.street}"/></td>
+                    </tr>
+                    <tr>
+                        <td class="tg-lap0">City:</td>
+                        <td class="tg-lap0"><input th:name="city" type="text" th:placeholder="${user.address.city}"/></td>
+                    </tr>
+                    <tr>
+                        <td class="tg-lap0">Country:</td>
+                        <td class="tg-lap0"><input th:name="country" type="text" th:placeholder="${user.address.country}"/></td>
+                    </tr>
+                    <tr>
+                        <td class="tg-lap0">House Number:</td>
+                        <td class="tg-lap0"><input th:name="houseNumber" type="text" th:placeholder="${user.address.houseNumber}"/></td>
+                    </tr>
+                    <tr>
+                        <td class="tg-lap0">PostCode:</td>
+                        <td class="tg-lap0"><input th:name="postCode" type="text" th:placeholder="${user.address.postCode}"/></td>
+                    </tr>
+                </table>
+                <td><button type="submit" class="btn btn-primary">Aktuallisieren</button></td>
+                <td><a th:href="|/|" > <button class="btn btn-warning" type="button">Abbrechen</button></a></td>
+            </form>
+        </div>
+    </body>
+
+</html>

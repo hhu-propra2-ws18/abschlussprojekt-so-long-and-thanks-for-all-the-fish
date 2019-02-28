@@ -1,45 +1,47 @@
 <!DOCTYPE html>
 <html lang="de" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Neues Rhino-Konto erstellen - Rhinoshare</title>
-    <link rel="stylesheet" type="text/css" href="/css/stylesheet.css">
-    <link rel="icon" href="/img/RhinoLogoSmall.png">
-</head>
-<body>
-<a href="/">
-    <img id="titleImage" src="/img/rhinoLogoBig.png" width="300" height="75">
-</a>
-<div id="loginform">
-    <p id="logintitle">Neues Konto erstellen</p>
-    <form id="loginInput" method="post">
-        <p class="loginText">Name</p>
-        <input class="loginTextfield" id="name" name="name" type="text">
-        <p class="loginText">Vorname</p>
-        <input class="loginTextfield" id="surname" name="surname" type="text">
-        <p class="loginText">Straße</p>
-        <input class="loginTextfield" id="street" name="street" type="text">
-        <p class="loginText">Hausnummer</p>
-        <input class="loginTextfield" id="huosenumber" name="housenumber" type="text">
-        <p class="loginText">PLZ</p>
-        <input class="loginTextfield" id="postalcode" name="postalcode" type="text">
-        <p class="loginText">Wohnort</p>
-        <input class="loginTextfield" id="city" name="city" type="text">
-        <p class="loginText">Land</p>
-        <input class="loginTextfield" id="country" name="country" type="text">
-        <p class="loginText">RhinoID</p>
-        <input class="loginTextfield" id="username" name="username" type="text">
-        <p class="loginText">E-Mail-Adresse</p>
-        <input class="loginTextfield" id="email" name="email" type="email">
-        <p class="loginText">Passwort</p>
-        <input class="loginTextfield" id="password" name="password" type="password">
-        <p class="loginText">Passwort wiederholen</p>
-        <input class="loginTextfield" id="password2" name="password2" type="password">
-        <input class="button" type="submit" name="loginButton" value="Registrieren">
-    </form>
-    <a href="/">
-        <button class="buttonCreate">Abbrechen</button>
-    </a>
-</div>
-</body>
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Neues Rhino-Konto erstellen - Rhinoshare</title>
+        <link rel="stylesheet" type="text/css" href="/css/stylesheet.css">
+        <link rel="icon" href="/img/RhinoLogoSmall.png">
+    </head>
+
+    <body>
+        <a href="/">
+            <img id="titleImage_login" src="/img/rhinoLogoBig.png" width="300" height="75">
+        </a>
+        <div id="loginform">
+            <p id="logintitle">Neues Konto erstellen</p>
+            <form id="loginInput" method="post">
+                <p class="loginText">Name</p>
+                <input class="loginTextfield" id="name" name="name" type="text">
+                <p class="loginText">Vorname</p>
+                <input class="loginTextfield" id="surname" name="surname" type="text">
+                <p class="loginText">Straße</p>
+                <input class="loginTextfield" id="street" name="street" type="text">
+                <p class="loginText">Hausnummer</p>
+                <input class="loginTextfield" id="huosenumber" name="housenumber" type="text">
+                <p class="loginText">PLZ</p>
+                <input class="loginTextfield" id="postalcode" name="postalcode" type="text">
+                <p class="loginText">Wohnort</p>
+                <input class="loginTextfield" id="city" name="city" type="text">
+                <p class="loginText">Land</p>
+                <input class="loginTextfield" id="country" name="country" type="text">
+                <p class="loginText">RhinoID</p>
+                <input class="loginTextfield" id="username" name="username" type="text">
+                <p class="loginText">E-Mail-Adresse</p>
+                <input class="loginTextfield" id="email" name="email" type="email">
+                <p class="loginText">Passwort</p>
+                <input class="loginTextfield" id="password" name="password" type="password">
+                <p class="loginText">Passwort wiederholen</p>
+                <input class="loginTextfield" id="password2" name="password2" type="password">
+                <input class="button" type="submit" name="loginButton" value="Registrieren">
+            </form>
+            <a href="/">
+                <button class="buttonCreate">Abbrechen</button>
+            </a>
+        </div>
+    </body>
 </html>

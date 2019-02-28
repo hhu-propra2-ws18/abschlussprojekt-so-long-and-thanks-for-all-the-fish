@@ -14,13 +14,8 @@ public class LoginPageController {
         return "loginpage";
     }
 
-    @RequestMapping("/redirectToSite")
-    public String redirect(@RequestParam("redir_url") String redirectUrl) {
-        return "redirect:" + redirectUrl;
-    }
-
     @GetMapping("/newaccount")
-    public String loadNewAccountPage(Model m) {
+    public String loadNewAccountPage() {
         return "createuser";
     }
 

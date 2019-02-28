@@ -17,14 +17,13 @@ public class RequestRepresentation {
     private LendingRepository lendings;
     long borrowID;
 
-   public List<Lending> FillRequest(){
+   public List<Lending> fillRequest(){
        //suche alle artikel wo die request flag gesetzt ist
        Optional<User> user = users.findUserByuserID(borrowID);
        List<Lending> filledLendings = new ArrayList<>();
        List<Article> requestedIsTrue = articles.findAllArticleByOwnerAndIsRequested(user.get(), true);
        for (Article article : requestedIsTrue) {
            Lending lending = lendings.findLendingBylendedArticle(article).get();
-           lending.FillFormattedDates();
            filledLendings.add(lending);
        }
        return filledLendings;
@@ -34,5 +33,9 @@ public class RequestRepresentation {
         this.articles = articles;
         this.lendings = lendings;
         this.borrowID = borrowID;
+    }
+
+    public List<Lending> fillDenies() {
+       return lendings.findAllLendingBylendingPersonAndIsDummy(users.findUserByuserID(borrowID).get(), true);
     }
 }

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{/mainpage}"
+      xmlns:layout="http://www.w3.org/1999/xhtml">
+
+    <head>
+        <title>Kaufanfrage - Rhinoshare</title>
+    </head>
+
+    <body>
+        <div class="container" layout:fragment="content" style="margin-top: 50px">
+
+            <form th:action="@{/overview/inquiry}" method="post">
+                <label>
+                    Wofür wollen Sie den Artikel benutzen?
+                    <input type="text" name="requestComment">
+                    <input type="hidden" name="requesterID" th:value="${requesterID}">
+                    <input type="hidden" name="articleID" th:value="${articleID}">
+                    <input type="hidden" name="requestValue" value="selling">
+                </label>
+                <button type="submit">Abschicken</button>
+            </form>
+        </div>
+    </body>
+
+</html>

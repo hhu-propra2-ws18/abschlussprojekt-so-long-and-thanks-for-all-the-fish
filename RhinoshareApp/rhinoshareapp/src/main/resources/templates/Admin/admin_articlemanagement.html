@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{Admin/admin_overview}"
+      xmlns:layout="http://www.w3.org/1999/xhtml">
+
+    <head>
+        <title>Artikelverwaltung - Rhinoshare</title>
+    </head>
+
+    <body>
+        <div class="container" layout:fragment="content">
+            <table id="useroverview">
+                <th>ID</th>
+                <th>Artikel</th>
+                <th>Besitzer</th>
+                <th>Kaution</th>
+                <th>Mietkosten</th>
+                <th>Aktion</th>
+                <th:block th:each="article : ${articles}">
+                    <tr>
+                        <td th:text="${article.articleID}">...</td>
+                        <td th:text="${article.name}">...</td>
+                        <td th:text="${article.owner.getUsername()}">...</td>
+                        <td th:text="${article.deposit}">...</td>
+                        <td th:text="${article.rent}">...</td>
+                        <td>
+                            <a th:href="|/admin/articlemanagement/delete/${article.getArticleID()}|">
+                                <button class="button_std">Löschen</button>
+                            </a>
+                        </td>
+                    </tr>
+                </th:block>
+            </table>
+        </div>
+    </body>
+
+</html>

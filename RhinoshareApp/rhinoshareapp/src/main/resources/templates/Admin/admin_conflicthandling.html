@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{Admin/admin_overview}"
+      xmlns:layout="http://www.w3.org/1999/xhtml">
+
+    <head>
+        <title>Konfliktlösung - Rhinoshare</title>
+    </head>
+
+    <body>
+        <div class="container" layout:fragment="content">
+            <table id="useroverview">
+                <th>LendingID</th>
+                <th>Artikel</th>
+                <th>Besitzer</th>
+                <th>Verliehen an</th>
+                <th>Aktion</th>
+                <th:block th:each="lending: ${lendings}">
+                    <tr>
+                        <td th:text="${lending.lendingID}"/>
+                        <td th:text="${lending.lendedArticle.name}"/>
+                        <td th:text="${lending.lendingPerson.username}"/>
+                        <td th:text="${lending.lendedArticle.owner.username}"/>
+                        <td>
+                            <form method="post" th:action="|/admin/${lending.lendingID}|">
+                                <button type="submit" name="action" value="winBorrower" class="button_std_red">
+                                    Lösen zugunsten des Ausleihers
+                                </button>
+                                <button type="submit" name="action" value="winOwner" class="button_std_green">
+                                    Lösen zugunsten des Besitzers
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                </th:block>
+            </table>
+        </div>
+    </body>
+
+</html>

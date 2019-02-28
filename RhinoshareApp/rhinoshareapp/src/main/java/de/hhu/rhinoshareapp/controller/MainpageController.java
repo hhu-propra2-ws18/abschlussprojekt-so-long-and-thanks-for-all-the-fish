@@ -1,6 +1,8 @@
 package de.hhu.rhinoshareapp.controller;
 
+import de.hhu.rhinoshareapp.domain.model.Article;
 import de.hhu.rhinoshareapp.domain.security.ActualUserChecker;
+import de.hhu.rhinoshareapp.domain.service.ArticleRepository;
 import de.hhu.rhinoshareapp.domain.service.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,12 +15,19 @@ import java.security.Principal;
 public class MainpageController {
 
     @Autowired
-    UserRepository users;
+    private UserRepository userRepository;
+
+    @Autowired
+    private ArticleRepository articleRepository;
+
 
     @GetMapping("/")
-    public String loadMainPage(Model m, Principal p) {
-        ActualUserChecker.checkActualUser(m, p, users);
-        return "mainpage";
+    public String viewAll(Model model, Principal p){
+        ActualUserChecker.checkActualUser(model, p, userRepository);
+        Iterable<Article> articles= articleRepository.findAll();
+        model.addAttribute("articles", articles);
+        model.addAttribute("mainActive","active");
+        return "Article/viewAll";
     }
 
 }
