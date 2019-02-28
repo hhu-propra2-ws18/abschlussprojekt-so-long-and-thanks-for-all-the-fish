@@ -42,6 +42,10 @@
                         <span th:case="false"><i class="fa fa-times-circle-o" aria-hidden="true"></i></span>
                     </td>
                 </tr>
+                <tr th:if="${endDate != null}">
+                    <td>Verliehen bis</td>
+                    <td th:text="${endDate}">SampleDate</td>
+                </tr>
                 <tr>
                     <td>Zum Verkauf</td>
                     <td th:switch="${article.isForSale()}">

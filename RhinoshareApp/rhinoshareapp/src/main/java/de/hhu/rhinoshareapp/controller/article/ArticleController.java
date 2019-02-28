@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/article")
@@ -56,6 +57,10 @@ public class ArticleController {
     public String privateArticleView(Model model, @PathVariable long articleID, Principal p){
         User user = userRepository.findByUsername(p.getName()).get();
         Article article = articleRepository.findById(articleID).get();
+        if(checkIfArticleIsBeingLended(article).isPresent()) {
+            String endDate = checkIfArticleIsBeingLended(article).get().getFormattedEndDate();
+            model.addAttribute("endDate", endDate);
+        }
         model.addAttribute("user" , user);
         model.addAttribute("article", article);
         model.addAttribute("articleActive","active");
@@ -90,7 +95,7 @@ public class ArticleController {
     @GetMapping("/edit/{articleID}")
     public String editArticle(Model model, @PathVariable long articleID, Principal p){
         Article article = articleRepository.findById(articleID).get();
-        if (checkIfLoggedInIsOwner(p, article) || checkIfArticleIsBeingLended(article)) {
+        if (checkIfLoggedInIsOwner(p, article) || checkIfArticleIsBeingLended(article).isPresent()) {
             model.addAttribute("article", article);
             model.addAttribute("articleActive","active");
             ActualUserChecker.checkActualUser(model, p, userRepository);
@@ -158,8 +163,8 @@ public class ArticleController {
         return (article.getOwner() == user);
     }
 
-    public boolean checkIfArticleIsBeingLended(Article article) {
-        Lending lending = lendingRepository.findLendingBylendedArticle(article).get();
-        return lending.equals(null);
+    public Optional<Lending> checkIfArticleIsBeingLended(Article article) {
+        Optional<Lending> lending = lendingRepository.findLendingBylendedArticle(article);
+        return lending;
     }
 }

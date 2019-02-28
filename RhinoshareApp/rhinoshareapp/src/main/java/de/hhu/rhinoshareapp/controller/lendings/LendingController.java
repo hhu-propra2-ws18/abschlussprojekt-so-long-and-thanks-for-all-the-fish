@@ -167,7 +167,7 @@ public class LendingController {
             apiProcessor.setErrorOccurred(false);
             return "Lending/errorPage";
         }
-        return "redirect:/overview";
+        return "Lending/inquiry";
     }
 
     //ProPay
