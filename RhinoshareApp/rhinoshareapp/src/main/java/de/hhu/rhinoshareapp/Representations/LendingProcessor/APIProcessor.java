@@ -30,14 +30,14 @@ public class APIProcessor {
 		Optional<User> user = users.findUserByuserID(userID);
 		if (!user.isPresent()) {
 			errorOccurred = true;
-			errorMessage.put("reason", "User not found");
+			errorMessage.put("reason", "User nicht gefunden");
 			return null;
 		}
 		try {
 			return getAccountInformation(user.get().getUsername(), Account.class);
 		} catch (Exception e) {
 			errorOccurred = true;
-			errorMessage.put("reason", "Propay is not reachable, try it again later");
+			errorMessage.put("reason", "Propay ist nicht erreichbar, bitte probieren Sie es zu einem anderen Zeitpunkt");
 			e.printStackTrace();
 		}
 		return null;

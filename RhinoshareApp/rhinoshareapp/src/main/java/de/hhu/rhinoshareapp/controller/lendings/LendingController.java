@@ -188,7 +188,6 @@ public class LendingController {
         Account account = apiProcessor.getAccountInformationWithId(id, userRepository);
         model.addAttribute("lendingActive", "active");
         if (apiProcessor.isErrorOccurred()) {
-            System.out.println("ich geh rein !");
             model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
             apiProcessor.setErrorOccurred(false);
             ActualUserChecker.checkActualUser(model, p, userRepository);
