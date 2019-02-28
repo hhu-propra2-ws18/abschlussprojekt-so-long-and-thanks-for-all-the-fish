@@ -1,6 +1,8 @@
 package de.hhu.rhinoshareapp.conflictTests;
 
 
+import de.hhu.rhinoshareapp.Representations.LendingProcessor.APIProcessor;
+import de.hhu.rhinoshareapp.controller.MainpageController;
 import de.hhu.rhinoshareapp.controller.conflict.ConflictController;
 import de.hhu.rhinoshareapp.domain.mail.MailService;
 import de.hhu.rhinoshareapp.domain.model.Article;
@@ -43,6 +45,9 @@ public class ConflictApplicationTests {
     ConflictController controller;
 
     @Autowired
+    MainpageController cm;
+
+    @Autowired
     MockMvc mvc;
 
     @MockBean
@@ -71,6 +76,9 @@ public class ConflictApplicationTests {
 
     @Mock
     Principal p;
+
+    @MockBean
+    APIProcessor api;
 
 
     @Before
@@ -144,14 +152,6 @@ public class ConflictApplicationTests {
         assertNotEquals(null, controller);
     }
 
-    @Ignore
-    @Test
-    public void testGetMapping() throws Exception {
-        mvc.perform(get("/openConflict")).andExpect(status().isOk());    // Test klappten nicht wegen dem login
-        mvc.perform(get("/conflictOverview")).andExpect(status().isOk());
-
-    }
-
     @Test
     public void openConflictTest() {
         assertEquals("redirect:/openConflict", controller.openConflictpost(m, "open", 7, ""));
@@ -167,6 +167,17 @@ public class ConflictApplicationTests {
         assertEquals("redirect:/ownerWin", controller.conflictSolved("winOwner", 7));
         assertEquals("redirect:/admin/conflicthandling", controller.conflictSolved("", 7));
     }
+
+    @Test
+    public void testMainpage() {
+        assertEquals("Article/viewAll", cm.viewAll(m, p));
+    }
+
+    @Test
+    public void testmain() {
+        assertEquals("/conflict/conflictUserOpen",controller.openConflict(m,p,1));
+    }
+
 }
 
 

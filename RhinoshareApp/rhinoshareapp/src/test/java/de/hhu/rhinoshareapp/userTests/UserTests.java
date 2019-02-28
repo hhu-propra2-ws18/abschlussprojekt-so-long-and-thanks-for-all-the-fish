@@ -1,9 +1,10 @@
-package de.hhu.rhinoshareapp.LendingTests;
+package de.hhu.rhinoshareapp.userTests;
+
 
 import de.hhu.rhinoshareapp.Representations.LendingProcessor.APIProcessor;
-import de.hhu.rhinoshareapp.Representations.LendingProcessor.PostProccessor;
+import de.hhu.rhinoshareapp.controller.MainpageController;
 import de.hhu.rhinoshareapp.controller.conflict.ConflictController;
-import de.hhu.rhinoshareapp.controller.lendings.LendingController;
+import de.hhu.rhinoshareapp.controller.user.AdminPageController;
 import de.hhu.rhinoshareapp.domain.mail.MailService;
 import de.hhu.rhinoshareapp.domain.model.Article;
 import de.hhu.rhinoshareapp.domain.model.Lending;
@@ -32,13 +33,18 @@ import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 
+
+
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
 @WebAppConfiguration
 @WebMvcTest
-public class LendingControllerTests {
+public class UserTests {
     @Autowired
-    LendingController controller;
+    AdminPageController controller;
+
+    @Autowired
+    MainpageController cm;
 
     @Autowired
     MockMvc mvc;
@@ -71,13 +77,12 @@ public class LendingControllerTests {
     Principal p;
 
     @MockBean
-    PostProccessor postProccessor;
+    APIProcessor api;
 
-    @MockBean
-    APIProcessor apiProcessor;
 
     @Before
-    public void setUp() {
+    public void setUp(){
+
         User testUser1 = new User("Jeff", "Nosbusch", null, "jeff", "jeff@mail.com", "1234", "user");
         User testUser2 = new User("George", "Pi", null, "george", "george@mail.com", "1234", "user");
         User testUser3 = new User("Franz", "Hoff", null, "franz", "franz@mail.com", "1234", "user");
@@ -117,6 +122,7 @@ public class LendingControllerTests {
         Optional<User> oUser3 = Optional.of(testUser3);
         Optional<Lending> oLending1 = Optional.of(testLending1);
         Optional<Lending> oLending2 = Optional.of(testLending2);
+        Optional<Article> oArticle = Optional.of(testArticle1);
 
         List<Optional<Lending>> alconflic = new ArrayList<>();
         alconflic.add(oLending1);
@@ -134,20 +140,30 @@ public class LendingControllerTests {
         Mockito.when(lendingRepo.findLendingBylendingID(7)).thenReturn(oLending1);
         Mockito.when(lendingRepo.save(testLending1)).thenReturn(testLending1);
         Mockito.when(lendingRepo.findLendingBylendingID(8)).thenReturn(oLending2);
+        Mockito.when(articleRepo.findById((long)1)).thenReturn(oArticle);
 
         p = Mockito.mock(Principal.class);
         Mockito.when(p.getName()).thenReturn("jeff");
-
-        Mockito.when(postProccessor.FindUserIDByUser(userRepo,"jeff")).thenReturn((long)1);
-
-
     }
 
-    @Ignore
+
     @Test
-    public void testOverview(){
-        assertEquals("Lending/overview",controller.overview(m, p));
+    public void testAdmin(){
+        assertEquals("Admin/admin_conflicthandling",controller.conflictOverview(m,p));
+        assertEquals("redirect:/showcase/1",controller.postConflictOverview(1, "show"));
+        assertEquals("redirect:/admin/conflicthandling",controller.postConflictOverview(1, "login"));
+        assertEquals("Admin/admin_usermanagement",controller.loadUserManagement(m));
+        assertEquals("Admin/admin_userEdit",controller.loadEditForm(1,m));
+        assertEquals("Admin/admin_userEdit",controller.profileOverview(userRepo.findUserByuserID(1).get(), m,p));
+        assertEquals("redirect:/admin/usermanagement/",controller.deleteUser(m, p, 1));
+        assertEquals("Admin/admin_createUser",controller.addUser(m));
+        assertEquals("Admin/admin_articlemanagement",controller.loadArticleManagement(m));
+        assertEquals("redirect:/admin/articlemanagement/",controller.deleteArticle(1,m));
+        assertEquals("Admin/admin_lendingmanagement",controller.loadLendingManagement(m));
+       // assertEquals("Admin/admin_lendingmanagement",controller.deleteLending(1, m));
+
     }
+
 
 
 }
