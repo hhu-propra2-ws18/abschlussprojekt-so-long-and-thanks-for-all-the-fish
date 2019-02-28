@@ -102,3 +102,16 @@ hier kann die Person auch auf 'return' drücken, damit der ausgeliehene Artikel
 wieder verfügbar wird und auf '/overviewBorrows/{id}' kann sich die eingeloggte
  Person Ihre angebotenen Artikel anschauen.
 
+ ### Änderungen vom Marketing
+ Durch die Änderungen durch die Marketingabteilung war nicht allzuviel zutun. Wir haben dem Artikel
+ zwei Attribute hinzugefügt. Einen Boolean, der angibt ob das Produkt zum Verkauf ist, sowie aber auch
+ ein Kaufpreis. Dieser ist Standartmäßig auf 0, was aber nicht relevant ist, da der Preis auch nicht angezeigt wird,
+ wenn der Artikel als Nicht-verkaufbar eingestellt wird.
+ Des weiteren haben wir die Edit Funktion der Artikel so abgeändert, dass man jetzt im Nachhinein den Verkaufshaken noch
+ einsetzen kann, sowie auch den Preis ändern darf.
+ Dazu kam dann ein Button für verkaufsbereite Artikel, der ein extra Lending Mapping aufruft für den Verkauf.
+ Das Mapping läuft Analog zum Ausleihprozess. Die einzige Änderung ist, dass wir das Artikel dann erst kopieren mit den 
+ wichtigen Attributen, dann wird das original aus der Datenbank gelöscht. Die Kope ohne persönliche Daten behalten wir als Inaktiv
+ für unsere Lending / Verkaufshistorie.
+
+
