@@ -15,20 +15,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DataJpaTest
 public class ChatmessageServiceTest {
 
-    @Autowired
-    private TestEntityManager testEntityManager;
+	@Autowired
+	private TestEntityManager testEntityManager;
 
-    @Autowired
-    private ChatMessageRepository chatMessageRepository;
+	@Autowired
+	private ChatMessageRepository chatMessageRepository;
 
-    @Test
-    public void returnChatmessageByID(){
-        ChatMessage chatMessage = ChatMessage.builder().build();
-        testEntityManager.persist(chatMessage);
-        testEntityManager.flush();
+	@Test
+	public void returnChatmessageByID() {
+		ChatMessage chatMessage = ChatMessage.builder().build();
+		testEntityManager.persist(chatMessage);
+		testEntityManager.flush();
 
-        ChatMessage found = chatMessageRepository.findById(chatMessage.getMessageID());
+		ChatMessage found = chatMessageRepository.findById(chatMessage.getMessageID());
 
-        assertThat(found).isEqualTo(chatMessage);
-    }
+		assertThat(found).isEqualTo(chatMessage);
+	}
 }
