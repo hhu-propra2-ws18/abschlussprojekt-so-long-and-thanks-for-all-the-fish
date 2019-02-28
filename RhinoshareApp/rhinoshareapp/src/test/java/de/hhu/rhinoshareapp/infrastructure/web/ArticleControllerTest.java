@@ -5,6 +5,7 @@ import de.hhu.rhinoshareapp.controller.article.ArticleController;
 import de.hhu.rhinoshareapp.controller.conflict.ConflictController;
 import de.hhu.rhinoshareapp.domain.mail.MailService;
 import de.hhu.rhinoshareapp.domain.model.Article;
+import de.hhu.rhinoshareapp.domain.model.Lending;
 import de.hhu.rhinoshareapp.domain.model.User;
 import de.hhu.rhinoshareapp.domain.service.*;
 import org.junit.Before;
@@ -22,6 +23,7 @@ import org.springframework.ui.Model;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.Calendar;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
@@ -82,10 +84,23 @@ public class ArticleControllerTest {
         Optional<User> optionalUser2 = Optional.of(testUser2);
         article.setOwner(testUser1);
 
+        Calendar date1 = Calendar.getInstance();
+        Calendar date2 = Calendar.getInstance();
+        date1.set(2019, 1, 12);
+        date2.set(2019, 1, 12);
+        Calendar date3 = Calendar.getInstance();
+        Calendar date4 = Calendar.getInstance();
+        date3.set(2019, 4, 12);
+        date4.set(2019, 1, 12);
+
+        Lending testLending1 = new Lending(date1, date2, testUser1, article);
+        Optional<Lending> olending = Optional.of(testLending1);
+
         Mockito.when(userRepo.findByUsername("fritz")).thenReturn(optionalUser);
         Mockito.when(userRepo.findByUsername("tom")).thenReturn(optionalUser2);
         Mockito.when(p.getName()).thenReturn("fritz");
         Mockito.when(notOwner.getName()).thenReturn("tom");
+        Mockito.when(lendingRepo.findLendingBylendedArticle(article)).thenReturn(olending);
 
 
     }

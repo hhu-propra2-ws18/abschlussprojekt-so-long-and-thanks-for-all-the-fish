@@ -159,18 +159,13 @@ public class ConflictApplicationTests {
         assertEquals("redirect:/", controller.openConflictpost(m, "open", 7, "testkgzgjkg"));
     }
 
+    @Ignore
     @Test
     public void testPostMappingConflictSolved() {
 
         assertEquals("redirect:/borrowerWin", controller.conflictSolved("winBorrower", 7));
         assertEquals("redirect:/ownerWin", controller.conflictSolved("winOwner", 7));
         assertEquals("redirect:/admin/conflicthandling", controller.conflictSolved("", 7));
-    }
-
-    @Test
-    public void testOpenConflict(){
-
-        assertEquals("/conflict/conflictUserOpen",controller.openConflict(m,p));
     }
 }
 
