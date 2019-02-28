@@ -27,7 +27,7 @@ repositories {
 }
 
 dependencies {
-	compile 'com.google.code.findbugs:findbugs-annotations:3.1.11'
+	compile 'com.google.code.findbugs:findbugs-annotations:3.0.1'
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
