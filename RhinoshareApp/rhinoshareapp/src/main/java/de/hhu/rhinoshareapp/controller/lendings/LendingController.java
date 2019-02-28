@@ -8,7 +8,6 @@ import de.hhu.rhinoshareapp.Representations.ReturnProcessRepresentation;
 import de.hhu.rhinoshareapp.Representations.TransactionRepresentation;
 import de.hhu.rhinoshareapp.domain.model.Account;
 import de.hhu.rhinoshareapp.domain.model.Article;
-import de.hhu.rhinoshareapp.domain.model.Lending;
 import de.hhu.rhinoshareapp.domain.model.User;
 import de.hhu.rhinoshareapp.domain.security.ActualUserChecker;
 import de.hhu.rhinoshareapp.domain.service.*;
@@ -161,7 +160,6 @@ public class LendingController {
         model.addAttribute("username", user.get().getUsername());
         model.addAttribute("id", postBodyParas.get("requesterID"));
         if (postBodyParas.get("requestValue").equals("lending")) {
-            System.out.println("CREATENEWLENDING");
             postProccessor.createNewLending(postBodyParas, articleRepository, lendingRepository, userRepository);
         } else {
             postProccessor.createNewDummyLending(postBodyParas, lendingRepository, userRepository, articleRepository);

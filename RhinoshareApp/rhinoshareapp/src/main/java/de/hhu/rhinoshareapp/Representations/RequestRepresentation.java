@@ -45,7 +45,6 @@ public class RequestRepresentation {
 		Optional<User> user = users.findUserByuserID(borrowID);
 		List<Article> articles = this.articles.findAllByOwner(user.get());
 		for (Article article : articles) {
-			System.out.println(lendings.findBylendedArticleAndIsRequestedForSale(article, true).isPresent());
 			if (lendings.findBylendedArticleAndIsRequestedForSale(article, true).isPresent()) {
 				saleRequests.add(lendings.findBylendedArticleAndIsRequestedForSale(article, true).get());
 

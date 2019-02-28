@@ -196,7 +196,6 @@ public class APIProcessor {
 				return clientHttpResponse.getBody();
 			});
 		} else {
-			System.out.println(clientResponse.statusCode());
 			return clientResponse.bodyToMono(type);
 		}
 		return clientResponse.bodyToMono(type);

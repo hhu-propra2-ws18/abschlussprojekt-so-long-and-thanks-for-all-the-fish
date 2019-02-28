@@ -16,9 +16,7 @@ public class PostProccessor {
     public HashMap<String, String> splitString(String postBody) {
         HashMap<String, String> postBodyParas = new HashMap<>();
         String[] splittedPostBody = postBody.split("&");
-        System.out.println(postBody);
         for (String para : splittedPostBody) {
-            System.out.println(para);
             String[] splittedPara = para.split("=");
             postBodyParas.put(splittedPara[0], splittedPara[1].replace("+", " "));
         }
