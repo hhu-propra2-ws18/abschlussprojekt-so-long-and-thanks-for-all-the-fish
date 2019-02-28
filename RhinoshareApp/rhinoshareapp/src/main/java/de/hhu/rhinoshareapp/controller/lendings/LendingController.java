@@ -82,7 +82,7 @@ public class LendingController {
         long lendID = postProccessor.findUserIDByUser(userRepository, p.getName());
         LendingRepresentation filledLendings = new LendingRepresentation(lendingRepository, userRepository, articleRepository);
         model.addAttribute("id", lendID);
-        model.addAttribute("lendings", filledLendings.FillLendings(lendID));
+        model.addAttribute("lendings", filledLendings.fillLendings(lendID));
         model.addAttribute("userActive", "active");
         ActualUserChecker.checkActualUser(model, p, userRepository);
         return "Lending/overviewLendings";
@@ -104,7 +104,7 @@ public class LendingController {
         long borrowID = postProccessor.findUserIDByUser(userRepository, p.getName());
         model.addAttribute("id", borrowID);
         LendingRepresentation filledArticles = new LendingRepresentation(lendingRepository, userRepository, articleRepository);
-        model.addAttribute("articles", filledArticles.FillBorrows(borrowID));
+        model.addAttribute("articles", filledArticles.fillBorrows(borrowID));
         model.addAttribute("userActive", "active");
         ActualUserChecker.checkActualUser(model, p, userRepository);
         return "Lending/overviewBorrows";
@@ -155,7 +155,7 @@ public class LendingController {
 
     @PostMapping("/inquiry")
     public String inquiry(Model model, @RequestBody String postBody, Principal p) {
-        HashMap<String, String> postBodyParas = postProccessor.SplitString(postBody);
+        HashMap<String, String> postBodyParas = postProccessor.splitString(postBody);
         Optional<User> user = userRepository.findUserByuserID(Long.parseLong(postBodyParas.get("requesterID")));
         model.addAttribute("username", user.get().getUsername());
         model.addAttribute("id", postBodyParas.get("requesterID"));
@@ -247,8 +247,8 @@ public class LendingController {
         long id = postProccessor.findUserIDByUser(userRepository, p.getName());
         TransactionRepresentation transactionRepresentation = new TransactionRepresentation(transactionRepository, userRepository);
         model.addAttribute("id", id);
-        model.addAttribute("givings", transactionRepresentation.FillGivings(id));
-        model.addAttribute("recieves", transactionRepresentation.FillRecieves(id));
+        model.addAttribute("givings", transactionRepresentation.fillGivings(id));
+        model.addAttribute("recieves", transactionRepresentation.fillRecieves(id));
         model.addAttribute("userActive", "active");
         ActualUserChecker.checkActualUser(model, p, userRepository);
         return "Lending/transactionsPage";
