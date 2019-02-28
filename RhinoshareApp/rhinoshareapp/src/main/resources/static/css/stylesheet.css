@@ -109,6 +109,19 @@
     height: 40px;
 }
 
+.loginTextfield[type=date], select {
+    font-family: Geneva;
+    font-size: 18px;
+    width: 90%;
+    padding: 6px 10px;
+    margin-left: 20px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    height: 40px;
+}
+
 .loginTextfield[type=number], select {
     font-family: Geneva;
     font-size: 18px;
@@ -649,4 +662,12 @@ body {
 .contentFragment a:active {
     text-decoration: none;
     color: black;
+}
+
+.request_overview {
+    background-color: #f8f8f8;
+    border: 1px solid rgba(0, 0, 0, 0.8);
+    border-radius: 7px;
+    padding: 2px;
+    margin-top: 5px;
 }

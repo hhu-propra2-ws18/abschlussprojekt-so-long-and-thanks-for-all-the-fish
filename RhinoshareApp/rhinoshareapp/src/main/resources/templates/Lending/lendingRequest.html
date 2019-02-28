@@ -9,18 +9,36 @@
     <body onload="calculateDateBorders()">
         <div class="container" layout:fragment="content" style="margin-top: 50px">
             <form th:action="@{/overview/inquiry}" method="post">
-                <label>
-                    Von:
-                    <input oninput="calculateDateBorders()" type="date" name="startDate" id="startDateID">
-                    Bis:
-                    <input type="date" name="endDate" id="endDateID">
-                    Wofür möchtest du den Gegenstand benutzen:
-                    <input type="text" name="requestComment">
+
+                <table>
+                    <tr>
+                        <th>Startdatum</th>
+                        <td>
+                            <input required class="loginTextfield" oninput="calculateDateBorders()" type="date" name="startDate" id="startDateID">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Enddatum</th>
+                        <td>
+                            <input required class="loginTextfield" type="date" name="endDate" id="endDateID">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Wofür möchtest du ausleihen?</th>
+                        <td>
+                            <input required type="text" name="requestComment">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class="button_std" type="submit">Anfragen</button>
+                        </td>
+                        <td></td>
+                    </tr>
                     <input type="hidden" name="requesterID" th:value="${requesterID}">
                     <input type="hidden" name="articleID" th:value="${articleID}">
                     <input type="hidden" name="requestValue" value="lending">
-                </label>
-                <button type="submit">Abschicken</button>
+                </table>
             </form>
 
             <script th:inline="javascript">

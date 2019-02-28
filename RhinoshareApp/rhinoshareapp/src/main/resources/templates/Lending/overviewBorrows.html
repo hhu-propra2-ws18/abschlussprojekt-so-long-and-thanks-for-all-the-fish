@@ -8,22 +8,28 @@
 
     <body>
         <div class="container" layout:fragment="content" style="margin-top: 50px">
-            <dr>
-                <a th:href="|/|" role="button">Zur Übersicht</a>
-            </dr>
-            <p> Sie bieten zur Ausleihe an: </p>
+
+            <h1 th:if="${articles.size() > 0}">Sie bieten zur Ausleihe an:</h1>
+            <h1 th:if="${articles.size() < 1}">Keine Artikel verliehen</h1>
             <table th:each="article : ${articles}">
-                <div style="margin:0; margin-right:10px; border:2px solid #dfdfdf;
-                padding: 0em 1em 1em 1em; background-color:#FFFFFF;text-align:center">
-                    <h3>Artikel: </h3>
-                    <div th:text="${article.name}">0</div>
-                    <h3>Beschreibung: </h3>
-                    <div th:text="${article.comment}">0</div>
-                    <h3>Kaution: </h3>
-                    <div th:text="${article.deposit}">0</div>
-                    <h3>Mietkosten: </h3>
-                    <div th:text="${article.rent}">0</div>
-                </div>
+                <table class="request_overview">
+                    <tr>
+                        <th>Artikel</th>
+                        <td th:text="${article.name}">...</td>
+                    </tr>
+                    <tr>
+                        <th>Beschreibung</th>
+                        <td th:text="${article.comment}">...</td>
+                    </tr>
+                    <tr>
+                        <th>Kaution</th>
+                        <td th:text="${article.deposit}">...</td>
+                    </tr>
+                    <tr>
+                        <th>Mietkosten</th>
+                        <td th:text="${article.rent}">...</td>
+                    </tr>
+                </table>
             </table>
         </div>
     </body>

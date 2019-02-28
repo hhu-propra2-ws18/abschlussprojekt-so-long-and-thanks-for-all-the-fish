@@ -8,7 +8,11 @@
 
     <body>
         <div class="container" layout:fragment="content" style="margin-top: 20px">
-            <h1 class="display-3">Übersicht</h1>
+            <h1 th:if="${articles.size() > 0}">Deine eingestellten Artikel</h1>
+            <h1 th:if="${articles.size() < 1}">Keine Artikel verfügbar</h1>
+            <a href="/article/new/" th:if="${articles.size() < 1}">
+                <button class="button_std_white">Artikel einstellen</button>
+            </a>
             <div class="grid-container">
                 <a th:href="|/article/${article.articleID}|" class="grid-item" th:each="article:${articles}">
                     <div class="item-grid-article">

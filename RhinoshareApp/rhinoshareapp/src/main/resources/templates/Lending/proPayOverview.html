@@ -8,30 +8,30 @@
 
     <body>
         <div class="container" layout:fragment="content" style="margin-top: 50px">
-
-            <a th:href="|/|" role="button">Zur Übersicht</a>
-            <div>
-                Dein ProPay Account
-                <div style="margin:0; margin-right:10px; border:2px solid #dfdfdf;
-                padding: 0em 1em 1em 1em; background-color:#FFFFFF;text-align:center">
-                    <div th:text="${account.account}">0</div>
-                    Kontostand:
-                    <div th:text="${account.amount}">0</div>
-                    Reservierungen:
-                    <table th:each="reservation : ${account.reservations}">
-                        <div>Reservierungskosten:
-                            <div th:text="${reservation.amount}">0</div>
-                        </div>
-                    </table>
-                </div>
-                <form th:action="|/overview/proPay|" method="post">
-                    <label>
-                        Wieviel wollen Sie auf Ihr ProPay Konto einzahlen?
-                        <input type="number" name="amount">
-                    </label>
-                    <button type="submit">Abschicken</button>
-                </form>
-            </div>
+            <table>
+                <tr>
+                    <th>ProPay Account</th>
+                    <td th:text="${account.account}">...</td>
+                </tr>
+                <tr>
+                    <th>Kontostand</th>
+                    <td th:text="${account.amount}">...</td>
+                </tr>
+                <tr>
+                    <form th:action="|/overview/proPay|" method="post">
+                        <td>
+                            <button class="button_std" type="submit">Einzahlen</button>
+                        </td>
+                        <td>
+                            <input type="number" name="amount" placeholder="Wieviel einzahlen?">
+                        </td>
+                    </form>
+                </tr>
+                <tr th:each="reservation : ${account.reservations}">
+                    <th>Reservierung</th>
+                    <td th:text="${reservation.amount}">...</td>
+                </tr>
+            </table>
         </div>
     </body>
 

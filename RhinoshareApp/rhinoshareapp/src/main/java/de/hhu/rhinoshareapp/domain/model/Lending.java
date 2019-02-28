@@ -42,6 +42,8 @@ public class Lending {
 
     boolean isConflict;
 
+    String conflictmessage;
+
     boolean isDummy;
 
     boolean isRequestedForSale;

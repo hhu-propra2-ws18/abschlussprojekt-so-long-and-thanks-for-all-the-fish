@@ -66,6 +66,7 @@ public class ConflictController {
                     Optional<Lending> lendList = lendingRepository.findLendingBylendingID(lendingID);
                     Lending l = lendList.get();
                     l.setConflict(true);
+                    l.setConflictmessage(description);
                     lendingRepository.save(l);
                     User owner = l.getLendedArticle().getOwner();
                     Optional<User> serviceUser = userRepo.findUserByuserID(3);
@@ -96,6 +97,7 @@ public class ConflictController {
             apiProcessor.punishOrReleaseConflictingLending(postBodyParas, lendingRepository, userRepo, articleRepository, reservationRepository);
             //--
             return "redirect:/admin";
+
         } else if (button.equals("winOwner")) {
             lending.setConflict(false);
             lendingRepository.save(lending);

@@ -31,11 +31,10 @@ public class AdminPageController {
 
     //Conflictmanagement
     @GetMapping("/admin")
-    public String conflictOverview(Model model, Principal p) {
+    public String conflictOverview(Model model) {
         List<Lending> lendingList = lendingRepository.findAllByIsConflict(true);
         model.addAttribute("lendings", lendingList);
         model.addAttribute("mainActive","active");
-        ActualUserChecker.checkActualUser(model, p, userRepository);
         return "Admin/admin_conflicthandling";
     }
 
@@ -81,8 +80,7 @@ public class AdminPageController {
 
     //User löschen
     @GetMapping("/admin/usermanagement/delete/{id}")
-    public String deleteUser(Model model, Principal p, @PathVariable long id) {
-        ActualUserChecker.checkActualUser(model, p, userRepository);
+    public String deleteUser(@PathVariable long id) {
         userRepository.deleteById(id);
         return "redirect:/admin/usermanagement/";
     }

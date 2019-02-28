@@ -42,6 +42,10 @@
                         <span th:case="false"><i class="fa fa-times-circle-o" aria-hidden="true"></i></span>
                     </td>
                 </tr>
+                <tr th:if="${endDate != null}">
+                    <td>Verliehen bis</td>
+                    <td th:text="${endDate}">SampleDate</td>
+                </tr>
                 <tr>
                     <td>Zum Verkauf</td>
                     <td th:switch="${article.isForSale()}">
@@ -58,7 +62,7 @@
             <div th:if="${article.owner != user} and ${article.available == true}">
                 <a th:href="|/overview/lendingRequest/${article.articleID}|"> <button class="button_std" type="button">Artikel Ausleihen</button></a>
             </div>
-            <div th:if="${article.owner != user} and ${article.forSale == true}">
+            <div th:if="${article.owner != user} and ${article.forSale == true} and ${article.available == true}">
                 <a th:href="|/overview/saleRequest/${article.articleID}|"> <button class="button_std_red" type="button">Artikel kaufen</button></a>
             </div>
             <div>

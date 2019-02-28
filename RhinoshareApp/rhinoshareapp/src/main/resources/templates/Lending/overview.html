@@ -8,83 +8,108 @@
 
     <body onload="generateAlertPopup()">
         <div class="container" layout:fragment="content" style="margin-top: 50px">
-
-            <a th:href="|/overview/lendings|" role="button">Ausleihen</a>
-            <a th:href="|/overview/borrows|" role="button">Angebotene Artikel</a>
-            <a th:href="|/overview/conflictPage|" role="button">Konflikte</a>
-            <a th:href="|/overview/transaction|" role="button">Transaktionen</a>
-            <a th:href="|/overview/proPay|" role="button">ProPay Account</a>
-            <div>
+            <div th:if="${requests.size() < 1 && returns.size() < 1 && denies.size() < 1}">
+                <h1>Keine Aufgaben in der Übersicht</h1>
+                <a th:href="|/article/|"> <button class="button_std_white" type="button">Zur Artikelübersicht</button></a>
+            </div>
+            <div th:if="${requests.size() > 0}">
                 Deine Anfragen:
                 <table th:each="request : ${requests}">
-                    <div style="margin:0; margin-right:10px; border:2px solid #dfdfdf;
-                padding: 0em 1em 1em 1em; background-color:#FFFFFF;text-align:center">
-                        <h3>Anfragende Person: </h3>
-                        <div th:text="${request.lendingPerson.name}">0</div>
-                        <h3>Artikel: </h3>                                 <!-- href for the article -->
-                        <div th:text="${request.lendedArticle.name}">0</div>
-                        <h3>Warum diese Person den Artikel anfragt: </h3>
-                        <div th:text="${request.lendedArticle.requestComment}">0</div>
-                        <h3>Startdatum: </h3>
-                        <div th:text="${request.formattedStartDate}">0</div>
-                        <h3>Enddatum: </h3>
-                        <div th:text="${request.formattedEndDate}">0</div>
-                        <form th:action="|/overview/|" method="post">
-                            <fieldset>
-                                <input type="hidden" name="lendingID" th:value="${request.lendingID}">
-                                <input type="checkbox" id="yes" name="choice" value="accept">
-                                <label for="yes">Annehmen</label>
-                                <input type="checkbox" id="no" name="choice" value="decline">
-                                <label for="no">Ablehnen</label>
-                            </fieldset>
-                            <button type="finish">Abschicken</button>
-                        </form>
-                    </div>
+                    <table class="request_overview">
+                        <tr>
+                            <th>Anfrage von</th>
+                            <td th:text="${request.lendingPerson.name}">...</td>
+                        </tr>
+                        <tr>
+                            <th>Artikel</th>
+                            <td th:text="${request.lendedArticle.name}">...</td>
+                        </tr>
+                        <tr>
+                            <th>Nachricht</th>
+                            <td th:text="${request.lendedArticle.requestComment}">...</td>
+                        </tr>
+                        <tr>
+                            <th>Von</th>
+                            <td th:text="${request.formattedStartDate}">...</td>
+                        </tr>
+                        <tr>
+                            <th>Bis</th>
+                            <td th:text="${request.formattedEndDate}">...</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <form th:action="|/overview/|" method="post">
+                                    <input type="hidden" name="lendingID" th:value="${request.lendingID}">
+                                    <button class="button_std_green" name="choice" value="accept">Annehmen</button>
+                                    <button class="button_std_red" name="choice" value="decline">Ablehnen</button>
+                                </form>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                    </table>
                 </table>
             </div>
-
-            <div>
+            <div th:if="${returns.size() > 0}">
                 Deine zurückgegebenen Artikel:
                 <table th:each="return : ${returns}">
-                    <div style="margin:0; margin-right:10px; border:2px solid #dfdfdf;
-                padding: 0em 1em 1em 1em; background-color:#FFFFFF;text-align:center">
-                        <h3>Ausleihende Person: </h3>
-                        <div th:text="${return.lendingPerson.name}">0</div>
-                        <h3>Artikel: </h3>                                 <!-- href for the article -->
-                        <div th:text="${return.lendedArticle.name}">0</div>
+                    <table class="request_overview">
+                        <tr>
+                            <th>Artikel verliehen an</th>
+                            <td th:text="${return.lendingPerson.name}">...</td>
+                        </tr>
+                        <tr>
+                            <th>Artikel</th>
+                            <td th:text="${return.lendedArticle.name}">...</td>
+                        </tr>
                         <form th:action="|/overview/|" method="post">
-                            <fieldset>
-                                <input type="hidden" name="lendingID" th:value="${return.articleID}">
-                                <input type="checkbox" id="yes2" name="choicereturn" value="accept">
-                                <label for="yes2"> Annehmen</label>
-                                <input type="checkbox" id="no2" name="choicereturn" value="decline">
-                                <label for="no2">Ablehnen</label>
-                            </fieldset>
-                            <button type="finish">Abschicken</button>
+                            <tr>
+                                <th>Bemerkung</th>
+                                <td>
+                                    <input type="text" name="conflictmessage" required placeholder="Bitte hier eine Nachricht an den Ausleiher eingeben..">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="hidden" name="lendingID" th:value="${return.lendingID}">
+                                    <button class="button_std_green" name="choicereturn" value="accept">Annehmen</button>
+                                    <button class="button_std_red" name="choicereturn" value="decline">Ablehnen</button>
+                                </td>
+                                <td>
+                                </td>
+                            </tr>
                         </form>
-                    </div>
+                    </table>
                 </table>
-
             </div>
-
-            <div>
+            <div th:if="${denies.size() > 0}">
                 Deine abgelehnten Artikel:
                 <table th:each="denie : ${denies}">
-                    <div style="margin:0; margin-right:10px; border:2px solid #dfdfdf;
-                padding: 0em 1em 1em 1em; background-color:#FFFFFF;text-align:center">
-                        <h3>Ausleihende Person: </h3>
-                        <div th:text="${denie.lendingPerson.name}">0</div>
-                        <h3>Artikel: </h3>                                 <!-- href for the article -->
-                        <div th:text="${denie.lendedArticle.name}">0</div>
-                        <div th:text="${denie.warning}">0</div>
-
-                        <form th:action="|/overview/|" method="post">
-                            <input type="hidden" name="lendingID" th:value="${denie.lendingID}">
-                            <button name="recognized" value="true" type="finish">submit</button>
-                        </form>
-                    </div>
+                    <table class="request_overview">
+                        <tr>
+                            <th>Ausgelliehen von</th>
+                            <td th:text="${denie.lendingPerson.name}">...</td>
+                        </tr>
+                        <tr>
+                            <th>Artikel</th>
+                            <td th:text="${denie.lendedArticle.name}">...</td>
+                        </tr>
+                        <tr>
+                            <th>Anmerkungen</th>
+                            <td th:text="${denie.warning}">...</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <form th:action="|/overview/|" method="post">
+                                    <input type="hidden" name="lendingID" th:value="${denie.lendingID}">
+                                    <button name="recognized" value="true" type="finish">submit</button>
+                                </form>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                    </table>
                 </table>
-
             </div>
             <div>
                 Anfragen auf deine Artikel:
@@ -124,5 +149,4 @@
             </script>
         </div>
     </body>
-
 </html>

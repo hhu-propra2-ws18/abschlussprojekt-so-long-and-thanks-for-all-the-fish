@@ -46,7 +46,7 @@ public class ArticleController {
         User user = userRepository.findByUsername(p.getName()).get();
         List<Article> articles = articleRepository.findAllByOwner(user);
         model.addAttribute("articles", articles);
-        model.addAttribute("articleActive","active");
+        model.addAttribute("userActive","active");
         ActualUserChecker.checkActualUser(model, p, userRepository);
         return "Article/viewFromPerson";
     }
@@ -56,6 +56,10 @@ public class ArticleController {
     public String privateArticleView(Model model, @PathVariable long articleID, Principal p){
         User user = userRepository.findByUsername(p.getName()).get();
         Article article = articleRepository.findById(articleID).get();
+        if(checkIfArticleIsBeingLended(article).isPresent()) {
+            String endDate = checkIfArticleIsBeingLended(article).get().getFormattedEndDate();
+            model.addAttribute("endDate", endDate);
+        }
         model.addAttribute("user" , user);
         model.addAttribute("article", article);
         model.addAttribute("articleActive","active");

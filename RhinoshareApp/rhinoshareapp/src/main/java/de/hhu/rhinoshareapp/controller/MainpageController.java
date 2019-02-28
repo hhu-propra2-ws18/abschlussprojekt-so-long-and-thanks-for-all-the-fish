@@ -26,7 +26,7 @@ public class MainpageController {
         ActualUserChecker.checkActualUser(model, p, userRepository);
         Iterable<Article> articles= articleRepository.findAll();
         model.addAttribute("articles", articles);
-        model.addAttribute("mainActive","active");
+        model.addAttribute("articleActive","active");
         return "Article/viewAll";
     }
 
