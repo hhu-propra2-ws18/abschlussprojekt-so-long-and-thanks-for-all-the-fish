@@ -1,8 +1,8 @@
 package de.hhu.rhinoshareapp.chatTest;
 
-import de.hhu.rhinoshareapp.chat.filter.FilterMessages;
-import de.hhu.rhinoshareapp.chat.model.ChatMessage;
-import de.hhu.rhinoshareapp.chat.service.ChatMessageRepository;
+import de.hhu.rhinoshareapp.domain.filter.FilterMessages;
+import de.hhu.rhinoshareapp.domain.model.ChatMessage;
+import de.hhu.rhinoshareapp.domain.service.ChatMessageRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

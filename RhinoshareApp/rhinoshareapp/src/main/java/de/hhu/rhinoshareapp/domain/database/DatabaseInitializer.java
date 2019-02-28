@@ -4,8 +4,8 @@ package de.hhu.rhinoshareapp.domain.database;
 
 import de.hhu.rhinoshareapp.Representations.LendingProcessor.APIProcessor;
 import de.hhu.rhinoshareapp.domain.model.*;
-import de.hhu.rhinoshareapp.chat.model.ChatMessage;
-import de.hhu.rhinoshareapp.chat.service.ChatMessageRepository;
+import de.hhu.rhinoshareapp.domain.model.ChatMessage;
+import de.hhu.rhinoshareapp.domain.service.ChatMessageRepository;
 import de.hhu.rhinoshareapp.domain.service.ArticleRepository;
 import de.hhu.rhinoshareapp.domain.service.LendingRepository;
 import de.hhu.rhinoshareapp.domain.service.UserRepository;
@@ -15,9 +15,7 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import java.io.IOException;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 
 @Component

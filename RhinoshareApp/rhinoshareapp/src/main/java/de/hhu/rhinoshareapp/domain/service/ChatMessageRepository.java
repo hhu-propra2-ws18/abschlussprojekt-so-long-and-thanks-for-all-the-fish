@@ -1,6 +1,6 @@
-package de.hhu.rhinoshareapp.chat.service;
+package de.hhu.rhinoshareapp.domain.service;
 
-import de.hhu.rhinoshareapp.chat.model.ChatMessage;
+import de.hhu.rhinoshareapp.domain.model.ChatMessage;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 

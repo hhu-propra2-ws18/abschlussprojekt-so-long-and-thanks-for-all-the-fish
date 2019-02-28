@@ -1,7 +1,7 @@
 package de.hhu.rhinoshareapp.chatTest;
 
-import de.hhu.rhinoshareapp.chat.model.ChatMessage;
-import de.hhu.rhinoshareapp.chat.service.ChatMessageRepository;
+import de.hhu.rhinoshareapp.domain.model.ChatMessage;
+import de.hhu.rhinoshareapp.domain.service.ChatMessageRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

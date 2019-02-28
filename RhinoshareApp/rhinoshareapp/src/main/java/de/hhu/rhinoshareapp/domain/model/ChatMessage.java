@@ -1,4 +1,4 @@
-package de.hhu.rhinoshareapp.chat.model;
+package de.hhu.rhinoshareapp.domain.model;
 
 import de.hhu.rhinoshareapp.domain.model.User;
 import lombok.AllArgsConstructor;

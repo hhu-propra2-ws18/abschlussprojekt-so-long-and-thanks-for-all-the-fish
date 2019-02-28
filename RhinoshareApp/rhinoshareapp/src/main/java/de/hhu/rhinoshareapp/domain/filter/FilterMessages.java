@@ -1,9 +1,8 @@
-package de.hhu.rhinoshareapp.chat.filter;
+package de.hhu.rhinoshareapp.domain.filter;
 
-import de.hhu.rhinoshareapp.chat.model.ChatMessage;
-import de.hhu.rhinoshareapp.chat.service.ChatMessageRepository;
+import de.hhu.rhinoshareapp.domain.model.ChatMessage;
+import de.hhu.rhinoshareapp.domain.service.ChatMessageRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
