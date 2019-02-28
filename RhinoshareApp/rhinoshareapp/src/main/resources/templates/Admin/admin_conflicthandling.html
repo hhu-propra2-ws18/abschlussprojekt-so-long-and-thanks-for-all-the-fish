@@ -13,6 +13,7 @@
                 <th>Artikel</th>
                 <th>Besitzer</th>
                 <th>Verliehen an</th>
+                <th>Nachricht</th>
                 <th>Aktion</th>
                 <th:block th:each="lending: ${lendings}">
                     <tr>
@@ -20,6 +21,7 @@
                         <td th:text="${lending.lendedArticle.name}"/>
                         <td th:text="${lending.lendingPerson.username}"/>
                         <td th:text="${lending.lendedArticle.owner.username}"/>
+                        <td th:text="${lending.conflictmessage}"/>
                         <td>
                             <form method="post" th:action="|/admin/${lending.lendingID}|">
                                 <button type="submit" name="action" value="winBorrower" class="button_std_red">

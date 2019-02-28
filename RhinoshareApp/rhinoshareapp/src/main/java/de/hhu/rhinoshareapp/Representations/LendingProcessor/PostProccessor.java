@@ -92,7 +92,7 @@ public class PostProccessor {
             Lending tmpLending = lendings.findLendingBylendingID(Long.parseLong(postBodyParas.get("lendingID"))).get();
             tmpLending.setReturn(false);
             tmpLending.setConflict(true);
-            lendings.save(tmpLending);
+            tmpLending.setConflictmessage(postBodyParas.get("conflictmessage"));
             lendings.save(tmpLending);
             //TODO: Admin muss richtig gefunden werden.
         }
