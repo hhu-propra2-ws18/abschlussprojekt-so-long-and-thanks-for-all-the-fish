@@ -17,20 +17,20 @@ public class TransactionRepresentation {
         this.users = users;
     }
 
-    public List<Transaction> FillRecieves(long userID){
+    public List<Transaction> fillRecieves(long userID){
         Optional<User> user = users.findUserByuserID(userID);
         List<Transaction> reciever = transactions.findTransactionsByReciever(user.get());
         for (Transaction transaction : reciever) {
-            transaction.FillFormattedDates();
+            transaction.fillFormattedDates();
             transactions.save(transaction);
         }
         return reciever;
     }
-    public List<Transaction> FillGivings(long userID){
+    public List<Transaction> fillGivings(long userID){
         Optional<User> user = users.findUserByuserID(userID);
         List<Transaction> giver = transactions.findTransactionsByGiver(user.get());
         for (Transaction transaction : giver) {
-            transaction.FillFormattedDates();
+            transaction.fillFormattedDates();
             transactions.save(transaction);
         }
         return giver;

@@ -21,7 +21,7 @@ public class LendingRepresentation {
     private boolean hasWarning = false;
 
     // Returns a list of of lendings for a User given by his id, that are Accepted and not returned
-    public List<Lending> FillLendings(long userID) {
+    public List<Lending> fillLendings(long userID) {
         User user = users.findUserByuserID(userID).get();
         List<Lending> lendingList = lendings.findAllBylendingPersonAndIsAcceptedAndIsReturnAndIsConflict(user, true, false, false);
         for (Lending lending : lendingList) {
@@ -39,7 +39,7 @@ public class LendingRepresentation {
 
         return lendingList;
     }
-    public List<Lending> FillConflicts(long userID) {
+    public List<Lending> fillConflicts(long userID) {
         User user = users.findUserByuserID(userID).get();
         List<Lending> lendingList = lendings.findAllBylendingPersonAndIsAcceptedAndIsReturnAndIsConflict(user, true, false, true);
         for (Lending lending : lendingList) {
@@ -47,7 +47,7 @@ public class LendingRepresentation {
         }
         return lendingList;
     }
-    public List<Lending> FillConflictsOwner(long userID) {
+    public List<Lending> fillConflictsOwner(long userID) {
         User user = users.findUserByuserID(userID).get();
         List<Article> articles = this.articles.findAllByOwner(user);
         List<Lending> lendingList = new ArrayList<>();
@@ -64,7 +64,7 @@ public class LendingRepresentation {
     }
 
     // Returns a list of all borrowed articles for a User given by his id
-    public List<Article> FillBorrows(long borrowPersonID){
+    public List<Article> fillBorrows(long borrowPersonID){
         User user = users.findUserByuserID(borrowPersonID).get();
         return articles.findAllByOwner(user);
     }
