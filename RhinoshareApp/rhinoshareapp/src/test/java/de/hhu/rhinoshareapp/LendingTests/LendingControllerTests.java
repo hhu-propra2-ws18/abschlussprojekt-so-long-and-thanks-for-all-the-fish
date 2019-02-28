@@ -138,7 +138,7 @@ public class LendingControllerTests {
         p = Mockito.mock(Principal.class);
         Mockito.when(p.getName()).thenReturn("jeff");
 
-        Mockito.when(postProccessor.FindUserIDByUser(userRepo,"jeff")).thenReturn((long)1);
+        Mockito.when(postProccessor.findUserIDByUser(userRepo,"jeff")).thenReturn((long)1);
 
 
     }
