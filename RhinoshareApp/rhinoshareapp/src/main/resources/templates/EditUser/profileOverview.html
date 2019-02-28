@@ -27,7 +27,7 @@
                     </tr>
                     <tr>
                         <td class="tg-lap0">E-Mail:</td>
-                        <td class="tg-lap0"><input th:name="email" type="email" th:placeholder="${user.email}"/></td>
+                        <td class="tg-lap0"><input class="loginTextfield" th:name="email" type="email" th:placeholder="${user.email}"/></td>
                     </tr>
                     <tr>
                         <td class="tg-lap0">Street:</td>
@@ -50,8 +50,8 @@
                         <td class="tg-lap0"><input th:name="postCode" type="text" th:placeholder="${user.address.postCode}"/></td>
                     </tr>
                 </table>
-                <td><button type="submit" class="btn btn-primary">Aktuallisieren</button></td>
-                <td><a th:href="|/|" > <button class="btn btn-warning" type="button">Abbrechen</button></a></td>
+                <td><button type="submit" class="button_std">Aktuallisieren</button></td>
+                <td><a th:href="|/|" > <button class="button_std_white" type="button">Abbrechen</button></a></td>
             </form>
         </div>
     </body>

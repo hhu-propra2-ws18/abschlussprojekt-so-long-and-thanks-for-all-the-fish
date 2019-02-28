@@ -9,7 +9,8 @@
     <body>
         <div class="container" layout:fragment="content" style="margin-top: 50px">
 
-            <p>Deine ausgeliehen Artikel: </p>
+            <h1 th:if="${lendings.size() > 0}">Deine ausgeliehen Artikel</h1>
+            <h1 th:if="${lendings.size() < 1}">Keine Artikel ausgeliehen</h1>
             <table th:each="lending : ${lendings}">
                 <table>
                     <tr>
