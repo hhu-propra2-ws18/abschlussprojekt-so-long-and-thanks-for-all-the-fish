@@ -5,6 +5,8 @@ import de.hhu.rhinoshareapp.Representations.LendingProcessor.APIProcessor;
 import de.hhu.rhinoshareapp.controller.MainpageController;
 import de.hhu.rhinoshareapp.controller.conflict.ConflictController;
 import de.hhu.rhinoshareapp.controller.user.AdminPageController;
+import de.hhu.rhinoshareapp.controller.user.CreateUserController;
+import de.hhu.rhinoshareapp.controller.user.EditUserController;
 import de.hhu.rhinoshareapp.domain.mail.MailService;
 import de.hhu.rhinoshareapp.domain.model.Article;
 import de.hhu.rhinoshareapp.domain.model.Lending;
@@ -34,7 +36,6 @@ import java.util.Optional;
 import static org.junit.Assert.assertEquals;
 
 
-
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
 @WebAppConfiguration
@@ -42,6 +43,12 @@ import static org.junit.Assert.assertEquals;
 public class UserTests {
     @Autowired
     AdminPageController controller;
+
+    @Autowired
+    CreateUserController cController;
+
+    @Autowired
+    EditUserController editUsercontroller;
 
     @Autowired
     MainpageController cm;
@@ -81,7 +88,7 @@ public class UserTests {
 
 
     @Before
-    public void setUp(){
+    public void setUp() {
 
         User testUser1 = new User("Jeff", "Nosbusch", null, "jeff", "jeff@mail.com", "1234", "user");
         User testUser2 = new User("George", "Pi", null, "george", "george@mail.com", "1234", "user");
@@ -140,7 +147,7 @@ public class UserTests {
         Mockito.when(lendingRepo.findLendingBylendingID(7)).thenReturn(oLending1);
         Mockito.when(lendingRepo.save(testLending1)).thenReturn(testLending1);
         Mockito.when(lendingRepo.findLendingBylendingID(8)).thenReturn(oLending2);
-        Mockito.when(articleRepo.findById((long)1)).thenReturn(oArticle);
+        Mockito.when(articleRepo.findById((long) 1)).thenReturn(oArticle);
 
         p = Mockito.mock(Principal.class);
         Mockito.when(p.getName()).thenReturn("jeff");
@@ -148,22 +155,38 @@ public class UserTests {
 
 
     @Test
-    public void testAdmin(){
-        assertEquals("Admin/admin_conflicthandling",controller.conflictOverview(m,p));
-        assertEquals("redirect:/showcase/1",controller.postConflictOverview(1, "show"));
-        assertEquals("redirect:/admin/conflicthandling",controller.postConflictOverview(1, "login"));
-        assertEquals("Admin/admin_usermanagement",controller.loadUserManagement(m));
-        assertEquals("Admin/admin_userEdit",controller.loadEditForm(1,m));
-        assertEquals("Admin/admin_userEdit",controller.profileOverview(userRepo.findUserByuserID(1).get(), m,p));
-        assertEquals("redirect:/admin/usermanagement/",controller.deleteUser(m, p, 1));
-        assertEquals("Admin/admin_createUser",controller.addUser(m));
-        assertEquals("Admin/admin_articlemanagement",controller.loadArticleManagement(m));
-        assertEquals("redirect:/admin/articlemanagement/",controller.deleteArticle(1,m));
-        assertEquals("Admin/admin_lendingmanagement",controller.loadLendingManagement(m));
-       // assertEquals("Admin/admin_lendingmanagement",controller.deleteLending(1, m));
+    public void testAdmin() {
+        assertEquals("Admin/admin_conflicthandling", controller.conflictOverview(m, p));
+        assertEquals("redirect:/showcase/1", controller.postConflictOverview(1, "show"));
+        assertEquals("redirect:/admin/conflicthandling", controller.postConflictOverview(1, "login"));
+        assertEquals("Admin/admin_usermanagement", controller.loadUserManagement(m));
+        assertEquals("Admin/admin_userEdit", controller.loadEditForm(1, m));
+        assertEquals("Admin/admin_userEdit", controller.profileOverview(userRepo.findUserByuserID(1).get(), m, p));
+        assertEquals("redirect:/admin/usermanagement/", controller.deleteUser(m, p, 1));
+        assertEquals("Admin/admin_createUser", controller.addUser(m));
+        assertEquals("Admin/admin_articlemanagement", controller.loadArticleManagement(m));
+        assertEquals("redirect:/admin/articlemanagement/", controller.deleteArticle(1, m));
+        assertEquals("Admin/admin_lendingmanagement", controller.loadLendingManagement(m));
+        // assertEquals("Admin/admin_lendingmanagement",controller.deleteLending(1, m));
 
     }
 
+    @Test
+    public void testUser() {
+        assertEquals("redirect:/login", cController.saveNewUser("fritz", "Funkel", "fritzi",
+                "Strasse", "22", "40532", "Usebgeren", "DE",
+                "test@gmail.com", "123456"));
+        assertEquals("redirect:/admin/usermanagement", cController.saveNewUserAsAdmin("fritz", "Funkel", "fritzi",
+                "Strasse", "22", "40532", "Usebgeren", "DE",
+                "test@gmail.com", "123456", "ROLE_ADMIN "));
+        assertEquals("error/usernameExists", cController.validateUsername("fritz"));
+    }
+
+    @Test
+    public void testEditUser() {
+        assertEquals("/EditUser/profileOverview",editUsercontroller.loadEditPage(m,p));
+        assertEquals("/EditUser/profileOverview",editUsercontroller.profileOverview(userRepo.findUserByuserID(1).get(),m,p));
+    }
 
 
 }
