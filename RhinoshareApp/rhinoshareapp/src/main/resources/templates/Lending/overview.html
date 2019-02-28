@@ -54,7 +54,7 @@
                         <div th:text="${return.lendedArticle.name}">0</div>
                         <form th:action="|/overview/|" method="post">
                             <fieldset>
-                                <input type="hidden" name="lendingID" th:value="${return.lendingID}">
+                                <input type="hidden" name="lendingID" th:value="${return.articleID}">
                                 <input type="checkbox" id="yes2" name="choicereturn" value="accept">
                                 <label for="yes2"> Annehmen</label>
                                 <input type="checkbox" id="no2" name="choicereturn" value="decline">
@@ -81,6 +81,35 @@
                         <form th:action="|/overview/|" method="post">
                             <input type="hidden" name="lendingID" th:value="${denie.lendingID}">
                             <button name="recognized" value="true" type="finish">submit</button>
+                        </form>
+                    </div>
+                </table>
+
+            </div>
+            <div>
+                Anfragen auf deine Artikel:
+                <table th:each="sale : ${sales}">
+                    <div style="margin:0; margin-right:10px; border:2px solid #dfdfdf;
+                padding: 0em 1em 1em 1em; background-color:#FFFFFF;text-align:center">
+                        <h3>Ausleihende Person: </h3>
+                        <div th:text="${sale.lendingPerson.name}">0</div>
+                        <h3>Artikel: </h3>
+                        <div th:text="${sale.lendedArticle.name}">0</div>
+                        <h3>Preis: </h3>
+                        <div th:text="${sale.lendedArticle.sellingPrice}">0</div>
+                        <h3>Warum sollst du den Artikel verkaufen: </h3>
+
+                        <form th:action="|/overview/|" method="post">
+                            <fieldset>
+                                <input type="hidden" name="lendingID" th:value="${sale.lendingID}">
+                                <input type="hidden" name="requesterID" th:value="${sale.lendingPerson.userID}">
+                                <input type="hidden" name="articleID" th:value="${sale.lendedArticle.articleID}">
+                                <input type="checkbox" id="yes3" name="sold" value="accept">
+                                <label for="yes3"> Annehmen</label>
+                                <input type="checkbox" id="no3" name="sold" value="decline">
+                                <label for="no3">Ablehnen</label>
+                            </fieldset>
+                            <button type="finish">Abschicken</button>
                         </form>
                     </div>
                 </table>

@@ -7,6 +7,7 @@ import de.hhu.rhinoshareapp.Representations.RequestRepresentation;
 import de.hhu.rhinoshareapp.Representations.ReturnProcessRepresentation;
 import de.hhu.rhinoshareapp.Representations.TransactionRepresentation;
 import de.hhu.rhinoshareapp.domain.model.Account;
+import de.hhu.rhinoshareapp.domain.model.Article;
 import de.hhu.rhinoshareapp.domain.model.User;
 import de.hhu.rhinoshareapp.domain.security.ActualUserChecker;
 import de.hhu.rhinoshareapp.domain.service.*;
@@ -47,6 +48,7 @@ public class LendingController {
         model.addAttribute("warning", filledLendings.isHasWarning());
         RequestRepresentation filledRequests = new RequestRepresentation(userRepository, articleRepository, lendingRepository, id);
         ReturnProcessRepresentation filledReturns = new ReturnProcessRepresentation(userRepository, articleRepository, id, lendingRepository);
+        model.addAttribute("sales", filledRequests.fillSaleRequests());
         model.addAttribute("requests", filledRequests.fillRequest());
         model.addAttribute("returns", filledReturns.fillReturns());
         model.addAttribute("denies", filledRequests.fillDenies());
@@ -68,6 +70,7 @@ public class LendingController {
             apiProcessor.setErrorOccurred(false);
             return "Lending/errorPage";
         }
+        model.addAttribute("sales", filledRequests.fillSaleRequests());
         model.addAttribute("requests", filledRequests.fillRequest());
         model.addAttribute("returns", filledReturns.fillReturns());
         model.addAttribute("denies", filledRequests.fillDenies());
@@ -157,10 +160,14 @@ public class LendingController {
         model.addAttribute("username", user.get().getUsername());
         model.addAttribute("id", postBodyParas.get("requesterID"));
         if (postBodyParas.get("requestValue").equals("lending")) {
-            System.out.println("CREATENEWLENDING");
             postProccessor.createNewLending(postBodyParas, articleRepository, lendingRepository, userRepository);
         } else {
-            postProccessor.sellArticle(postBodyParas, articleRepository, userRepository, apiProcessor, transactionRepository);
+            postProccessor.createNewDummyLending(postBodyParas, lendingRepository, userRepository, articleRepository);
+            Optional<Article> article = articleRepository.findArticleByarticleID(Long.parseLong(postBodyParas.get("articleID")));
+            article.get().setForSale(false);
+            article.get().setAvailable(false);
+            articleRepository.save(article.get());
+            //postProccessor.SellArticle(postBodyParas, articleRepository, userRepository, apiProcessor, transactionRepository);
         }
         if (apiProcessor.isErrorOccurred()) {
             model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
@@ -170,6 +177,7 @@ public class LendingController {
         return "Lending/inquiry";
     }
 
+
     //ProPay
     @GetMapping("/proPay")
     public String getProPayOverview(Model model, Principal p) {
@@ -178,7 +186,6 @@ public class LendingController {
         Account account = apiProcessor.getAccountInformationWithId(id, userRepository);
         model.addAttribute("lendingActive", "active");
         if (apiProcessor.isErrorOccurred()) {
-            System.out.println("ich geh rein !");
             model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
             apiProcessor.setErrorOccurred(false);
             ActualUserChecker.checkActualUser(model, p, userRepository);
