@@ -6,6 +6,7 @@ import de.hhu.rhinoshareapp.domain.mail.MailService;
 import de.hhu.rhinoshareapp.domain.model.Article;
 import de.hhu.rhinoshareapp.domain.model.Lending;
 import de.hhu.rhinoshareapp.domain.model.User;
+
 import de.hhu.rhinoshareapp.domain.service.*;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -110,6 +111,7 @@ public class ConflictApplicationTests {
         lendingRepo.save(testLending1);
         lendingRepo.save(testLending2);
 
+
         Optional<User> oUser1 = Optional.of(testUser1);
         Optional<User> oUser2 = Optional.of(testUser2);
         Optional<User> oUser3 = Optional.of(testUser3);
@@ -135,6 +137,7 @@ public class ConflictApplicationTests {
 
         p = Mockito.mock(Principal.class);
         Mockito.when(p.getName()).thenReturn("jeff");
+
 
 
     }
