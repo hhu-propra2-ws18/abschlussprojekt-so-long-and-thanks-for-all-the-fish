@@ -80,6 +80,9 @@ public class UserTests {
     @MockBean
     TransactionRepository transRepo;
 
+    @MockBean
+    ChatMessageRepository chatRepo;
+
     @Mock
     Principal p;
 
@@ -178,7 +181,7 @@ public class UserTests {
         assertEquals("redirect:/login", cController.saveNewUser(model,p,"fritz", "Funkel", "fritzi",
                 "Strasse", "22", "40532", "Usebgeren", "DE",
                 "test@gmail.com", "123456"));
-        assertEquals("redirect:/admin/usermanagement", cController.saveNewUserAsAdmin("fritz", "Funkel", "fritzi",
+        assertEquals("redirect:/admin/usermanagement", cController.saveNewUserAsAdmin("fritz", "Funkel", "fritzi2",
                 "Strasse", "22", "40532", "Usebgeren", "DE",
                 "test@gmail.com", "123456", "ROLE_ADMIN "));
         assertEquals("error/usernameExists", cController.validateUsername("fritz"));
