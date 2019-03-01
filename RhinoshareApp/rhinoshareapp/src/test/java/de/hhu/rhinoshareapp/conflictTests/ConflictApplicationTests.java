@@ -10,6 +10,7 @@ import de.hhu.rhinoshareapp.domain.model.Lending;
 import de.hhu.rhinoshareapp.domain.model.User;
 
 import de.hhu.rhinoshareapp.domain.service.*;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -41,6 +42,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @WebAppConfiguration
 @WebMvcTest
+@SuppressFBWarnings // gemockte Repositories werden für Controller tests benötigt
 public class ConflictApplicationTests {
     @Autowired
     ConflictController controller;

@@ -59,7 +59,7 @@ public class PostProccessor {
         }else if(postBodyParas.containsKey("recognized")){
             proccessRecognized(lendings, postBodyParas);
         }else if(postBodyParas.containsKey("sold")){
-            SellArticle(postBodyParas, articles,users,apiProcessor,transactions, lendings);
+            sellArticle(postBodyParas, articles,users,apiProcessor,transactions, lendings);
         }
     }
 
@@ -176,7 +176,7 @@ public class PostProccessor {
         return byUsername.get().getUserID();
     }
 
-    public void SellArticle(HashMap<String, String> postBodyParas, ArticleRepository articles, UserRepository users, APIProcessor apiProcessor, TransactionRepository transactions, LendingRepository lendings) {
+    public void sellArticle(HashMap<String, String> postBodyParas, ArticleRepository articles, UserRepository users, APIProcessor apiProcessor, TransactionRepository transactions, LendingRepository lendings) {
         if(postBodyParas.get("sold").equals("accept")) {
             try {
                 Optional<User> requester = users.findUserByuserID(Long.parseLong(postBodyParas.get("requesterID")));
