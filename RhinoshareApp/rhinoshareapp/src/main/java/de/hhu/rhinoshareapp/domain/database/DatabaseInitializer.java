@@ -34,6 +34,7 @@ public class DatabaseInitializer implements ServletContextInitializer {
 	//Fills the database to add a little life to the application
 	@Override
 	public void onStartup(ServletContext servletContext) {
+		 if (users.findAll().size() > 0) return;
 		//Generate test addresses
 		Address testAddress1 = Address.builder()
 				.street("Teststr.")
