@@ -20,7 +20,9 @@ Auf folgender Website kommt man anschließend auf die Artikelübersicht, wo scho
 
 `localhost:8080/` oder `127.0.0.1:8080/`
 
-Klickt man oben auf Einloggen, geht sofort die Login Seite auf. Dafür haben wir bereits im Databaseinitializer einpaar User erstellt. Alternativ kann man sich dort auch auf die Neuen User erstellen Page redirecten lassen.
+Klickt man oben auf Einloggen, geht sofort die Login Seite auf. Dafür haben wir bereits im Databaseinitializer einpaar User erstellt. Alternativ kann man sich dort auch auf die neuen User erstellen Page redirecten lassen.
+
+WARNING: Man kann dort nur User der Rolle User hinzufügen. Administatoren werden nur über den Databaseinitilizer erzeugt.
 
 Viel Erfolg beim durchtesten.
 
