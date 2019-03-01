@@ -41,7 +41,7 @@ public class ConflictController {
     APIProcessor apiProcessor = new APIProcessor();
 
 
-    public void send(long lendId, String conflictMessage, long ownerId, long lenderId, User admin) {
+    public void send(long lendId, String conflictMessage, long ownerId, long lenderId) {
         try {
             mailService.sendConflict(lendId, conflictMessage, ownerId, lenderId);
         } catch (MailException e) {
@@ -69,9 +69,7 @@ public class ConflictController {
                     l.setConflictmessage(description);
                     lendingRepository.save(l);
                     User owner = l.getLendedArticle().getOwner();
-                    Optional<User> serviceUser = userRepo.findUserByuserID(3);
-                    User admin = serviceUser.get();
-                    send(lendingID, description, (owner.getUserID()), (l.getLendingPerson().getUserID()), admin);
+                    send(lendingID, description, (owner.getUserID()), (l.getLendingPerson().getUserID()));
                 } else {
                     return "redirect:/openConflict";
                 }
