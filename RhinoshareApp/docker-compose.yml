@@ -10,8 +10,6 @@ services:
     depends_on:
       - database
       - propay
-    networks:
-      - web
 
 
   propay:
@@ -23,8 +21,6 @@ services:
       - ./data:/code/data
     depends_on:
       - database
-    networks:
-      - web
 
   database:
     image: mariadb
@@ -33,12 +29,7 @@ services:
       MYSQL_USER: root
       MYSQL_ROOT_PASSWORD: example
       MYSQL_DATABASE: springboot_mariadb
-    networks:
-      - web
     volumes:
       - ./datadir:/var/lib/mysql
 volumes:
   datadir:
-networks:
-  web:
-    name: web
