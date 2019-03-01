@@ -26,7 +26,7 @@ public class Image {
 
     public String filename;
 
-    @Type(type="org.hibernate.type.BinaryType")
+    @Lob
     public byte[] filebytes;
 
     public Image(MultipartFile file) throws IOException {
