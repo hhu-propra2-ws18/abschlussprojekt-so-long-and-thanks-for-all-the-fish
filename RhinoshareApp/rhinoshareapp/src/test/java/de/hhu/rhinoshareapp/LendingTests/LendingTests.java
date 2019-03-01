@@ -160,7 +160,7 @@ public class LendingTests {
         testMap.put("choice", "accept");
         testMap.put("lendingID", "1");
         //Act
-        postProccessor.proccessPostRequest(apiProcessor, testMap, lendingRepository, articleRepository, serviceUserProvider, reservations, transactions);
+        postProccessor.proccessPostRequest(apiProcessor, testMap, lendingRepository, articleRepository, serviceUserProvider, reservations, transactions, mailService);
         //Assert
         Assert.assertEquals(false, testLending.get().isAccepted());
         Assert.assertEquals(false, testLending.get().getLendedArticle().isRequested());

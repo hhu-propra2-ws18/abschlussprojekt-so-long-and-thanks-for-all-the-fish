@@ -10,8 +10,7 @@ import java.util.HashMap;
 import java.util.Optional;
 
 public class PostProccessor {
-    @Autowired
-    private MailService mailservice;
+    
 
     public HashMap<String, String> splitString(String postBody) {
         HashMap<String, String> postBodyParas = new HashMap<>();
@@ -51,11 +50,11 @@ public class PostProccessor {
         lendings.save(newLending);
     }
 
-    public void proccessPostRequest(APIProcessor apiProcessor, HashMap<String, String> postBodyParas, LendingRepository lendings, ArticleRepository articles, UserRepository users, ReservationRepository reservations, TransactionRepository transactions){
+    public void proccessPostRequest(APIProcessor apiProcessor, HashMap<String, String> postBodyParas, LendingRepository lendings, ArticleRepository articles, UserRepository users, ReservationRepository reservations, TransactionRepository transactions, MailService mailService){
         if(postBodyParas.containsKey("choice")) {
             proccessRequest(apiProcessor, postBodyParas, lendings, articles, users, reservations);
         }else if(postBodyParas.containsKey("choicereturn")) {
-            proccessReturn(apiProcessor, postBodyParas, lendings, articles, users, reservations, transactions);
+            proccessReturn(apiProcessor, postBodyParas, lendings, articles, users, reservations, transactions, mailService);
         }else if(postBodyParas.containsKey("recognized")){
             proccessRecognized(lendings, postBodyParas);
         }else if(postBodyParas.containsKey("sold")){
@@ -67,7 +66,7 @@ public class PostProccessor {
         lendings.delete(lendings.findLendingBylendingID(Long.parseLong(postBodyParas.get("lendingID"))).get());
     }
 
-    private void proccessReturn(APIProcessor apiProcessor, HashMap<String, String> postBodyParas, LendingRepository lendings, ArticleRepository articles, UserRepository users, ReservationRepository reservations, TransactionRepository transactions) {
+    private void proccessReturn(APIProcessor apiProcessor, HashMap<String, String> postBodyParas, LendingRepository lendings, ArticleRepository articles, UserRepository users, ReservationRepository reservations, TransactionRepository transactions, MailService mailService) {
         Lending lending = lendings.findLendingBylendingID(Long.parseLong(postBodyParas.get("lendingID"))).get();
         Article article = lending.getLendedArticle();
         Account lendingAccount = apiProcessor.getAccountInformationWithId(lending.getLendingPerson().getUserID(), users);
@@ -94,7 +93,7 @@ public class PostProccessor {
             tmpLending.setConflict(true);
             tmpLending.setConflictmessage(postBodyParas.get("conflictmessage"));
             lendings.save(tmpLending);
-            //TODO: Admin muss richtig gefunden werden.
+            mailService.sendConflict(tmpLending.getLendingID(),tmpLending.getConflictmessage(),tmpLending.getLendedArticle().getOwner().getUserID(),tmpLending.getLendingPerson().getUserID());
         }
     }
 

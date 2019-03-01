@@ -40,6 +40,9 @@ public class ConflictController {
 
     APIProcessor apiProcessor = new APIProcessor();
 
+    public MailService getMailService(){
+        return mailService;
+    }
 
     public void send(long lendId, String conflictMessage, long ownerId, long lenderId) {
         try {
