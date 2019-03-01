@@ -62,7 +62,6 @@ public class LendingTests {
         LendingRepository lendingRepository = Mockito.mock(LendingRepository.class);
         ArticleRepository articleRepository = Mockito.mock(ArticleRepository.class);
 
-        User user = User.builder().build();
         Optional<User> testUser = Optional.ofNullable(User.builder().userID(1).name("testUser").build());
         when(serviceUserProvider.findUserByuserID(1)).thenReturn(testUser);
 

@@ -2,13 +2,13 @@ package de.hhu.rhinoshareapp.LendingTests;
 
 import de.hhu.rhinoshareapp.Representations.LendingProcessor.APIProcessor;
 import de.hhu.rhinoshareapp.Representations.LendingProcessor.PostProccessor;
-import de.hhu.rhinoshareapp.controller.conflict.ConflictController;
 import de.hhu.rhinoshareapp.controller.lendings.LendingController;
 import de.hhu.rhinoshareapp.domain.mail.MailService;
 import de.hhu.rhinoshareapp.domain.model.Article;
 import de.hhu.rhinoshareapp.domain.model.Lending;
 import de.hhu.rhinoshareapp.domain.model.User;
 import de.hhu.rhinoshareapp.domain.service.*;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -25,9 +25,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.ui.Model;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
@@ -36,6 +34,7 @@ import static org.junit.Assert.assertEquals;
 @AutoConfigureMockMvc
 @WebAppConfiguration
 @WebMvcTest
+@SuppressFBWarnings // gemockte Repositories werden für Controller tests benötigt
 public class LendingControllerTests {
     @Autowired
     LendingController controller;
@@ -82,9 +81,6 @@ public class LendingControllerTests {
         User testUser2 = new User("George", "Pi", null, "george", "george@mail.com", "1234", "user");
         User testUser3 = new User("Franz", "Hoff", null, "franz", "franz@mail.com", "1234", "user");
 
-        long id1 = testUser1.getUserID();
-        long id2 = testUser2.getUserID();
-
         Article testArticle1 = new Article("Rasenmäher", "funktioniert, kein Benzin, Schnitthöhe 1cm - 50 m", 500, 25, true, null);
         Article testArticle2 = new Article("Geschirr", "nur ein bisschen zerbrochen, für 20 mann", 250, 25, true, null);
         Article testArticle3 = new Article("Grillkohle", "schon verbrannt", 25230, 88, false, null);
@@ -117,9 +113,6 @@ public class LendingControllerTests {
         Optional<User> oUser3 = Optional.of(testUser3);
         Optional<Lending> oLending1 = Optional.of(testLending1);
         Optional<Lending> oLending2 = Optional.of(testLending2);
-
-        List<Optional<Lending>> alconflic = new ArrayList<>();
-        alconflic.add(oLending1);
 
         Mockito.when(userRepo.findByUsername("jeff"))
                 .thenReturn(oUser1);
