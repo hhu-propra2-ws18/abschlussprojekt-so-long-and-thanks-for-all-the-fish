@@ -10,7 +10,7 @@
         <div class="container" layout:fragment="content" style="margin-top: 50px">
             <h1 th:text="${article.getName()}">SampleName</h1>
             <div class="detail-container">
-                <div class="item1">
+                <div class="item1" th:if="!${article.imageIsEmpty()}">
                     <img th:src="@{/image/{id} (id = ${article.getImageID()})}" width=auto height="300px"/>
                 </div>
                 <div class="item2">
