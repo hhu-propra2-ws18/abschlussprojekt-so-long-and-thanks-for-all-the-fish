@@ -18,39 +18,39 @@
                         <td class="tg-lap0"><input th:name="username" type="text" th:placeholder="${person.username}" readonly/></td>
                     </tr>
                     <tr>
-                        <td class="tg-lap0">Surname:</td>
-                        <td class="tg-lap0"><input th:name="name" type="text" th:placeholder="${person.name}"/></td>
+                        <td class="tg-lap0">Nachname:</td>
+                        <td class="tg-lap0"><input th:name="name" type="text" th:placeholder="${user.name}"/></td>
                     </tr>
                     <tr>
-                        <td class="tg-lap0">Name:</td>
-                        <td class="tg-lap0"><input th:name="surname" type="text" th:placeholder="${person.surname}"/></td>
+                        <td class="tg-lap0">Vorame:</td>
+                        <td class="tg-lap0"><input th:name="surname" type="text" th:placeholder="${user.surname}"/></td>
                     </tr>
                     <tr>
                         <td class="tg-lap0">E-Mail:</td>
                         <td class="tg-lap0"><input class="loginTextfield" th:name="email" type="email" th:placeholder="${person.email}"/></td>
                     </tr>
                     <tr>
-                        <td class="tg-lap0">Street:</td>
-                        <td class="tg-lap0"><input th:name="street" type="text" th:placeholder="${person.address.street}"/></td>
+                        <td class="tg-lap0">Straße:</td>
+                        <td class="tg-lap0"><input th:name="street" type="text" th:placeholder="${user.address.street}"/></td>
                     </tr>
                     <tr>
-                        <td class="tg-lap0">City:</td>
-                        <td class="tg-lap0"><input th:name="city" type="text" th:placeholder="${person.address.city}"/></td>
+                        <td class="tg-lap0">Stadt:</td>
+                        <td class="tg-lap0"><input th:name="city" type="text" th:placeholder="${user.address.city}"/></td>
                     </tr>
                     <tr>
-                        <td class="tg-lap0">Country:</td>
-                        <td class="tg-lap0"><input th:name="country" type="text" th:placeholder="${person.address.country}"/></td>
+                        <td class="tg-lap0">Land:</td>
+                        <td class="tg-lap0"><input th:name="country" type="text" th:placeholder="${user.address.country}"/></td>
                     </tr>
                     <tr>
-                        <td class="tg-lap0">House Number:</td>
-                        <td class="tg-lap0"><input th:name="houseNumber" type="text" th:placeholder="${person.address.houseNumber}"/></td>
+                        <td class="tg-lap0">Hausnummer:</td>
+                        <td class="tg-lap0"><input th:name="houseNumber" type="text" th:placeholder="${user.address.houseNumber}"/></td>
                     </tr>
                     <tr>
-                        <td class="tg-lap0">PostCode:</td>
-                        <td class="tg-lap0"><input th:name="postCode" type="text" th:placeholder="${person.address.postCode}"/></td>
+                        <td class="tg-lap0">Postleitzahl:</td>
+                        <td class="tg-lap0"><input th:name="postCode" type="text" th:placeholder="${user.address.postCode}"/></td>
                     </tr>
                 </table>
-                <td><button type="submit" class="button_std">Aktuallisieren</button></td>
+                <td><button type="submit" class="button_std">Aktualisieren</button></td>
                 <td><a th:href="|/|" > <button class="button_std_white" type="button">Abbrechen</button></a></td>
             </form>
         </div>
