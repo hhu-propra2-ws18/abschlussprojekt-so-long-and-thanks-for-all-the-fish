@@ -4,6 +4,6 @@ jdk:
 jobs:
  include:
  - stage: Rhinoshare
-   script: cd RhinoshareApp/rhinoshareapp && ./gradlew build
+   script: cd rhinoshareapp && ./gradlew build
 notifications:
  - email: false
