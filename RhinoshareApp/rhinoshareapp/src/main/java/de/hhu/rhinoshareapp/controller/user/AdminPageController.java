@@ -3,8 +3,7 @@ package de.hhu.rhinoshareapp.controller.user;
 import de.hhu.rhinoshareapp.domain.model.Address;
 import de.hhu.rhinoshareapp.domain.model.Article;
 import de.hhu.rhinoshareapp.domain.model.Lending;
-import de.hhu.rhinoshareapp.domain.model.User;
-import de.hhu.rhinoshareapp.domain.security.ActualUserChecker;
+import de.hhu.rhinoshareapp.domain.model.Person;
 import de.hhu.rhinoshareapp.domain.service.ArticleRepository;
 import de.hhu.rhinoshareapp.domain.service.LendingRepository;
 import de.hhu.rhinoshareapp.domain.service.UserRepository;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class AdminPageController {
@@ -49,7 +47,7 @@ public class AdminPageController {
     //Usermanagement
     @GetMapping("/admin/usermanagement")
     public String loadUserManagement(Model model) {
-        List<User> userlist = userRepository.findAll();
+        List<Person> userlist = userRepository.findAll();
         model.addAttribute("userlist", userlist);
         model.addAttribute("userActive","active");
         return "Admin/admin_usermanagement";
@@ -57,39 +55,39 @@ public class AdminPageController {
 
     @GetMapping("/admin/usermanagement/edit/{id}")
     public String loadEditForm(@PathVariable long id, Model model) {
-        User user = userRepository.findUserByuserID(id).get();
-        List<Article> allArticles = articleRepository.findAllByOwner(user);
-        model.addAttribute("user", user);
+        Person person = userRepository.findUserByuserID(id).get();
+        List<Article> allArticles = articleRepository.findAllByOwner(person);
+        model.addAttribute("user", person);
         model.addAttribute("articles", allArticles);
         model.addAttribute("userActive","active");
         return "Admin/admin_userEdit";
     }
 
-    //Edit User as Admin
+    //Edit Person as Admin
     @PostMapping("/admin/usermanagement/edit/{id}")
-    public String profileOverview(@ModelAttribute("user") User user, Model model, Principal p) {
-        User oldUser = userRepository.findByUsername(p.getName()).get();
-        Address oldUserAddress = oldUser.getAddress();
-        Address userAddress = user.getAddress();
-        oldUser = EditUserController.setEditedAttributesInUser(user, oldUser, oldUserAddress, userAddress);
-        userRepository.save(oldUser);
-        model.addAttribute(oldUser);
+    public String profileOverview(@ModelAttribute("user") Person person, Model model, Principal p) {
+        Person oldPerson = userRepository.findByUsername(p.getName()).get();
+        Address oldUserAddress = oldPerson.getAddress();
+        Address userAddress = person.getAddress();
+        oldPerson = EditUserController.setEditedAttributesInUser(person, oldPerson, oldUserAddress, userAddress);
+        userRepository.save(oldPerson);
+        model.addAttribute(oldPerson);
         model.addAttribute("userActive","active");
         return "Admin/admin_userEdit";
     }
 
-    //User löschen
+    //Person löschen
     @GetMapping("/admin/usermanagement/delete/{id}")
     public String deleteUser(@PathVariable long id) {
         userRepository.deleteById(id);
         return "redirect:/admin/usermanagement/";
     }
 
-    //User erstellen
+    //Person erstellen
     @GetMapping("/admin/usermanagement/add")
     public String addUser(Model model) {
-        List<User> userList = userRepository.findAll();
-        String idAsString = "" + (userList.size() + 1);
+        List<Person> personList = userRepository.findAll();
+        String idAsString = "" + (personList.size() + 1);
         model.addAttribute("nextID", idAsString);
         model.addAttribute("userActive","active");
         return "Admin/admin_createUser";

@@ -6,9 +6,10 @@ import de.hhu.rhinoshareapp.Representations.LendingRepresentation;
 import de.hhu.rhinoshareapp.Representations.RequestRepresentation;
 import de.hhu.rhinoshareapp.Representations.ReturnProcessRepresentation;
 import de.hhu.rhinoshareapp.Representations.TransactionRepresentation;
+import de.hhu.rhinoshareapp.domain.mail.MailService;
 import de.hhu.rhinoshareapp.domain.model.Account;
 import de.hhu.rhinoshareapp.domain.model.Article;
-import de.hhu.rhinoshareapp.domain.model.User;
+import de.hhu.rhinoshareapp.domain.model.Person;
 import de.hhu.rhinoshareapp.domain.security.ActualUserChecker;
 import de.hhu.rhinoshareapp.domain.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,8 @@ public class LendingController {
     private ReservationRepository reservationRepository;
     @Autowired
     private TransactionRepository transactionRepository;
+    @Autowired
+    private MailService mailService;
 
     private PostProccessor postProccessor = new PostProccessor();
 
@@ -63,7 +66,7 @@ public class LendingController {
         RequestRepresentation filledRequests = new RequestRepresentation(userRepository, articleRepository, lendingRepository, id);
         ReturnProcessRepresentation filledReturns = new ReturnProcessRepresentation(userRepository, articleRepository, id, lendingRepository);
         HashMap<String, String> postBodyParas = postProccessor.splitString(postBody);
-        postProccessor.proccessPostRequest(apiProcessor, postBodyParas, lendingRepository, articleRepository, userRepository, reservationRepository, transactionRepository);
+        postProccessor.proccessPostRequest(apiProcessor, postBodyParas, lendingRepository, articleRepository, userRepository, reservationRepository, transactionRepository, mailService);
         model.addAttribute("id", id);
         ActualUserChecker.checkActualUser(model, p, userRepository);
         if (apiProcessor.isErrorOccurred()) {
@@ -158,7 +161,7 @@ public class LendingController {
     @PostMapping("/inquiry")
     public String inquiry(Model model, @RequestBody String postBody, Principal p) {
         HashMap<String, String> postBodyParas = postProccessor.splitString(postBody);
-        Optional<User> user = userRepository.findUserByuserID(Long.parseLong(postBodyParas.get("requesterID")));
+        Optional<Person> user = userRepository.findUserByuserID(Long.parseLong(postBodyParas.get("requesterID")));
         model.addAttribute("username", user.get().getUsername());
         model.addAttribute("id", postBodyParas.get("requesterID"));
         if (postBodyParas.get("requestValue").equals("lending")) {

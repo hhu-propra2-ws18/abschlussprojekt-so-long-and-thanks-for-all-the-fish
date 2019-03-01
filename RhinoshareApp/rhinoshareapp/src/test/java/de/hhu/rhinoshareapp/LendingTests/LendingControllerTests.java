@@ -6,7 +6,7 @@ import de.hhu.rhinoshareapp.controller.lendings.LendingController;
 import de.hhu.rhinoshareapp.domain.mail.MailService;
 import de.hhu.rhinoshareapp.domain.model.Article;
 import de.hhu.rhinoshareapp.domain.model.Lending;
-import de.hhu.rhinoshareapp.domain.model.User;
+import de.hhu.rhinoshareapp.domain.model.Person;
 import de.hhu.rhinoshareapp.domain.service.*;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.junit.Before;
@@ -77,17 +77,17 @@ public class LendingControllerTests {
 
     @Before
     public void setUp() {
-        User testUser1 = new User("Jeff", "Nosbusch", null, "jeff", "jeff@mail.com", "1234", "user");
-        User testUser2 = new User("George", "Pi", null, "george", "george@mail.com", "1234", "user");
-        User testUser3 = new User("Franz", "Hoff", null, "franz", "franz@mail.com", "1234", "user");
+        Person testPerson1 = new Person("Jeff", "Nosbusch", null, "jeff", "jeff@mail.com", "1234", "user");
+        Person testPerson2 = new Person("George", "Pi", null, "george", "george@mail.com", "1234", "user");
+        Person testPerson3 = new Person("Franz", "Hoff", null, "franz", "franz@mail.com", "1234", "user");
 
         Article testArticle1 = new Article("Rasenmäher", "funktioniert, kein Benzin, Schnitthöhe 1cm - 50 m", 500, 25, true, null);
         Article testArticle2 = new Article("Geschirr", "nur ein bisschen zerbrochen, für 20 mann", 250, 25, true, null);
         Article testArticle3 = new Article("Grillkohle", "schon verbrannt", 25230, 88, false, null);
 
-        userRepo.save(testUser1);
-        userRepo.save(testUser2);
-        userRepo.save(testUser3);
+        userRepo.save(testPerson1);
+        userRepo.save(testPerson2);
+        userRepo.save(testPerson3);
         articleRepo.save(testArticle1);
         articleRepo.save(testArticle2);
         articleRepo.save(testArticle3);
@@ -101,16 +101,16 @@ public class LendingControllerTests {
         date3.set(2019, 4, 12);
         date4.set(2019, 1, 12);
 
-        Lending testLending1 = new Lending(date1, date2, testUser1, testArticle2);
-        Lending testLending2 = new Lending(date3, date4, testUser2, testArticle1);
+        Lending testLending1 = new Lending(date1, date2, testPerson1, testArticle2);
+        Lending testLending2 = new Lending(date3, date4, testPerson2, testArticle1);
         testLending2.setConflict(true);
-        testLending1.getLendedArticle().setOwner(testUser3);
+        testLending1.getLendedArticle().setOwner(testPerson3);
         lendingRepo.save(testLending1);
         lendingRepo.save(testLending2);
 
-        Optional<User> oUser1 = Optional.of(testUser1);
-        Optional<User> oUser2 = Optional.of(testUser2);
-        Optional<User> oUser3 = Optional.of(testUser3);
+        Optional<Person> oUser1 = Optional.of(testPerson1);
+        Optional<Person> oUser2 = Optional.of(testPerson2);
+        Optional<Person> oUser3 = Optional.of(testPerson3);
         Optional<Lending> oLending1 = Optional.of(testLending1);
         Optional<Lending> oLending2 = Optional.of(testLending2);
 

@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
@@ -36,7 +36,7 @@ public class User {
     private String role;
 
 
-    public User(String name, String surname, Address address , String username, String email, String password, String role) {
+    public Person(String name, String surname, Address address , String username, String email, String password, String role) {
         this.name = name;
         this.surname = surname;
         this.username = username;

@@ -1,6 +1,5 @@
 package de.hhu.rhinoshareapp.domain.model;
 
-import de.hhu.rhinoshareapp.domain.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

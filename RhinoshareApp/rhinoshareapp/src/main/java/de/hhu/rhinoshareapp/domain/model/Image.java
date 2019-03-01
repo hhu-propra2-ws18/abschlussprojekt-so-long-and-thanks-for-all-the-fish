@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
@@ -24,7 +26,7 @@ public class Image {
 
     public String filename;
 
-    @Lob
+    @Type(type="org.hibernate.type.BinaryType")
     public byte[] filebytes;
 
     public Image(MultipartFile file) throws IOException {

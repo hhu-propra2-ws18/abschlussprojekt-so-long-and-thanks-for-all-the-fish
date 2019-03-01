@@ -1,6 +1,6 @@
 package de.hhu.rhinoshareapp.domain.security;
 
-import de.hhu.rhinoshareapp.domain.model.User;
+import de.hhu.rhinoshareapp.domain.model.Person;
 import de.hhu.rhinoshareapp.domain.service.UserRepository;
 import org.springframework.ui.Model;
 
@@ -11,10 +11,10 @@ public class ActualUserChecker {
 
     public static void checkActualUser(Model m, Principal p, UserRepository users) {
         if (p != null) {
-            Optional<User> u = users.findByUsername(p.getName());
-            User user = u.get();
-            m.addAttribute("surname", user.getSurname());
-            m.addAttribute("role", user.getRole());
+            Optional<Person> u = users.findByUsername(p.getName());
+            Person person = u.get();
+            m.addAttribute("surname", person.getSurname());
+            m.addAttribute("role", person.getRole());
             m.addAttribute("loggedIn", "true");
         }
         else {
