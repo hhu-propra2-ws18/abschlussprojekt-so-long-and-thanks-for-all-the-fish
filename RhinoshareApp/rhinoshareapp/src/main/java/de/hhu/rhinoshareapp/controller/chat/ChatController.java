@@ -2,7 +2,7 @@ package de.hhu.rhinoshareapp.controller.chat;
 
 import de.hhu.rhinoshareapp.domain.filter.FilterMessages;
 import de.hhu.rhinoshareapp.domain.model.ChatMessage;
-import de.hhu.rhinoshareapp.domain.model.User;
+import de.hhu.rhinoshareapp.domain.model.Person;
 import de.hhu.rhinoshareapp.domain.service.ChatMessageRepository;
 import de.hhu.rhinoshareapp.domain.security.ActualUserChecker;
 import de.hhu.rhinoshareapp.domain.service.UserRepository;
@@ -37,18 +37,18 @@ public class ChatController {
         model.addAttribute("listFrom", listFrom);
         model.addAttribute("listTo", listTo );
         ActualUserChecker.checkActualUser(model, p, userRepository);
-        return "/Chat/chat_overview";
+        return "Chat/chat_overview";
     }
 
     @GetMapping("/newchat/{ID}")
     public String newChat(@PathVariable long ID, Model model, Principal p) {
         ChatMessage chatMessage = new ChatMessage();
-        User recipient = userRepository.findUserByuserID(ID).get();
+        Person recipient = userRepository.findUserByuserID(ID).get();
         ActualUserChecker.checkActualUser(model, p, userRepository);
         model.addAttribute("chatActive","active");
         model.addAttribute("recipient", recipient);
         model.addAttribute("chatMessage", chatMessage);
-        return "/Chat/chat_newChat";
+        return "Chat/chat_newChat";
     }
 
     @PostMapping("/newchat/{ID}")
@@ -65,7 +65,7 @@ public class ChatController {
         ActualUserChecker.checkActualUser(model, p, userRepository);
         model.addAttribute("chatActive","active");
         model.addAttribute("chatMessage", chatMessage);
-        return "/Chat/chat_deleteChat";
+        return "Chat/chat_deleteChat";
     }
 
     @PostMapping("/deletechat/{ID}")

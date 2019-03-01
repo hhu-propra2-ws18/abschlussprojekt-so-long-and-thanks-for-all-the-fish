@@ -2,7 +2,7 @@ package de.hhu.rhinoshareapp.Representations;
 
 import de.hhu.rhinoshareapp.domain.model.Article;
 import de.hhu.rhinoshareapp.domain.model.Lending;
-import de.hhu.rhinoshareapp.domain.model.User;
+import de.hhu.rhinoshareapp.domain.model.Person;
 import de.hhu.rhinoshareapp.domain.service.ArticleRepository;
 import de.hhu.rhinoshareapp.domain.service.LendingRepository;
 import de.hhu.rhinoshareapp.domain.service.UserRepository;
@@ -20,10 +20,10 @@ public class LendingRepresentation {
     private ArticleRepository articles;
     private boolean hasWarning = false;
 
-    // Returns a list of of lendings for a User given by his id, that are Accepted and not returned
+    // Returns a list of of lendings for a Person given by his id, that are Accepted and not returned
     public List<Lending> fillLendings(long userID) {
-        User user = users.findUserByuserID(userID).get();
-        List<Lending> lendingList = lendings.findAllBylendingPersonAndIsAcceptedAndIsReturnAndIsConflictAndIsRequestedForSale(user, true, false, false, false);
+        Person person = users.findUserByuserID(userID).get();
+        List<Lending> lendingList = lendings.findAllBylendingPersonAndIsAcceptedAndIsReturnAndIsConflictAndIsRequestedForSale(person, true, false, false, false);
         for (Lending lending : lendingList) {
             Calendar endDate = lending.getEndDate();
             Calendar currentDate = Calendar.getInstance();
@@ -40,16 +40,16 @@ public class LendingRepresentation {
         return lendingList;
     }
     public List<Lending> fillConflicts(long userID) {
-        User user = users.findUserByuserID(userID).get();
-        List<Lending> lendingList = lendings.findAllBylendingPersonAndIsAcceptedAndIsReturnAndIsConflictAndIsRequestedForSale(user, true, false, true, false);
+        Person person = users.findUserByuserID(userID).get();
+        List<Lending> lendingList = lendings.findAllBylendingPersonAndIsAcceptedAndIsReturnAndIsConflictAndIsRequestedForSale(person, true, false, true, false);
         for (Lending lending : lendingList) {
             lending.setWarning("The article you lended is currently investigated");
         }
         return lendingList;
     }
     public List<Lending> fillConflictsOwner(long userID) {
-        User user = users.findUserByuserID(userID).get();
-        List<Article> articles = this.articles.findAllByOwner(user);
+        Person person = users.findUserByuserID(userID).get();
+        List<Article> articles = this.articles.findAllByOwner(person);
         List<Lending> lendingList = new ArrayList<>();
         for (Article article : articles) {
             Optional<Lending> conflictLending = lendings.findLendingBylendedArticle(article);
@@ -63,10 +63,10 @@ public class LendingRepresentation {
         return lendingList;
     }
 
-    // Returns a list of all borrowed articles for a User given by his id
+    // Returns a list of all borrowed articles for a Person given by his id
     public List<Article> fillBorrows(long borrowPersonID){
-        User user = users.findUserByuserID(borrowPersonID).get();
-        return articles.findAllByOwner(user);
+        Person person = users.findUserByuserID(borrowPersonID).get();
+        return articles.findAllByOwner(person);
     }
     @Autowired
     public LendingRepresentation(LendingRepository lendings, UserRepository users, ArticleRepository articles) {

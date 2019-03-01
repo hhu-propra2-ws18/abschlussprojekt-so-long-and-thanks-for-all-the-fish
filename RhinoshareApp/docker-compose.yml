@@ -25,6 +25,8 @@ services:
 
   database:
     image: postgres
+    ports:
+      - "5432:5432"
     environment:
       - POSTGRES_PASSWORD=rhinoshare_default
       - POSTGRES_DB=database

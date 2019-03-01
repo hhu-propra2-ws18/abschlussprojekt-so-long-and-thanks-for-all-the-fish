@@ -1,7 +1,7 @@
 package de.hhu.rhinoshareapp.domain.mail;
 
 
-import de.hhu.rhinoshareapp.domain.model.User;
+import de.hhu.rhinoshareapp.domain.model.Person;
 import de.hhu.rhinoshareapp.domain.service.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
@@ -27,7 +27,7 @@ public class MailService {
     UserRepository userRepo;
 
     public void sendConflict(long lendingId, String conflictMessage, long ownerId, long lenderId) throws MailException {
-        List<User> admins = userRepo.findByRole("ROLE_ADMIN");
+        List<Person> admins = userRepo.findByRole("ROLE_ADMIN");
         for(int i=0; i<admins.size();i++){
             SimpleMailMessage mail = new SimpleMailMessage();
             mail.setTo(admins.get(i).getEmail());

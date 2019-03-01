@@ -4,7 +4,7 @@ package de.hhu.rhinoshareapp.controller.conflict;
 import de.hhu.rhinoshareapp.Representations.LendingProcessor.APIProcessor;
 import de.hhu.rhinoshareapp.domain.mail.MailService;
 import de.hhu.rhinoshareapp.domain.model.Lending;
-import de.hhu.rhinoshareapp.domain.model.User;
+import de.hhu.rhinoshareapp.domain.model.Person;
 import de.hhu.rhinoshareapp.domain.security.ActualUserChecker;
 import de.hhu.rhinoshareapp.domain.service.ArticleRepository;
 import de.hhu.rhinoshareapp.domain.service.LendingRepository;
@@ -41,7 +41,7 @@ public class ConflictController {
     APIProcessor apiProcessor = new APIProcessor();
 
 
-    public void send(long lendId, String conflictMessage, long ownerId, long lenderId, User admin) {
+    public void send(long lendId, String conflictMessage, long ownerId, long lenderId, Person admin) {
         try {
             mailService.sendConflict(lendId, conflictMessage, ownerId, lenderId);
         } catch (MailException e) {
@@ -68,9 +68,9 @@ public class ConflictController {
                     l.setConflict(true);
                     l.setConflictmessage(description);
                     lendingRepository.save(l);
-                    User owner = l.getLendedArticle().getOwner();
-                    Optional<User> serviceUser = userRepo.findUserByuserID(3);
-                    User admin = serviceUser.get();
+                    Person owner = l.getLendedArticle().getOwner();
+                    Optional<Person> serviceUser = userRepo.findUserByuserID(3);
+                    Person admin = serviceUser.get();
                     send(lendingID, description, (owner.getUserID()), (l.getLendingPerson().getUserID()), admin);
                 } else {
                     return "redirect:/openConflict";
