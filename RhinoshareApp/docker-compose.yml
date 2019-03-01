@@ -1,16 +1,17 @@
 version: "3.5"
 services:
-
   rhinoshareapp:
     build:
       context: ./rhinoshareapp
       dockerfile: ./Dockerfile
     ports:
       - "8080:8080"
-    command: ["./wait-for-it.sh", "database:5432", "propay:8888", "--", "java", "-jar", "app.jar"]
+    command: ["./wait-for-it.sh", "database:3306", "propay:8888", "--", "java", "-jar", "app.jar"]
     depends_on:
       - database
       - propay
+    networks:
+      - web
 
 
   propay:
@@ -22,14 +23,22 @@ services:
       - ./data:/code/data
     depends_on:
       - database
+    networks:
+      - web
 
   database:
-    image: postgres
-    ports:
-      - "5432:5432"
+    image: mariadb
+    restart: always
     environment:
-      - POSTGRES_PASSWORD=rhinoshare_default
-      - POSTGRES_DB=database
-      - POSTGRES_USER=rhinoshare
+      MYSQL_USER: root
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: springboot_mariadb
+    networks:
+      - web
     volumes:
-      - ./data:/var/lib/postgresql/data
+      - ./datadir:/var/lib/mysql
+volumes:
+  datadir:
+networks:
+  web:
+    name: web
