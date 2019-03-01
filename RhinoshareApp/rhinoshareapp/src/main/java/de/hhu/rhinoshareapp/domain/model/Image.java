@@ -1,5 +1,6 @@
 package de.hhu.rhinoshareapp.domain.model;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,6 +15,7 @@ import java.io.IOException;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@SuppressFBWarnings // Images sind optional gewesen und wir konnten auf die schnelle keine andere lösung finden
 public class Image {
 
     @Id
