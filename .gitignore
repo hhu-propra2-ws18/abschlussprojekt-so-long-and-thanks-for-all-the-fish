@@ -8,6 +8,7 @@
 
 # Specific stuff
 RhinoshareApp/data/
+RhinoshareApp/datadir/
 Artikel/build/
 Lending/build/
 Benutzer/build/
