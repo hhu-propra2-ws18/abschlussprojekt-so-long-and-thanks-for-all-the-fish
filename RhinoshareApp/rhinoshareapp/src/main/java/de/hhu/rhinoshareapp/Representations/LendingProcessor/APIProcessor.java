@@ -172,7 +172,7 @@ public class APIProcessor {
 			}
 		} catch (Exception e) {
 			errorOccurred = true;
-			errorMessage.put("reason", "Propay is not reachable, try it again later");
+			errorMessage.put("reason", "Propay ist momentan nicht erreichbar. Bitte versuchen Sie es später erneut.");
 			e.printStackTrace();
 			return;
 		}

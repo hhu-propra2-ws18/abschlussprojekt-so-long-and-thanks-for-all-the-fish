@@ -28,12 +28,12 @@ public class LendingRepresentation {
             Calendar endDate = lending.getEndDate();
             Calendar currentDate = Calendar.getInstance();
             if (currentDate.after(endDate)) {
-                lending.setWarning("ATTENTION: YOU HAVE RETURN THIS ARTICLE");
+                lending.setWarning("ACHTUNG: Du musst diesen Artikel heute zurückgeben!");
                 hasWarning = true;
             } else {
                 long time = endDate.getTime().getTime() - currentDate.getTime().getTime();
                 long days = Math.round( (double)time / (24. * 60.*60.*1000.) );
-                lending.setWarning("You can use this article without worries for the next "+days+" days");
+                lending.setWarning("Du hast diesen Artikel für die nächsten " + days + " Tage gemietet.");
             }
         }
 
@@ -43,7 +43,7 @@ public class LendingRepresentation {
         User user = users.findUserByuserID(userID).get();
         List<Lending> lendingList = lendings.findAllBylendingPersonAndIsAcceptedAndIsReturnAndIsConflictAndIsRequestedForSale(user, true, false, true, false);
         for (Lending lending : lendingList) {
-            lending.setWarning("The article you lended is currently investigated");
+            lending.setWarning("Der von dir ausgeliehene Artikel befindet sich momentan in einem Konflikt.");
         }
         return lendingList;
     }
@@ -55,7 +55,7 @@ public class LendingRepresentation {
             Optional<Lending> conflictLending = lendings.findLendingBylendedArticle(article);
             if(conflictLending.isPresent()) {
                 if (conflictLending.get().isConflict()) {
-                    conflictLending.get().setWarning("Der Atrikel in dieser Ausleihe ist zurzeit bei der Konfliktstelle");
+                    conflictLending.get().setWarning("Der Artikel in dieser Ausleihe ist zurzeit bei der Konfliktstelle");
                     lendingList.add(conflictLending.get());
                 }
             }

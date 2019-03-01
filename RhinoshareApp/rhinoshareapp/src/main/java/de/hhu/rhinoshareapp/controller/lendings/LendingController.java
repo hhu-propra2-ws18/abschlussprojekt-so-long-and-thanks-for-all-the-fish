@@ -65,6 +65,7 @@ public class LendingController {
         HashMap<String, String> postBodyParas = postProccessor.splitString(postBody);
         postProccessor.proccessPostRequest(apiProcessor, postBodyParas, lendingRepository, articleRepository, userRepository, reservationRepository, transactionRepository);
         model.addAttribute("id", id);
+        ActualUserChecker.checkActualUser(model, p, userRepository);
         if (apiProcessor.isErrorOccurred()) {
             model.addAttribute("error", apiProcessor.getErrorMessage().get("reason"));
             apiProcessor.setErrorOccurred(false);
@@ -94,6 +95,7 @@ public class LendingController {
         HashMap<String, String> postBodyParas = postProccessor.splitString(postBody);
         postProccessor.initializeNewReturn(postBodyParas, lendingRepository);
         LendingRepresentation filledLendings = new LendingRepresentation(lendingRepository, userRepository, articleRepository);
+        ActualUserChecker.checkActualUser(model, p, userRepository);
         model.addAttribute("id", lendID);
         model.addAttribute("lendings", filledLendings.fillLendings(lendID));
         return "Lending/overviewLendings";

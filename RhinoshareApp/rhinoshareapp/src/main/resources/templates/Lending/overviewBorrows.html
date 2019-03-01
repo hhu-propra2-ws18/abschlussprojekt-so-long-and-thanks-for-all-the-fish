@@ -10,7 +10,7 @@
         <div class="container" layout:fragment="content" style="margin-top: 50px">
 
             <h1 th:if="${articles.size() > 0}">Sie bieten zur Ausleihe an:</h1>
-            <h1 th:if="${articles.size() < 1}">Keine Artikel verliehen</h1>
+            <h1 th:if="${articles.size() < 1}">Keine Artikel eingestellt</h1>
             <table th:each="article : ${articles}">
                 <table class="request_overview">
                     <tr>

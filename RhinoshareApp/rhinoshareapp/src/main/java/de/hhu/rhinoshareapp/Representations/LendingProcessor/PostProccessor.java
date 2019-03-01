@@ -35,7 +35,6 @@ public class PostProccessor {
         //collect necessary information
         User lendingPerson = users.findUserByuserID(Long.parseLong(postBodyParas.get("requesterID"))).get();
         Article lendedArticle = articles.findArticleByarticleID(Long.parseLong(postBodyParas.get("articleID"))).get();
-        //lendedArticle.setLendingUser(lendingPerson);
         lendedArticle.setRequestComment(postBodyParas.get("requestComment"));
         lendedArticle.setRequested(true);
         lendedArticle.setAvailable(false);
@@ -84,7 +83,7 @@ public class PostProccessor {
 
             } catch (Exception e) {
                 apiProcessor.setErrorOccurred(true);
-                apiProcessor.addErrorMessage("Propay is not reachable, try it again later");
+                apiProcessor.addErrorMessage("Propay ist momentan nicht erreichbar. Bitte versuchen Sie es später erneut.");
                 e.printStackTrace();
                 return;
             }
@@ -115,7 +114,7 @@ public class PostProccessor {
                 }
             } catch (Exception e) {
                 apiProcessor.setErrorOccurred(true);
-                apiProcessor.addErrorMessage("Propay is not reachable, try it again later");
+                apiProcessor.addErrorMessage("Propay ist momentan nicht erreichbar. Bitte versuchen Sie es später erneut.");
                 e.printStackTrace();
                 return;
             }
@@ -150,7 +149,6 @@ public class PostProccessor {
         //remove request out off article
         article.setRequestComment("");
         article.setRequested(false);
-        //article.setLendingUser(null);
         article.setAvailable(true);
         articles.save(article);
         //remove lending
@@ -194,7 +192,7 @@ public class PostProccessor {
                 articles.delete(article.get());
             } catch (Exception e) {
                 apiProcessor.setErrorOccurred(true);
-                apiProcessor.addErrorMessage("Propay is not reachable, try it again later");
+                apiProcessor.addErrorMessage("Propay ist momentan nicht erreichbar. Bitte versuchen Sie es später erneut.");
                 e.printStackTrace();
                 return;
             }
@@ -215,7 +213,6 @@ public class PostProccessor {
         String articleID = postBodyParas.get("articleID");
         Optional<Article> article = articleRepository.findArticleByarticleID(Long.parseLong(articleID));
         Optional<User> optionalUser = userRepository.findUserByuserID(Long.parseLong(postBodyParas.get("requesterID")));
-        //Lending lending = Lending.builder().lendingPerson(optionalUser.get()).lendedArticle(article.get()).isRequestedForSale(true).warning(postBodyParas.get("requestComment")).build();
         Lending lending = new Lending();
         lending.setWarning(postBodyParas.get("requestComment"));
         lending.setLendedArticle(article.get());
