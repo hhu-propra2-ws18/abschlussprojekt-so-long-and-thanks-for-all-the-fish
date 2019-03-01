@@ -1,12 +1,11 @@
 package de.hhu.rhinoshareapp.domain.database;
 
 
-
-import de.hhu.rhinoshareapp.Representations.LendingProcessor.APIProcessor;
-import de.hhu.rhinoshareapp.domain.model.*;
-import de.hhu.rhinoshareapp.domain.model.ChatMessage;
-import de.hhu.rhinoshareapp.domain.service.ChatMessageRepository;
+import de.hhu.rhinoshareapp.domain.model.Address;
+import de.hhu.rhinoshareapp.domain.model.Article;
+import de.hhu.rhinoshareapp.domain.model.User;
 import de.hhu.rhinoshareapp.domain.service.ArticleRepository;
+import de.hhu.rhinoshareapp.domain.service.ChatMessageRepository;
 import de.hhu.rhinoshareapp.domain.service.LendingRepository;
 import de.hhu.rhinoshareapp.domain.service.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Component;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import java.util.Arrays;
-import java.util.List;
 
 @Component
 public class DatabaseInitializer implements ServletContextInitializer {
@@ -34,61 +32,57 @@ public class DatabaseInitializer implements ServletContextInitializer {
 	@Autowired
 	ChatMessageRepository chatMessageRepository;
 
+	//Fills the database to add a little life to the application
 	@Override
-	public void onStartup(ServletContext servletContext) throws ServletException { //hier wird die Datenbank gefüllt
-		System.out.println("Populating the database");
-
-		Address testadress = Address.builder()
-				.street("Teststre.")
+	public void onStartup(ServletContext servletContext) {
+		//Generate test addresses
+		Address testAddress1 = Address.builder()
+				.street("Teststr.")
 				.houseNumber("18")
 				.postCode("41749")
 				.city("Viersen")
 				.country("Germany")
 				.build();
 
-		User root = new User("Pasquier", "Jacques", testadress, "root", "rhinoshareconflict@gmail.com", "$2a$08$MbCSKfkg1C9A6mx82wwVneBpUkyW1ZwhsEjorhqkMYrhRxLJDZ9yO", "ROLE_ADMIN");
-		User user = new User("Test", "Test", testadress, "user", "rhinoshareconflict@gmail.com", "$2a$08$MbCSKfkg1C9A6mx82wwVneBpUkyW1ZwhsEjorhqkMYrhRxLJDZ9yO", "ROLE_USER");
-		User otherUser = new User("Test", "Test", testadress, "2", "rhinoshareconflict@gmail.com", "$2a$08$MbCSKfkg1C9A6mx82wwVneBpUkyW1ZwhsEjorhqkMYrhRxLJDZ9yO", "ROLE_ADMIN");
-		User kratos = User.builder().role("ROLE_USER").name("Kratos").username("KnoppelKratos").email("rhinoshareconflict@gmail.com").password("$2a$08$MbCSKfkg1C9A6mx82wwVneBpUkyW1ZwhsEjorhqkMYrhRxLJDZ9yO").build();
-		/*APIProcessor apiProcessor = new APIProcessor();
-		try {
-			apiProcessor.getAccountInformation(kratos.getUsername(), Account.class);
-			apiProcessor.getAccountInformation(user.getUsername(), Account.class);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-*/
-		users.saveAll(Arrays.asList(root, user, otherUser, kratos));
+		Address testAddress2 = Address.builder()
+				.street("Hauptstr.")
+				.houseNumber("9a")
+				.postCode("42254")
+				.city("Hamburg")
+				.country("Germany")
+				.build();
 
+		Address testAddress3 = Address.builder()
+				.street("Bergstr.")
+				.houseNumber("583")
+				.postCode("92256")
+				.city("Frankfurt")
+				.country("Germany")
+				.build();
 
-		Article testArticle1 = Article.builder().name("Rasenmäher").comment("funktioniert, kein Benzin, Schnitthöhe 1cm - 50m").deposit(500).rent(25).available(true).owner(user).build();
-		Article testArticle2 = Article.builder().name("Geschirr").comment("nur ein bisschen zerbrochen, für 20 mann").deposit(250).rent(25).available(true).owner(user).build();
-		Article testArticle3 = Article.builder().name("Grillkohle").comment("schon verbrannt").deposit(25230).rent(88).available(false).owner(otherUser).build();
+		//Generate test users and two admins
+		User testRoot1 = new User("Hammel", "Frank", testAddress1, "root1", "rhinoshareconflict@gmail.com", "$2a$08$MbCSKfkg1C9A6mx82wwVneBpUkyW1ZwhsEjorhqkMYrhRxLJDZ9yO", "ROLE_ADMIN");
+		User testRoot2 = new User("Olo", "Hans", testAddress3, "root2", "rhinoshareconflict@gmail.com", "$2a$08$MbCSKfkg1C9A6mx82wwVneBpUkyW1ZwhsEjorhqkMYrhRxLJDZ9yO", "ROLE_ADMIN");
+		User testUser1 = new User("Müller", "Klaus", testAddress2, "kMueller", "klausmueller@rhinoshare.com", "$2a$08$MbCSKfkg1C9A6mx82wwVneBpUkyW1ZwhsEjorhqkMYrhRxLJDZ9yO", "ROLE_USER");
+		User testUser2 = new User("Faust", "Herbert", testAddress3, "hFaust", "herbertfaust@rhinoshare.com", "$2a$08$MbCSKfkg1C9A6mx82wwVneBpUkyW1ZwhsEjorhqkMYrhRxLJDZ9yO", "ROLE_USER");
+		User testUser3 = new User("Baum", "Tina", testAddress2, "tineTree", "tinabaum@rhinoshare.com", "$2a$08$MbCSKfkg1C9A6mx82wwVneBpUkyW1ZwhsEjorhqkMYrhRxLJDZ9yO", "ROLE_USER");
+		User testUser4 = new User("Stein", "Maria", testAddress1, "moosStein", "mariastein@rhinoshare.com", "$2a$08$MbCSKfkg1C9A6mx82wwVneBpUkyW1ZwhsEjorhqkMYrhRxLJDZ9yO", "ROLE_USER");
 
+		users.saveAll(Arrays.asList(testRoot1, testRoot2, testUser1, testUser2, testUser3, testUser4));
 
-		users.save(user);
-		users.save(user);
-		users.save(otherUser);
-		articles.save(testArticle1);
-		articles.save(testArticle2);
-		articles.save(testArticle3);
+		//Generate test articles
+		Article testArticle1 = Article.builder().name("Rasenmäher").comment("funktioniert, kein Benzin, Schnitthöhe 3cm - 10cm").deposit(200).rent(25).available(true).owner(testUser1).build();
+		Article testArticle2 = Article.builder().name("Heckenschere").comment("Gute Heckenschere, vorsicht mit den Fingern!").deposit(50).rent(10).sellingPrice(75).available(true).forSale(true).owner(testUser1).build();
+		Article testArticle3 = Article.builder().name("Grill").comment("gut für den Sommer! Ohne Kohle.").deposit(50).rent(30).available(true).owner(testUser2).build();
+		Article testArticle4 = Article.builder().name("Käsemesser").comment("Schneidet Käse super gut. Riecht auch nach Käse.").deposit(25).rent(5).sellingPrice(15).available(false).forSale(true).owner(testUser3).build();
+		Article testArticle5 = Article.builder().name("Trampolin").comment("Toll für Kinder!").deposit(100).rent(25).available(true).owner(testUser4).build();
+		Article testArticle6 = Article.builder().name("Aktenvernichter").comment("Wenn mal was verschwinden muss...").deposit(30).rent(10).sellingPrice(50).available(true).forSale(true).owner(testUser4).build();
+		Article testArticle7 = Article.builder().name("Leiter").comment("Für die kleineren Leute").deposit(50).rent(10).available(false).owner(testUser2).build();
+		Article testArticle8 = Article.builder().name("Drucker").comment("Wenn mal schnell was gedruckt werden muss, Tinte zahlen Sie!").deposit(80).rent(10).available(true).owner(testUser3).build();
+		Article testArticle9 = Article.builder().name("Beamer").comment("Kinofeeling für Zuhause!").deposit(500).rent(30).available(true).owner(testUser4).build();
+		Article testArticle10 = Article.builder().name("Raclettegrill").comment("Gut für Familienfeiern").deposit(50).rent(15).sellingPrice(50).available(false).forSale(true).owner(testUser2).build();
+		Article testArticle11 = Article.builder().name("Presslufthammer").comment("Wenn man mal für seinen großen Mitbewohner einen Eingang vergrößern muss ;)").deposit(200).rent(30).available(false).owner(testUser2).build();
 
-		List<Article> all = articles.findAll();
-		for (Article article : all) {
-			System.out.println(article);
-		}
-    
-     ChatMessage nachricht = ChatMessage.builder().fromName("root").toName("user").context("hi User, ich bin Root!").toName("user").fromName("root").build();
-        ChatMessage nachricht2 = ChatMessage.builder().fromName("user").toName("root").context("hi Root, ich bin User!").toName("root").fromName("user").build();
-
-        chatMessageRepository.save(nachricht);
-        chatMessageRepository.save(nachricht2);
-
-        for (ChatMessage chatmessage:chatMessageRepository.findAll()) {
-            System.out.println(chatmessage.getFromName() + " from");
-            System.out.println(chatmessage.getToName() + " to");
-            System.out.println(chatmessage.getContext());
-        }
-
+		articles.saveAll(Arrays.asList(testArticle1, testArticle2, testArticle3, testArticle4, testArticle5, testArticle6, testArticle7, testArticle8, testArticle9, testArticle10, testArticle11));
 	}
 }

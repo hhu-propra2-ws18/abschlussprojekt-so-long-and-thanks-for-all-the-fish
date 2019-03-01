@@ -10,19 +10,7 @@
         <div class="container" layout:fragment="content" style="margin-top: 20px">
             <div class="grid-container">
                 <a th:href="|/article/${article.articleID}|" th:each="article:${articles}">
-                    <!--
-                    <div class="item-grid-article">
-                        <div class="article-picture" th:if="!${article.imageIsEmpty()}">
-                            <img th:src="@{/image/{id} (id = ${article.getImageID()})}">
-                        </div>
-                        <div class="article-picture" th:if="${article.imageIsEmpty()}">
-                            <img src="/img/placeholder_picture.png">
-                        </div>
-                        <div class="article-name" th:text="${article.getName()}" >...</div>
-                        <div class="article-location" th:text="${article.getCity()}" >...</div>
-                        <div class="article-lending-price" th:text="${article.getRent()} + '€'">...</div>
-                        -->
-                        <div class="card">
+                        <div class="card" th:if="${article.isActive()}">
                             <div class="article-picture" th:if="!${article.imageIsEmpty()}">
                                 <img th:src="@{/image/{id} (id = ${article.getImageID()})}" alt="Avatar" style="height: 180px">
                             </div>
