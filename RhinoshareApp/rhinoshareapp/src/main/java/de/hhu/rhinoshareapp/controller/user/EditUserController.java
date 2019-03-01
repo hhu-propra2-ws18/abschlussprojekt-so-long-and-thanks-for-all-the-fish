@@ -25,7 +25,7 @@ public class EditUserController {
         model.addAttribute("user", person);
         model.addAttribute("userActive","active");
         ActualUserChecker.checkActualUser(model, p, userRepository);
-        return "/EditUser/profileOverview";
+        return "EditUser/profileOverview";
     }
 
     @PostMapping("/edit")
@@ -40,7 +40,7 @@ public class EditUserController {
         model.addAttribute(oldPerson);
         model.addAttribute("userActive","active");
         ActualUserChecker.checkActualUser(model, p, userRepository);
-        return "/EditUser/profileOverview";
+        return "EditUser/profileOverview";
     }
 
     static Person setEditedAttributesInUser(Person person, Person oldPerson, Address oldUserAddress, Address userAddress) {

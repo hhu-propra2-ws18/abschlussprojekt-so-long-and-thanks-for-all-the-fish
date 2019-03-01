@@ -79,7 +79,7 @@ public class ChatController {
         ActualUserChecker.checkActualUser(model, p, userRepository);
         model.addAttribute("chatActive","active");
         model.addAttribute("chatMessage", chatMessage);
-        return "/Chat/chat_answer";
+        return "Chat/chat_answer";
     }
 
     @PostMapping("/answer/{ID}")
