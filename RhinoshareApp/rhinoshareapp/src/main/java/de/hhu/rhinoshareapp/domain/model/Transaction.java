@@ -23,10 +23,10 @@ public class Transaction {
     long transactionID;
 
     @OneToOne
-    User reciever;
+    Person reciever;
 
     @OneToOne
-    User giver;
+    Person giver;
 
     @OneToOne
     Article article;
@@ -37,7 +37,7 @@ public class Transaction {
 
     String formattedTransactionDate;
 
-    public Transaction(User reciever, User giver, Article article, double amount, Calendar transactionDate) {
+    public Transaction(Person reciever, Person giver, Article article, double amount, Calendar transactionDate) {
         this.reciever = reciever;
         this.giver = giver;
         this.article = article;

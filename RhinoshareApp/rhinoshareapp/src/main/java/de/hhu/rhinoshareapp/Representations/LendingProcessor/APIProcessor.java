@@ -3,7 +3,7 @@ package de.hhu.rhinoshareapp.Representations.LendingProcessor;
 import de.hhu.rhinoshareapp.domain.model.Account;
 import de.hhu.rhinoshareapp.domain.model.Article;
 import de.hhu.rhinoshareapp.domain.model.Lending;
-import de.hhu.rhinoshareapp.domain.model.User;
+import de.hhu.rhinoshareapp.domain.model.Person;
 import de.hhu.rhinoshareapp.domain.service.ArticleRepository;
 import de.hhu.rhinoshareapp.domain.service.LendingRepository;
 import de.hhu.rhinoshareapp.domain.service.ReservationRepository;
@@ -27,10 +27,10 @@ public class APIProcessor {
 
 	public Account getAccountInformationWithId(long userID, UserRepository users) {
 		errorOccurred = false;
-		Optional<User> user = users.findUserByuserID(userID);
+		Optional<Person> user = users.findUserByuserID(userID);
 		if (!user.isPresent()) {
 			errorOccurred = true;
-			errorMessage.put("reason", "User nicht gefunden");
+			errorMessage.put("reason", "Person nicht gefunden");
 			return null;
 		}
 		try {
@@ -172,7 +172,7 @@ public class APIProcessor {
 			}
 		} catch (Exception e) {
 			errorOccurred = true;
-			errorMessage.put("reason", "Propay is not reachable, try it again later");
+			errorMessage.put("reason", "Propay ist momentan nicht erreichbar. Bitte versuchen Sie es später erneut.");
 			e.printStackTrace();
 			return;
 		}

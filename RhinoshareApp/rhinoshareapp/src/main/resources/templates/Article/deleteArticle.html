@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{/mainpage}"
+<html lang="en" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{mainpage}"
       xmlns:layout="http://www.w3.org/1999/xhtml" >
 
     <head>
@@ -7,11 +7,10 @@
     </head>
 
     <body>
-    <div class="container" layout:fragment="content" style="margin-top: 50px">
+    <div class="detail-container" layout:fragment="content" style="margin-top: 50px">
             <form method="post" th:object="${article}">
                 <h1 th:text="${article.getName()}">SampleName</h1>
                 <table>
-                    <!-- Hier if einfügen für default Bild-->
                     <tr th:if="!${article.imageIsEmpty()}">
                         <td>Artikelbild</td>
                         <td> <img th:src="@{/image/{id} (id = ${article.getImageID()})}" width=auto height="300"/></td>
@@ -47,13 +46,11 @@
                         </td>
                     </tr>
                 </table>
-
                 <p>Wollen sie diesen Artikel wirklich löschen?</p>
-
                 <br>
                 <td>
                     <button type="submit"  class="button_std">Löschen</button>
-                    <a th:href="|/article/admin/${article.getArticleID()}|"> <button class="button_std_white" type="button">Abbrechen</button></a>
+                    <a th:href="|/article/${article.getArticleID()}|"> <button class="button_std_white" type="button">Abbrechen</button></a>
                 </td>
             </form>
         </div>

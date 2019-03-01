@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{/mainpage}"
+<html lang="en" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{mainpage}"
       xmlns:layout="http://www.w3.org/1999/xhtml" >
 
     <head>
@@ -19,11 +19,11 @@
                         <td th:text="${chatMessage.context}">...</td>
                     </tr>
                 </table>
-                 <p>Möchten Sie die Nachricht wirklich löschen? Die Nachricht wird für alle Benutzer gelöscht!</p>
+                 <p>Möchten Sie diese Nachricht wirklich löschen?</p>
                 <br>
                 <td>
                     <button type="submit"  class="btn btn-danger">Löschen</button>
-                    <a th:href="|/chat/|"> <button class="btn btn-warning" type="button">Abbrechen</button></a>
+                    <a th:href="|/messages/|"> <button class="btn btn-warning" type="button">Abbrechen</button></a>
                 </td>
             </form>
         </div>

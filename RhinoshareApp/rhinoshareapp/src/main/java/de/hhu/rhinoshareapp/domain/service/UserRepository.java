@@ -1,16 +1,16 @@
 package de.hhu.rhinoshareapp.domain.service;
 
-import de.hhu.rhinoshareapp.domain.model.User;
+import de.hhu.rhinoshareapp.domain.model.Person;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<Person, Long> {
 
-    Optional<User> findByUsername(String username);
-    Optional<User> findUserByuserID(long id);
+    Optional<Person> findByUsername(String username);
+    Optional<Person> findUserByuserID(long id);
     long findUserIDByUsername(String username); //TODO: kann ein long nicht zurückgegeben werden ?
-    Optional<User> findUserByUsername(String username);
-    List<User> findByRole(String role);
+    Optional<Person> findUserByUsername(String username);
+    List<Person> findByRole(String role);
 }

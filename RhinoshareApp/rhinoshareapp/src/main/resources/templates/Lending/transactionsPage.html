@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{/mainpage}"
+<html lang="en" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{mainpage}"
       xmlns:layout="http://www.w3.org/1999/xhtml">
 
     <head>
@@ -14,11 +14,11 @@
                 <table class="request_overview">
                     <tr>
                         <th>Empfänger</th>
-                        <td th:text="${giving.reciever.name}">...</td>
+                        <td th:text="${giving.reciever.name} + ', ' + ${giving.reciever.surname}">...</td>
                     </tr>
                     <tr>
                         <th>Betrag</th>
-                        <td th:text="${giving.amount}">...</td>
+                        <td th:text="${giving.amount} + '€'">...</td>
                     </tr>
                     <tr>
                         <th>Artikel</th>
@@ -36,11 +36,11 @@
                 <table class="request_overview">
                     <tr>
                         <th>Sender</th>
-                        <td th:text="${recieve.giver.name}">...</td>
+                        <td th:text="${recieve.giver.name} + ', ' + ${recieve.giver.surname}">...</td>
                     </tr>
                     <tr>
                         <th>Betrag</th>
-                        <td th:text="${recieve.amount}">...</td>
+                        <td th:text="${recieve.amount} + '€'">...</td>
                     </tr>
                     <tr>
                         <th>Artikel</th>

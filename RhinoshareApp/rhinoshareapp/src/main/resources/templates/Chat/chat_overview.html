@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{/mainpage}"
+<html lang="en" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{mainpage}"
       xmlns:layout="http://www.w3.org/1999/xhtml" >
 
     <head>
@@ -18,7 +18,7 @@
                         <td th:text="${message.toName}">...</td>
                         <td th:text="${message.context}">...</td>
                         <td>
-                            <a th:href="|/deletechat/${message.getMessageID()}|"> <button class="btn btn-danger" type="button">Nachricht löschen</button></a>
+                            <a th:href="|/messages/delete/${message.getMessageID()}|"> <button class="btn btn-danger" type="button">Nachricht löschen</button></a>
                         </td>
                     </tr>
 
@@ -35,10 +35,10 @@
                         <td th:text="${message.toName}">...</td>
                         <td th:text="${message.context}">...</td>
                         <td>
-                            <a th:href="|/answerchat/${message.getMessageID()}|"> <button class="btn btn-danger" type="button">Nachricht antworten</button></a>
+                            <a th:href="|/messages/answer/${message.getMessageID()}|"> <button class="btn btn-danger" type="button">Nachricht antworten</button></a>
                         </td>
                         <td>
-                            <a th:href="|/deletechat/${message.getMessageID()}|"> <button class="btn btn-danger" type="button">Nachricht löschen</button></a>
+                            <a th:href="|/messages/delete/${message.getMessageID()}|"> <button class="btn btn-danger" type="button">Nachricht löschen</button></a>
                         </td>
                     </tr>
 

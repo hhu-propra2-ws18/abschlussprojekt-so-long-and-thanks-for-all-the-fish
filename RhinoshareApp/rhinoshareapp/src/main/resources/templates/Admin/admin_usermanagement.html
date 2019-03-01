@@ -20,29 +20,29 @@
                 <th>Score</th>
                 <th>Berechtigungen</th>
                 <th>Aktion</th>
-                <th:block th:each="user : ${userlist}">
+                <th:block th:each="person : ${userlist}">
                     <tr>
-                        <td th:text="${user.userID}">...</td>
-                        <td th:text="${user.name}">...</td>
-                        <td th:text="${user.surname}">...</td>
-                        <td th:text="${user.username}">...</td>
-                        <td th:text="${user.email}">...</td>
-                        <td th:text="${user.score}">...</td>
-                        <td th:if="${user.role == 'ROLE_ADMIN'}">
+                        <td th:text="${person.userID}">...</td>
+                        <td th:text="${person.name}">...</td>
+                        <td th:text="${person.surname}">...</td>
+                        <td th:text="${person.username}">...</td>
+                        <td th:text="${person.email}">...</td>
+                        <td th:text="${person.score}">...</td>
+                        <td th:if="${person.role == 'ROLE_ADMIN'}">
                             <label class="red_marked">Admin</label>
                             <label class="green_marked">User</label>
                         </td>
-                        <td th:if="${user.role == 'ROLE_USER'}">
+                        <td th:if="${person.role == 'ROLE_USER'}">
                             <label class="green_marked">User</label>
                         </td>
-                        <td th:if="${user.role == ''}">
+                        <td th:if="${person.role == ''}">
                             <label class="yellow_marked">None</label>
                         </td>
                         <td>
-                            <a th:href="|/admin/usermanagement/edit/${user.getUserID()}|">
+                            <a th:href="|/admin/usermanagement/edit/${person.getUserID()}|">
                                 <button class="button_std_white">Bearbeiten</button>
                             </a>
-                            <a th:href="|/admin/usermanagement/delete/${user.getUserID()}|">
+                            <a th:href="|/admin/usermanagement/delete/${person.getUserID()}|">
                                 <button class="button_std">Löschen</button>
                             </a>
                         </td>

@@ -10,8 +10,7 @@ import java.util.HashMap;
 import java.util.Optional;
 
 public class PostProccessor {
-    @Autowired
-    private MailService mailservice;
+    
 
     public HashMap<String, String> splitString(String postBody) {
         HashMap<String, String> postBodyParas = new HashMap<>();
@@ -33,9 +32,8 @@ public class PostProccessor {
         endDate.set(Integer.parseInt(datePieces[0]), Integer.parseInt(datePieces[1]) - 1, Integer.parseInt(datePieces[2]));
 
         //collect necessary information
-        User lendingPerson = users.findUserByuserID(Long.parseLong(postBodyParas.get("requesterID"))).get();
+        Person lendingPerson = users.findUserByuserID(Long.parseLong(postBodyParas.get("requesterID"))).get();
         Article lendedArticle = articles.findArticleByarticleID(Long.parseLong(postBodyParas.get("articleID"))).get();
-        //lendedArticle.setLendingUser(lendingPerson);
         lendedArticle.setRequestComment(postBodyParas.get("requestComment"));
         lendedArticle.setRequested(true);
         lendedArticle.setAvailable(false);
@@ -51,11 +49,11 @@ public class PostProccessor {
         lendings.save(newLending);
     }
 
-    public void proccessPostRequest(APIProcessor apiProcessor, HashMap<String, String> postBodyParas, LendingRepository lendings, ArticleRepository articles, UserRepository users, ReservationRepository reservations, TransactionRepository transactions){
+    public void proccessPostRequest(APIProcessor apiProcessor, HashMap<String, String> postBodyParas, LendingRepository lendings, ArticleRepository articles, UserRepository users, ReservationRepository reservations, TransactionRepository transactions, MailService mailService){
         if(postBodyParas.containsKey("choice")) {
             proccessRequest(apiProcessor, postBodyParas, lendings, articles, users, reservations);
         }else if(postBodyParas.containsKey("choicereturn")) {
-            proccessReturn(apiProcessor, postBodyParas, lendings, articles, users, reservations, transactions);
+            proccessReturn(apiProcessor, postBodyParas, lendings, articles, users, reservations, transactions, mailService);
         }else if(postBodyParas.containsKey("recognized")){
             proccessRecognized(lendings, postBodyParas);
         }else if(postBodyParas.containsKey("sold")){
@@ -67,7 +65,7 @@ public class PostProccessor {
         lendings.delete(lendings.findLendingBylendingID(Long.parseLong(postBodyParas.get("lendingID"))).get());
     }
 
-    private void proccessReturn(APIProcessor apiProcessor, HashMap<String, String> postBodyParas, LendingRepository lendings, ArticleRepository articles, UserRepository users, ReservationRepository reservations, TransactionRepository transactions) {
+    private void proccessReturn(APIProcessor apiProcessor, HashMap<String, String> postBodyParas, LendingRepository lendings, ArticleRepository articles, UserRepository users, ReservationRepository reservations, TransactionRepository transactions, MailService mailService) {
         Lending lending = lendings.findLendingBylendingID(Long.parseLong(postBodyParas.get("lendingID"))).get();
         Article article = lending.getLendedArticle();
         Account lendingAccount = apiProcessor.getAccountInformationWithId(lending.getLendingPerson().getUserID(), users);
@@ -84,7 +82,7 @@ public class PostProccessor {
 
             } catch (Exception e) {
                 apiProcessor.setErrorOccurred(true);
-                apiProcessor.addErrorMessage("Propay is not reachable, try it again later");
+                apiProcessor.addErrorMessage("Propay ist momentan nicht erreichbar. Bitte versuchen Sie es später erneut.");
                 e.printStackTrace();
                 return;
             }
@@ -94,7 +92,7 @@ public class PostProccessor {
             tmpLending.setConflict(true);
             tmpLending.setConflictmessage(postBodyParas.get("conflictmessage"));
             lendings.save(tmpLending);
-            //TODO: Admin muss richtig gefunden werden.
+            mailService.sendConflict(tmpLending.getLendingID(),tmpLending.getConflictmessage(),tmpLending.getLendedArticle().getOwner().getUserID(),tmpLending.getLendingPerson().getUserID());
         }
     }
 
@@ -115,7 +113,7 @@ public class PostProccessor {
                 }
             } catch (Exception e) {
                 apiProcessor.setErrorOccurred(true);
-                apiProcessor.addErrorMessage("Propay is not reachable, try it again later");
+                apiProcessor.addErrorMessage("Propay ist momentan nicht erreichbar. Bitte versuchen Sie es später erneut.");
                 e.printStackTrace();
                 return;
             }
@@ -150,7 +148,6 @@ public class PostProccessor {
         //remove request out off article
         article.setRequestComment("");
         article.setRequested(false);
-        //article.setLendingUser(null);
         article.setAvailable(true);
         articles.save(article);
         //remove lending
@@ -172,14 +169,14 @@ public class PostProccessor {
     }
 
     public long findUserIDByUser(UserRepository users, String username) {
-        Optional<User> byUsername = users.findByUsername(username);
+        Optional<Person> byUsername = users.findByUsername(username);
         return byUsername.get().getUserID();
     }
 
     public void sellArticle(HashMap<String, String> postBodyParas, ArticleRepository articles, UserRepository users, APIProcessor apiProcessor, TransactionRepository transactions, LendingRepository lendings) {
         if(postBodyParas.get("sold").equals("accept")) {
             try {
-                Optional<User> requester = users.findUserByuserID(Long.parseLong(postBodyParas.get("requesterID")));
+                Optional<Person> requester = users.findUserByuserID(Long.parseLong(postBodyParas.get("requesterID")));
                 Account buyingAccount = apiProcessor.getAccountInformationWithId(requester.get().getUserID(), users);
                 Optional<Article> article = articles.findArticleByarticleID(Long.parseLong(postBodyParas.get("articleID")));
                 Optional<Lending> lending = lendings.findLendingBylendedArticle(article.get());
@@ -194,7 +191,7 @@ public class PostProccessor {
                 articles.delete(article.get());
             } catch (Exception e) {
                 apiProcessor.setErrorOccurred(true);
-                apiProcessor.addErrorMessage("Propay is not reachable, try it again later");
+                apiProcessor.addErrorMessage("Propay ist momentan nicht erreichbar. Bitte versuchen Sie es später erneut.");
                 e.printStackTrace();
                 return;
             }
@@ -214,7 +211,7 @@ public class PostProccessor {
     public void createNewDummyLending(HashMap<String, String> postBodyParas, LendingRepository lendingRepository, UserRepository userRepository, ArticleRepository articleRepository) {
         String articleID = postBodyParas.get("articleID");
         Optional<Article> article = articleRepository.findArticleByarticleID(Long.parseLong(articleID));
-        Optional<User> optionalUser = userRepository.findUserByuserID(Long.parseLong(postBodyParas.get("requesterID")));
+        Optional<Person> optionalUser = userRepository.findUserByuserID(Long.parseLong(postBodyParas.get("requesterID")));
         //Lending lending = Lending.builder().lendingPerson(optionalUser.get()).lendedArticle(article.get()).isRequestedForSale(true).warning(postBodyParas.get("requestComment")).build();
         Lending lending = new Lending();
         lending.setWarning(postBodyParas.get("requestComment"));

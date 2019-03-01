@@ -2,22 +2,20 @@ package de.hhu.rhinoshareapp.controller.chat;
 
 import de.hhu.rhinoshareapp.domain.filter.FilterMessages;
 import de.hhu.rhinoshareapp.domain.model.ChatMessage;
-import de.hhu.rhinoshareapp.domain.model.User;
+import de.hhu.rhinoshareapp.domain.model.Person;
 import de.hhu.rhinoshareapp.domain.service.ChatMessageRepository;
 import de.hhu.rhinoshareapp.domain.security.ActualUserChecker;
 import de.hhu.rhinoshareapp.domain.service.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
 
 @Controller
+@RequestMapping("/messages")
 public class ChatController {
 
     @Autowired
@@ -29,70 +27,68 @@ public class ChatController {
 
     public FilterMessages filter = new FilterMessages();
 
-    @GetMapping("/chat")
+    @GetMapping("/")
     public String chatOverview(Model model, Principal p) {
-        List<ChatMessage> listFrom = filter.filterFrom(p.getName(), chatMessageRepository); //liste für gesendende Nachrichen
-        List<ChatMessage> listTo = filter.filterTo(p.getName(), chatMessageRepository); //liste für empfangene Nachrichten
+        List<ChatMessage> listFrom = filter.filterFrom(p.getName(), chatMessageRepository);
+        List<ChatMessage> listTo = filter.filterTo(p.getName(), chatMessageRepository);
         model.addAttribute("chatActive","active");
         model.addAttribute("listFrom", listFrom);
         model.addAttribute("listTo", listTo );
         ActualUserChecker.checkActualUser(model, p, userRepository);
-        return "/Chat/chat_overview";
+        return "Chat/chat_overview";
     }
 
-    @GetMapping("/newchat/{ID}")
+    @GetMapping("/new/{ID}")
     public String newChat(@PathVariable long ID, Model model, Principal p) {
         ChatMessage chatMessage = new ChatMessage();
-        User recipient = userRepository.findUserByuserID(ID).get();
+        Person recipient = userRepository.findUserByuserID(ID).get();
         ActualUserChecker.checkActualUser(model, p, userRepository);
         model.addAttribute("chatActive","active");
         model.addAttribute("recipient", recipient);
         model.addAttribute("chatMessage", chatMessage);
-        return "/Chat/chat_newChat";
+        return "Chat/chat_newChat";
     }
 
-    @PostMapping("/newchat/{ID}")
+    @PostMapping("/new/{ID}")
     public String sendChat(@ModelAttribute ChatMessage chatMessage, Principal p, @PathVariable long ID) {
         chatMessage.setFromName(p.getName());
         chatMessage.setToName(userRepository.findUserByuserID(ID).get().getUsername());
         chatMessageRepository.save(chatMessage);
-        return "redirect:/chat";
+        return "redirect:/messages";
     }
 
-    @GetMapping("/deletechat/{ID}")
+    @GetMapping("/delete/{ID}")
     public String deleteChat(@PathVariable long ID, Model model, Principal p) {
         ChatMessage chatMessage = chatMessageRepository.findById(ID);
         ActualUserChecker.checkActualUser(model, p, userRepository);
         model.addAttribute("chatActive","active");
         model.addAttribute("chatMessage", chatMessage);
-        return "/Chat/chat_deleteChat";
+        return "Chat/chat_deleteChat";
     }
 
-    @PostMapping("/deletechat/{ID}")
+    @PostMapping("/delete/{ID}")
     public String deleteChatFromDb(@PathVariable long ID) {
         ChatMessage chatMessage = chatMessageRepository.findById(ID);
         chatMessageRepository.delete(chatMessage);
-
-        return "redirect:/chat";
+        return "redirect:/messages";
     }
 
-    @GetMapping("/answerchat/{ID}")
+    @GetMapping("/answer/{ID}")
     public String answerChat(@PathVariable long ID, Model model, Principal p) {
         ChatMessage chatMessage = chatMessageRepository.findById(ID);
         ActualUserChecker.checkActualUser(model, p, userRepository);
         model.addAttribute("chatActive","active");
         model.addAttribute("chatMessage", chatMessage);
-        return "/Chat/chat_answer";
+        return "Chat/chat_answer";
     }
 
-    @PostMapping("/answerchat/{ID}")
+    @PostMapping("/answer/{ID}")
     public String answerChatAndSend(@PathVariable long ID, @ModelAttribute ChatMessage answer, Principal p) {
         ChatMessage chatMessage = chatMessageRepository.findById(ID);
         answer.setFromName(p.getName());
         answer.setToName(chatMessage.getFromName());
         chatMessageRepository.save(answer);
-
-        return "redirect:/chat";
+        return "redirect:/messages";
     }
 
 }
