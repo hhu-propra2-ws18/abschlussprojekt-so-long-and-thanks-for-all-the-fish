@@ -27,6 +27,7 @@ repositories {
 }
 
 dependencies {
+
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -43,6 +44,7 @@ dependencies {
 	runtimeOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'com.h2database:h2'
 	compile group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '2.4.0'
+	testImplementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	testImplementation 'com.github.spotbugs:spotbugs-annotations:3.1.11'
 	testImplementation 'io.projectreactor:reactor-test'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'

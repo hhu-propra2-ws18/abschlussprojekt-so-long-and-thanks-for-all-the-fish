@@ -14,7 +14,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.ui.Model;
@@ -23,8 +22,8 @@ import java.util.*;
 
 import static org.mockito.Mockito.when;
 
+
 @RunWith(SpringRunner.class)
-@SpringBootTest
 public class LendingTests {
 
 
@@ -58,38 +57,31 @@ public class LendingTests {
     @Test
     public void UserHasOneLendingWithWarning() {
         //Arrange
-        UserRepository serviceUserProvider = Mockito.mock(UserRepository.class);
-        LendingRepository lendingRepository = Mockito.mock(LendingRepository.class);
-        ArticleRepository articleRepository = Mockito.mock(ArticleRepository.class);
 
         Optional<Person> testUser = Optional.ofNullable(Person.builder().userID(1).name("testUser").build());
-        when(serviceUserProvider.findUserByuserID(1)).thenReturn(testUser);
+        when(userRepo.findUserByuserID(1)).thenReturn(testUser);
 
         Calendar endDate = Calendar.getInstance();
         endDate.set(2019, 1, 14);
         Lending testLending = Lending.builder().lendingPerson(testUser.get()).endDate(endDate).build();
         List<Lending> testLendingList = new ArrayList<>();
         testLendingList.add(testLending);
-        when(lendingRepository.findAllBylendingPersonAndIsAcceptedAndIsReturnAndIsConflictAndIsRequestedForSale(testUser.get(), true, false, false, false)).thenReturn(testLendingList);
+        when(lendingRepo.findAllBylendingPersonAndIsAcceptedAndIsReturnAndIsConflictAndIsRequestedForSale(testUser.get(), true, false, false, false)).thenReturn(testLendingList);
 
         //Act
-        LendingRepresentation lendingRepresentation = new LendingRepresentation(lendingRepository, serviceUserProvider, articleRepository);
+        LendingRepresentation lendingRepresentation = new LendingRepresentation(lendingRepo, userRepo, articleRepo);
         List<Lending> resultLendings = lendingRepresentation.fillLendings(1);
         Lending resultLending = resultLendings.get(0);
 
         //Assert
-        Assert.assertEquals("ATTENTION: YOU HAVE RETURN THIS ARTICLE", resultLending.getWarning());
+        Assert.assertEquals("ACHTUNG: Du musst diesen Artikel heute zurückgeben!", resultLending.getWarning());
     }
 
     @Test
     public void UserHasOneLendingWithoutWarning() {
         //Arrange
-        UserRepository serviceUserProvider = Mockito.mock(UserRepository.class);
-        LendingRepository lendingRepository = Mockito.mock(LendingRepository.class);
-        ArticleRepository articleRepository = Mockito.mock(ArticleRepository.class);
-
         Optional<Person> testUser = Optional.ofNullable(Person.builder().userID(1).name("testUser").build());
-        when(serviceUserProvider.findUserByuserID(1)).thenReturn(testUser);
+        when(userRepo.findUserByuserID(1)).thenReturn(testUser);
 
         // Set EndDate one year after current Date
         Calendar endDate = Calendar.getInstance();
@@ -98,19 +90,19 @@ public class LendingTests {
         Lending testLending = Lending.builder().lendingPerson(testUser.get()).endDate(endDate).build();
         List<Lending> testLendingList = new ArrayList<>();
         testLendingList.add(testLending);
-        when(lendingRepository.findAllBylendingPersonAndIsAcceptedAndIsReturnAndIsConflictAndIsRequestedForSale(testUser.get(), true, false, false,false)).thenReturn(testLendingList);
+        when(lendingRepo.findAllBylendingPersonAndIsAcceptedAndIsReturnAndIsConflictAndIsRequestedForSale(testUser.get(), true, false, false,false)).thenReturn(testLendingList);
 
         Calendar currentDate = Calendar.getInstance();
         long time = endDate.getTime().getTime() - currentDate.getTime().getTime();
         long expectedDays = Math.round((double) time / (24. * 60. * 60. * 1000.));
 
         //Act
-        LendingRepresentation lendingRepresentation = new LendingRepresentation(lendingRepository, serviceUserProvider, articleRepository);
+        LendingRepresentation lendingRepresentation = new LendingRepresentation(lendingRepo, userRepo, articleRepo);
         List<Lending> resultLendings = lendingRepresentation.fillLendings(1);
         Lending resultLending = resultLendings.get(0);
 
         //Assert
-        Assert.assertEquals("You can use this article without worries for the next " + expectedDays + " days", resultLending.getWarning());
+        Assert.assertEquals("Du hast diesen Artikel für die nächsten " + expectedDays + " Tage gemietet.", resultLending.getWarning());
     }
 
     @Test
@@ -141,26 +133,20 @@ public class LendingTests {
     @Test
     public void UserAcceptLending() {
         //Arrange
-        UserRepository serviceUserProvider = Mockito.mock(UserRepository.class);
-        LendingRepository lendingRepository = Mockito.mock(LendingRepository.class);
-        ArticleRepository articleRepository = Mockito.mock(ArticleRepository.class);
-        ReservationRepository reservations = Mockito.mock(ReservationRepository.class);
-        TransactionRepository transactions = Mockito.mock(TransactionRepository.class);
-
         Account account = Account.builder().build();
         Person person = Person.builder().userID(1).name("peter").build();
         Article testArticle = Article.builder().owner(person).build();
         Optional<Lending> testLending = Optional.ofNullable(Lending.builder().lendingID(1).lendedArticle(testArticle).build());
-        when(lendingRepository.findLendingBylendingID(1)).thenReturn(testLending);
+        when(lendingRepo.findLendingBylendingID(1)).thenReturn(testLending);
         APIProcessor apiProcessor2 = Mockito.mock(APIProcessor.class);
 
-        Mockito.when(apiProcessor2.getAccountInformationWithId(person.getUserID(), serviceUserProvider)).thenReturn(account);
+        Mockito.when(apiProcessor2.getAccountInformationWithId(person.getUserID(), userRepo)).thenReturn(account);
 
         HashMap<String, String> testMap = new HashMap<>();
         testMap.put("choice", "accept");
         testMap.put("lendingID", "1");
         //Act
-        postProccessor.proccessPostRequest(apiProcessor, testMap, lendingRepository, articleRepository, serviceUserProvider, reservations, transactions, mailService);
+        postProccessor.proccessPostRequest(apiProcessor, testMap, lendingRepo, articleRepo, userRepo, reserveRepo, transRepo, mailService);
         //Assert
         Assert.assertEquals(false, testLending.get().isAccepted());
         Assert.assertEquals(false, testLending.get().getLendedArticle().isRequested());
@@ -169,13 +155,12 @@ public class LendingTests {
     @Test
     public void hasEnoughMoneyForLendingTest() {
         //Arrange
-        ArticleRepository articleRepository = Mockito.mock(ArticleRepository.class);
         Account testAccount = Account.builder().amount(1000).build();
         Article testArticle = Article.builder().deposit(500).build();
         long testId = 1;
-        Mockito.when(articleRepository.findArticleByarticleID(1)).thenReturn(Optional.ofNullable(testArticle));
+        Mockito.when(articleRepo.findArticleByarticleID(1)).thenReturn(Optional.ofNullable(testArticle));
         //Act
-        boolean hasEnoughMoneyForDeposit = apiProcessor.hasEnoughMoneyForDeposit(testAccount, testId, articleRepository);
+        boolean hasEnoughMoneyForDeposit = apiProcessor.hasEnoughMoneyForDeposit(testAccount, testId, articleRepo);
         //Assert
         Assert.assertEquals(true, hasEnoughMoneyForDeposit);
     }
@@ -183,13 +168,12 @@ public class LendingTests {
     @Test
     public void hasntEnoughMoneyForLendingTest() {
         //Arrange
-        ArticleRepository articleRepository = Mockito.mock(ArticleRepository.class);
         Account testAccount = Account.builder().amount(500).build();
         Article testArticle = Article.builder().deposit(1000).build();
         long testId = 1;
-        Mockito.when(articleRepository.findArticleByarticleID(1)).thenReturn(Optional.ofNullable(testArticle));
+        Mockito.when(articleRepo.findArticleByarticleID(1)).thenReturn(Optional.ofNullable(testArticle));
         //Act
-        boolean hasEnoughMoneyForDeposit = apiProcessor.hasEnoughMoneyForDeposit(testAccount, testId, articleRepository);
+        boolean hasEnoughMoneyForDeposit = apiProcessor.hasEnoughMoneyForDeposit(testAccount, testId, articleRepo);
         //Assert
         Assert.assertEquals(false, hasEnoughMoneyForDeposit);
     }
@@ -234,11 +218,5 @@ public class LendingTests {
         double calculateLendingPrice = postProccessor.calculateLendingPrice(lending, article);
         //Assert
         Assert.assertEquals(120, calculateLendingPrice, 0.001);
-    }
-
-    @Test
-    public void overViewTest() {
-
-
     }
 }

@@ -1,4 +1,4 @@
-package de.hhu.rhinoshareapp.ErrorMappingTests;
+package de.hhu.rhinoshareapp.errorMappingTests;
 
 import de.hhu.rhinoshareapp.controller.ErrorMappingController;
 import de.hhu.rhinoshareapp.controller.LoginPageController;

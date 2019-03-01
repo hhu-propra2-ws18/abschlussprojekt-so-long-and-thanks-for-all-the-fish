@@ -173,21 +173,9 @@ public class PersonTests {
     }
 
     @Test
-    public void testUser() {
-
-        assertEquals("redirect:/login", cController.saveNewUser(m,p,"fritz", "Funkel", "fritzi",
-                "Strasse", "22", "40532", "Usebgeren", "DE",
-                "test@gmail.com", "123456"));
-        assertEquals("redirect:/admin/usermanagement", cController.saveNewUserAsAdmin("fritz", "Funkel", "fritzi2",
-                "Strasse", "22", "40532", "Usebgeren", "DE",
-                "test@gmail.com", "123456", "ROLE_ADMIN "));
-        assertEquals("error/usernameExists", cController.validateUsername("fritz"));
-    }
-
-    @Test
     public void testEditUser() {
-        assertEquals("/EditUser/profileOverview",editUsercontroller.loadEditPage(m,p));
-        assertEquals("/EditUser/profileOverview",editUsercontroller.profileOverview(userRepo.findUserByuserID(1).get(),m,p));
+        assertEquals("EditUser/profileOverview",editUsercontroller.loadEditPage(m,p));
+        assertEquals("EditUser/profileOverview",editUsercontroller.profileOverview(userRepo.findUserByuserID(1).get(),m,p));
     }
 
 

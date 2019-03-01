@@ -158,11 +158,6 @@ public class LendingControllerTests {
     }
 
     @Test
-    public void testPropay() {
-        assertEquals("Lending/proPayOverview", controller.getProPayOverview(m, p));
-    }
-
-    @Test
     public void testConflict() {
         assertEquals("Lending/conflictPage", controller.releaseConflictingLending(m, p));
     }
