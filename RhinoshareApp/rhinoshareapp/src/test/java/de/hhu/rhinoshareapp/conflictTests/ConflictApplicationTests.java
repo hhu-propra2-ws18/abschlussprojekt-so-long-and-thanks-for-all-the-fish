@@ -147,6 +147,7 @@ public class ConflictApplicationTests {
         Mockito.when(lendingRepo.findLendingBylendingID(7)).thenReturn(oLending1);
         Mockito.when(lendingRepo.save(testLending1)).thenReturn(testLending1);
         Mockito.when(lendingRepo.findLendingBylendingID(8)).thenReturn(oLending2);
+        Mockito.when(lendingRepo.findLendingBylendingID(0)).thenReturn(oLending2);
 
         p = Mockito.mock(Principal.class);
         Mockito.when(p.getName()).thenReturn("jeff");
@@ -166,6 +167,7 @@ public class ConflictApplicationTests {
         assertEquals("redirect:/", controller.openConflictpost(m, "notOpen", 7, ""));
         assertEquals("redirect:/", controller.openConflictpost(m, "open", 7, "testkgzgjkg"));
     }
+
 
     @Ignore
     @Test
