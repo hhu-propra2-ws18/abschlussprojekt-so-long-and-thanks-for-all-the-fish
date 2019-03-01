@@ -42,7 +42,7 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok:1.18.6'
 	runtimeOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'com.h2database:h2'
-	runtimeOnly 'org.postgresql:postgresql:42.2.5'
+	compile group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '2.4.0'
 	testImplementation 'com.github.spotbugs:spotbugs-annotations:3.1.11'
 	testImplementation 'io.projectreactor:reactor-test'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
