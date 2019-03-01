@@ -49,7 +49,7 @@ public class APIProcessor {
 				.get()
 				.uri(builder ->
 						builder.scheme("http")
-								.host("localhost")
+								.host("propay")
 								.port("8888")
 								.pathSegment("account", name)
 								// for trailing slash
@@ -87,7 +87,7 @@ public class APIProcessor {
 				.post()
 				.uri(builder ->
 						builder.scheme("http")
-								.host("localhost")
+								.host("propay")
 								.port("8888")
 								.pathSegment("reservation", "reserve", lendingAccount.getAccount(), article.getOwner().getUsername())
 								// for trailing slash
@@ -106,7 +106,7 @@ public class APIProcessor {
 				.post()
 				.uri(builder ->
 						builder.scheme("http")
-								.host("localhost")
+								.host("propay")
 								.port("8888")
 								.pathSegment("account", lendingAccount.getAccount(), "transfer", article.getOwner().getUsername())
 								// for trailing slash
@@ -125,7 +125,7 @@ public class APIProcessor {
 				.post()
 				.uri(builder ->
 						builder.scheme("http")
-								.host("localhost")
+								.host("propay")
 								.port("8888")
 								.pathSegment("account", lendingAccount.getAccount())
 								// for trailing slash
@@ -144,7 +144,7 @@ public class APIProcessor {
 				.post()
 				.uri(builder ->
 						builder.scheme("http")
-								.host("localhost")
+								.host("propay")
 								.port("8888")
 								.pathSegment("reservation", punishOrRelease, lendingAccount.getAccount())
 								// for trailing slash
