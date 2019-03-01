@@ -1,6 +1,6 @@
 package de.hhu.rhinoshareapp.domain.security;
 
-import de.hhu.rhinoshareapp.domain.model.User;
+import de.hhu.rhinoshareapp.domain.model.Person;
 import de.hhu.rhinoshareapp.domain.service.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -20,9 +20,9 @@ public class UserService implements UserDetailsService{
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> user = users.findByUsername(username);
+        Optional<Person> user = users.findByUsername(username);
         if (user.isPresent()) {
-            User u = user.get();
+            Person u = user.get();
             UserDetails userdetails = org.springframework.security.core.userdetails.User.builder()
                     .username(u.getUsername())
                     .password(u.getPassword())

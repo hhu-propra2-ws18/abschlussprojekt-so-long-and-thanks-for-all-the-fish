@@ -2,7 +2,7 @@ package de.hhu.rhinoshareapp.controller.article;
 
 import de.hhu.rhinoshareapp.domain.model.Article;
 import de.hhu.rhinoshareapp.domain.model.Lending;
-import de.hhu.rhinoshareapp.domain.model.User;
+import de.hhu.rhinoshareapp.domain.model.Person;
 import de.hhu.rhinoshareapp.domain.security.ActualUserChecker;
 import de.hhu.rhinoshareapp.domain.service.ArticleRepository;
 import de.hhu.rhinoshareapp.domain.service.ImageRepository;
@@ -43,8 +43,8 @@ public class ArticleController {
 
     @GetMapping("/view")
     public String viewMyArticles(Model model, Principal p){
-        User user = userRepository.findByUsername(p.getName()).get();
-        List<Article> articles = articleRepository.findAllByOwner(user);
+        Person person = userRepository.findByUsername(p.getName()).get();
+        List<Article> articles = articleRepository.findAllByOwner(person);
         model.addAttribute("articles", articles);
         model.addAttribute("userActive","active");
         ActualUserChecker.checkActualUser(model, p, userRepository);
@@ -54,13 +54,13 @@ public class ArticleController {
 
     @GetMapping("/{articleID}")
     public String privateArticleView(Model model, @PathVariable long articleID, Principal p){
-        User user = userRepository.findByUsername(p.getName()).get();
+        Person person = userRepository.findByUsername(p.getName()).get();
         Article article = articleRepository.findById(articleID).get();
         if(checkIfArticleIsBeingLended(article).isPresent()) {
             String endDate = checkIfArticleIsBeingLended(article).get().getFormattedEndDate();
             model.addAttribute("endDate", endDate);
         }
-        model.addAttribute("user" , user);
+        model.addAttribute("user" , person);
         model.addAttribute("article", article);
         model.addAttribute("articleActive","active");
         ActualUserChecker.checkActualUser(model, p, userRepository);
@@ -158,8 +158,8 @@ public class ArticleController {
 
 
     public boolean checkIfLoggedInIsOwner(Principal p, Article article) {
-        User user = userRepository.findByUsername(p.getName()).get();
-        return (article.getOwner() == user);
+        Person person = userRepository.findByUsername(p.getName()).get();
+        return (article.getOwner() == person);
     }
 
     public Optional<Lending> checkIfArticleIsBeingLended(Article article) {

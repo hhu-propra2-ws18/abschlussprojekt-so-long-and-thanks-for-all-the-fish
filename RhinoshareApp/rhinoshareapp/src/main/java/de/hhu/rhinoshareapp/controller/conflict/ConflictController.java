@@ -4,7 +4,7 @@ package de.hhu.rhinoshareapp.controller.conflict;
 import de.hhu.rhinoshareapp.Representations.LendingProcessor.APIProcessor;
 import de.hhu.rhinoshareapp.domain.mail.MailService;
 import de.hhu.rhinoshareapp.domain.model.Lending;
-import de.hhu.rhinoshareapp.domain.model.User;
+import de.hhu.rhinoshareapp.domain.model.Person;
 import de.hhu.rhinoshareapp.domain.security.ActualUserChecker;
 import de.hhu.rhinoshareapp.domain.service.ArticleRepository;
 import de.hhu.rhinoshareapp.domain.service.LendingRepository;
@@ -68,7 +68,7 @@ public class ConflictController {
                     l.setConflict(true);
                     l.setConflictmessage(description);
                     lendingRepository.save(l);
-                    User owner = l.getLendedArticle().getOwner();
+                    Person owner = l.getLendedArticle().getOwner();
                     send(lendingID, description, (owner.getUserID()), (l.getLendingPerson().getUserID()));
                 } else {
                     return "redirect:/openConflict";

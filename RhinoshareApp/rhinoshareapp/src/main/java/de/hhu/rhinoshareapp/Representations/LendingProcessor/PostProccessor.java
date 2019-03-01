@@ -33,7 +33,7 @@ public class PostProccessor {
         endDate.set(Integer.parseInt(datePieces[0]), Integer.parseInt(datePieces[1]) - 1, Integer.parseInt(datePieces[2]));
 
         //collect necessary information
-        User lendingPerson = users.findUserByuserID(Long.parseLong(postBodyParas.get("requesterID"))).get();
+        Person lendingPerson = users.findUserByuserID(Long.parseLong(postBodyParas.get("requesterID"))).get();
         Article lendedArticle = articles.findArticleByarticleID(Long.parseLong(postBodyParas.get("articleID"))).get();
         //lendedArticle.setLendingUser(lendingPerson);
         lendedArticle.setRequestComment(postBodyParas.get("requestComment"));
@@ -172,14 +172,14 @@ public class PostProccessor {
     }
 
     public long findUserIDByUser(UserRepository users, String username) {
-        Optional<User> byUsername = users.findByUsername(username);
+        Optional<Person> byUsername = users.findByUsername(username);
         return byUsername.get().getUserID();
     }
 
     public void sellArticle(HashMap<String, String> postBodyParas, ArticleRepository articles, UserRepository users, APIProcessor apiProcessor, TransactionRepository transactions, LendingRepository lendings) {
         if(postBodyParas.get("sold").equals("accept")) {
             try {
-                Optional<User> requester = users.findUserByuserID(Long.parseLong(postBodyParas.get("requesterID")));
+                Optional<Person> requester = users.findUserByuserID(Long.parseLong(postBodyParas.get("requesterID")));
                 Account buyingAccount = apiProcessor.getAccountInformationWithId(requester.get().getUserID(), users);
                 Optional<Article> article = articles.findArticleByarticleID(Long.parseLong(postBodyParas.get("articleID")));
                 Optional<Lending> lending = lendings.findLendingBylendedArticle(article.get());
@@ -214,7 +214,7 @@ public class PostProccessor {
     public void createNewDummyLending(HashMap<String, String> postBodyParas, LendingRepository lendingRepository, UserRepository userRepository, ArticleRepository articleRepository) {
         String articleID = postBodyParas.get("articleID");
         Optional<Article> article = articleRepository.findArticleByarticleID(Long.parseLong(articleID));
-        Optional<User> optionalUser = userRepository.findUserByuserID(Long.parseLong(postBodyParas.get("requesterID")));
+        Optional<Person> optionalUser = userRepository.findUserByuserID(Long.parseLong(postBodyParas.get("requesterID")));
         //Lending lending = Lending.builder().lendingPerson(optionalUser.get()).lendedArticle(article.get()).isRequestedForSale(true).warning(postBodyParas.get("requestComment")).build();
         Lending lending = new Lending();
         lending.setWarning(postBodyParas.get("requestComment"));

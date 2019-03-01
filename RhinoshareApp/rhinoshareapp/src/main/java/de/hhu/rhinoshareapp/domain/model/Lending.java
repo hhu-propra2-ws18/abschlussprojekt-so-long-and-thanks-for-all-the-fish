@@ -23,7 +23,7 @@ public class Lending {
     long lendingID;
 
     @OneToOne
-    User lendingPerson;
+    Person lendingPerson;
 
     @OneToOne
     Article lendedArticle;
@@ -53,7 +53,7 @@ public class Lending {
     @OneToOne
     Reservation proPayReservation;
 
-    public Lending(Calendar startDate, Calendar endDate, User lendingPerson, Article lendedArticle) {
+    public Lending(Calendar startDate, Calendar endDate, Person lendingPerson, Article lendedArticle) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.lendingPerson = lendingPerson;
@@ -65,7 +65,7 @@ public class Lending {
         formattedStartDate = dateFormat.format(startDate.getTime());
     }
 
-    public Lending(User lendingPerson, Calendar endDate) {
+    public Lending(Person lendingPerson, Calendar endDate) {
         this.lendingPerson = lendingPerson;
         this.endDate = endDate;
     }

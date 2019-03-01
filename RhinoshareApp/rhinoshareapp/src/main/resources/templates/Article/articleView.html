@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{/mainpage}"
+<html lang="en" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{mainpage}"
       xmlns:layout="http://www.w3.org/1999/xhtml" >
 
     <head>
@@ -56,20 +56,20 @@
             </div>
             <br>
             <div class="button-container">
-                <div class="item3" th:if="${article.owner == user}">
+                <div class="item3" th:if="${article.owner == person}">
                     <a th:href="|/article/edit/${article.getArticleID()}|"> <button class="button_std_white" type="button">Artikel bearbeiten</button></a>
                     <a th:href="|/article/delete/${article.getArticleID()}|"> <button class="button_std_red" type="button">Artikel löschen</button></a>
                 </div>
-                <div class="item3" th:if="${article.owner != user} and ${article.available == true}">
+                <div class="item3" th:if="${article.owner != person} and ${article.available == true}">
                     <a th:href="|/overview/lendingRequest/${article.articleID}|"> <button class="button_std" type="button">Artikel Ausleihen</button></a>
                 </div>
-                <div class="item3" th:if="${article.owner != user} and ${article.forSale == true} and ${article.available == true}">
+                <div class="item3" th:if="${article.owner != person} and ${article.forSale == true} and ${article.available == true}">
                     <a th:href="|/overview/saleRequest/${article.articleID}|"> <button class="button_std_red" type="button">Artikel kaufen</button></a>
                 </div>
                 <div class="item3">
                     <a th:href="|/article/|"> <button class="button_std_white" type="button">Zurück zur Übersicht</button></a>
                 </div>
-                <div class="item3" th:if="${article.owner != user}">
+                <div class="item3" th:if="${article.owner != person}">
                     <a th:href="|/newchat/${article.getOwner().getUserID()}|"> <button class="button_std_white" type="button">Nachricht an den Besitzer</button></a>
                 </div>
             </div>

@@ -8,7 +8,7 @@ import de.hhu.rhinoshareapp.domain.mail.MailService;
 import de.hhu.rhinoshareapp.domain.model.Account;
 import de.hhu.rhinoshareapp.domain.model.Article;
 import de.hhu.rhinoshareapp.domain.model.Lending;
-import de.hhu.rhinoshareapp.domain.model.User;
+import de.hhu.rhinoshareapp.domain.model.Person;
 import de.hhu.rhinoshareapp.domain.service.*;
 import org.junit.Assert;
 import org.junit.Test;
@@ -62,7 +62,7 @@ public class LendingTests {
         LendingRepository lendingRepository = Mockito.mock(LendingRepository.class);
         ArticleRepository articleRepository = Mockito.mock(ArticleRepository.class);
 
-        Optional<User> testUser = Optional.ofNullable(User.builder().userID(1).name("testUser").build());
+        Optional<Person> testUser = Optional.ofNullable(Person.builder().userID(1).name("testUser").build());
         when(serviceUserProvider.findUserByuserID(1)).thenReturn(testUser);
 
         Calendar endDate = Calendar.getInstance();
@@ -88,7 +88,7 @@ public class LendingTests {
         LendingRepository lendingRepository = Mockito.mock(LendingRepository.class);
         ArticleRepository articleRepository = Mockito.mock(ArticleRepository.class);
 
-        Optional<User> testUser = Optional.ofNullable(User.builder().userID(1).name("testUser").build());
+        Optional<Person> testUser = Optional.ofNullable(Person.builder().userID(1).name("testUser").build());
         when(serviceUserProvider.findUserByuserID(1)).thenReturn(testUser);
 
         // Set EndDate one year after current Date
@@ -148,13 +148,13 @@ public class LendingTests {
         TransactionRepository transactions = Mockito.mock(TransactionRepository.class);
 
         Account account = Account.builder().build();
-        User user = User.builder().userID(1).name("peter").build();
-        Article testArticle = Article.builder().owner(user).build();
+        Person person = Person.builder().userID(1).name("peter").build();
+        Article testArticle = Article.builder().owner(person).build();
         Optional<Lending> testLending = Optional.ofNullable(Lending.builder().lendingID(1).lendedArticle(testArticle).build());
         when(lendingRepository.findLendingBylendingID(1)).thenReturn(testLending);
         APIProcessor apiProcessor2 = Mockito.mock(APIProcessor.class);
 
-        Mockito.when(apiProcessor2.getAccountInformationWithId(user.getUserID(), serviceUserProvider)).thenReturn(account);
+        Mockito.when(apiProcessor2.getAccountInformationWithId(person.getUserID(), serviceUserProvider)).thenReturn(account);
 
         HashMap<String, String> testMap = new HashMap<>();
         testMap.put("choice", "accept");

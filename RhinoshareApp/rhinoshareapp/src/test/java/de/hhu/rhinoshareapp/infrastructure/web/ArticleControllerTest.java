@@ -5,7 +5,7 @@ import de.hhu.rhinoshareapp.controller.article.ArticleController;
 import de.hhu.rhinoshareapp.domain.mail.MailService;
 import de.hhu.rhinoshareapp.domain.model.Article;
 import de.hhu.rhinoshareapp.domain.model.Lending;
-import de.hhu.rhinoshareapp.domain.model.User;
+import de.hhu.rhinoshareapp.domain.model.Person;
 import de.hhu.rhinoshareapp.domain.service.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -74,11 +74,11 @@ public class ArticleControllerTest {
         article = new Article("Motorsäge", "wie neu", 250, 25, true, null);
         Optional<Article> optionalArticle = Optional.of(article);
         Mockito.when(articleRepo.findById((long) 1)).thenReturn(optionalArticle);
-        User testUser1 = new User("Fritz", "Muller", null, "fritz", "fritz@mail.com", "1234", "user");
-        User testUser2 = new User("Tom", "Muller", null, "tom", "tom@mail.com", "1234", "user");
-        Optional<User> optionalUser = Optional.of(testUser1);
-        Optional<User> optionalUser2 = Optional.of(testUser2);
-        article.setOwner(testUser1);
+        Person testPerson1 = new Person("Fritz", "Muller", null, "fritz", "fritz@mail.com", "1234", "user");
+        Person testPerson2 = new Person("Tom", "Muller", null, "tom", "tom@mail.com", "1234", "user");
+        Optional<Person> optionalUser = Optional.of(testPerson1);
+        Optional<Person> optionalUser2 = Optional.of(testPerson2);
+        article.setOwner(testPerson1);
 
         Calendar date1 = Calendar.getInstance();
         Calendar date2 = Calendar.getInstance();
@@ -89,7 +89,7 @@ public class ArticleControllerTest {
         date3.set(2019, 4, 12);
         date4.set(2019, 1, 12);
 
-        Lending testLending1 = new Lending(date1, date2, testUser1, article);
+        Lending testLending1 = new Lending(date1, date2, testPerson1, article);
         Optional<Lending> olending = Optional.of(testLending1);
 
         Mockito.when(userRepo.findByUsername("fritz")).thenReturn(optionalUser);
