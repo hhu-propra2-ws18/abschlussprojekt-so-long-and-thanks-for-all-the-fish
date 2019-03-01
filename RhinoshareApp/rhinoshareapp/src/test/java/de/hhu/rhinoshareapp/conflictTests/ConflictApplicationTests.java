@@ -34,8 +34,6 @@ import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 @RunWith(SpringRunner.class)
@@ -153,7 +151,6 @@ public class ConflictApplicationTests {
         Mockito.when(p.getName()).thenReturn("jeff");
 
 
-
     }
 
     @Test
@@ -168,16 +165,6 @@ public class ConflictApplicationTests {
         assertEquals("redirect:/", controller.openConflictpost(m, "open", 7, "testkgzgjkg"));
     }
 
-
-    @Ignore
-    @Test
-    public void testPostMappingConflictSolved() {
-
-        assertEquals("redirect:/borrowerWin", controller.conflictSolved("winBorrower", 7));
-        assertEquals("redirect:/ownerWin", controller.conflictSolved("winOwner", 7));
-        assertEquals("redirect:/admin/conflicthandling", controller.conflictSolved("", 7));
-    }
-
     @Test
     public void testMainpage() {
         assertEquals("Article/viewAll", cm.viewAll(m, p));
@@ -185,7 +172,7 @@ public class ConflictApplicationTests {
 
     @Test
     public void testmain() {
-        assertEquals("/conflict/conflictUserOpen",controller.openConflict(m,p,1));
+        assertEquals("/conflict/conflictUserOpen", controller.openConflict(m, p, 1));
     }
 
 }
