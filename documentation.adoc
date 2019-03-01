@@ -155,3 +155,30 @@ Bei dem Erstellen eines Konfliktes wird eine Email mit der Nachricht an alle Rhi
 
 
 Tests wurden geschrieben für die Filtermethode die diverse Beziehungen von den Chatnachrichten testet (zb: onetoone, onetotwo, etc..).
+
+
+### Administration
+
+Die Verwaltung von Benutzern, Artikeln und Konflikten ist nur den Benutzern mit der
+Rolle *ROLE_ADMIN* möglich. Hierzu muss sich einfach mit einem Admin-Account eingeloggt werden. Alternativ kann der Bereich
+über den Tab mit dem Benutzernamen im Dropdown unter *Administration* erreicht werden. +
+
+Die Administration ist in verschiedene Sektionen unterteilt
+
+#### Konfliktlösung
+
+In der Konfliktlösung findet man als Administrator alle Konflikte zwischen Benutzern. Es kann entschieden werden,
+wer die Kaution im Endeffekt bekommt. Vorher sollte eine Konversation mit den Beteiligten stattfinden.
+
+#### Benutzerverwaltung
+
+DIe Benutzerverwaltung ermöglicht es, alle Benutzerprofile zu editieren und neue zu erstellen. Die Bearbeitung erfolgt über
+den Button *Bearbeiten*. Der neue Benutzer lässt sich über *Neuer Benutzer* anlegen. Der Button *Löschen* löscht den jeweiligen Account.
+
+#### Artikel und Ausleihen
+
+Die Beiden Tabs *Artikel* und *Ausleihen* verschaffen dem Administrator einen Überblick über die jeweilige Kategorie.
+Einzelne Elemente können mit einem Klick auf *Löschen* gelöscht werden.
+
+IMPORTANT: Vorsicht! Artikel lassen sich nur löschen, wenn keine Ausleihe darauf existiert. Benutzer lassen sich nur löschen,
+wenn keine Artikel auf dessen Namen gespeichert sind.
