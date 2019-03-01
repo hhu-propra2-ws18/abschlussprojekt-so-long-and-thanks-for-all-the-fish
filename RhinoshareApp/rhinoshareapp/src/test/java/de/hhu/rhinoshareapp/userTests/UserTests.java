@@ -146,11 +146,15 @@ public class UserTests {
         Mockito.when(userRepo.findUserByuserID(1)).thenReturn(oUser1);
         Mockito.when(userRepo.findUserByuserID(2)).thenReturn(oUser2);
         Mockito.when(userRepo.findUserByuserID(3)).thenReturn(oUser3);
+        Mockito.when(userRepo.findUserByuserID(0)).thenReturn(oUser3);
+        Mockito.when(userRepo.findUserByUsername("fritzi")).thenReturn(oUser3);
         Mockito.when(lendingRepo.findAllByIsConflict(true)).thenReturn(null);
         Mockito.when(lendingRepo.findLendingBylendingID(7)).thenReturn(oLending1);
         Mockito.when(lendingRepo.save(testLending1)).thenReturn(testLending1);
         Mockito.when(lendingRepo.findLendingBylendingID(8)).thenReturn(oLending2);
         Mockito.when(articleRepo.findById((long) 1)).thenReturn(oArticle);
+        Mockito.when(api.isErrorOccurred()).thenReturn(false);
+        Mockito.when(api.getAccountInformationWithId(0,userRepo)).thenReturn(null);
 
         p = Mockito.mock(Principal.class);
         Mockito.when(p.getName()).thenReturn("jeff");
@@ -176,9 +180,8 @@ public class UserTests {
 
     @Test
     public void testUser() {
-        Model model = Mockito.mock(Model.class);
-        Principal p = Mockito.mock(Principal.class);
-        assertEquals("redirect:/login", cController.saveNewUser(model,p,"fritz", "Funkel", "fritzi",
+
+        assertEquals("redirect:/login", cController.saveNewUser(m,p,"fritz", "Funkel", "fritzi",
                 "Strasse", "22", "40532", "Usebgeren", "DE",
                 "test@gmail.com", "123456"));
         assertEquals("redirect:/admin/usermanagement", cController.saveNewUserAsAdmin("fritz", "Funkel", "fritzi2",
