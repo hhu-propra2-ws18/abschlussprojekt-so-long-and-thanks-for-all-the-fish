@@ -23,6 +23,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.security.Principal;
 import java.util.Calendar;
@@ -65,6 +67,9 @@ public class LendingControllerTests {
 
     @MockBean
     TransactionRepository transRepo;
+
+    @MockBean
+    ChatMessageRepository chatRepo;
 
     @Mock
     Principal p;
@@ -122,7 +127,7 @@ public class LendingControllerTests {
                 .thenReturn(oUser3);
         Mockito.when(userRepo.findUserByuserID(1)).thenReturn(oUser1);
         Mockito.when(userRepo.findUserByuserID(2)).thenReturn(oUser2);
-        Mockito.when(userRepo.findUserByuserID(3)).thenReturn(oUser3);
+        Mockito.when(userRepo.findUserByuserID(0)).thenReturn(oUser3);
         Mockito.when(lendingRepo.findAllByIsConflict(true)).thenReturn(null);
         Mockito.when(lendingRepo.findLendingBylendingID(7)).thenReturn(oLending1);
         Mockito.when(lendingRepo.save(testLending1)).thenReturn(testLending1);
@@ -131,15 +136,40 @@ public class LendingControllerTests {
         p = Mockito.mock(Principal.class);
         Mockito.when(p.getName()).thenReturn("jeff");
 
-        Mockito.when(postProccessor.findUserIDByUser(userRepo,"jeff")).thenReturn((long)1);
+        Mockito.when(postProccessor.findUserIDByUser(userRepo, "jeff")).thenReturn((long) 1);
 
 
     }
 
-    @Ignore
+
     @Test
-    public void testOverview(){
-        assertEquals("Lending/overview",controller.overview(m, p));
+    public void testOverview() {
+        assertEquals("Lending/overview", controller.overview(m, p));
+    }
+
+    @Test
+    public void testLending() {
+        assertEquals("Lending/overviewLendings", controller.lendingPage(m, p));
+    }
+
+    @Test
+    public void testBorrow() {
+        assertEquals("Lending/overviewBorrows", controller.borrowPage(m, p));
+    }
+
+    @Test
+    public void testPropay() {
+        assertEquals("Lending/proPayOverview", controller.getProPayOverview(m, p));
+    }
+
+    @Test
+    public void testConflict() {
+        assertEquals("Lending/conflictPage", controller.releaseConflictingLending(m, p));
+    }
+
+    @Test
+    public void testShowTransactionst() {
+        assertEquals("Lending/transactionsPage", controller.showTransactions(m, p));
     }
 
 

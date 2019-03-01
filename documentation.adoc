@@ -147,4 +147,11 @@ Um Nachrichten zu verschicken geht man auf einem Artikel, und klickt dann auf di
 
 Die Nachrichten die angezeigt werden, werden durch eine Filtermethode gefiltert (FROM, TO) die durch die Nachrichtendatanbank streamt. Auf der Übersichtsseite hat der Nutzer die Möglichkeit auf Nachrichten zu antworten oder zu löschen. Beide Möglichkeiten leiten auf je eine eigene Webseite ("/deletechat/{ID}", "/answerchat/{ID}"), welche dann die betreffende Nachricht finden die beantwortet, oder gelöscht, werden soll. Falls eine Nachricht gelöscht wird, wird jedoch die Nachricht für beide Benutzer gelöscht, da die Nachrichten sich eine Datenbank teilen. Beim beantworten der Nachricht wird automatisch der Sender und Empfänger festgelegt sodass der Benutzer nur noch den Inhalt der Nachricht schreiben muss.
 
+
+### Konflikt
+Es gibt zwei Möglichkeiten einen Konflikt zu erzeugen, der Benutzter welcher sich ein Gerät ausleiht kann während der Leih-Periode einen Konflikt erstellen und der Verleiher kann bei der Rückgabe falls der rückgegebenen Artikel beschädigt ist ebenfalls einen Konflikt erstellen.
+Wenn der Leiher zurückgeben will bekommt der Verleiher sofort nach erfolgreichem Login die Möglichkeit den Artikel anzunehmen oder einen Konflikt zu erstellen.
+Bei dem Erstellen eines Konfliktes wird eine Email mit der Nachricht an alle RhinoShare-Admins gesendet welche dann über den Konflikt entscheiden können. Entscheidet sich der Admin der bei einem Fall für den Verleiher so kann dieser die Kaution behalten, enscheidet sich der Admin für den Leiher so erhält dieser seine Kaution zurück.
+
+
 Tests wurden geschrieben für die Filtermethode die diverse Beziehungen von den Chatnachrichten testet (zb: onetoone, onetotwo, etc..).

@@ -34,8 +34,6 @@ import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-
 
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
@@ -146,10 +144,10 @@ public class ConflictApplicationTests {
         Mockito.when(lendingRepo.findLendingBylendingID(7)).thenReturn(oLending1);
         Mockito.when(lendingRepo.save(testLending1)).thenReturn(testLending1);
         Mockito.when(lendingRepo.findLendingBylendingID(8)).thenReturn(oLending2);
+        Mockito.when(lendingRepo.findLendingBylendingID(0)).thenReturn(oLending2);
 
         p = Mockito.mock(Principal.class);
         Mockito.when(p.getName()).thenReturn("jeff");
-
 
 
     }
@@ -166,15 +164,6 @@ public class ConflictApplicationTests {
         assertEquals("redirect:/", controller.openConflictpost(m, "open", 7, "testkgzgjkg"));
     }
 
-    @Ignore
-    @Test
-    public void testPostMappingConflictSolved() {
-
-        assertEquals("redirect:/borrowerWin", controller.conflictSolved("winBorrower", 7));
-        assertEquals("redirect:/ownerWin", controller.conflictSolved("winOwner", 7));
-        assertEquals("redirect:/admin/conflicthandling", controller.conflictSolved("", 7));
-    }
-
     @Test
     public void testMainpage() {
         assertEquals("Article/viewAll", cm.viewAll(m, p));
@@ -182,7 +171,7 @@ public class ConflictApplicationTests {
 
     @Test
     public void testmain() {
-        assertEquals("/conflict/conflictUserOpen",controller.openConflict(m,p,1));
+        assertEquals("/conflict/conflictUserOpen", controller.openConflict(m, p, 1));
     }
 
 }

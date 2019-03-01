@@ -93,7 +93,7 @@ public class LendingTests {
 
         // Set EndDate one year after current Date
         Calendar endDate = Calendar.getInstance();
-        endDate.set(Calendar.getInstance().get(Calendar.YEAR) + 1, endDate.MONTH, endDate.DATE);
+        endDate.set(Calendar.getInstance().get(Calendar.YEAR) + 1, Calendar.MONTH, Calendar.DATE);
         System.out.println(endDate);
         Lending testLending = Lending.builder().lendingPerson(testUser.get()).endDate(endDate).build();
         List<Lending> testLendingList = new ArrayList<>();
