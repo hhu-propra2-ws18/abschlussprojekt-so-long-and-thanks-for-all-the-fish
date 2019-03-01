@@ -10,7 +10,7 @@ Zuerst muss das Programm von Github aus gecloned werden
 
 Dann in das richtige Verzeichnis
 
-`cd abschlussprojekt-so-long-and-thanks-for-all-the-fish/RhinoshareApp`
+`cd abschlussprojekt-so-long-and-thanks-for-all-the-fish/`
 
 Daraufhin lässt sich per Docker Compose das Programm, unsere Datenbank, sowie auch Propay starten.
 
