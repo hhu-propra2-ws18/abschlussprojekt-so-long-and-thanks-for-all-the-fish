@@ -59,48 +59,74 @@ Alle auf diese Weise gefundenen Artikel werden dann auf einer Übersichtsseite a
 Die von uns implementierte Suche ist zudem Case-insensitive.
 
 Die Artikel sind so erstellt, dass der User, dem die Items gehören, die Möglichkeit hat
-den Artikel zu löschen oder zu bearbeiten. Durch die Änderungen der Aufhabe hat er da auch 
+den Artikel zu löschen oder zu bearbeiten. Durch die Änderungen der Aufhabe hat er da auch
 die Möglichkeit den Kaufpreis und die Kauffunktion zu aktivieren (Was er optional auch beim Erstellen des
 Artikels machen kann). Ein User, dem ein Item nicht gehört, kann dieses statt dessen Miet (Sofern es verfügbar ist)
-oder Kaufen, wenn dies Freigeschaltet ist. 
+oder Kaufen, wenn dies Freigeschaltet ist.
 
 In der Artikelübersicht sieht man das Artikelbild oder ein Standartbild, sowie ein Preis und ein Standort (Als Ort).
 Durch einen Klick auf den Artikel kommt man auf die oben erwähnte spezifische Website für das Artikel.
 
 
 ### User
-Man kann sich einloggen, indem man seinen Username in das dafür vorgesehen Textfeld 
+Man kann sich einloggen, indem man seinen Username in das dafür vorgesehen Textfeld
 schreibt und den SignIn Button betätigt. Die einzige Vorraussetzung dafür ist,
 dass bereits ein User mit diesem Usernamen in der Datenbank vorhanden ist.
 Ansonsten kann man den SignUp Button betätigen, dann wird man weitergeleitet zu der SignIn Seite.
-Hier kann man nun einen ganz neuen User erstellen, indem man alle Textfelder 
+Hier kann man nun einen ganz neuen User erstellen, indem man alle Textfelder
 mit korrekten Eingaben ausfüllt un den entsprechenden Button betätigt.
-Nach dem Einloggen bzw. dem Registrieren, kann man den ProfileOverview Button betätigen, 
+Nach dem Einloggen bzw. dem Registrieren, kann man den ProfileOverview Button betätigen,
 dann wird man weitergeleitet auf eine Seite wo einem die Eigenen Profildaten in Textfeldern angezeigt werden.
-In diese Textfelder kann man auch schreiben um seine Profil zu verändern. 
+In diese Textfelder kann man auch schreiben um seine Profil zu verändern.
 Um das Profil zu verändern füllt man einfach die Felder aus, bei welchen man die Daten
 verändern will und betätigt den ApplyChanges Button, nun wurde das Profil in der datenbank aktualisiert.
 ##Testing
-Wir haben viele Tests geschrieben und haben eine Overallline coverage von über 85% erreicht, 
-Es werden alle Methoden in dem Controller getestet, wir erreichen keine 100% coverage, weil wir 
+Wir haben viele Tests geschrieben und haben eine Overallline coverage von über 85% erreicht,
+Es werden alle Methoden in dem Controller getestet, wir erreichen keine 100% coverage, weil wir
 das Repository gemockt haben und in der Methode ins Repository gespeichert wird und in der gleichen methode
- wieder ausgelesen wenn wir die Methode für diesen Username mocken wird er schon ind er vorherigen methode abgefangen.   
+ wieder ausgelesen wenn wir die Methode für diesen Username mocken wird er schon ind er vorherigen methode abgefangen.
 
 ### Ausleihe
 Eine Ausleihe ist eine eigene Entität namens 'Lending' diese beinhaltet die 'lendingId',
-die 'lendingPerson' für die ausleihende Person und die 'lendedarticle', um die Artikel
+die 'lendingPerson' für die ausleihende Person und die 'lendedArticle', um die Artikel
 in der Datenbank zu finden, weil diese die id von der ownerPerson besitzt die den Artikel anbietet.
 Anfangs bekommt man eine Anfrage von der Artikelübersicht, und wird auf '/lendingRequest' weitergeleitet.
-Dort kann man das 'startDate' und das 'endDate' eingeben wie lange die Ausleihe gehen soll.
+Hier kann ebenfalls auf '/saleRequest' weitergeleitet werden. Bei beiden wird als Pathvariable die id
+von dem Artikel mitgeben. Bei einem Verkauf wird nur nach einem Kommentar gefragt und dieser wird dem
+Besitzer des Artikels auf der 'overview' Seite angezeigt. Wenn der request abgeschickt wird, wird man auf die 'inquiry'
+Seite weitergeleitet, wo man informiert wird, dass die Anfrage bearbeitet wird.
+Für die Ausleihe muss man das 'startDate' und das 'endDate' eingeben wie lange die Ausleihe gehen soll.
 Ebenfalls kann man einen 'requestComment' machen um sich für den Artikel zu bewerben.
-Dann wird eine neue Entität angelegt, die 'Request' heißt. Diese speichert alle wichtigen Daten
-um der Person die den Artikel anbietet eine Nachricht auf '/overview/{id}' zeigt, ob
-sie die Anfrage auf den Artikel von der Person annehmen will.
-Auf '/overviewLendings/{id}' kann sich die eingeloggte Person Ihre ausgeliehene Artikel anschauen,
-hier wird eine Warnung ausgegeben falls die jetzige Zeit weiter ist als das 'endDate',
-hier kann die Person auch auf 'return' drücken, damit der ausgeliehene Artikel
-wieder verfügbar wird und auf '/overviewBorrows/{id}' kann sich die eingeloggte
- Person Ihre angebotenen Artikel anschauen.
+Bei beiden Fällen wird eine neue Entität 'Lending' angelegt und beim akzeptieren wird die Reservation im 'Lending' gespeichert.
+diese werden als 'isRequest'markiert und dem Besitzer in der 'overview' zum entscheiden angezeigt. .In beiden Fällen wird
+der Artikel auf 'isAvailable' false gesetzt. Falls der Besitzer sich dagegen entscheidet
+den Artikel zu verkaufen, wird ein boolean 'isDummy' auf true gesetzt, damit der kaufenden oder
+leihenden Person auf der 'overview' eine Information angezeigt wird, dass diese Anfrage abgelehnt wurde.
+Wenn die anfragende Person auf den Bestätigen Button klickt, wird das 'Lending' aus der Datenbank gelöscht.
+Wenn die Verkaufanfrage bestätigt wird, wird eine 'Transaction' zwischen dem Käufer und dem
+Bestizer erzeugt und in der Datenbank gespeichert. Dabei wird der Artikel rausgelöscht und ein DummyArtikel
+für die Transaktionen angelegt. Wird ein Leihanfrage von dem Besitzer angenommen in der 'overview' Seite,
+dann wird der Leihenden Person die Ausleihe in 'OverviewLending' angezeigt.
+Dort kann Sie einen Konflikt erzeugen oder den Artikel zurückgeben. Wenn der Artikel zurückgegeben wird,
+wird ein Flag 'isReturn' auf true gesetzt und der Bestizer von dem Artikel wird auf der 'overview' Seite
+eine Anfrage angezeigt ob er den Artikel zurücknehmen will oder den Zustand des Artikels nicht für gut genug empfindet.
+Beim akzeptieren des Artikels, wird der Betrag ausgerechnet und in eine 'Transaction' gespeichert und die
+Reservation die anfangs angelegt wurde wird gelöscht und danach wird diese auch über Propay aufgelöst.
+Beim ablehnen wird ein Konflikt erzeugt und diese kann von den Admins erledigt werden.
+Im 'OverviewLending' wird auch ausgerechnet wie lange man den Artikel noch ausleihen darf oder zeigt
+einen Warning Text an wenn der Artikel zu lange ausgeliehen ist. In der 'overview' wird dann
+ein pop-up geöffnet wenn ein Artikel zu lange ausgeliehen ist. Auf der Seite 'PropayOverview' Wird
+das Guthaben des Accounts angezeigt mit allen 'Reservations' und dort ist ein Feld zum aufladen des Kontos.
+Falls Propay nicht geöffnet sein sollte, wird man auf eine FehlerSeite geleitet, die sagt das "Propay derzeit nicht erreichbar ist".
+Unter 'conflictPage' Kann man sich alle Ausleihen angucken an denen man beteiligt ist und
+diese derzeit einen Konflikt hat. Falls man zu wenig Geld hat, während man sich etwas ausleiht
+oder bezahlt, wird man auf die 'povertyPage' weitergeleitet.
+Zum befüllen der Html Seiten benutzen wir RepresentationKlassen, die Listen von 'lendings',
+'requests' oder allen anderen benötigten Listen.
+In der Klasse 'ApiProccessor' haben wir alle Methoden die mit Propay kommunizieren oder kontrollieren ob
+genügend Geld vorhanden ist auf den jeweiligen Propay-konten.
+In der 'PostProccessor' werden alle Entscheidungen richtig vernetzt und alle Entitäten werden dort rausgelöscht
+und angelegt.
 
  ### Änderungen vom Marketing
  Durch die Änderungen durch die Marketingabteilung war nicht allzuviel zutun. Wir haben dem Artikel
@@ -110,17 +136,15 @@ wieder verfügbar wird und auf '/overviewBorrows/{id}' kann sich die eingeloggte
  Des weiteren haben wir die Edit Funktion der Artikel so abgeändert, dass man jetzt im Nachhinein den Verkaufshaken noch
  einsetzen kann, sowie auch den Preis ändern darf.
  Dazu kam dann ein Button für verkaufsbereite Artikel, der ein extra Lending Mapping aufruft für den Verkauf.
- Das Mapping läuft Analog zum Ausleihprozess. Die einzige Änderung ist, dass wir das Artikel dann erst kopieren mit den 
+ Das Mapping läuft Analog zum Ausleihprozess. Die einzige Änderung ist, dass wir das Artikel dann erst kopieren mit den
  wichtigen Attributen, dann wird das original aus der Datenbank gelöscht. Die Kope ohne persönliche Daten behalten wir als Inaktiv
  für unsere Lending / Verkaufshistorie.
- 
+
 ### Chat
-Der Chat ist erreichbar über "/chat". Dann öffnet sich eine Seite mit einen Nachrichtenverlauf von gesendeten- und emfangenen Nachrichten. Diese Übersicht ist für jeden Nutzer anders, da der Chat ein eins-zu-eins Chat ist. 
+Der Chat ist erreichbar über "/chat". Dann öffnet sich eine Seite mit einen Nachrichtenverlauf von gesendeten- und emfangenen Nachrichten. Diese Übersicht ist für jeden Nutzer anders, da der Chat ein eins-zu-eins Chat ist.
 
 Um Nachrichten zu verschicken geht man auf einem Artikel, und klickt dann auf die "Nachricht senden an" Schaltfläche. Der Emfänger und der Sender werden automatisch festgelegt sodass der Sender nur den Inhalt der Nachricht schreiben muss.
 
-Die Nachrichten die angezeigt werden, werden durch eine Filtermethode gefiltert (FROM, TO) die durch die Nachrichtendatanbank streamt. Auf der Übersichtsseite hat der Nutzer die Möglichkeit auf Nachrichten zu antworten oder zu löschen. Beide Möglichkeiten leiten auf je eine eigene Webseite ("/deletechat/{ID}", "/answerchat/{ID}"), welche dann die betreffende Nachricht finden die beantwortet, oder gelöscht, werden soll. Falls eine Nachricht gelöscht wird, wird jedoch die Nachricht für beide Benutzer gelöscht, da die Nachrichten sich eine Datenbank teilen. Beim beantworten der Nachricht wird automatisch der Sender und Empfänger festgelegt sodass der Benutzer nur noch den Inhalt der Nachricht schreiben muss. 
+Die Nachrichten die angezeigt werden, werden durch eine Filtermethode gefiltert (FROM, TO) die durch die Nachrichtendatanbank streamt. Auf der Übersichtsseite hat der Nutzer die Möglichkeit auf Nachrichten zu antworten oder zu löschen. Beide Möglichkeiten leiten auf je eine eigene Webseite ("/deletechat/{ID}", "/answerchat/{ID}"), welche dann die betreffende Nachricht finden die beantwortet, oder gelöscht, werden soll. Falls eine Nachricht gelöscht wird, wird jedoch die Nachricht für beide Benutzer gelöscht, da die Nachrichten sich eine Datenbank teilen. Beim beantworten der Nachricht wird automatisch der Sender und Empfänger festgelegt sodass der Benutzer nur noch den Inhalt der Nachricht schreiben muss.
 
-Tests wurden geschrieben für die Filtermethode die diverse Beziehungen von den Chatnachrichten testet (zb: onetoone, onetotwo, etc..). 
-
-
+Tests wurden geschrieben für die Filtermethode die diverse Beziehungen von den Chatnachrichten testet (zb: onetoone, onetotwo, etc..).
