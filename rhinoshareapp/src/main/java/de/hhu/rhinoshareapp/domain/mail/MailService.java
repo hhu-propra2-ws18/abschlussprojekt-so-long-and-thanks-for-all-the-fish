@@ -4,7 +4,6 @@ package de.hhu.rhinoshareapp.domain.mail;
 import de.hhu.rhinoshareapp.domain.model.Person;
 import de.hhu.rhinoshareapp.domain.service.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;

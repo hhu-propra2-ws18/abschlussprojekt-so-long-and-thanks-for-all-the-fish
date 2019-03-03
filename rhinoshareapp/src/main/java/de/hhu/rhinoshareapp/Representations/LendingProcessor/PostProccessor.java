@@ -3,7 +3,6 @@ package de.hhu.rhinoshareapp.Representations.LendingProcessor;
 import de.hhu.rhinoshareapp.domain.mail.MailService;
 import de.hhu.rhinoshareapp.domain.model.*;
 import de.hhu.rhinoshareapp.domain.service.*;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Calendar;
 import java.util.HashMap;
